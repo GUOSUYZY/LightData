@@ -19,7 +19,6 @@ data class Sample(
     val hist: IntArray,
     val missing: Boolean,
     val scan: ScanGuide?,
-    val cameraLimits: CameraLimits? = null,
 )
 
 data class Spot(
@@ -303,9 +302,8 @@ class MainActivity : ComponentActivity() {
             upright(session.capture(frame, src, axes), displayTurn) to session.guide(displayTurn)
         }
         val out = scan?.first ?: crop(frame, src, goal)
-        val measurement = out.measurement()
-        val hist = measurement.histogram
-        val result = Sample(out, hist, !src.covers(goal), scan?.second, measurement.cameraLimits)
+        val hist = out.distribution()
+        val result = Sample(out, hist, !src.covers(goal), scan?.second)
         runOnUiThread {
             if (!active || !allowed || token != epoch || frozen) return@runOnUiThread
             if (message.startsWith("正在连接")) {
@@ -418,7 +416,6 @@ class MainActivity : ComponentActivity() {
             s.frame.cameraEv,
             film,
             exposure,
-            s.cameraLimits,
             point,
             toneGoal,
             ::safetyCandidate,
@@ -426,14 +423,14 @@ class MainActivity : ComponentActivity() {
     }
 
     fun toneGoalDialog() {
-        choose("主体希望放在哪里", ToneGoal.entries.map { it.dialogLabel }) { i ->
+        choose("希望优先保留什么", ToneGoal.entries.map { it.dialogLabel }) { i ->
             toneGoal = ToneGoal.entries[i]
             prefs.edit().putInt("toneGoal", i).apply()
         }
     }
 
     fun safetyPointDialog() {
-        val items = listOf("自动代表亮度（随目标变化）") + spots.map {
+        val items = listOf("不指定主体 · 只查看风险") + spots.map {
             "#%d · %.1f EV100 · %.1f 区".format(
                 java.util.Locale.US, it.id, it.ev, zoneAt(shootingPlan(film, exposure), it.ev),
             )

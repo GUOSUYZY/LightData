@@ -1,13 +1,13 @@
 package studio.lightdata
 
-import java.util.Locale
 import kotlin.math.*
 
-/** A subject-placement choice, not a claim that one zone is right for every photograph. */
+
+
 enum class ToneGoal(val zone: Double, val shortLabel: String, val dialogLabel: String) {
-    SHADOW(3.0, "暗部纹理 · III", "暗部保留纹理（目标 III 区）"),
-    MIDTONE(5.0, "主体中间调 · V", "主体放在中间调（目标 V 区）"),
-    HIGHLIGHT(7.0, "高光层次 · VII", "高光保留层次（目标 VII 区）"),
+    SHADOW(3.0, "暗部优先", "保留暗部纹理（III 区仅作参考）"),
+    MIDTONE(5.0, "主体优先", "主体按中间调呈现（V 区仅作参考）"),
+    HIGHLIGHT(7.0, "高光优先", "保留高光层次（VII 区仅作参考）"),
 }
 
 /** Distinguishes supporting evidence from a physical, film-out guarantee. */
@@ -18,16 +18,13 @@ enum class FilmEvidence(val label: String) {
 }
 
 /**
- * The selected exposure remains a metered-camera instruction. Any published shutter or aperture
- * compensation moves the effective film exposure separately; an unknown compensation never does.
+ * Reciprocity is a shooting instruction, not a universal translation of the ordinary
+ * characteristic curve. Sparse time/aperture guidance does not establish final density.
  */
 data class ShootingPlan(
     val metered: Exposure,
     val reciprocity: ReciprocityResult,
-    val addedStops: Double,
 ) {
-    val effectiveEv get() = metered.ev - addedStops
-    val hasCompensation get() = abs(addedStops) >= 1.0 / 60
     val uncertain get() = reciprocity.status == ReciprocityStatus.UNPUBLISHED
 }
 
@@ -42,17 +39,9 @@ fun shootingPlan(film: Film, exposure: Exposure): ShootingPlan {
                 null,
             )
         else reciprocity(film.name, exposure.t)
-    val shutterStops =
-        correction.exposureSeconds?.takeIf {
-            correction.meteredSeconds > 0 && correction.meteredSeconds.isFinite() &&
-                it.isFinite() && it > 0
-        }?.let { log2(it / correction.meteredSeconds) }
-    // Aperture/filter advice is an exposure instruction, not an invented shutter-time multiplier.
-    val added = shutterStops ?: correction.apertureCompensationStops ?: 0.0
-    return ShootingPlan(exposure, correction, if (added.isFinite()) added else 0.0)
+    return ShootingPlan(exposure, correction)
 }
 
-/** Compare exact EV offsets first; only the final Apply action quantizes to a camera shutter. */
 fun shiftedMeteredExposure(base: Exposure, additionalStops: Double): Exposure =
     base.copy(t = base.t * 2.0.pow(additionalStops))
 
@@ -73,22 +62,16 @@ data class ExposureAssessment(
     val highlightFraction: Double,
     val cameraBlackFraction: Double,
     val cameraWhiteFraction: Double,
-    val cameraChannelFraction: Double,
-    val shadowEv: Double,
-    val highlightEv: Double,
     val shadowRelativeEv: Double,
     val highlightRelativeEv: Double,
     val filmLow: Double,
     val filmHigh: Double,
 ) {
-    val sampleSpan get() = highlightEv - shadowEv
-    val workingSpan get() = filmHigh - filmLow
     val primaryTonesFit
         get() = shadowRelativeEv >= filmLow && highlightRelativeEv <= filmHigh
     val bothEndsNeedCompromise
         get() = shadowRelativeEv < filmLow && highlightRelativeEv > filmHigh
-    val cameraUncertainFraction
-        get() = max(cameraBlackFraction + cameraWhiteFraction, cameraChannelFraction)
+    val hasLuminanceLimit get() = cameraBlackFraction > 0 || cameraWhiteFraction > 0
 }
 
 private fun sceneQuantile(
@@ -118,9 +101,9 @@ private fun sceneQuantile(
 }
 
 /**
- * Uses the same luminance mapping as the scene histogram and spot meter. The 5th and 95th
- * percentiles summarize ordinary scene tones; raw pixel fractions still report smaller risks.
- * film.low/high are working estimates from the selected curve profile, not certified clip points.
+ * Uses the same luminance mapping as the histogram and spot meter. Quantiles support the scene
+ * envelope internally; they do not silently become a subject or a shooting recommendation.
+ * film.low/high are working estimates from the selected profile, not certified clip points.
  */
 fun assessExposure(
     histogram: IntArray,
@@ -128,33 +111,26 @@ fun assessExposure(
     cameraEv: Double,
     film: Film,
     shooting: ShootingPlan,
-    cameraLimits: CameraLimits? = null,
 ): ExposureAssessment? {
     if (
         histogram.size != 256 || response.size != 256 || !cameraEv.isFinite() ||
-            !shooting.effectiveEv.isFinite() || histogram.any { it < 0 } ||
+            !shooting.metered.ev.isFinite() || histogram.any { it < 0 } ||
             !film.low.isFinite() || !film.high.isFinite() || film.low >= film.high
     ) return null
     val total = histogram.sumOf { it.toLong() }
     if (total <= 0) return null
-    if (
-        cameraLimits != null &&
-        (cameraLimits.validPixels != total || cameraLimits.blackPixels !in 0..total ||
-            cameraLimits.whitePixels !in 0..total || cameraLimits.channelLimitPixels !in 0..total)
-    ) return null
-    val delta = cameraEv - shooting.effectiveEv
-    fun relative(code: Int) = delta + response[code]
+    val delta = cameraEv - shooting.metered.ev
     fun fraction(count: Long) = count.toDouble() / total
     val shadowRelative = sceneQuantile(histogram, response, cameraEv, .05)?.minus(
-        shooting.effectiveEv,
+        shooting.metered.ev,
     ) ?: return null
     val highlightRelative = sceneQuantile(histogram, response, cameraEv, .95)?.minus(
-        shooting.effectiveEv,
+        shooting.metered.ev,
     ) ?: return null
     var shadows = 0L
     var highlights = 0L
     for (code in histogram.indices) {
-        when (film.limit(relative(code))) {
+        when (film.limit(delta + response[code])) {
             FilmLimit.SHADOW -> shadows += histogram[code]
             FilmLimit.HIGHLIGHT -> highlights += histogram[code]
             FilmLimit.IN_RANGE -> Unit
@@ -164,11 +140,8 @@ fun assessExposure(
         shooting,
         fraction(shadows),
         fraction(highlights),
-        fraction(cameraLimits?.blackPixels ?: histogram[0].toLong()),
-        fraction(cameraLimits?.whitePixels ?: histogram[255].toLong()),
-        fraction(cameraLimits?.channelLimitPixels ?: 0),
-        shooting.effectiveEv + shadowRelative,
-        shooting.effectiveEv + highlightRelative,
+        fraction(histogram[0].toLong()),
+        fraction(histogram[255].toLong()),
         shadowRelative,
         highlightRelative,
         film.low,
@@ -184,22 +157,19 @@ data class ExposureTradeoff(
 
 data class SafetyAnalysis(
     val current: ExposureAssessment,
-    val referenceEv: Double,
+    val referenceEv: Double?,
     val referencePoint: Int?,
-    val referenceLabel: String,
     val goal: ToneGoal,
-    val recommendedStops: Double,
+    val recommendedStops: Double?,
     val comparisons: List<ExposureTradeoff>,
 )
 
-/** A selected point wins over percentile fallbacks. A deleted point never leaks into the result. */
 fun analyzeSafety(
     histogram: IntArray,
     response: DoubleArray,
     cameraEv: Double,
     film: Film,
     exposure: Exposure,
-    cameraLimits: CameraLimits? = null,
     selectedPoint: Pair<Int, Double>? = null,
     goal: ToneGoal = ToneGoal.MIDTONE,
     candidateExposure: (Double) -> Exposure = { shiftedMeteredExposure(exposure, it) },
@@ -207,84 +177,52 @@ fun analyzeSafety(
     if (selectedPoint != null && (!selectedPoint.second.isFinite() || selectedPoint.first <= 0)) {
         return null
     }
-    val shooting = shootingPlan(film, exposure)
-    val current = assessExposure(histogram, response, cameraEv, film, shooting, cameraLimits)
-        ?: return null
-    val fallbackQ = when (goal) {
-        ToneGoal.SHADOW -> .05
-        ToneGoal.MIDTONE -> .50
-        ToneGoal.HIGHLIGHT -> .95
+    val current = assessExposure(
+        histogram, response, cameraEv, film, shootingPlan(film, exposure),
+    ) ?: return null
+    val recommended = selectedPoint?.let {
+        recommendOffset(exposure, it.second, goal.zone) ?: return null
     }
-    val fallbackLabel = when (goal) {
-        ToneGoal.SHADOW -> "5% 参考暗部"
-        ToneGoal.MIDTONE -> "亮度中位数"
-        ToneGoal.HIGHLIGHT -> "95% 参考亮部"
-    }
-    val referenceEv = selectedPoint?.second
-        ?: sceneQuantile(histogram, response, cameraEv, fallbackQ)
-        ?: return null
-    val recommended = recommendOffset(film, exposure, referenceEv, goal.zone) ?: return null
     val comparisons = listOf(-.5, 0.0, .5).map { stops ->
         // Preview the actual quantized pair that Apply will select, including A/S locked controls.
         val metered = candidateExposure(stops)
         ExposureTradeoff(
             stops,
             metered,
-            assessExposure(
-                histogram,
-                response,
-                cameraEv,
-                film,
-                shootingPlan(film, metered),
-                cameraLimits,
-            ) ?: return null,
+            assessExposure(histogram, response, cameraEv, film, shootingPlan(film, metered))
+                ?: return null,
         )
     }
     return SafetyAnalysis(
         current,
-        referenceEv,
+        selectedPoint?.second,
         selectedPoint?.first,
-        selectedPoint?.let { "测光点 #" + it.first } ?: fallbackLabel,
         goal,
         recommended,
         comparisons,
     )
 }
 
-/** Solve for subject placement after reciprocity, not only for nominal shutter equivalence. */
+/** Solve continuous subject placement. No automatic compensation is made without a subject. */
 fun recommendOffset(
-    film: Film,
     exposure: Exposure,
     subjectEv: Double,
     targetZone: Double,
 ): Double? {
     if (!subjectEv.isFinite() || !targetZone.isFinite() || !exposure.ev.isFinite()) return null
-    fun zone(offset: Double): Double {
-        val candidate = shiftedMeteredExposure(exposure, offset)
-        return subjectEv - shootingPlan(film, candidate).effectiveEv + 5
-    }
-    var low = -30.0
-    var high = 30.0
-    if (zone(low) > targetZone || zone(high) < targetZone) return null
-    repeat(48) {
-        val middle = (low + high) / 2
-        if (zone(middle) < targetZone) low = middle else high = middle
-    }
-    return ((low + high) / 2).takeIf { it.isFinite() }
+    val offset = exposure.ev - subjectEv + targetZone - 5
+    return offset.takeIf { it.isFinite() }
 }
 
-fun zoneAt(shooting: ShootingPlan, sceneEv: Double): Double = sceneEv - shooting.effectiveEv + 5
+fun zoneAt(shooting: ShootingPlan, sceneEv: Double): Double = sceneEv - shooting.metered.ev + 5
 
-fun percentLabel(fraction: Double): String = when {
-    fraction <= 0 -> "0"
-    fraction < .001 -> "<0.1"
-    else -> "%.1f".format(Locale.US, fraction * 100)
-}
-
-/** A compact, non-definitive summary suitable for the safety panel and accessibility text. */
-fun SafetyAnalysis.decisionLabel(): String {
-    val currentZone = zoneAt(current.shooting, referenceEv)
-    return "%s：%.1f 区 → 目标 %.0f 区，建议 %s EV".format(
-        Locale.US, referenceLabel, currentZone, goal.zone, signed(recommendedStops),
+/** A subject-specific suggestion; no invented automatic subject when a point is not selected. */
+fun SafetyAnalysis.decisionLabel(): String? {
+    val point = referencePoint ?: return null
+    val sceneEv = referenceEv ?: return null
+    val offset = recommendedStops ?: return null
+    val currentZone = zoneAt(current.shooting, sceneEv)
+    return "#%d：%.1f 区 → %s · 建议 %s EV".format(
+        java.util.Locale.US, point, currentZone, goal.shortLabel, signed(offset),
     )
 }

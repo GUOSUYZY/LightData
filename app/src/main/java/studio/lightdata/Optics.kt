@@ -273,16 +273,6 @@ fun customFilm(digital: Boolean, total: Double, above: Double): Film {
 
 val defaultResponse = DoubleArray(256) { log2(srgbToLinear(max(.5, it.toDouble()) / 255) / .18) }
 
-/** Censored camera output is measurement uncertainty, not another kind of film clipping. */
-data class CameraLimits(
-    val validPixels: Long,
-    val blackPixels: Long,
-    val whitePixels: Long,
-    val channelLimitPixels: Long,
-)
-
-data class FrameMeasurement(val histogram: IntArray, val cameraLimits: CameraLimits)
-
 data class Frame(
     val w: Int,
     val h: Int,
@@ -295,33 +285,10 @@ data class Frame(
     fun sample(x: Double, y: Double): Int =
         pixels[(y * h).toInt().coerceIn(0, h - 1) * w + (x * w).toInt().coerceIn(0, w - 1)]
 
-    fun distribution(): IntArray = measurement().histogram
-
-    /** Collect censoring facts on the image worker, not once per film candidate on the UI thread. */
-    fun measurement(): FrameMeasurement {
+    fun distribution(): IntArray {
         val hist = IntArray(256)
-        var valid = 0L
-        var black = 0L
-        var white = 0L
-        var channelLimits = 0L
-        for (pixel in pixels) {
-            if (pixel ushr 24 == 0) continue
-            valid++
-            val luminance = luma(pixel)
-            hist[luminance]++
-            if (luminance == 0) black++
-            if (luminance == 255) white++
-            val r = pixel ushr 16 and 255
-            val g = pixel ushr 8 and 255
-            val b = pixel and 255
-            val atLimit = (if (r == 0 || r == 255) 1 else 0) +
-                (if (g == 0 || g == 255) 1 else 0) +
-                (if (b == 0 || b == 255) 1 else 0)
-            // A two-channel boundary can include a fully saturated color; describe this as
-            // rendered-channel uncertainty, never as proof of sensor or film clipping.
-            if (atLimit >= 2) channelLimits++
-        }
-        return FrameMeasurement(hist, CameraLimits(valid, black, white, channelLimits))
+        for (pixel in pixels) if (pixel ushr 24 != 0) hist[luma(pixel)]++
+        return hist
     }
 
     /** True when this spot's support touches the coded camera limits, not a sensor diagnosis. */
@@ -331,13 +298,6 @@ data class Frame(
             if (pixel ushr 24 == 0) continue
             val luminance = luma(pixel)
             if (luminance == 0 || luminance == 255) return true
-            val r = pixel ushr 16 and 255
-            val g = pixel ushr 8 and 255
-            val b = pixel and 255
-            val atLimit = (if (r == 0 || r == 255) 1 else 0) +
-                (if (g == 0 || g == 255) 1 else 0) +
-                (if (b == 0 || b == 255) 1 else 0)
-            if (atLimit >= 2) return true
         }
         return false
     }

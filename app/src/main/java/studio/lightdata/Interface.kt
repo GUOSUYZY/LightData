@@ -296,7 +296,7 @@ private fun Finder(a: MainActivity) {
                         Look(
                             f,
                             a.response,
-                            f.cameraEv - shooting.effectiveEv,
+                            f.cameraEv - shooting.metered.ev,
                             a.film,
                             a.preview,
                             a.mode == "M",
@@ -425,7 +425,7 @@ private fun Histogram(a: MainActivity) {
     val sample = a.sample
     val film = a.film
     val shooting = shootingPlan(film, a.exposure)
-    val middle = shooting.effectiveEv
+    val middle = shooting.metered.ev
     val response = a.response
     val reading = a.reading
     val safetyAnalysis = if (a.safety) {
@@ -616,10 +616,10 @@ private fun Histogram(a: MainActivity) {
 @Composable
 private fun SafetyPanel(a: MainActivity, analysis: SafetyAnalysis?) {
     Column(
-        Modifier.fillMaxWidth().heightIn(max = 230.dp)
+        Modifier.fillMaxWidth().heightIn(max = 190.dp)
             .verticalScroll(rememberScrollState())
             .semantics {
-                contentDescription = "胶片安全曝光估算，红色高光风险，蓝色暗部风险，紫色手机触限"
+                contentDescription = "胶片安全曝光估算，红色高光风险，蓝色暗部风险"
             },
     ) {
         Label(
@@ -637,58 +637,48 @@ private fun SafetyPanel(a: MainActivity, analysis: SafetyAnalysis?) {
         }
         val current = analysis.current
         Label(
-            "高光 " + percentLabel(current.highlightFraction) + "% · 暗部 " +
-                percentLabel(current.shadowFraction) + "%",
-            11,
-            if (current.highlightFraction > 0 || current.shadowFraction > 0) amber else paper,
-        )
-        if (current.cameraUncertainFraction > 0) {
-            Label(
-                "手机触限 · 白 " + percentLabel(current.cameraWhiteFraction) +
-                    "% 黑 " + percentLabel(current.cameraBlackFraction) + "% · 多通道 " +
-                    percentLabel(current.cameraChannelFraction) + "%",
-                9, unknown,
-            )
-        }
-        Label(
             when {
-                current.bothEndsNeedCompromise -> "主要明暗超出估计范围 · 必须选择优先保留的一侧"
-                current.primaryTonesFit && (current.shadowFraction > 0 || current.highlightFraction > 0) ->
-                    "主要明暗在估计范围内 · 小面积高光／暗部仍有风险"
-                current.primaryTonesFit -> "主要明暗在估计范围内 · 需结合重要区域复核"
-                else -> "主要明暗接近边界 · 调整曝光会移动全部区域"
+                current.bothEndsNeedCompromise -> "主要明暗超出估计范围 · 请选择优先保留的一侧"
+                current.shadowFraction > 0 && current.highlightFraction > 0 ->
+                    "高光和暗部都有风险 · 改变曝光会同时移动两端"
+                current.highlightFraction > 0 -> "有高光细节风险 · 请确认取景中的红色区域"
+                current.shadowFraction > 0 -> "有暗部细节风险 · 请确认取景中的蓝色区域"
+                current.primaryTonesFit -> "主要明暗在估计范围内 · 仍需确认重要主体"
+                else -> "部分明暗接近或越过估计边界 · 需要取舍"
             },
-            10,
-            if (current.bothEndsNeedCompromise) red else muted,
+            11,
+            if (current.bothEndsNeedCompromise) red else amber,
         )
-        Label("主要5–95%跨度 " + n(current.sampleSpan) + " EV · 估计工作 " +
-            n(current.workingSpan) + " EV", 9, muted)
+        if (current.hasLuminanceLimit) {
+            Label("画面含黑／白亮度触限 · 真实亮度可能超出受测范围", 9, unknown)
+        }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             MeterButton(a.toneGoal.shortLabel, true, true, Modifier.weight(1.35f), a::toneGoalDialog)
             MeterButton(
-                analysis.referencePoint?.let { "点 #$it" } ?: "自动取值",
+                analysis.referencePoint?.let { "点 #$it" } ?: "选择主体",
                 analysis.referencePoint != null,
                 true,
                 Modifier.weight(1f),
             ) {
-                if (a.spots.isEmpty()) {
-                    if (!a.frozen) a.toggleFreeze()
-                } else a.safetyPointDialog()
+                if (a.spots.isNotEmpty()) a.safetyPointDialog()
+                else if (!a.frozen) a.toggleFreeze()
+                else a.message = "点按取景画面添加主体测光点"
             }
         }
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Label(
-                analysis.decisionLabel(),
-                10, amber, Modifier.weight(1f),
-            )
-            if (abs(analysis.recommendedStops) <= 5) {
-                Action("采用 " + signed(analysis.recommendedStops), true) {
-                    a.applySafetyOffset(analysis.recommendedStops)
-                }
-            } else Label("超补偿范围", 10, red)
+        val decision = analysis.decisionLabel()
+        val recommendation = analysis.recommendedStops
+        if (decision != null && recommendation != null) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Label(decision, 10, amber, Modifier.weight(1f))
+                if (abs(recommendation) <= 5) {
+                    Action("采用 " + signed(recommendation), true) {
+                        a.applySafetyOffset(recommendation)
+                    }
+                } else Label("请手动设置", 10, red)
+            }
         }
         if (a.spots.find { it.id == analysis.referencePoint }?.cameraLimited == true) {
-            Label("参考点含手机触限 · 建议仅适用于受测亮度，真实范围可能更大", 9, unknown)
+            Label("参考点含手机触限 · 真实亮度可能超出受测范围", 9, unknown)
         }
         Row(Modifier.fillMaxWidth().padding(top = 2.dp)) {
             for (candidate in analysis.comparisons) {
@@ -703,9 +693,8 @@ private fun SafetyPanel(a: MainActivity, analysis: SafetyAnalysis?) {
                         .semantics {
                             contentDescription = "采用" +
                                 (if (selected) "当前" else signed(candidate.requestedStops) + "EV") +
-                                "，快门" + timeLabel(candidate.metered.t) + "，高光风险" +
-                                percentLabel(result.highlightFraction) + "%，暗部风险" +
-                                percentLabel(result.shadowFraction) + "%"
+                                "，快门" + timeLabel(candidate.metered.t) +
+                                "，光圈" + n(candidate.metered.a)
                         }
                         .padding(horizontal = 3.dp, vertical = 3.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -720,41 +709,42 @@ private fun SafetyPanel(a: MainActivity, analysis: SafetyAnalysis?) {
                     )
                     Label(timeLabel(candidate.metered.t) + " · ƒ/" + n(candidate.metered.a),
                         9, muted, monoType = true)
-                    Label("高" + percentLabel(result.highlightFraction) + " 暗" +
-                        percentLabel(result.shadowFraction), 9, paper, monoType = true)
                     if (correction.exposureSeconds != null &&
                         (correction.status == ReciprocityStatus.CORRECTED ||
                             correction.status == ReciprocityStatus.ESTIMATED)
                     ) Label("→" + timeLabel(correction.exposureSeconds), 9, amber, monoType = true)
                     if (correction.status == ReciprocityStatus.APERTURE_ADVICE) {
-                        Label("光圈 " + signed(correction.apertureCompensationStops ?: 0.0), 9, amber)
+                        Label("光圈指令", 9, amber)
                     }
-                    if (correction.status == ReciprocityStatus.UNPUBLISHED) {
+                    if (correction.status == ReciprocityStatus.UNPUBLISHED &&
+                        correction.meteredSeconds >= 1.0
+                    ) {
                         Label("倒易律 ?", 9, red)
                     }
                 }
             }
         }
         val correction = current.shooting.reciprocity
-        if (!a.film.digital) {
-            Label(
-                when (correction.status) {
-                    ReciprocityStatus.CORRECTED -> "已计入倒易律 · " + correction.label
-                    ReciprocityStatus.ESTIMATED -> "倒易律经验估算 · " + correction.label
-                    ReciprocityStatus.APERTURE_ADVICE ->
-                        "已计入光圈补偿量 · " + correction.label + " · 滤镜色彩未模拟"
-                    ReciprocityStatus.UNPUBLISHED ->
-                        "倒易律资料不足 · 未虚构补偿，结果为估算"
-                    ReciprocityStatus.UNCHANGED -> "此测得快门按厂家区间无需倒易律补偿"
-                },
-                9,
-                if (correction.status == ReciprocityStatus.UNPUBLISHED) red else muted,
-            )
+        val instruction = if (!a.film.digital) when (correction.status) {
+            ReciprocityStatus.CORRECTED ->
+                "实拍指令 · " + correction.label + " · 额外密度变化未建模"
+            ReciprocityStatus.ESTIMATED ->
+                "经验估算 · " + correction.label + " · 额外密度变化未建模"
+            ReciprocityStatus.APERTURE_ADVICE ->
+                "实拍指令 · " + correction.label + " · 不换算成曲线平移"
+            else -> null
+        } else null
+        if (instruction != null) Label(instruction, 9, muted)
+        if (!a.film.digital && current.shooting.uncertain && current.shooting.metered.t >= 1.0) {
+            Label("该快门未公开倒易律补偿 · 普通曲线仅作参考", 9, red)
         }
-        if (analysis.comparisons.any { it.assessment.shooting.uncertain }) {
-            Label("带 ? 的候选：当前快门无补偿资料，未虚构倍率，风险仅供估算", 9, red)
+        if (analysis.comparisons.any {
+                it.assessment.shooting.uncertain && it.assessment.shooting.metered.t >= 1.0
+            }
+        ) {
+            Label("带 ? 的候选没有该快门的补偿资料，不借用相邻档位", 9, red)
         }
-        Label("红 高光风险 · 蓝 暗部风险 · 紫 手机触限；请用灰卡与实片复核", 9, muted)
+        Label("红 高光风险 · 蓝 暗部风险 · 估算参考，请用灰卡与实片复核", 9, muted)
     }
 }
 

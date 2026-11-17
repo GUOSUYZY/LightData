@@ -71,8 +71,7 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
                     void main(){
                         vec4 src=texture2D(frame,uv);
                         if(src.a<0.5){gl_FragColor=vec4(.06,.06,.06,1.);return;}
-                        vec3 raw=src.rgb;
-                        vec3 rgb=raw;
+                        vec3 rgb=src.rgb;
                         const vec3 weights=vec3(.2126,.7152,.0722);
                         float y=dot(decodeRGB(rgb),weights);
                         float gray=encodeRGB(vec3(y)).r;
@@ -90,15 +89,8 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
                             vec3 codes=encodeRGB(clamp(spectral*decodeRGB(src.rgb),0.,1.));
                             rgb=vec3(texture2D(curve,vec2(codes.r,.75)).r,texture2D(curve,vec2(codes.g,.75)).g,texture2D(curve,vec2(codes.b,.75)).b);
                         }
-                        vec3 atCodeLimit=max(step(vec3(.998),raw),vec3(1.)-step(vec3(.002),raw));
-                        float channelLimits=atCodeLimit.r+atCodeLimit.g+atCodeLimit.b;
-                        bool cameraCensored=channelLimits>=2. || gray<=.5/255. || gray>=254.5/255.;
-                        if(safety!=0 && cameraCensored && mod(abs(gl_FragCoord.x)+abs(gl_FragCoord.y),12.)<3.) {
-                            rgb=mix(rgb,vec3(.8,.42,1.),.86);
-                        } else {
-                            if(map.g>.5 && mod(gl_FragCoord.x+gl_FragCoord.y,12.)<3.)rgb=mix(rgb,vec3(1.,.22,.2),.82);
-                            if(map.b>.5 && mod(gl_FragCoord.x-gl_FragCoord.y,12.)<3.) rgb=mix(rgb,safety!=0?vec3(.18,.62,1.):vec3(.12,.86,.52),.82);
-                        }
+                        if(map.g>.5 && mod(gl_FragCoord.x+gl_FragCoord.y,12.)<3.)rgb=mix(rgb,vec3(1.,.22,.2),.82);
+                        if(map.b>.5 && mod(gl_FragCoord.x-gl_FragCoord.y,12.)<3.) rgb=mix(rgb,safety!=0?vec3(.18,.62,1.):vec3(.12,.86,.52),.82);
                         gl_FragColor=vec4(rgb,1.);
                     }
                 """
