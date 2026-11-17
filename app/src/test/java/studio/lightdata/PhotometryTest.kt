@@ -5,6 +5,21 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class PhotometryTest {
+    @Test fun brightMinorityCanPlaceTheDominantToneBelowZoneV() {
+        val response = DoubleArray(256).apply { this[210] = 3.0 }
+        val scene = IntArray(256).apply { this[117] = 900; this[210] = 100 }
+        val metered = 10.0 + meter(scene, response)
+        assertEquals(10.0 + log2(1.7), metered, 1e-9)
+        val manual = Exposure(1.0 / 32, 8.0, 100.0)
+        for (mode in listOf("A", "S")) {
+            val neutral = solve(mode, manual, metered)
+            val compensated = solve(mode, manual, metered, 3)
+            assertTrue(10.0 - neutral.ev < -.5)
+            assertEquals(1.0, neutral.ev - compensated.ev, .17)
+        }
+        for (film in films) assertEquals(.18, film.positive(0.0), 1e-9)
+    }
+
     @Test fun camera2DefaultKeepsShadowDetailAndLimitedStreamsExpandOnlyOnce() {
         val full = YuvEncoding.default
         val limited = YuvEncoding(limited = true)

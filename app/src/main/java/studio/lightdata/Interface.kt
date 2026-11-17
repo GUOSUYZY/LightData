@@ -32,6 +32,11 @@ private val muted = Color(0xffa5a6a3)
 private val amber = Color(0xffffbd59)
 private val red = Color(0xffec756a)
 private val green = Color(0xff6dd8a0)
+private val spotColors = listOf(Color(0xffffce58), Color(0xff55ccff), Color(0xffff85bb),
+    Color(0xff68e3a8), Color(0xffba9dff), Color(0xffff9864))
+private fun spotColor(id: Int): Color = spotColors.getOrNull(id - 1)
+    ?: Color.hsv(((id * 137.508) % 360).toFloat(), .55f, 1f)
+
 private val mono = FontFamily.Monospace
 
 @Composable
@@ -79,48 +84,69 @@ fun Instrument(a: MainActivity) {
             else -> a.cancelScan()
         }
     }
-    BoxWithConstraints(
-        Modifier.fillMaxSize().background(ink).windowInsetsPadding(WindowInsets.safeDrawing)
-    ) {
-        val land = maxWidth > maxHeight
-        val prefix = if (land) "l" else "p"
-        val p = a.layout[prefix + "1"] ?: .6f
-        val q = a.layout[prefix + "2"] ?: .46f
-        val density = LocalDensity.current
-        val w = with(density) { maxWidth.toPx() }
-        val h = with(density) { maxHeight.toPx() }
-        if (land)
-            Row {
+    BoxWithConstraints(Modifier.fillMaxSize().background(ink)) {
+        val landscape = maxWidth > maxHeight
+        val shortSide = minOf(maxWidth, maxHeight)
+        val square = shortSide >= 540.dp && maxOf(maxWidth, maxHeight) <= shortSide * 1.30f
+        val sideBySide = if (square) !landscape else landscape
+        val prefix = (if (square) "square" else "") + if (landscape) "l" else "p"
+        val content = @Composable {
+            Panels(a, sideBySide, prefix, if (square) .5f else .6f, if (square) .5f else .46f)
+        }
+        if (landscape) {
+            Row(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
                 Toolbar(a, true)
-                Box(Modifier.weight(p).fillMaxHeight()) { Finder(a) }
-                Split(a, prefix + "1", true, w)
-                Column(Modifier.weight(1 - p).fillMaxHeight()) {
-                    Box(Modifier.weight(q)) { Histogram(a) }
-                    Split(a, prefix + "2", false, h)
-                    Box(Modifier.weight(1 - q)) { Meter(a) }
-                }
+                Box(Modifier.weight(1f)) { content() }
             }
-        else
-            Column {
+        } else {
+            Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
                 Toolbar(a, false)
-                Box(Modifier.fillMaxWidth().weight(p)) { Finder(a) }
-                Split(a, prefix + "1", false, h)
-                Row(Modifier.fillMaxWidth().weight(1 - p)) {
-                    Box(Modifier.weight(q)) { Histogram(a) }
-                    Split(a, prefix + "2", true, w)
-                    Box(Modifier.weight(1 - q)) { Meter(a) }
-                }
+                Box(Modifier.weight(1f)) { content() }
             }
+        }
         if (a.settings)
             Settings(
                 a,
-                Modifier.align(Alignment.Center).widthIn(max = 500.dp).fillMaxWidth().padding(12.dp),
+                Modifier.align(Alignment.Center).windowInsetsPadding(WindowInsets.safeDrawing)
+                    .widthIn(max = 500.dp).fillMaxWidth().padding(12.dp),
             )
     }
 }
 
 @Composable
-private fun Split(a: MainActivity, key: String, vertical: Boolean, span: Float) {
+private fun Panels(a: MainActivity, sideBySide: Boolean, prefix: String, defaultP: Float, defaultQ: Float) {
+    BoxWithConstraints(Modifier.fillMaxSize()) {
+        val p = a.layout[prefix + "1"] ?: defaultP
+        val q = a.layout[prefix + "2"] ?: defaultQ
+        val density = LocalDensity.current
+        val w = with(density) { maxWidth.toPx() }
+        val h = with(density) { maxHeight.toPx() }
+        if (sideBySide) {
+            Row(Modifier.fillMaxSize()) {
+                Box(Modifier.weight(p).fillMaxHeight()) { Finder(a) }
+                Split(a, prefix + "1", true, w, defaultP)
+                Column(Modifier.weight(1 - p).fillMaxHeight()) {
+                    Box(Modifier.weight(q)) { Histogram(a) }
+                    Split(a, prefix + "2", false, h, defaultQ)
+                    Box(Modifier.weight(1 - q)) { Meter(a) }
+                }
+            }
+        } else {
+            Column(Modifier.fillMaxSize()) {
+                Box(Modifier.fillMaxWidth().weight(p)) { Finder(a) }
+                Split(a, prefix + "1", false, h, defaultP)
+                Row(Modifier.fillMaxWidth().weight(1 - p)) {
+                    Box(Modifier.weight(q)) { Histogram(a) }
+                    Split(a, prefix + "2", true, w, defaultQ)
+                    Box(Modifier.weight(1 - q)) { Meter(a) }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun Split(a: MainActivity, key: String, vertical: Boolean, span: Float, initial: Float) {
     val width = if (a.resizing) 14.dp else 1.dp
     var m =
         if (vertical) Modifier.fillMaxHeight().width(width)
@@ -131,7 +157,7 @@ private fun Split(a: MainActivity, key: String, vertical: Boolean, span: Float) 
                 detectDragGestures { change, delta ->
                     change.consume()
                     val v =
-                        ((a.layout[key] ?: .5f) + (if (vertical) delta.x else delta.y) / span)
+                        ((a.layout[key] ?: initial) + (if (vertical) delta.x else delta.y) / span)
                             .coerceIn(.22f, .78f)
                     a.layout[key] = v
                     a.put(key, v)
@@ -301,13 +327,15 @@ private fun Finder(a: MainActivity) {
                         }
                         for (pt in a.spots) {
                             val at = Offset((pt.x * w).toFloat(), (pt.y * h).toFloat())
-                            drawCircle(amber, 9.dp.toPx(), at, style = Stroke(2.dp.toPx()))
+                            drawCircle(Color.Black, 9.dp.toPx(), at, style = Stroke(4.dp.toPx()))
+                            drawCircle(spotColor(pt.id), 9.dp.toPx(), at, style = Stroke(2.dp.toPx()))
                             drawContext.canvas.nativeCanvas.drawText(
                                 pt.id.toString(),
                                 at.x + 10.dp.toPx(),
                                 at.y,
                                 android.graphics.Paint(1).apply {
-                                    color = android.graphics.Color.YELLOW
+                                    color = spotColor(pt.id).toArgb()
+                                    setShadowLayer(2.dp.toPx(), 0f, 0f, android.graphics.Color.BLACK)
                                     textSize = 14.dp.toPx()
                                 },
                             )
@@ -325,7 +353,8 @@ private fun Finder(a: MainActivity) {
                         java.util.Locale.US, it.id, it.ev, it.ev - a.exposure.ev + 5
                     )
                 } ?: "点按画面添加测光点"
-            Label(summary + "   ·   再点同一位置删除", 12, amber, Modifier.padding(horizontal = 10.dp))
+            Label(summary + "   ·   再点同一位置删除", 12,
+                a.spots.lastOrNull()?.let { spotColor(it.id) } ?: amber, Modifier.padding(horizontal = 10.dp))
         }
         if ((s?.missing == true || a.scanActive) && !a.frozen && !a.runningCal)
             Row(
@@ -392,7 +421,7 @@ private fun Histogram(a: MainActivity) {
             11, if (a.cal == null) red else paper, monoType = true,
         )
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Label("像素 " + ceil(peak / chart.gain).toInt(), 9, muted)
+            Label((if (a.logCounts) "像素 log " else "像素 ") + ceil(peak / chart.gain).toInt(), 9, muted)
             Label("密度 D " + n(round(densityMax / chart.gain * 10) / 10), 9, amber)
         }
         Canvas(
@@ -446,10 +475,31 @@ private fun Histogram(a: MainActivity) {
                     val xx = x((tick * grid).toDouble())
                     drawLine(line, Offset(xx, 0f), Offset(xx, h))
                 }
-                for (i in 1..3) drawLine(line, Offset(0f, h * i / 4), Offset(w, h * i / 4))
+                val topCount = peak / chart.gain
+                val logTop = ln1p(topCount)
+                if (!a.logCounts) {
+                    for (i in 1..3) drawLine(line, Offset(0f, h * i / 4), Offset(w, h * i / 4))
+                }
                 for (i in bins.indices) {
-                    val bh = (h * chart.gain * bins[i] / peak).toFloat()
+                    val fraction = if (a.logCounts) ln1p(bins[i].toDouble()) / logTop else bins[i] / topCount
+                    val bh = (h * fraction).toFloat()
                     drawRect(muted, Offset(w * i / bins.size, h - bh), Size(w / bins.size + 1, bh))
+                }
+                if (a.logCounts) {
+                    val axisPaint = android.graphics.Paint(1).apply {
+                        color = paper.toArgb()
+                        textSize = 9.dp.toPx()
+                        setShadowLayer(2.dp.toPx(), 0f, 0f, android.graphics.Color.BLACK)
+                    }
+                    var count = 1.0
+                    while (count < topCount) {
+                        val yy = (h * (1 - ln1p(count) / logTop)).toFloat()
+                        drawLine(line, Offset(0f, yy), Offset(w, yy))
+                        if (yy >= axisPaint.textSize) {
+                            drawContext.canvas.nativeCanvas.drawText(count.toInt().toString(), 1.dp.toPx(), yy, axisPaint)
+                        }
+                        count *= 10
+                    }
                 }
                 val path = Path()
                 for (i in 0..128) {
@@ -464,10 +514,23 @@ private fun Histogram(a: MainActivity) {
                     color = android.graphics.Color.WHITE
                     textSize = 11.dp.toPx()
                 }
-                for (pt in a.spots) {
+                val labelRows = mutableListOf<Float>()
+                // If several readings map to the same pixel, share the vertical stroke.
+                val columns = a.spots.sortedBy { it.ev }.groupBy { x(it.ev).roundToInt() }
+                for (group in columns.values) for ((index, pt) in group.withIndex()) {
                     val xx = x(pt.ev)
-                    drawLine(paper, Offset(xx, 0f), Offset(xx, h), 1.dp.toPx())
-                    drawContext.canvas.nativeCanvas.drawText("#" + pt.id, xx + 2, 12.dp.toPx(), paint)
+                    if (xx !in 0f..w) continue
+                    paint.color = spotColor(pt.id).toArgb()
+                    val segment = 5.dp.toPx()
+                    val pattern = if (group.size == 1) null else PathEffect.dashPathEffect(
+                        floatArrayOf(segment, segment * (group.size - 1)), segment * (group.size - index))
+                    drawLine(spotColor(pt.id), Offset(xx, 0f), Offset(xx, h), 1.dp.toPx(), pathEffect = pattern)
+                    val label = "#" + pt.id
+                    val labelX = min(xx + 2, w - paint.measureText(label)).coerceAtLeast(0f)
+                    val row = labelRows.indexOfFirst { it < labelX }.let { if (it < 0) labelRows.size else it }
+                    if (row == labelRows.size) labelRows.add(0f)
+                    labelRows[row] = labelX + paint.measureText(label) + 2.dp.toPx()
+                    drawContext.canvas.nativeCanvas.drawText(label, labelX, (12 + 13 * row).dp.toPx(), paint)
                 }
             }
         }
@@ -874,6 +937,15 @@ private fun Settings(a: MainActivity, m: Modifier) {
                 a.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             } catch (_: android.content.ActivityNotFoundException) {
                 android.widget.Toast.makeText(a, "请安装可打开网页的浏览器", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Label("直方图像素纵轴", 14, paper, Modifier.weight(1f))
+            for ((index, label) in listOf("线性", "对数").withIndex()) {
+                Action(label, a.logCounts == (index == 1)) {
+                    a.logCounts = index == 1
+                    a.prefs.edit().putBoolean("logCounts", a.logCounts).apply()
+                }
             }
         }
         Setting("组件比例", "拖动分界线") {

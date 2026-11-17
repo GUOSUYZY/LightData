@@ -50,6 +50,7 @@ class MainActivity : ComponentActivity() {
     var frozen by mutableStateOf(false)
     var single by mutableStateOf(false)
     var held by mutableStateOf<Double?>(null)
+    var logCounts by mutableStateOf(false)
     var settings by mutableStateOf(false)
     var resizing by mutableStateOf(false)
     var sample by mutableStateOf<Sample?>(null)
@@ -148,8 +149,13 @@ class MainActivity : ComponentActivity() {
         film =
             films.find { it.name == prefs.getString("film", films.first().name) }
                 ?: customFilm(customDigital, total, above)
-        for (k in listOf("p1", "p2", "l1", "l2")) layout[k] =
-            saved(k, if (k.endsWith("1")) .60 else .46).toFloat()
+        logCounts = prefs.getBoolean("logCounts", false)
+        for (prefix in listOf("p", "l", "squarep", "squarel")) {
+            for (i in 1..2) {
+                val key = prefix + i
+                if (prefs.contains(key)) layout[key] = saved(key, .5).toFloat().coerceIn(.22f, .78f)
+            }
+        }
         setContent { Instrument(this) }
         allowed =
             checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
