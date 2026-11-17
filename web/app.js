@@ -28,7 +28,7 @@ import {
   trackExposure,
   referenceSignature,
 } from "./camera.js";
-import { Panorama, cropFrame, orientationMatrix } from "./panorama.js";
+import { Panorama, cropFrame, orientationMatrix, turnPoint, turnFrame } from "./panorama.js";
 import { sampleGrid, fitResponse } from "./calibration.js";
 import { LensSetup } from "./lens-setup.js";
 import { completeOptics, makeOptics, opticsField } from "./optics.js";
@@ -100,10 +100,8 @@ const state = {
   profile: {},
   profileKey: "",
   histWindow: null,
-  pose: null,
   pano: null,
   scan: false,
-  offset: { x: 0, y: 0 },
   runningCalibration: false,
 };
 try {
@@ -357,6 +355,11 @@ function sceneBase(settings = camera.settings) {
     : { value: null, source: "采集参数待设置" };
 }
 function updateProfile(settings = camera.settings) {
+  const channel = state.panoChannel;
+  if (state.pano && channel && settings.deviceId === channel.deviceId &&
+      (settings.zoom || 1) === (channel.zoom || 1) &&
+      Math.min(settings.width, settings.height) === Math.min(channel.width, channel.height) &&
+      Math.max(settings.width, settings.height) === Math.max(channel.width, channel.height)) return;
   const key = `${settings.deviceId || "default"}:${settings.width}x${settings.height}:z${settings.zoom || 1}`;
   if (state.profileKey === key) return;
   if (state.profileKey && state.pano) cancelScan();
@@ -461,7 +464,7 @@ function layout() {
     "aria-orientation",
     state.side ? "horizontal" : "vertical",
   );
-  if (state.pano && state.panoAspect !== target().x / target().y) cancelScan();
+  if (state.pano) updateScan();
   if (state.raw && !state.frozen) processImage();
   else refresh();
 }
@@ -731,8 +734,8 @@ async function syncLut() {
 }
 function displayImage(scale, snapshot = false) {
   if (state.pano) {
-    const offset = state.manualCrop ? state.offset : null;
-    return state.pano.view(state.pose, offset, state.pano.nativeViewEdge * scale).image;
+    return state.pano.view(currentPose(), null,
+      state.pano.nativeViewEdge * scale, displayTurn()).image;
   }
   const bounds = state.source ? target() : null;
   const display = snapshot ? camera.capturePreview(state.source, bounds, scale)
@@ -783,9 +786,10 @@ function processImage(paint = true) {
   state.source = sourceField();
   if (state.pano) {
     const result = state.pano.view(
-      state.pose,
-      state.manualCrop ? state.offset : null,
+      currentPose(),
+      null,
       640,
+      displayTurn(),
     );
     state.image = result.image;
     state.cameraEV = result.cameraEV;
@@ -800,7 +804,7 @@ function processImage(paint = true) {
       : false;
   }
   state.hist = histogram(state.image);
-  state.reading = absolute()
+  state.reading = absolute() && state.hist.some((count) => count > 0)
     ? state.cameraEV + meter(state.hist, response())
     : null;
   if (!state.histWindow && finite(state.reading))
@@ -973,10 +977,14 @@ function refresh(paint = true) {
     : state.image
       ? state.single
         ? "单次 · 等待有效测光"
-        : "相对亮度 · 参数待设置"
+        : state.pano && !state.hist?.some((count) => count > 0)
+          ? "未采集区域 · 无有效测光"
+          : "相对亮度 · 参数待设置"
       : "— EV100");
   $("meter-configure").hidden = absolute() || !state.raw;
-  const targetField = target(),
+  const targetField = state.pano
+      ? displayTurn() % 180 ? { x: state.pano.target.y, y: state.pano.target.x } : state.pano.target
+      : target(),
     source = state.source;
   $("finder-info").textContent = t(source
     ? `目标 ${number((2 * Math.atan(targetField.x) * 180) / Math.PI)}° × ${number((2 * Math.atan(targetField.y) * 180) / Math.PI)}°${state.missing ? " · 画面未补齐" : ""}`
@@ -1214,21 +1222,14 @@ camera.addEventListener("settings", (event) => {
   refreshCaptureControls(event.detail);
 });
 camera.addEventListener("frame", (event) => {
-  if (state.frozen) return;
+  if (state.frozen || state.pano) return;
   state.raw = event.detail.image;
   stillFrame = event.detail.still;
   lastFrameTime = event.detail.time;
-  if (state.scan && state.pano && !state.runningCalibration) {
-    const result = state.pano.addFrame(
-      state.raw,
-      state.pose,
-      sceneBase().value,
-    );
-    updateScan(result);
-  }
   processImage(false);
 });
-camera.addEventListener("previewframe", () => {
+camera.addEventListener("previewframe", (event) => {
+  if (!state.frozen && state.pano) capturePanorama(event.detail.time);
   if (!state.frozen && drawView()) recordPresentation();
 });
 camera.addEventListener("stopped", () => {
@@ -1256,11 +1257,12 @@ function toggleFreeze() {
     return;
   }
   if (!state.frozen) {
-    const latest = camera.captureAnalysis();
+    const latest = !state.pano && camera.captureAnalysis();
     if (latest && !state.pano) {
       state.raw = latest;
       processImage();
     }
+    if (state.pano) processImage(false);
     frozenDisplay = displayImage(1, true);
   } else {
     frozenDisplay = null;
@@ -1322,29 +1324,59 @@ async function enableOrientation() {
     ) {
       const permission = await DeviceOrientationEvent.requestPermission();
       if (permission !== "granted") {
-        state.pose = null;
+        poseAngles = null;
         window.removeEventListener("deviceorientation", orientationChanged);
         return false;
       }
     }
     if (!("DeviceOrientationEvent" in window)) {
-      state.pose = null;
+      poseAngles = null;
       return false;
     }
     window.addEventListener("deviceorientation", orientationChanged);
     return true;
   } catch {
-    state.pose = null;
+    poseAngles = null;
     return false;
   }
 }
+let poseAngles = null, poseTime = -Infinity, lastPanoramaUi = -Infinity;
+function screenAngle() {
+  return ((screen.orientation?.angle ?? Number(window.orientation) ?? 0) + 360) % 360 || 0;
+}
+function currentPose(now = performance.now()) {
+  if (!poseAngles || now - poseTime > 1000) return null;
+  return orientationMatrix(...poseAngles, state.pano ? state.scanAngle : screenAngle());
+}
+function displayTurn() {
+  return state.pano ? (state.scanAngle - screenAngle() + 360) % 360 : 0;
+}
 function orientationChanged(event) {
-  state.pose = orientationMatrix(
-    event.alpha,
-    event.beta,
-    event.gamma,
-    screen.orientation?.angle || 0,
-  );
+  poseAngles = [event.alpha, event.beta, event.gamma];
+  poseTime = performance.now();
+}
+function scanFrame(maxEdge = 640) {
+  const image = camera.captureAnalysis(maxEdge);
+  if (!image) return null;
+  if (maxEdge === 640) state.raw = image;
+  // Browsers may rotate their video raster when the window rotates. Fixed-raster
+  // tracks already use the scan axes; rotate only a transposed raster back.
+  const transpose = (image.width > image.height) !== state.scanRasterWide;
+  return transpose && displayTurn() % 180
+    ? turnFrame(image, -displayTurn()) : image;
+}
+function capturePanorama(time = performance.now()) {
+  if (!state.pano || state.frozen || state.runningCalibration) return;
+  const pose = currentPose(time);
+  if (pose) state.manualCrop = false;
+  const result = state.pano.capture({ pose, time, frame: () => scanFrame(),
+    trackingFrame: () => scanFrame(160), cameraEV: sceneBase().value, collect: state.scan });
+  stillFrame = !result.settling;
+  if (result.accepted || time - lastPanoramaUi >= 100 || time < lastPanoramaUi) {
+    lastPanoramaUi = time;
+    updateScan();
+    processImage(false);
+  }
 }
 async function startScan() {
   if (!state.raw || !state.source) {
@@ -1353,28 +1385,26 @@ async function startScan() {
   }
   await enableOrientation();
   if (state.frozen) toggleFreeze();
-  state.pano = new Panorama({
-    target: target(),
-    source: state.source,
-    width: 720,
-    height: 720,
-    response: response(),
-  });
-  state.panoAspect = target().x / target().y;
-  state.pano.setCenter(state.pose);
+  state.scanAngle = screenAngle();
+  state.scanRasterWide = state.raw.width > state.raw.height;
+  state.panoChannel = { ...camera.settings };
+  const origin = currentPose();
+  state.pano = new Panorama({ target: target(), source: state.source,
+    width: 720, height: 720, response: response() });
+  state.pano.setCenter(origin);
   state.scan = true;
   state.manualCrop = false;
-  state.offset = { x: 0, y: 0 };
+  camera.analysisEnabled = false;
+  lastPanoramaUi = -Infinity;
   $("scan-panel").hidden = false;
   $("scan-start").hidden = true;
-  state.pano.addFrame(state.raw, state.pose, sceneBase().value);
-  updateScan(state.pano.guide());
+  capturePanorama();
   processImage();
-  toast("中心已确认。缓慢移动，保持画面重叠，补齐覆盖图。");
+  toast("中心已确认。移向黄圈，停稳后自动采集，保持画面重叠。");
 }
-function updateScan(info = state.pano?.guide()) {
-  if (!info) return;
-  const guide = state.pano.guide();
+function updateScan() {
+  if (!state.pano) return;
+  const guide = state.pano.guide(displayTurn(), currentPose());
   let direction = "范围已补齐";
   if (guide.next) {
     const dx = guide.next.x - guide.aim.x,
@@ -1386,28 +1416,35 @@ function updateScan(info = state.pano?.guide()) {
       : "继续保持重叠，补拍边缘";
   }
   $("scan-progress").value = guide.coverage;
+  const sensor = !!currentPose();
+  const captureState = guide.needsOverlap ? "请退回已采集区域恢复重叠"
+    : guide.settling ? "请停稳 350 毫秒" : "已停稳";
   $("scan-status").textContent = t(state.scan
-    ? `${Math.round(guide.coverage * 100)}% 覆盖 · ${guide.captures} 帧 · ${guide.needsOverlap ? "请退回已采集区域恢复重叠" : direction}${state.pose ? "" : " · 图像配准"}`
-    : state.manualCrop
-      ? "二次构图 · 拖动调整已采集画面"
-      : state.pose
-        ? "二次构图 · 转动手机或拖动画面"
-        : "二次构图 · 拖动画面");
+    ? `${Math.round(guide.coverage * 100)}% 覆盖 · ${guide.captures} 帧 · ${captureState} · ${direction}${sensor ? "" : " · 图像配准"}`
+    : sensor ? "二次构图 · 转动手机"
+      : state.manualCrop ? "二次构图 · 拖动调整已采集画面" : "二次构图 · 图像跟踪或拖动画面");
+  $("scan-status").dataset.settling = String(guide.settling);
   $("scan-capture").hidden = !state.scan;
+  $("scan-capture").disabled = guide.settling || guide.ready;
   $("scan-finish").textContent = t(state.scan ? "完成 / 二次构图" : "继续补拍");
+  const home = $("scan-home");
+  home.hidden = !guide.home;
+  if (guide.home) {
+    home.dataset.x = guide.home.x;
+    home.dataset.y = guide.home.y;
+    home.querySelector("i").style.transform = `rotate(${Math.atan2(guide.home.y, guide.home.x)}rad)`;
+  }
   const canvas = $("coverage-map"),
     ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const w = canvas.width,
     h = canvas.height;
   guide.tiles?.forEach((covered, i) => {
+    const a = turnPoint({ x: (i % 9) / 9, y: Math.floor(i / 9) / 7 }, guide.displayTurn);
+    const b = turnPoint({ x: (i % 9 + 1) / 9, y: (Math.floor(i / 9) + 1) / 7 }, guide.displayTurn);
     ctx.fillStyle = covered ? "#6dd8a0" : "#303436";
-    ctx.fillRect(
-      ((i % 9) * w) / 9 + 1,
-      (Math.floor(i / 9) * h) / 7 + 1,
-      w / 9 - 2,
-      h / 7 - 2,
-    );
+    ctx.fillRect(Math.min(a.x, b.x) * w + 1, Math.min(a.y, b.y) * h + 1,
+      Math.abs(b.x - a.x) * w - 2, Math.abs(b.y - a.y) * h - 2);
   });
   if (guide.next) {
     const x = clamp(guide.next.x, 0, 1) * w,
@@ -1437,8 +1474,9 @@ function cancelScan() {
   state.pano = null;
   state.scan = false;
   state.manualCrop = false;
-  state.offset = { x: 0, y: 0 };
   $("scan-panel").hidden = true;
+  $("scan-home").hidden = true;
+  camera.analysisEnabled = true;
 }
 
 function nextFrame() {
@@ -1992,12 +2030,13 @@ function bindEvents() {
     processImage();
   });
   $("scan-capture").addEventListener("click", () => {
-    if (state.raw && state.pano)
-      updateScan(state.pano.addFrame(state.raw, state.pose, sceneBase().value));
+    capturePanorama();
+    updateScan();
   });
   $("scan-finish").addEventListener("click", () => {
     if (!state.pano) return;
     state.scan = !state.scan;
+    if (state.scan) state.pano.resumeTracking();
     updateScan();
     processImage();
     if (!state.scan && state.pano.guide().coverage < 0.98)
@@ -2246,25 +2285,17 @@ function bindGestures() {
   );
   let viewDown;
   $("view").addEventListener("pointerdown", (e) => {
-    viewDown = { x: e.clientX, y: e.clientY, offset: { ...state.offset } };
+    viewDown = { x: e.clientX, y: e.clientY };
     $("view").setPointerCapture(e.pointerId);
   });
   $("view").addEventListener("pointermove", (e) => {
-    if (!viewDown || !state.pano || state.scan || state.frozen) return;
+    if (!viewDown || !state.pano || state.scan || state.frozen || currentPose()) return;
     const rect = $("view").getBoundingClientRect();
     state.manualCrop = true;
-    state.offset = {
-      x: clamp(
-        viewDown.offset.x - ((e.clientX - viewDown.x) / rect.width) * 2,
-        -1,
-        1,
-      ),
-      y: clamp(
-        viewDown.offset.y - ((e.clientY - viewDown.y) / rect.height) * 2,
-        -1,
-        1,
-      ),
-    };
+    state.pano.pan(-2 * (e.clientX - viewDown.x) / rect.width,
+      -2 * (e.clientY - viewDown.y) / rect.height, displayTurn());
+    viewDown.x = e.clientX;
+    viewDown.y = e.clientY;
     updateScan();
     processImage();
   });

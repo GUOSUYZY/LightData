@@ -38,6 +38,8 @@ jobs:
           LIGHTDATA_TEST_GL: '1'
       - run: npm run test:browser
         working-directory: web
+      - run: npm run test:panorama-browser
+        working-directory: web
       - name: Assemble static site
         run: |
           mkdir -p public/data

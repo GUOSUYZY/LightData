@@ -134,7 +134,7 @@ export function meter(hist, response = defaultResponse) {
     sum += hist[i] * 2 ** response[clamp(i, lo, hi)];
     count += hist[i];
   }
-  return Math.log2(Math.max(1e-8, sum / Math.max(1, count)));
+  return count ? Math.log2(Math.max(1e-8, sum / count)) : NaN;
 }
 
 export function spot(
@@ -145,6 +145,9 @@ export function spot(
   cameraEv = 0,
 ) {
   const { width, height, data } = imageData;
+  const center = (clamp(Math.floor(y * height), 0, height - 1) * width +
+    clamp(Math.floor(x * width), 0, width - 1)) * 4;
+  if (!data[center + 3]) return NaN;
   let sum = 0,
     count = 0;
   for (let dy = -2; dy <= 2; dy++)

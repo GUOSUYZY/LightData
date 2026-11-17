@@ -1,6 +1,11 @@
 // Source strings stay in Chinese so product wording remains searchable in the UI code.
 // Add exact strings here and numeric/variable messages to PATTERNS below.
 export const MESSAGES = {
+  "回到拼图中心": "Return to panorama center",
+  "中心已确认。移向黄圈，停稳后自动采集，保持画面重叠。": "Center set. Move toward the yellow circle, keep overlap, then hold still to capture automatically.",
+  "二次构图 · 转动手机": "Reframe · Turn the phone",
+  "二次构图 · 图像跟踪或拖动画面": "Reframe · Image tracking or drag",
+  "未采集区域 · 无有效测光": "Uncaptured area · No valid reading",
   "查看等效焦距资料": "Equivalent focal length source",
   "正在载入 LUT": "Loading LUT", "LUT 预览": "LUT preview", "亮度模拟 · 无 LUT": "Exposure simulation · no LUT",
   "LightData · 取景与测光": "LightData · Viewfinder & Light Meter",
@@ -222,6 +227,8 @@ export const UNIT_PATTERNS = [
 
 // Shared phrases used inside composed status messages and data-source descriptions.
 export const PHRASES = {
+  "请停稳 350 毫秒": "Hold still for 350 ms",
+  "已停稳": "Steady",
   "亮端非实测饱和": "the bright endpoint is not a measured saturation limit",
   "中灰假设 H=10/ISO lx·s": "Middle gray assumes H=10/ISO lx·s",
   "界限取图内两端各收0.10D": "limits inset 0.10 D from both chart ends",

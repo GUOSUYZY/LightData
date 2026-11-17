@@ -343,6 +343,29 @@ button.selected:hover,
   display: block;
   touch-action: none;
 }
+body:has(#scan-panel:not([hidden])) #image-frame {
+  background: #000;
+}
+#scan-home {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 24px);
+  padding: 7px 10px;
+  color: var(--amber);
+  background: #101112db;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+#scan-home i {
+  display: inline-block;
+  font: normal 24px/1 sans-serif;
+}
 #corners {
   position: absolute;
   inset: 0;

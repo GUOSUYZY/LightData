@@ -117,6 +117,37 @@ function imageData(data, width, height) {
 function validPose(pose) {
   return pose?.length === 9 && Array.from(pose).every(Number.isFinite);
 }
+function moved(a, b, degrees) {
+  return a.reduce((sum, v, i) => sum + v * b[i], 0) <
+    1 + 2 * Math.cos(degrees * Math.PI / 180);
+}
+export function turnPoint(point, degrees = 0) {
+  if (!point) return null;
+  switch ((degrees % 360 + 360) % 360) {
+    case 90: return { x: 1 - point.y, y: point.x };
+    case 180: return { x: 1 - point.x, y: 1 - point.y };
+    case 270: return { x: point.y, y: 1 - point.x };
+    default: return { ...point };
+  }
+}
+/** Normalize a browser-rotated video frame to the axes used at confirmation. */
+export function turnFrame(frame, degrees = 0) {
+  const turn = (degrees % 360 + 360) % 360;
+  if (!turn) return frame;
+  const transpose = turn === 90 || turn === 270;
+  const width = transpose ? frame.height : frame.width;
+  const height = transpose ? frame.width : frame.height;
+  const data = new Uint8ClampedArray(frame.data.length);
+  const input = new Uint32Array(frame.data.buffer, frame.data.byteOffset, frame.width * frame.height);
+  const output = new Uint32Array(data.buffer);
+  for (let y = 0; y < frame.height; y++)
+    for (let x = 0; x < frame.width; x++) {
+      const dx = turn === 90 ? frame.height - 1 - y : turn === 180 ? frame.width - 1 - x : y;
+      const dy = turn === 90 ? x : turn === 180 ? frame.height - 1 - y : frame.width - 1 - x;
+      output[dy * width + dx] = input[y * frame.width + x];
+    }
+  return imageData(data, width, height);
+}
 function validField(field) {
   return (
     field &&
@@ -218,6 +249,17 @@ class TrackingImage {
       Math.min(width, height) < 16
     )
       return null;
+    // An unchanged low-texture center still permits the first stable capture.
+    // It contributes no motion and therefore cannot grow the atlas on its own.
+    let difference = 0, total = 0, squared = 0;
+    for (let i = 0; i < data.length; i++) {
+      difference += Math.abs(data[i] - next.data[i]);
+      total += data[i];
+      squared += data[i] * data[i];
+    }
+    if (difference < data.length * .01 || (difference < data.length * 1.2 &&
+        squared / data.length - (total / data.length) ** 2 < 9))
+      return { matrix: [...IDENTITY], confidence: 1 };
     const fx = width / (2 * field.x),
       fy = height / (2 * field.y);
     const step = Math.max(2, Math.floor(Math.min(width, height) / 14));
@@ -333,11 +375,19 @@ export class Panorama {
     this.captures = 0;
     this.cameraEV = null;
     this.orientation = [...IDENTITY];
-    this.previousSensor = null;
+    this.sensorOrigin = null;
+    this.originPose = [...IDENTITY];
     this.reference = null;
     this.needsOverlap = false;
-    this.lastSamplePose = null;
+    this.lastAttempt = null;
     this.lastRegistration = null;
+    this.anchor = null;
+    this.lastTime = null;
+    this.lastTrackTime = null;
+    this.settling = true;
+    this.disconnected = false;
+    this.views = new Map();
+    this.refreshTiles();
   }
   get coverage() {
     return this.count / (this.width * this.height);
@@ -347,10 +397,19 @@ export class Panorama {
   }
   setCenter(pose = null) {
     this.orientation = [...IDENTITY];
-    this.previousSensor = validPose(pose) ? Array.from(pose) : null;
+    this.originPose = [...IDENTITY];
+    this.sensorOrigin = validPose(pose) ? Array.from(pose) : null;
+    this.reference = null;
+    this.anchor = null;
+    this.lastTime = this.lastTrackTime = null;
+    this.views.clear();
   }
   resumeTracking() {
-    this.previousSensor = null;
+    this.sensorOrigin = null;
+    this.reference = null;
+    this.anchor = null;
+    this.lastTime = this.lastTrackTime = null;
+    this.settling = true;
   }
 
   gains(delta) {
@@ -495,6 +554,28 @@ export class Panorama {
       frame.width,
       frame.height,
     );
+    // A sensor can jump to a disconnected direction. Require real geometric
+    // overlap even when texture is insufficient for the residual registration.
+    if (this.count) {
+      let overlap = false;
+      const step = Math.max(1, Math.floor(Math.min(this.width, this.height) / 64));
+      for (let y = 0; y < this.height && !overlap; y += step)
+        for (let x = 0; x < this.width; x += step) {
+          if (!this.pixels[(y * this.width + x) * 4 + 3]) continue;
+          const p = projection.project(this.xs[x], this.ys[y]);
+          if (p && p[0] >= frame.width * .03 && p[0] < frame.width * .97 &&
+              p[1] >= frame.height * .03 && p[1] < frame.height * .97 &&
+              frame.data[(Math.floor(p[1]) * frame.width + Math.floor(p[0])) * 4 + 3]) {
+            overlap = true;
+            break;
+          }
+        }
+      if (!overlap) {
+        this.disconnected = true;
+        return false;
+      }
+    }
+    this.disconnected = false;
     const gain = this.gains(
       Number.isFinite(cameraEV) && Number.isFinite(this.cameraEV)
         ? cameraEV - this.cameraEV
@@ -527,238 +608,205 @@ export class Panorama {
         this.pixels[destination + 3] = 255;
         this.count++;
       }
-    if (this.count > before) this.captures++;
+    if (this.count > before) {
+      this.captures++;
+      this.views.clear();
+      this.refreshTiles();
+    }
     return this.count > before;
   }
 
-  addFrame(frame, pose = null, cameraEV = null) {
-    if (!frame?.data || frame.data.length !== frame.width * frame.height * 4)
-      return { ...this.guide(), accepted: false, reason: "无效画面" };
-    if (
-      this.reference &&
-      Number.isFinite(this.cameraEV) &&
-      !Number.isFinite(cameraEV)
-    )
-      return {
-        ...this.guide(),
-        accepted: false,
-        reason: "该帧缺少曝光参数，请恢复采集曝光或重新开始",
-      };
-    const image = new TrackingImage(frame);
-    const sensor = validPose(pose) ? Array.from(pose) : null;
-    const inertial =
-      sensor && this.previousSensor
-        ? relative(this.previousSensor, sensor)
-        : null;
-    const stationarySensor =
-      inertial && inertial[0] + inertial[4] + inertial[8] > 2.999995;
-    const visual =
-      this.reference && (!inertial || stationarySensor)
-        ? this.reference.motionTo(image, this.source)
-        : null;
-    this.needsOverlap = !!this.reference && !inertial && !visual;
-    if (this.needsOverlap)
-      return {
-        ...this.guide(),
-        accepted: false,
-        reason: "画面缺少可靠重叠，请缓慢移回已采集区域",
-      };
-    const rotation = visual?.matrix || inertial;
-    if (rotation) this.orientation = multiply(this.orientation, rotation);
-    this.reference = image;
-    this.previousSensor = sensor;
-    if (this.captures === 0)
-      this.cameraEV = Number.isFinite(cameraEV) ? cameraEV : null;
-    const change = this.lastSamplePose
-      ? relative(this.lastSamplePose, this.orientation)
-      : null;
-    let accepted = false;
-    if (
-      !this.ready &&
-      (!change || change[0] + change[4] + change[8] < 2.99992)
-    ) {
-      accepted = this.writeFrame(frame, cameraEV);
-      this.lastSamplePose = [...this.orientation];
-    }
-    return {
-      ...this.guide(),
-      accepted,
-      registered: this.lastRegistration?.matched || false,
-    };
+  orientationFor(pose = null) {
+    return validPose(pose) && this.sensorOrigin
+      ? multiply(this.originPose, relative(this.sensorOrigin, pose))
+      : this.orientation;
   }
 
-  guide() {
-    const r = this.orientation,
-      z = Math.max(0.001, r[8]);
-    const aim = {
-      x: 0.5 - (0.5 * r[2]) / (this.bounds.x * z),
-      y: 0.5 + (0.5 * r[5]) / (this.bounds.y * z),
-    };
-    let next = null,
-      closest = Infinity;
-    const tiles = [];
-    for (let row = 0; row < 7; row++)
-      for (let col = 0; col < 9; col++) {
-        let covered = 0,
-          count = 0,
-          first = null;
-        const left = Math.ceil((this.width * col) / 9),
-          right = Math.ceil((this.width * (col + 1)) / 9);
-        const top = Math.ceil((this.height * row) / 7),
-          bottom = Math.ceil((this.height * (row + 1)) / 7);
-        for (let y = top; y < bottom; y++)
-          for (let x = left; x < right; x++) {
-            count++;
-            if (this.pixels[(y * this.width + x) * 4 + 3]) covered++;
-            else if (
-              !first ||
-              (x - (left + right) / 2) ** 2 + (y - (top + bottom) / 2) ** 2 <
-                first.distance
-            ) {
-              first = {
-                x: (x + 0.5) / this.width,
-                y: (y + 0.5) / this.height,
-                distance:
-                  (x - (left + right) / 2) ** 2 + (y - (top + bottom) / 2) ** 2,
-              };
-            }
-          }
-        tiles.push(covered === count);
-        if (first) {
-          const score = Math.hypot(
-            (first.x - aim.x) * this.bounds.x,
-            (first.y - aim.y) * this.bounds.y,
-          );
-          if (score < closest) {
-            closest = score;
-            next = { x: first.x, y: first.y };
-          }
+  /** Sensor updates do no image readback. Only a stable, new direction decodes
+   * a keyframe. Without sensors, a throttled thumbnail supplies visual motion. */
+  capture({ pose = null, time = performance.now(), frame, trackingFrame = frame,
+      cameraEV = null, collect = true } = {}) {
+    let decoded;
+    const image = () => decoded ??= typeof frame === "function" ? frame() : frame;
+    this.needsOverlap = false;
+    let reason = "", accepted = false;
+    if (validPose(pose)) {
+      if (!this.sensorOrigin) {
+        this.originPose = [...this.orientation];
+        this.sensorOrigin = Array.from(pose);
+        this.anchor = null;
+      }
+      this.orientation = this.orientationFor(pose);
+      this.reference = null;
+      this.lastTrackTime = null;
+    } else {
+      if (this.sensorOrigin) {
+        this.sensorOrigin = null;
+        this.reference = null;
+        this.anchor = null;
+      }
+      if (this.lastTrackTime == null || time - this.lastTrackTime >= 140 || time < this.lastTrackTime) {
+        this.lastTrackTime = time;
+        const pixels = typeof trackingFrame === "function" ? trackingFrame() : trackingFrame;
+        if (pixels?.data) {
+          const next = new TrackingImage(pixels);
+          const delta = this.reference?.motionTo(next, this.source);
+          this.needsOverlap = !!this.reference && !delta;
+          if (delta) this.orientation = multiply(this.orientation, delta.matrix);
+          if (!this.needsOverlap) this.reference = next;
+        } else this.needsOverlap = true;
+        this.trackingLost = this.needsOverlap;
+      } else this.needsOverlap = this.trackingLost || false;
+    }
+    if (this.needsOverlap || !this.anchor || this.lastTime == null ||
+        time < this.lastTime || time - this.lastTime > 500 ||
+        moved(this.anchor, this.orientation, .45)) {
+      this.anchor = [...this.orientation];
+      this.since = time;
+    }
+    this.lastTime = time;
+    this.settling = time - this.since < 350;
+    if (collect && !this.ready && !this.needsOverlap && !this.settling &&
+        (!this.lastAttempt || moved(this.lastAttempt, this.orientation, 1))) {
+      if (this.count && Number.isFinite(this.cameraEV) && !Number.isFinite(cameraEV)) {
+        reason = "该帧缺少曝光参数，请恢复采集曝光或重新开始";
+      } else {
+        const pixels = image();
+        if (!pixels?.data || pixels.data.length !== pixels.width * pixels.height * 4) {
+          reason = "无效画面";
+        } else {
+          if (!this.captures) this.cameraEV = Number.isFinite(cameraEV) ? cameraEV : null;
+          accepted = this.writeFrame(pixels, cameraEV);
+          this.lastAttempt = [...this.orientation];
         }
       }
-    return {
-      coverage: this.coverage,
-      ready: this.ready,
-      captures: this.captures,
-      needsOverlap: this.needsOverlap,
-      aim,
-      next,
-      tiles,
-    };
+    }
+    return { ...this.guide(), accepted, reason,
+      registered: accepted && (this.lastRegistration?.matched || false) };
+  }
+
+  addFrame(frame, pose = null, cameraEV = null, time = performance.now()) {
+    return this.capture({ frame, pose, cameraEV, time });
+  }
+
+  /** Dragging is a fallback relative to the current view, never to atlas center. */
+  pan(dx, dy, displayTurn = 0) {
+    const p = turnPoint({ x: .5 + dx / 2, y: .5 + dy / 2 }, -displayTurn);
+    this.orientation = multiply(this.orientation,
+      yawPitch(-(2 * p.x - 1) * Math.atan(this.target.x),
+               -(2 * p.y - 1) * Math.atan(this.target.y)));
+    this.resumeTracking();
+  }
+
+  // Missing representatives are rebuilt only after an atlas write, not at video rate.
+  refreshTiles() {
+    this.tiles = [];
+    this.holes = [];
+    for (let row = 0; row < 7; row++)
+      for (let col = 0; col < 9; col++) {
+        const left = Math.ceil(this.width * col / 9), right = Math.ceil(this.width * (col + 1) / 9);
+        const top = Math.ceil(this.height * row / 7), bottom = Math.ceil(this.height * (row + 1) / 7);
+        let missing = null, distance = Infinity;
+        for (let y = top; y < bottom; y++)
+          for (let x = left; x < right; x++) {
+            if (this.pixels[(y * this.width + x) * 4 + 3]) continue;
+            const d = (x - (left + right) / 2) ** 2 + (y - (top + bottom) / 2) ** 2;
+            if (d < distance) {
+              distance = d;
+              missing = { x: (x + .5) / this.width, y: (y + .5) / this.height };
+            }
+          }
+        this.tiles.push(!missing);
+        if (missing) this.holes.push(missing);
+      }
+  }
+
+  homeDirection(orientation = this.orientation) {
+    const position = new Projection(orientation, this.bounds, this.width, this.height).project(0, 0);
+    if (position && position[0] >= 0 && position[1] >= 0 &&
+        position[0] < this.width && position[1] < this.height &&
+        this.pixels[(Math.floor(position[1]) * this.width + Math.floor(position[0])) * 4 + 3]) return null;
+    const r = relative(orientation, IDENTITY);
+    let x = -r[2], y = r[5];
+    if (Math.hypot(x, y) < 1e-6) {
+      if (r[8] > 0) return null; // No first frame yet; the user is still at center.
+      x = 1; y = 0; // The antipode has no unique shortest direction.
+    }
+    const size = Math.hypot(x, y);
+    return { x: x / size, y: y / size };
+  }
+
+  guide(displayTurn = 0, pose = null) {
+    const r = this.orientationFor(pose), z = Math.max(.001, r[8]);
+    const aim = { x: .5 - .5 * r[2] / (this.bounds.x * z),
+                  y: .5 + .5 * r[5] / (this.bounds.y * z) };
+    let next = null, closest = Infinity;
+    for (const hole of this.holes) {
+      const distance = Math.hypot((hole.x - aim.x) * this.bounds.x, (hole.y - aim.y) * this.bounds.y);
+      if (distance < closest) { closest = distance; next = hole; }
+    }
+    const home = this.homeDirection(r);
+    const turnedHome = home && turnPoint({ x: .5 + home.x / 2, y: .5 + home.y / 2 }, displayTurn);
+    return { coverage: this.coverage, ready: this.ready, captures: this.captures,
+      needsOverlap: this.needsOverlap || this.disconnected,
+      settling: this.settling, aim: turnPoint(aim, displayTurn), next: turnPoint(next, displayTurn),
+      tiles: this.tiles, displayTurn,
+      home: turnedHome && { x: 2 * turnedHome.x - 1, y: 2 * turnedHome.y - 1 } };
   }
 
   atlas() {
     return imageData(this.pixels.slice(), this.width, this.height);
   }
 
-  limitedPose(pose) {
-    const fits = (matrix) => {
-      for (const x of [-this.target.x, this.target.x])
-        for (const y of [-this.target.y, this.target.y]) {
-          const z = matrix[8] - matrix[6] * x - matrix[7] * y;
-          if (
-            z <= 0 ||
-            Math.abs(matrix[0] * x + matrix[1] * y - matrix[2]) >
-              this.bounds.x * z ||
-            Math.abs(matrix[3] * x + matrix[4] * y - matrix[5]) >
-              this.bounds.y * z
-          )
-            return false;
-        }
-      return true;
-    };
-    if (fits(pose)) return pose;
-    const angle = Math.acos(
-      clamp((pose[0] + pose[4] + pose[8] - 1) / 2, -1, 1),
-    );
-    if (angle < 1e-5 || Math.abs(Math.sin(angle)) < 1e-5) return IDENTITY;
-    const divisor = 2 * Math.sin(angle);
-    const x = (pose[7] - pose[5]) / divisor,
-      y = (pose[2] - pose[6]) / divisor,
-      z = (pose[3] - pose[1]) / divisor;
-    const rotate = (a) => {
-      const c = Math.cos(a),
-        s = Math.sin(a),
-        t = 1 - c;
-      return [
-        c + t * x * x,
-        t * x * y - s * z,
-        t * x * z + s * y,
-        t * x * y + s * z,
-        c + t * y * y,
-        t * y * z - s * x,
-        t * x * z - s * y,
-        t * y * z + s * x,
-        c + t * z * z,
-      ];
-    };
-    let low = 0,
-      high = angle;
-    for (let i = 0; i < 15; i++) {
-      const mid = (low + high) / 2;
-      if (fits(rotate(mid))) low = mid;
-      else high = mid;
-    }
-    return rotate(low);
-  }
-
   get nativeViewEdge() {
     return Math.max(1, Math.round(Math.max(this.width, this.height) / MARGIN));
   }
 
-  /** Reframe only within the acquired 15% margin. Offset x/y are normalized -1…1. */
-  view(pose = null, offset = null, maxEdge = Infinity) {
-    let orientation = this.orientation;
-    if (validPose(pose) && this.previousSensor)
-      orientation = multiply(
-        this.orientation,
-        relative(this.previousSensor, pose),
-      );
-    const ox = clamp(Number(offset?.x) || 0, -1, 1),
-      oy = clamp(Number(offset?.y) || 0, -1, 1);
-    if (offset)
-      orientation = yawPitch(
-        -Math.atan(this.target.x * (MARGIN - 1)) * ox,
-        -Math.atan(this.target.y * (MARGIN - 1)) * oy,
-      );
-    const matrix = this.limitedPose(orientation);
-    const nativeWidth = Math.max(1, Math.round(this.width / MARGIN)),
-      nativeHeight = Math.max(1, Math.round(this.height / MARGIN));
+  /** Actual orientation determines the crop. Unobserved / behind-camera rays
+   * remain RGBA zero for display black and exclusion from all measurements. */
+  view(pose = null, offset = null, maxEdge = Infinity, displayTurn = 0) {
+    let matrix = this.orientationFor(pose);
+    if (offset) matrix = multiply(matrix, yawPitch(
+      -(Number(offset.x) || 0) * Math.atan(this.target.x),
+      -(Number(offset.y) || 0) * Math.atan(this.target.y)));
+    const nativeWidth = Math.max(1, Math.round(this.width / MARGIN));
+    const nativeHeight = Math.max(1, Math.round(this.height / MARGIN));
     const scale = Math.min(1, maxEdge / Math.max(nativeWidth, nativeHeight));
-    const width = Math.max(1, Math.round(nativeWidth * scale)),
-      height = Math.max(1, Math.round(nativeHeight * scale));
-    const projection = new Projection(
-      matrix,
-      this.bounds,
-      this.width,
-      this.height,
-    );
-    const data = new Uint8ClampedArray(width * height * 4);
-    let missing = 0;
-    for (let y = 0; y < height; y++)
-      for (let x = 0; x < width; x++) {
-        const xx = ((2 * (x + 0.5)) / width - 1) * this.target.x;
-        const yy = (1 - (2 * (y + 0.5)) / height) * this.target.y;
-        const position = projection.project(xx, yy);
-        if (!position) {
-          missing++;
-          continue;
-        }
-        const u = clamp(Math.floor(position[0]), 0, this.width - 1),
-          v = clamp(Math.floor(position[1]), 0, this.height - 1);
-        const index = (v * this.width + u) * 4,
-          output = (y * width + x) * 4;
-        data[output] = this.pixels[index];
-        data[output + 1] = this.pixels[index + 1];
-        data[output + 2] = this.pixels[index + 2];
-        data[output + 3] = this.pixels[index + 3];
-        if (!data[output + 3]) missing++;
+    const baseWidth = Math.max(1, Math.round(nativeWidth * scale));
+    const baseHeight = Math.max(1, Math.round(nativeHeight * scale));
+    const turn = (displayTurn % 360 + 360) % 360;
+    const key = `${baseWidth}x${baseHeight}:${turn}`;
+    const cached = this.views.get(key);
+    if (cached && !moved(cached.matrix, matrix, .06)) return cached.result;
+    const transpose = turn === 90 || turn === 270;
+    const width = transpose ? baseHeight : baseWidth, height = transpose ? baseWidth : baseHeight;
+    const data = new Uint8ClampedArray(width * height * 4), output = new Uint32Array(data.buffer);
+    const input = new Uint32Array(this.pixels.buffer);
+    const fx = this.width / (2 * this.bounds.x), fy = this.height / (2 * this.bounds.y);
+    const step = 2 * this.target.x / baseWidth, left = .5 * step - this.target.x;
+    const stepU = matrix[0] * step * fx, stepV = -matrix[3] * step * fy, stepZ = -matrix[6] * step;
+    let valid = 0;
+    for (let y = 0; y < baseHeight; y++) {
+      const yy = (1 - 2 * (y + .5) / baseHeight) * this.target.y;
+      let z = matrix[8] - matrix[6] * left - matrix[7] * yy;
+      let u = (matrix[0] * left + matrix[1] * yy - matrix[2]) * fx;
+      let v = -(matrix[3] * left + matrix[4] * yy - matrix[5]) * fy;
+      for (let x = 0; x < baseWidth; x++, z += stepZ, u += stepU, v += stepV) {
+        if (z <= .001) continue;
+        const ax = this.width * .5 + u / z, ay = this.height * .5 + v / z;
+        if (ax < 0 || ay < 0 || ax >= this.width || ay >= this.height) continue;
+        const index = Math.floor(ay) * this.width + Math.floor(ax);
+        if (!this.pixels[index * 4 + 3]) continue;
+        const dx = turn === 90 ? baseHeight - 1 - y : turn === 180 ? baseWidth - 1 - x : turn === 270 ? y : x;
+        const dy = turn === 90 ? x : turn === 180 ? baseHeight - 1 - y : turn === 270 ? baseWidth - 1 - x : y;
+        output[dy * width + dx] = input[index];
+        valid++;
       }
-    return {
-      image: imageData(data, width, height),
-      cameraEV: this.cameraEV,
-      coverage: 1 - missing / (width * height),
-      missing: missing > 0,
-      complete: this.ready,
-    };
+    }
+    const result = { image: imageData(data, width, height), cameraEV: this.cameraEV,
+      coverage: valid / (width * height), missing: valid < width * height, complete: this.ready };
+    if (this.views.size > 5) this.views.clear();
+    this.views.set(key, { matrix: [...matrix], result });
+    return result;
   }
 }

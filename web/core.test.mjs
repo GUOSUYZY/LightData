@@ -309,3 +309,15 @@ test("custom JSON roundtrip is Android compatible, UUID merge is stable and inva
   assert.throws(() => CustomPresets.merge([preset], [preset, preset]));
   assert.deepEqual(preset.iso, 12.5);
 });
+
+
+test("unobserved pixels give no meter value, including a missing spot beside valid samples", () => {
+  const empty = { width: 3, height: 3, data: new Uint8ClampedArray(36) };
+  assert.ok(Number.isNaN(meter(histogram(empty))));
+  const partlyObserved = { ...empty, data: new Uint8ClampedArray(36).fill(128) };
+  for (let i = 3; i < 36; i += 4) partlyObserved.data[i] = 255;
+  partlyObserved.data[4 * 4 + 3] = 0;
+  assert.ok(Number.isFinite(meter(histogram(partlyObserved))));
+  assert.ok(Number.isNaN(spot(partlyObserved, .5, .5)));
+  assert.ok(Number.isFinite(spot(partlyObserved, 0, 0)));
+});

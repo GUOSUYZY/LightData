@@ -81,6 +81,9 @@ export class Camera extends EventTarget {
     this.settings = {};
     this.capabilities = {};
     this.paused = false;
+    // Pose-driven capture can keep preview events without CPU pixel readbacks.
+    // Explicit captureAnalysis() remains available for visual tracking on demand.
+    this.analysisEnabled = true;
     this.motion = new FrameMotion();
   }
 
@@ -171,7 +174,7 @@ export class Camera extends EventTarget {
       this.inFrame = true;
       this.previewKey = null;
       this.previewPixels = null;
-      if (this.lastFrame == null || time - this.lastFrame >= 140) {
+      if (this.analysisEnabled && (this.lastFrame == null || time - this.lastFrame >= 140)) {
         const image = this.captureAnalysis();
         if (image) {
           this.lastFrame = time;
@@ -190,10 +193,11 @@ export class Camera extends EventTarget {
     }
   }
 
-  captureAnalysis() {
+  captureAnalysis(maxEdge = 640) {
     const { videoWidth: width, videoHeight: height } = this.video;
-    if (!this.stream || this.video.readyState < 2 || !width || !height) return null;
-    const scale = Math.min(1, 640 / Math.max(width, height));
+    if (!this.stream || this.video.readyState < 2 || !width || !height ||
+        !Number.isFinite(maxEdge) || maxEdge <= 0) return null;
+    const scale = Math.min(1, maxEdge / Math.max(width, height));
     const w = Math.max(1, Math.round(width * scale));
     const h = Math.max(1, Math.round(height * scale));
     if (this.canvas.width !== w || this.canvas.height !== h) {
