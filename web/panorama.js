@@ -1,3 +1,4 @@
+import { t } from "./i18n.js";
 // Rectilinear atlas. Geometry uses rays (x, y, -1) and camera-to-world matrices.
 const IDENTITY = Object.freeze([1, 0, 0, 0, 1, 0, 0, 0, 1]);
 const MARGIN = 1.15;
@@ -129,7 +130,7 @@ function validField(field) {
 /** Direct source crop, retaining unobserved target areas as transparent pixels. */
 export function cropFrame(frame, source, target, maxEdge = 720) {
   if (!validField(source) || !validField(target))
-    throw new Error("需要有效的相机和目标视角");
+    throw new Error(t("需要有效的相机和目标视角"));
   const wide = (frame.width * target.x) / source.x;
   const high = (frame.height * target.y) / source.y;
   const scale = Math.min(1, maxEdge / Math.max(wide, high));
@@ -308,7 +309,7 @@ export class Panorama {
     response = defaultResponse,
   }) {
     if (!validField(source) || !validField(target))
-      throw new Error("拼接需要有效的相机和目标视角");
+      throw new Error(t("拼接需要有效的相机和目标视角"));
     this.target = { ...target };
     this.source = { ...source };
     this.bounds = { x: target.x * MARGIN, y: target.y * MARGIN };

@@ -65,7 +65,7 @@ test("Client Hints model takes precedence; rejected hints fall back without bloc
 
 test("model matching is exact, anchored and rejects ambiguous catalog entries", () => {
   assert.equal(matchDevice(devices, { model: "iphone" }), null);
-  assert.equal(matchDevice(devices, { model: "Xiaomi 15 Pro" }), null);
+  assert.equal(matchDevice(devices, { model: "Xiaomi 15 unknown" }), null);
   assert.equal(matchDevice(devices, { model: "SM-F9660-unknown" }), null);
   assert.equal(
     matchDevice(devices, { model: "SAMSUNG SM-F9660" }).id,
@@ -73,7 +73,7 @@ test("model matching is exact, anchored and rejects ambiguous catalog entries", 
   );
   assert.equal(matchDevice(devices, { model: "Xiaomi 15" }).id, "xiaomi-15");
   assert.equal(
-    matchDevice([...devices, devices[0]], { model: "SM-F9660" }),
+    matchDevice([...devices, devices.find((d) => d.id === "samsung-fold7")], { model: "SM-F9660" }),
     null,
   );
 });
@@ -91,6 +91,8 @@ test("official Android hardware codes and shared Apple variants match the intend
     ["V2413", "vivo-x200-pro"],
     ["V2405A", "vivo-x200-pro"],
     ["V2405DA", "vivo-x200-pro"],
+    ["HUAWEI HLS-AL00", "huawei-mate90"],
+    ["HONOR SDY-AN00", "honor-70-pro"],
     ["iPhone 16 Pro Max", "apple-iphone-16-pro"],
     ["iPhone 14 Plus", "apple-iphone-14"],
   ]) {
@@ -114,8 +116,7 @@ test("lens matching uses explicit labels and never opaque camera order", () => {
 });
 
 test("unspecified manufacturer FOV is never silently converted to a focal length", () => {
-  const fold = devices.find((d) => d.id === "samsung-fold7");
-  assert.equal(lensEquivalent(fold.lenses[0]), null);
+  assert.equal(lensEquivalent({ manufacturerFov: 85, fovAxis: "unspecified" }), null);
   const equivalent = lensEquivalent({ diagonalFov: 90 });
   near(equivalent, Math.hypot(36, 24) / 2);
   assert.equal(lensEquivalent({ equivalentMm: 24 }), 24);
@@ -226,10 +227,12 @@ test("catalog contains unique, sourced, positive optical entries, with compilabl
       lenses.add(lens.id);
       assert.ok(lens.aperture >= 0.5 && lens.aperture <= 64);
       assert.equal(new URL(lens.source || device.source).protocol, "https:");
-      assert.ok(
-        lensEquivalent(lens) ||
-          (lens.manufacturerFov > 0 && lens.fovAxis === "unspecified"),
-      );
+      assert.ok(lensEquivalent(lens) || lens.coverageUnknown === true ||
+        (lens.manufacturerFov > 0 && lens.fovAxis === "unspecified"),
+        `${device.id}/${lens.id}: unknown coverage must be explicit`);
+      if (!lensEquivalent(lens)) {
+        assert.ok(lens.note && lens.noteEn, `${device.id}/${lens.id}: manual setup explanation`);
+      }
       if (lens.equivalentMm) {
         for (const [w, h] of [
           [1280, 720],
@@ -244,5 +247,51 @@ test("catalog contains unique, sourced, positive optical entries, with compilabl
         }
       }
     }
+  }
+});
+
+test("catalog eligibility records launch prices and preserves legacy support without guessing models", () => {
+  const brands = new Set();
+  for (const device of devices) {
+    brands.add(device.brand);
+    assert.equal(matchDevice(devices, { model: device.name })?.id, device.id,
+      `${device.name}: ambiguous display name`);
+    assert.ok(device.msrpCny > 4000, `${device.id}: qualifying China launch MSRP`);
+    assert.ok(device.priceNote, `${device.id}: qualifying configuration`);
+    assert.equal(new URL(device.priceSource).protocol, "https:");
+    assert.ok(device.legacy || (device.launchYear >= 2022 && device.launchYear <= 2026), device.id);
+    if (device.modelPatterns?.length) assert.ok(device.modelSources?.length, device.id);
+  }
+  assert.deepEqual([...brands].sort(), ["Apple", "HONOR", "HUAWEI", "OPPO", "Samsung", "Xiaomi", "vivo"].sort());
+  for (const model of ["iPhone", "HUAWEI", "HONOR", "Android", "K"]) {
+    assert.equal(matchDevice(devices, { model }), null);
+  }
+});
+
+test("Samsung presets fill documented equivalents while unverified lenses stay manual", () => {
+  const fold = matchDevice(devices, { model: "SM-F9660" });
+  assert.deepEqual(fold.lenses.map(lensEquivalent), [24, 13, 67]);
+  assert.ok(fold.lenses.every((lens) => new URL(lens.equivalentSource).protocol === "https:"));
+  for (const id of ["samsung-s24-ultra", "samsung-s25-ultra"]) {
+    const savedLensIds = devices.find((d) => d.id === id).lenses.map((lens) => lens.id);
+    assert.ok(savedLensIds.includes("telephoto-3x") && savedLensIds.includes("telephoto-5x"), id);
+  }
+  const unknown = devices.flatMap((device) => device.lenses).filter((lens) => !lensEquivalent(lens));
+  assert.ok(unknown.length > 0);
+  for (const lens of unknown) {
+    assert.equal(makeOptics({ mode: "equivalent", equivalentMm: lensEquivalent(lens), aperture: lens.aperture }), null);
+    assert.ok(lens.noteEn, lens.id);
+  }
+});
+
+test("brand-prefixed Huawei and Honor codes match only when the catalog gives a unique optical model", () => {
+  // These actual codes are shared by variants with different optical paths.
+  for (const code of ["SGT-AL10", "HUAWEI SGT-AL10", "ALN-AL10", "HONOR MEP-AN00"]) {
+    assert.equal(matchDevice(devices, { model: code }), null, code);
+  }
+  for (const [brand, code] of [["HUAWEI", "NEW-AL00"], ["HONOR", "NEW-AN00"]]) {
+    const fixtures = [{ id: brand, name: brand + " Example", modelPatterns: ["^" + code + "$"], lenses: [] }];
+    assert.equal(matchDevice(fixtures, { model: brand + " " + code })?.id, brand);
+    assert.equal(matchDevice([...fixtures, { ...fixtures[0], id: brand + " Other" }], { model: code }), null);
   }
 });

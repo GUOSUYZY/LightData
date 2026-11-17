@@ -55,12 +55,12 @@ export function matchDevice(devices, identity) {
   const model = normalize(identity?.model);
   if (!model) return null;
   const hardwareCode = identity.model.replace(
-    /^(?:samsung|xiaomi|oppo|vivo)\s+/i,
+    /^(?:samsung|huawei|honor|xiaomi|oppo|vivo)\s+/i,
     "",
   );
   const matches = devices.filter(
     (device) =>
-      [device.name, ...(device.aliases || [])].some(
+      [device.name, device.nameEn, ...(device.aliases || [])].some(
         (name) => normalize(name) === model,
       ) ||
       (device.modelPatterns || []).some((pattern) =>

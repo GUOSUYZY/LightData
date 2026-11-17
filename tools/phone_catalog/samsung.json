@@ -1,0 +1,2251 @@
+{
+  "version": 1,
+  "updated": "2026-11-17",
+  "scope": "Samsung 中国大陆 2022 年起发布且首发配置官方定价存在严格超过 4000 元的机型；报价为最低符合条件配置。",
+  "devices": [
+    {
+      "id": "samsung-s21-fe",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S21 FE",
+      "aliases": [
+        "Galaxy S21 FE",
+        "Samsung Galaxy S21 FE"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 4599,
+      "priceNote": "中国大陆首发官方定价：8GB+128GB，¥4599；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.ithome.com/0/597/802.htm",
+      "source": "https://www.samsung.com.cn/support/model/SM-G9900ZAICHC/",
+      "modelPatterns": [
+        "^SM-G9900[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.notebookcheck.net/Samsung-Galaxy-S21-FE-5G-review-The-fan-edition-smartphone-goes-into-the-next-round.598090.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/support/model/SM-G9900ZAICHC/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.notebookcheck.net/Samsung-Galaxy-S21-FE-5G-review-The-fan-edition-smartphone-goes-into-the-next-round.598090.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/support/model/SM-G9900ZAICHC/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 76,
+          "equivalentSource": "https://www.notebookcheck.net/Samsung-Galaxy-S21-FE-5G-review-The-fan-edition-smartphone-goes-into-the-next-round.598090.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/support/model/SM-G9900ZAICHC/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s22",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S22",
+      "aliases": [
+        "Galaxy S22",
+        "Samsung Galaxy S22"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 4999,
+      "priceNote": "中国大陆首发官方定价：8GB+128GB，¥4999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.ithome.com/0/604/281.htm",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s22/specs/",
+      "modelPatterns": [
+        "^SM-S9010[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://tweakers.net/reviews/9844/samsung-galaxy-s22-en-s22%2B-kleiner-is-het-nieuwe-groter.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s22/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://tweakers.net/reviews/9844/samsung-galaxy-s22-en-s22%2B-kleiner-is-het-nieuwe-groter.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s22/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 70,
+          "equivalentSource": "https://tweakers.net/reviews/9844/samsung-galaxy-s22-en-s22%2B-kleiner-is-het-nieuwe-groter.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s22/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s22-plus",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S22+",
+      "aliases": [
+        "Galaxy S22+",
+        "Samsung Galaxy S22+",
+        "Galaxy S22 Plus"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 6599,
+      "priceNote": "中国大陆首发官方定价：8GB+128GB，¥6599；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.ithome.com/0/604/281.htm",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s22/specs/",
+      "modelPatterns": [
+        "^SM-S9060[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://tweakers.net/reviews/9844/samsung-galaxy-s22-en-s22%2B-kleiner-is-het-nieuwe-groter.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s22/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://tweakers.net/reviews/9844/samsung-galaxy-s22-en-s22%2B-kleiner-is-het-nieuwe-groter.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s22/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 70,
+          "equivalentSource": "https://tweakers.net/reviews/9844/samsung-galaxy-s22-en-s22%2B-kleiner-is-het-nieuwe-groter.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s22/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s22-ultra",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S22 Ultra",
+      "aliases": [
+        "Galaxy S22 Ultra",
+        "Samsung Galaxy S22 Ultra"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 9699,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥9699；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.ithome.com/0/604/281.htm",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s22-ultra/specs/",
+      "modelPatterns": [
+        "^SM-S9080[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s22-ultra-snapdragon-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s22-ultra/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s22-ultra-snapdragon-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s22-ultra/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s22-ultra-snapdragon-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s22-ultra/specs/"
+        },
+        {
+          "id": "telephoto10",
+          "name": "潜望长焦 · 10×",
+          "nameEn": "Periscope telephoto · 10×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 4.9,
+          "equivalentMm": 230,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s22-ultra-snapdragon-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s22-ultra/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s23",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S23",
+      "aliases": [
+        "Galaxy S23",
+        "Samsung Galaxy S23"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 5199,
+      "priceNote": "中国大陆首发官方定价：8GB+128GB，¥5199；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/news/product/galaxy-s23/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s23/specs/",
+      "modelPatterns": [
+        "^SM-S9110[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.ephotozine.com/article/samsung-galaxy-s23-phone-review-36491",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s23/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.ephotozine.com/article/samsung-galaxy-s23-phone-review-36491",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s23/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.ephotozine.com/article/samsung-galaxy-s23-phone-review-36491",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s23/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s23-plus",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S23+",
+      "aliases": [
+        "Galaxy S23+",
+        "Samsung Galaxy S23+",
+        "Galaxy S23 Plus"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 6999,
+      "priceNote": "中国大陆首发官方定价：8GB+256GB，¥6999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/news/product/galaxy-s23/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s23/specs/",
+      "modelPatterns": [
+        "^SM-S9160[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.ephotozine.com/article/samsung-galaxy-s23-phone-review-36491",
+          "equivalentNote": "S23/S23+ 官方相同后摄规格，采用 S23 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s23/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.ephotozine.com/article/samsung-galaxy-s23-phone-review-36491",
+          "equivalentNote": "S23/S23+ 官方相同后摄规格，采用 S23 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s23/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.ephotozine.com/article/samsung-galaxy-s23-phone-review-36491",
+          "equivalentNote": "S23/S23+ 官方相同后摄规格，采用 S23 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s23/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s23-ultra",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S23 Ultra",
+      "aliases": [
+        "Galaxy S23 Ultra",
+        "Samsung Galaxy S23 Ultra"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 8999,
+      "priceNote": "中国大陆首发官方定价：8GB+256GB，¥8999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/news/product/galaxy-s23/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s23-ultra/specs/",
+      "modelPatterns": [
+        "^SM-S9180[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.dkamera.de/news/samsung-galaxy-s23-ultra-smartphone-und-kameratest-teil-3/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s23-ultra/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dkamera.de/news/samsung-galaxy-s23-ultra-smartphone-und-kameratest-teil-3/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s23-ultra/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.dkamera.de/news/samsung-galaxy-s23-ultra-smartphone-und-kameratest-teil-3/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s23-ultra/specs/"
+        },
+        {
+          "id": "telephoto10",
+          "name": "潜望长焦 · 10×",
+          "nameEn": "Periscope telephoto · 10×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 4.9,
+          "equivalentMm": 230,
+          "equivalentSource": "https://www.dkamera.de/news/samsung-galaxy-s23-ultra-smartphone-und-kameratest-teil-3/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s23-ultra/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s23-fe",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S23 FE",
+      "aliases": [
+        "Galaxy S23 FE",
+        "Samsung Galaxy S23 FE"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 4399,
+      "priceNote": "中国大陆首发官方定价：8GB+128GB，¥4399；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://phone.cnmo.com/news/762436.html",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s/galaxy-s23-fe-mint-256gb-sm-s7110lggchc/",
+      "modelPatterns": [
+        "^SM-S7110[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.lesnumeriques.com/telephone-portable/samsung-s23-fe-p73578/test.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s/galaxy-s23-fe-mint-256gb-sm-s7110lggchc/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.lesnumeriques.com/telephone-portable/samsung-s23-fe-p73578/test.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s/galaxy-s23-fe-mint-256gb-sm-s7110lggchc/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 75,
+          "equivalentSource": "https://www.lesnumeriques.com/telephone-portable/samsung-s23-fe-p73578/test.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s/galaxy-s23-fe-mint-256gb-sm-s7110lggchc/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s24",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S24",
+      "aliases": [
+        "Galaxy S24",
+        "Samsung Galaxy S24"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 5499,
+      "priceNote": "中国大陆首发官方定价：8GB+256GB，¥5499；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.c114.com.cn/4app/3542/a1253808.html",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s24/specs/",
+      "modelPatterns": [
+        "^SM-S9210[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-s24/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s24-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s24/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s24-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s24/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s24-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s24/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s24-plus",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S24+",
+      "aliases": [
+        "Galaxy S24+",
+        "Samsung Galaxy S24+",
+        "Galaxy S24 Plus"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 6999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥6999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.c114.com.cn/4app/3542/a1253808.html",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s24/specs/",
+      "modelPatterns": [
+        "^SM-S9260[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-s24/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s24-camera-test/",
+          "equivalentNote": "S24/S24+ 官方相同后摄规格，采用 S24 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s24/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s24-camera-test/",
+          "equivalentNote": "S24/S24+ 官方相同后摄规格，采用 S24 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s24/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s24-camera-test/",
+          "equivalentNote": "S24/S24+ 官方相同后摄规格，采用 S24 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s24/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s24-ultra",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S24 Ultra",
+      "aliases": [
+        "Galaxy S24 Ultra",
+        "Samsung Galaxy S24 Ultra"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 9699,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥9699；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.c114.com.cn/4app/3542/a1253808.html",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s24-ultra/specs/",
+      "modelPatterns": [
+        "^SM-S928[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-s24-ultra/specs/",
+        "https://www.samsung.com/uk/support/model/SM-S928BZTHEUB/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s24-ultra-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s24-ultra/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s24-ultra-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s24-ultra/specs/"
+        },
+        {
+          "id": "telephoto-3x",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s24-ultra-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s24-ultra/specs/"
+        },
+        {
+          "id": "telephoto-5x",
+          "name": "长焦 · 5×",
+          "nameEn": "Telephoto · 5×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3.4,
+          "equivalentMm": 111,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s24-ultra-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s24-ultra/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s25",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S25",
+      "aliases": [
+        "Galaxy S25",
+        "Samsung Galaxy S25"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 5999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥5999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/news/product/galaxy-s25-ai/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s25/specs/",
+      "modelPatterns": [
+        "^SM-S9310[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-s25/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://amateurphotographer.com/review/samsung-galaxy-s25-review/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://amateurphotographer.com/review/samsung-galaxy-s25-review/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://amateurphotographer.com/review/samsung-galaxy-s25-review/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s25-plus",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S25+",
+      "aliases": [
+        "Galaxy S25+",
+        "Samsung Galaxy S25+",
+        "Galaxy S25 Plus"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 6999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥6999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/news/product/galaxy-s25-ai/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s25/specs/",
+      "modelPatterns": [
+        "^SM-S9360[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-s25/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://amateurphotographer.com/review/samsung-galaxy-s25-review/",
+          "equivalentNote": "S25/S25+ 官方相同后摄规格，采用 S25 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://amateurphotographer.com/review/samsung-galaxy-s25-review/",
+          "equivalentNote": "S25/S25+ 官方相同后摄规格，采用 S25 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://amateurphotographer.com/review/samsung-galaxy-s25-review/",
+          "equivalentNote": "S25/S25+ 官方相同后摄规格，采用 S25 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s25-ultra",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S25 Ultra",
+      "aliases": [
+        "Galaxy S25 Ultra",
+        "Samsung Galaxy S25 Ultra"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 9699,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥9699；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/news/product/galaxy-s25-ai/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s25-ultra/specs/",
+      "modelPatterns": [
+        "^SM-S938[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-s25-ultra/specs/",
+        "https://www.samsung.com/uk/support/model/SM-S938BZGHEUB/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.digitalcameraworld.com/tech/phones/samsung-galaxy-s25-ultra-review",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25-ultra/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.9,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.digitalcameraworld.com/tech/phones/samsung-galaxy-s25-ultra-review",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25-ultra/specs/"
+        },
+        {
+          "id": "telephoto-3x",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://www.digitalcameraworld.com/tech/phones/samsung-galaxy-s25-ultra-review",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25-ultra/specs/"
+        },
+        {
+          "id": "telephoto-5x",
+          "name": "长焦 · 5×",
+          "nameEn": "Telephoto · 5×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3.4,
+          "equivalentMm": 111,
+          "equivalentSource": "https://www.digitalcameraworld.com/tech/phones/samsung-galaxy-s25-ultra-review",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25-ultra/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s25-edge",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S25 Edge",
+      "aliases": [
+        "Galaxy S25 Edge",
+        "Samsung Galaxy S25 Edge"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 7999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥7999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/news/product/galaxy-s25-edge/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s25-edge/specs/",
+      "modelPatterns": [
+        "^SM-S9370[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-s25-edge/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.androidcentral.com/phones/samsung-galaxy/samsung-galaxy-s25-edge-review",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25-edge/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.androidcentral.com/phones/samsung-galaxy/samsung-galaxy-s25-edge-review",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s25-edge/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s26",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S26",
+      "aliases": [
+        "Galaxy S26",
+        "Samsung Galaxy S26"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 6999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥6999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.ithome.com/0/923/676.htm",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s26/specs/",
+      "modelPatterns": [
+        "^SM-S9420[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-s26/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s26-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s26/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s26-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s26/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s26-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s26/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s26-plus",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S26+",
+      "aliases": [
+        "Galaxy S26+",
+        "Samsung Galaxy S26+",
+        "Galaxy S26 Plus"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 7999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥7999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.ithome.com/0/923/676.htm",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s26/specs/",
+      "modelPatterns": [
+        "^SM-S9470[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-s26/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s26-camera-test/",
+          "equivalentNote": "S26/S26+ 官方相同后摄规格，采用 S26 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s26/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s26-camera-test/",
+          "equivalentNote": "S26/S26+ 官方相同后摄规格，采用 S26 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s26/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-s26-camera-test/",
+          "equivalentNote": "S26/S26+ 官方相同后摄规格，采用 S26 原测评给出的标称 35mm 等效焦距；浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s26/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-s26-ultra",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy S26 Ultra",
+      "aliases": [
+        "Galaxy S26 Ultra",
+        "Samsung Galaxy S26 Ultra"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 9999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥9999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.ithome.com/0/923/675.htm",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-s26-ultra/specs/",
+      "modelPatterns": [
+        "^SM-S9480[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-s26-ultra/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.4,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.notebookcheck.net/Blocks-prying-eyes-Samsung-Galaxy-S26-Ultra-review.1278349.0.html",
+          "equivalentNote": "采用 Notebookcheck 原测评同一规格表的近似等效焦距；其它测试机构报告的取整和裁切值可能不同，不视为已校准水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s26-ultra/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.9,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.notebookcheck.net/Blocks-prying-eyes-Samsung-Galaxy-S26-Ultra-review.1278349.0.html",
+          "equivalentNote": "采用 Notebookcheck 原测评同一规格表的近似等效焦距；其它测试机构报告的取整和裁切值可能不同，不视为已校准水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s26-ultra/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 69,
+          "equivalentSource": "https://www.notebookcheck.net/Blocks-prying-eyes-Samsung-Galaxy-S26-Ultra-review.1278349.0.html",
+          "equivalentNote": "采用 Notebookcheck 原测评同一规格表的近似等效焦距；其它测试机构报告的取整和裁切值可能不同，不视为已校准水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s26-ultra/specs/"
+        },
+        {
+          "id": "telephoto5",
+          "name": "长焦 · 5×",
+          "nameEn": "Telephoto · 5×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.9,
+          "equivalentMm": 115,
+          "equivalentSource": "https://www.notebookcheck.net/Blocks-prying-eyes-Samsung-Galaxy-S26-Ultra-review.1278349.0.html",
+          "equivalentNote": "采用 Notebookcheck 原测评同一规格表的近似等效焦距；其它测试机构报告的取整和裁切值可能不同，不视为已校准水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-s26-ultra/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-fold4",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Fold4",
+      "aliases": [
+        "Galaxy Z Fold4",
+        "Samsung Galaxy Z Fold4",
+        "Galaxy Z Fold 4"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 12999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥12999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.ithome.com/0/636/501.htm",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold4/specs/",
+      "modelPatterns": [
+        "^SM-F9360[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-z-fold4-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold4/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 12,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-z-fold4-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold4/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 66,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-z-fold4-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold4/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-fold5",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Fold5",
+      "aliases": [
+        "Galaxy Z Fold5",
+        "Samsung Galaxy Z Fold5",
+        "Galaxy Z Fold 5"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 12999,
+      "priceNote": "中国大陆首发官方定价：12GB+512GB，¥12999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/news/product/in-china-accelerate-smart-lifestyle-upgrading/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold5/specs/",
+      "modelPatterns": [
+        "^SM-F9460[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-z-fold5-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold5/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 12,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-z-fold5-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold5/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 66,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-z-fold4-camera-test/",
+          "equivalentNote": "DXOMARK Fold5 测评说明其相机硬件沿用 Fold4；66mm 为 Fold4 对应 3×镜头原测评规格的有条件沿用，需核对预览裁切。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold5/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-fold6",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Fold6",
+      "aliases": [
+        "Galaxy Z Fold6",
+        "Samsung Galaxy Z Fold6",
+        "Galaxy Z Fold 6"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 13999,
+      "priceNote": "中国大陆首发官方定价：12GB+512GB，¥13999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://support-cn.samsung.com.cn/campaign/event/psg/2024/promotion/december/index.html",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold6/specs/",
+      "modelPatterns": [
+        "^SM-F956[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-z-fold6/specs/",
+        "https://www.samsung.com/hk_en/smartphones/galaxy-z/galaxy-z-fold6-silver-shadow-256gb-sm-f9560zsdtgy/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-z-fold6-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold6/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 12,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-z-fold6-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold6/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 66,
+          "equivalentSource": "https://www.dxomark.com/samsung-galaxy-z-fold6-camera-test/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold6/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-fold7",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Fold7",
+      "aliases": [
+        "Galaxy Z Fold7",
+        "Samsung Galaxy Z Fold7",
+        "Galaxy Z Fold 7"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 13999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥13999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://support-cn.samsung.com.cn/campaign/event/psg/2025/promotion/july/index.html",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold7/specs/",
+      "modelPatterns": [
+        "^SM-F966[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-z-fold7/specs/",
+        "https://www.samsung.com/uk/business/smartphones/galaxy-z/galaxy-z-fold7-silver-shadow-512gb-sm-f966bzsceub/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.notebookcheck.net/The-market-leader-strikes-back-Samsung-Galaxy-Z-Fold7-review.1093384.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold7/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.notebookcheck.net/The-market-leader-strikes-back-Samsung-Galaxy-Z-Fold7-review.1093384.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold7/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://www.notebookcheck.net/The-market-leader-strikes-back-Samsung-Galaxy-Z-Fold7-review.1093384.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold7/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-fold8",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Fold8",
+      "aliases": [
+        "Galaxy Z Fold8",
+        "Samsung Galaxy Z Fold8",
+        "Galaxy Z Fold 8"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 12999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥12999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/smartphones/galaxy-z-fold8/buy/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold8/specs/",
+      "modelPatterns": [
+        "^SM-F9710[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-z-fold8/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.notebookcheck.net/Shooting-to-the-top-with-a-new-form-factor-Samsung-Galaxy-Z-Fold8-review.1394389.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold8/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.9,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.notebookcheck.net/Shooting-to-the-top-with-a-new-form-factor-Samsung-Galaxy-Z-Fold8-review.1394389.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold8/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-fold8-ultra",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Fold8 Ultra",
+      "aliases": [
+        "Galaxy Z Fold8 Ultra",
+        "Samsung Galaxy Z Fold8 Ultra",
+        "Galaxy Z Fold 8 Ultra"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 14999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥14999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/smartphones/galaxy-z-fold8-ultra/buy/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold8-ultra/specs/",
+      "modelPatterns": [
+        "^SM-F9760[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-z-fold8-ultra/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.digitalcameraworld.com/tech/android-phones/samsung-galaxy-z-fold-8-ultra-review",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold8-ultra/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.9,
+          "equivalentMm": 13,
+          "equivalentSource": "https://mezha.ua/en/reviews/oglyad-samsung-galaxy-fold8-ultra-314154/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold8-ultra/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://amateurphotographer.com/review/samsung-galaxy-z-fold-8-ultra-review/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-fold8-ultra/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-flip4",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Flip4",
+      "aliases": [
+        "Galaxy Z Flip4",
+        "Samsung Galaxy Z Flip4",
+        "Galaxy Z Flip 4"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 7499,
+      "priceNote": "中国大陆首发官方定价：8GB+256GB，¥7499；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.ithome.com/0/636/500.htm",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip4/specs/",
+      "modelPatterns": [
+        "^SM-F7210[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.gsmarena.com/samsung_galaxy_z_flip4-review-2467p5.php",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip4/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.gsmarena.com/samsung_galaxy_z_flip4-review-2467p5.php",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip4/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-flip5",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Flip5",
+      "aliases": [
+        "Galaxy Z Flip5",
+        "Samsung Galaxy Z Flip5",
+        "Galaxy Z Flip 5"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 7499,
+      "priceNote": "中国大陆首发官方定价：8GB+256GB，¥7499；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/news/product/in-china-accelerate-smart-lifestyle-upgrading/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip5/specs/",
+      "modelPatterns": [
+        "^SM-F7310[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.gsmarena.com/samsung_galaxy_z_flip5-review-2597p5.php",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip5/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.gsmarena.com/samsung_galaxy_z_fold5_z_flip5_watch6_tab_s9_hands-review-2593p4.php",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip5/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-flip6",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Flip6",
+      "aliases": [
+        "Galaxy Z Flip6",
+        "Samsung Galaxy Z Flip6",
+        "Galaxy Z Flip 6"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 7999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥7999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://support-cn.samsung.com.cn/campaign/event/psg/2024/promotion/december/index.html",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip6/specs/",
+      "modelPatterns": [
+        "^SM-F7410[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-z-flip6/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.notebookcheck.net/Samsung-Galaxy-Z-Flip6-5G-review-An-almost-unrivalled-flip-phone-continues-to-improve.890376.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip6/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.gsmarena.com/samsung_galaxy_z_flip6-review-2727p5.php",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip6/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-flip7",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Flip7",
+      "aliases": [
+        "Galaxy Z Flip7",
+        "Samsung Galaxy Z Flip7",
+        "Galaxy Z Flip 7"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 7999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥7999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://support-cn.samsung.com.cn/campaign/event/psg/2025/promotion/july/index.html",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip7/specs/",
+      "modelPatterns": [
+        "^SM-F7660[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-z-flip7/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.notebookcheck.net/Compact-Flip-phone-loses-ground-Samsung-Galaxy-Z-Flip7-review.1102761.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip7/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.fortressofsolitude.co.za/samsung-galaxy-z-flip-7-review/",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip7/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-flip7-fe",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Flip7 FE",
+      "aliases": [
+        "Galaxy Z Flip7 FE",
+        "Samsung Galaxy Z Flip7 FE",
+        "Galaxy Z Flip 7 FE"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 6499,
+      "priceNote": "中国大陆首发官方定价：8GB+256GB，¥6499；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://support-cn.samsung.com.cn/campaign/event/psg/2025/promotion/july/index.html",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip7-fe/specs/",
+      "modelPatterns": [
+        "^SM-F7610[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-z-flip7-fe/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.gsmarena.com/samsung_galaxy_z_flip7_fe-review-2861.php",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip7-fe/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.gsmarena.com/samsung_galaxy_z_flip7_fe-review-2861.php",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip7-fe/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-flip8",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z Flip8",
+      "aliases": [
+        "Galaxy Z Flip8",
+        "Samsung Galaxy Z Flip8",
+        "Galaxy Z Flip 8"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 8999,
+      "priceNote": "中国大陆首发官方定价：12GB+256GB，¥8999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/smartphones/galaxy-z-flip8/buy/",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip8/specs/",
+      "modelPatterns": [
+        "^SM-F7760[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-z-flip8/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.notebookcheck.net/Ultra-lightweight-smartphone-powerhouse-with-a-6-9-inch-OLED-screen-Samsung-Galaxy-Z-Flip-8-review.1398173.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip8/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.notebookcheck.net/Ultra-lightweight-smartphone-powerhouse-with-a-6-9-inch-OLED-screen-Samsung-Galaxy-Z-Flip-8-review.1398173.0.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z-flip8/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-trifold",
+      "brand": "Samsung",
+      "name": "Samsung Galaxy Z TriFold",
+      "aliases": [
+        "Galaxy Z TriFold",
+        "Samsung Galaxy Z TriFold",
+        "Galaxy Z Tri Fold",
+        "Galaxy Z Trifold"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 19999,
+      "priceNote": "中国大陆首发官方定价：16GB+512GB，¥19999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.ithome.com/0/906/218.htm",
+      "source": "https://www.samsung.com.cn/smartphones/galaxy-z/galaxy-z-trifold-crafted-black-512gb-sm-f9680zkdchc/",
+      "modelPatterns": [
+        "^SM-F9680[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/galaxy-z/galaxy-z-trifold-crafted-black-512gb-sm-f9680zkdchc/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 24,
+          "equivalentSource": "https://s-max.jp/archives/1839981.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z/galaxy-z-trifold-crafted-black-512gb-sm-f9680zkdchc/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "equivalentSource": "https://s-max.jp/archives/1839981.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z/galaxy-z-trifold-crafted-black-512gb-sm-f9680zkdchc/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 67,
+          "equivalentSource": "https://s-max.jp/archives/1839981.html",
+          "equivalentNote": "原测评列出的标称 35mm 等效焦距；实际浏览器预览可能裁切，请按预览宽高比核对视角。",
+          "source": "https://www.samsung.com.cn/smartphones/galaxy-z/galaxy-z-trifold-crafted-black-512gb-sm-f9680zkdchc/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-w23",
+      "brand": "Samsung",
+      "name": "Samsung W23",
+      "aliases": [
+        "W23",
+        "Samsung W23",
+        "三星 W23",
+        "心系天下 W23"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 15999,
+      "priceNote": "中国大陆首发官方定价：16GB+512GB，¥15999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.chinatelecom.com.cn/ct/news/jczt/5g/zxdt/159987.html",
+      "source": "https://www.samsung.com.cn/smartphones/samsung-w23/specs/",
+      "modelPatterns": [
+        "^SM-W9023[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23.8,
+          "equivalentSource": "https://www.camerafv5.com/devices/manufacturers/samsung/sm-w9023_v4q_0/",
+          "equivalentNote": "Camera FV-5 实机 Camera2 API 数据库给出的标称 35mm 等效焦距；该值依采集通道而异，浏览器预览裁切需要手动核对。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w23/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "equivalentSource": "https://www.camerafv5.com/devices/manufacturers/samsung/sm-w9023_v4q_2/",
+          "equivalentNote": "Camera FV-5 实机 Camera2 API 数据库给出的标称 35mm 等效焦距；该值依采集通道而异，浏览器预览裁切需要手动核对。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w23/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w23/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        }
+      ]
+    },
+    {
+      "id": "samsung-w23-flip",
+      "brand": "Samsung",
+      "name": "Samsung W23 Flip",
+      "aliases": [
+        "W23 Flip",
+        "Samsung W23 Flip",
+        "三星 W23 Flip",
+        "心系天下 W23 Flip"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 9999,
+      "priceNote": "中国大陆首发官方定价：12GB+512GB，¥9999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.chinatelecom.com.cn/ct/news/jczt/5g/zxdt/159987.html",
+      "source": "https://www.samsung.com.cn/smartphones/samsung-w23-flip/specs/",
+      "modelPatterns": [
+        "^SM-W7023[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w23-flip/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w23-flip/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        }
+      ]
+    },
+    {
+      "id": "samsung-w24",
+      "brand": "Samsung",
+      "name": "Samsung W24",
+      "aliases": [
+        "W24",
+        "Samsung W24",
+        "三星 W24",
+        "心系天下 W24"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 15999,
+      "priceNote": "中国大陆首发官方定价：16GB+1TB，¥15999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.chinatelecom.com.cn/ct/news/jczt/5g/zxdt/160025.html",
+      "source": "https://www.samsung.com.cn/smartphones/samsung-w24/specs/",
+      "modelPatterns": [
+        "^SM-W9024[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23.8,
+          "equivalentSource": "https://www.camerafv5.com/devices/manufacturers/samsung/sm-w9024_v5q_0/",
+          "equivalentNote": "Camera FV-5 实机 Camera2 API 数据库给出的标称 35mm 等效焦距；该值依采集通道而异，浏览器预览裁切需要手动核对。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w24/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "equivalentSource": "https://www.camerafv5.com/devices/manufacturers/samsung/sm-w9024_v5q_2/",
+          "equivalentNote": "Camera FV-5 实机 Camera2 API 数据库给出的标称 35mm 等效焦距；该值依采集通道而异，浏览器预览裁切需要手动核对。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w24/specs/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w24/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        }
+      ]
+    },
+    {
+      "id": "samsung-w24-flip",
+      "brand": "Samsung",
+      "name": "Samsung W24 Flip",
+      "aliases": [
+        "W24 Flip",
+        "Samsung W24 Flip",
+        "三星 W24 Flip",
+        "心系天下 W24 Flip"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 9999,
+      "priceNote": "中国大陆首发官方定价：12GB+512GB，¥9999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.chinatelecom.com.cn/ct/news/jczt/5g/zxdt/160025.html",
+      "source": "https://www.samsung.com.cn/smartphones/samsung-w24-flip/specs/",
+      "modelPatterns": [
+        "^SM-W7024[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/support/newsalert/126815/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w24-flip/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w24-flip/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        }
+      ]
+    },
+    {
+      "id": "samsung-w25",
+      "brand": "Samsung",
+      "name": "Samsung W25",
+      "aliases": [
+        "W25",
+        "Samsung W25",
+        "三星 W25",
+        "心系天下 W25"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 15999,
+      "priceNote": "中国大陆首发官方定价：16GB+512GB，¥15999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.chinatelecom.com.cn/ct/news/jtxw/152936.html",
+      "source": "https://www.samsung.com.cn/smartphones/samsung-w25/specs/",
+      "modelPatterns": [
+        "^SM-W9025[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/samsung-w25/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w25/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w25/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w25/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        }
+      ]
+    },
+    {
+      "id": "samsung-w25-flip",
+      "brand": "Samsung",
+      "name": "Samsung W25 Flip",
+      "aliases": [
+        "W25 Flip",
+        "Samsung W25 Flip",
+        "三星 W25 Flip",
+        "心系天下 W25 Flip"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 9999,
+      "priceNote": "中国大陆首发官方定价：12GB+512GB，¥9999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.chinatelecom.com.cn/ct/news/jtxw/152936.html",
+      "source": "https://www.samsung.com.cn/smartphones/samsung-w25-flip/specs/",
+      "modelPatterns": [
+        "^SM-W7025[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/samsung-w25-flip/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w25-flip/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w25-flip/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        }
+      ]
+    },
+    {
+      "id": "samsung-w26",
+      "brand": "Samsung",
+      "name": "Samsung W26",
+      "aliases": [
+        "W26",
+        "Samsung W26",
+        "三星 W26",
+        "心系天下 W26"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 16999,
+      "priceNote": "中国大陆首发官方定价：16GB+512GB，¥16999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.chinatelecom.com.cn/ct/news/jtxw/161617.html",
+      "source": "https://www.samsung.com.cn/smartphones/samsung-w26/specs/",
+      "modelPatterns": [
+        "^SM-W9026[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/samsung-w26/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 23,
+          "equivalentSource": "https://finance.sina.com.cn/tech/roll/2025-10-28/doc-infvmmit1318749.shtml",
+          "equivalentNote": "由手机之家原评测明确给出的主摄 2×46mm，按倍率折算 1×约23mm；属标称近似，浏览器裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w26/specs/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w26/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 69,
+          "equivalentSource": "https://finance.sina.com.cn/tech/roll/2025-10-28/doc-infvmmit1318749.shtml",
+          "equivalentNote": "手机之家原评测样张明确标注长焦69mm；实际预览裁切需核对。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w26/specs/"
+        }
+      ]
+    },
+    {
+      "id": "samsung-w27",
+      "brand": "Samsung",
+      "name": "Samsung W27",
+      "aliases": [
+        "W27",
+        "Samsung W27",
+        "三星 W27",
+        "心系天下 W27"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 18999,
+      "priceNote": "中国大陆首发官方定价：16GB+512GB，¥18999；非先行者价格、优惠价或换算外币。",
+      "priceSource": "https://www.samsung.com.cn/smartphones/samsung-w27/buy/",
+      "source": "https://www.samsung.com.cn/smartphones/samsung-w27/specs/",
+      "modelPatterns": [
+        "^SM-W9027[A-Z0-9/]*$"
+      ],
+      "modelSources": [
+        "https://www.samsung.com.cn/smartphones/samsung-w27/specs/"
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Wide · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w27/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.9,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w27/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "nameEn": "Telephoto · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentNote": "未找到可核验的此物理镜头 35mm 等效焦距；不把未注明方向的 FOV 当水平视角，请手动输入。",
+          "note": "等效焦距尚待核验；请选择此镜头后手动填写等效焦距或水平视角。",
+          "source": "https://www.samsung.com.cn/smartphones/samsung-w27/specs/",
+          "coverageUnknown": true,
+          "noteEn": "Equivalent focal length has not been verified for this physical lens. Enter its equivalent focal length or horizontal field of view manually."
+        }
+      ]
+    }
+  ]
+}

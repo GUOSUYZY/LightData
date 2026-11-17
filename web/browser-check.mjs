@@ -41,15 +41,31 @@ const executablePath =
   (process.platform === "win32"
     ? "C:/Program Files/Google/Chrome/Application/chrome.exe"
     : undefined);
+// Keep the real browser media pipeline, with a fixed scene. Chromium's default
+// animated test pattern changes brightness while we verify ISO/shutter updates.
+const fixtureDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "lightdata-camera-"));
+const fixtureFile = path.join(fixtureDirectory, "scene.y4m");
+const width = 1280, height = 720, area = width * height;
+const yuv = Buffer.alloc(area * 3 / 2, 128);
+for (let y = 0; y < height; y++) {
+  for (let x = 0; x < width; x++) {
+    yuv[y * width + x] = 42 + Math.floor(145 * x / width) + (((x >> 5) + (y >> 5)) % 2) * 24;
+  }
+}
+await fs.writeFile(fixtureFile, Buffer.concat([
+  Buffer.from(`YUV4MPEG2 W${width} H${height} F20:1 Ip A1:1 C420jpeg\nFRAME\n`), yuv,
+]));
 const browser = await chromium.launch({
   executablePath,
   headless: true,
   args: [
     "--use-fake-device-for-media-stream",
     "--use-fake-ui-for-media-stream",
+    `--use-file-for-fake-video-capture=${fixtureFile}`,
   ],
 });
 const context = await browser.newContext({
+  locale: "zh-CN",
   viewport: { width: 430, height: 932 },
   permissions: ["camera"],
   deviceScaleFactor: 1,
@@ -585,6 +601,7 @@ try {
   await expect(page.locator("#pixel-label")).toHaveText("像素");
   await close();
   const phoneContext = await browser.newContext({
+    locale: "zh-CN",
     permissions: ["camera"],
     viewport: { width: 430, height: 932 },
   });
@@ -626,10 +643,14 @@ try {
   await phone.locator("#setup-lens").selectOption("wide");
   await expect(phone.locator("#setup-aperture")).toHaveValue("1.7");
   await expect(phone.locator("#setup-hfov")).toHaveValue("");
-  await expect(phone.locator("#setup-source-note")).toContainText("方向未注明");
+  await expect(phone.locator("#setup-equivalent")).toHaveValue("24");
+  await expect(phone.locator("#setup-fov-mode")).toHaveValue("equivalent");
   await expect(phone.locator("#setup-source")).toHaveAttribute(
     "href",
     /samsung\.com/,
+  );
+  await expect(phone.locator("#setup-equivalent-source")).toHaveAttribute(
+    "href", /notebookcheck\.net/,
   );
   await phone.locator("#setup-phone").selectOption("xiaomi-15");
   await expect(phone.locator("#setup-aperture")).toHaveValue("");
@@ -660,6 +681,7 @@ try {
   expect(lensProfiles["matched-phone-camera"].equivalentMm).toBe(23);
   await phoneContext.close();
   const denied = await browser.newContext({
+    locale: "zh-CN",
     permissions: [],
     viewport: { width: 430, height: 932 },
   });
@@ -677,9 +699,100 @@ try {
   await expect(d.locator("#start-message")).toContainText("权限被拒绝");
   await expect(d.locator("#setup-error")).toContainText("相机权限被拒绝");
   await denied.close();
+  // A separate storage context verifies browser-language selection and saved overrides.
+  const englishContext = await browser.newContext({
+    locale: "en-US",
+    viewport: { width: 430, height: 932 },
+    permissions: ["camera"],
+  });
+  await englishContext.addInitScript(() => {
+    const original = MediaStreamTrack.prototype.getSettings;
+    MediaStreamTrack.prototype.getSettings = function () {
+      return {
+        ...original.call(this),
+        deviceId: "english-fixture-camera",
+        exposureMode: "continuous",
+        exposureTime: 299.94234,
+        iso: 250,
+      };
+    };
+  });
+  const english = await englishContext.newPage();
+  english.on("pageerror", (error) => errors.push(error.message));
+  await english.goto(base);
+  await expect(english.locator("html")).toHaveAttribute("lang", "en");
+  await expect(english).toHaveTitle("LightData · Viewfinder & Light Meter");
+  await expect(english.locator("#camera-setup")).toBeVisible();
+  await expect(english.locator("#camera-setup h2")).toHaveText("Set up phone lens");
+  await english.locator("#setup-save").click();
+  await expect(english.locator("#setup-error")).toContainText("Enter an aperture");
+  await english.locator("#setup-aperture").fill("2.3");
+  await english.locator("#setup-hfov").fill("70");
+  await expect(english.locator("#setup-field-info")).toContainText("horizontal 70°");
+  await english.locator("#setup-save").click();
+  await expect(english.locator("#camera-setup")).toBeHidden();
+  await expect(english.locator("#meter-reading")).toContainText("EV100 · Estimated");
+  await expect(english.locator("#chart")).toHaveAttribute("aria-label", /Histogram horizontal axis/);
+  await expect(english.locator("#thresholds")).toContainText("Low");
+  await english.locator("#focal").fill("42");
+  await english.locator("#focal").dispatchEvent("change");
+  await english.locator("#settings-toggle").click();
+  await expect(english.locator("#capture-info")).toContainText("Used for scene EV100");
+  await expect(english.locator("#language-select")).toHaveValue("en");
+  await english.locator("#preview-mode").selectOption("lut");
+  await expect(english.locator("#lut-info")).toContainText("exposure warnings");
+  await expect(english.locator("#lut-variant option").first()).not.toContainText(/[\u3400-\u9fff]/);
+  await expect(english.locator("#configure-lens")).toHaveCSS("background-color", "rgb(255, 189, 89)");
+  await expect(english.locator("#configure-lens")).toHaveCSS("color", "rgb(16, 17, 18)");
+  await english.locator("#configure-lens").click();
+  await expect(english.locator("#camera-setup")).toBeVisible();
+  await expect(english.locator("#setup-aperture")).toHaveValue("2.3");
+  await english.locator("#setup-close").click();
+  await expect(english.locator("#settings")).toBeVisible();
+  const untranslated = await english.evaluate(() => {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const remaining = [];
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      if (
+        !node.parentElement.closest('script,style,[translate="no"],#track-info') &&
+        /[\u3400-\u9fff]/.test(node.nodeValue) &&
+        // Brand names and the native language option deliberately retain their spelling.
+        !node.nodeValue.includes("乐凯")
+      ) remaining.push(node.nodeValue.trim());
+    }
+    return remaining;
+  });
+  expect(untranslated).toEqual([]);
+  await english.locator("[data-close=settings]").click();
+  for (const [width, height] of [[430, 932], [768, 1024], [1366, 768]]) {
+    await english.setViewportSize({ width, height });
+    await expect.poll(() => english.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await english.screenshot({ path: path.join(snapshots, `english-${width}.png`) });
+  }
+  const beforeLanguage = await english.evaluate(() => JSON.parse(localStorage.getItem("lightdata.web.v1")));
+  await english.locator("#settings-toggle").click();
+  await english.locator("#language-select").selectOption("zh-CN");
+  await expect(english.locator("html")).toHaveAttribute("lang", "zh-CN");
+  await expect(english.locator("#settings-toggle")).toContainText("设置");
+  await expect(english.locator("#focal")).toHaveValue("42");
+  await english.locator("#settings-toggle").click();
+  await expect(english.locator("#language-select")).toHaveValue("zh-CN");
+  await english.locator("#language-select").selectOption("en");
+  await expect(english.locator("html")).toHaveAttribute("lang", "en");
+  await expect(english.locator("#focal")).toHaveValue("42");
+  const afterLanguage = await english.evaluate(() => ({
+    preferences: JSON.parse(localStorage.getItem("lightdata.web.v1")),
+    language: localStorage.getItem("lightdata.language"),
+  }));
+  expect(afterLanguage.language).toBe("en");
+  for (const key of ["focal", "manual", "filmId", "lenses", "devices"]) {
+    expect(afterLanguage.preferences[key]).toEqual(beforeLanguage[key]);
+  }
+  await englishContext.close();
   expect(errors).toEqual([]);
   console.log(
-    "Browser checks passed: logarithmic default and legacy migration, settings reset preserving optics/calibrations/presets, explicit linear choice persistence, first-use lens setup, per-camera optics/zoom/reload, Client Hints phone/lens presets, camera, changing AE, relative fallback, single reading, film ISO lock, 2 spots, touch pan/pinch, panorama/reframe, custom frame/JSON persistence, four layouts, split drag, reference expiry, background pause/resume, denied permission.",
+    "Browser checks passed: logarithmic default and legacy migration, settings reset preserving optics/calibrations/presets, explicit linear choice persistence, first-use lens setup, per-camera optics/zoom/reload, expanded sourced phone/lens presets, bilingual browser-language defaults and saved overrides, highlighted lens setup, camera, changing AE, relative fallback, single reading, film ISO lock, 2 spots, touch pan/pinch, panorama/reframe, custom frame/JSON persistence, four layouts, split drag, reference expiry, background pause/resume, denied permission.",
   );
   console.log("Screenshots:", snapshots);
 } catch (error) {
@@ -702,4 +815,6 @@ try {
 } finally {
   await browser.close();
   server.close();
+  await fs.unlink(fixtureFile);
+  await fs.rmdir(fixtureDirectory);
 }

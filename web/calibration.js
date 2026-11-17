@@ -1,3 +1,4 @@
+import { t } from "./i18n.js";
 // Browser previews have already passed through the camera's image processing.
 // This estimates that preview response; it does not report sensor RAW range.
 const clamp = (v, low, high) => Math.max(low, Math.min(high, v));
@@ -25,7 +26,7 @@ export class CalibrationIssue extends Error {
 /** Sample a 32 × 24 normalized grayscale grid in the unfiltered camera frame. */
 export function sampleGrid(image) {
   if (!image?.data || image.width < 1 || image.height < 1)
-    throw new CalibrationIssue("没有可用的相机画面");
+    throw new CalibrationIssue(t("没有可用的相机画面"));
   const result = new Float64Array(32 * 24);
   for (let y = 0; y < 24; y++)
     for (let x = 0; x < 32; x++) {
@@ -39,7 +40,7 @@ export function sampleGrid(image) {
       );
       const i = (py * image.width + px) * 4;
       if (image.data[i + 3] === 0)
-        throw new CalibrationIssue("校准画面含缺失区域");
+        throw new CalibrationIssue(t("校准画面含缺失区域"));
       const luminance =
         0.2126 * linearCodes[image.data[i]] +
         0.7152 * linearCodes[image.data[i + 1]] +
@@ -79,10 +80,10 @@ function validateFrames(frames) {
         ),
     );
   if (!valid || new Set(frames.map((f) => f.seconds)).size < 5)
-    throw new CalibrationIssue("有效曝光样本不足，请重新采集");
+    throw new CalibrationIssue(t("有效曝光样本不足，请重新采集"));
   const ordered = [...frames].sort((a, b) => a.seconds - b.seconds);
   if (Math.log2(ordered.at(-1).seconds / ordered[0].seconds) < 4)
-    throw new CalibrationIssue("实际曝光跨度不足 4 EV，请扩大扫描范围");
+    throw new CalibrationIssue(t("实际曝光跨度不足 4 EV，请扩大扫描范围"));
   return ordered;
 }
 
@@ -110,7 +111,7 @@ function motionCheck(grids, distributions) {
         shifted++;
     }
     if (common >= grids[i].length / 8 && shifted > 0.22 * common)
-      throw new CalibrationIssue("相邻曝光间画面发生移动，请固定手机后重试");
+      throw new CalibrationIssue(t("相邻曝光间画面发生移动，请固定手机后重试"));
   }
 }
 
@@ -147,7 +148,7 @@ function monotone(means, weights) {
 function tracksFor(method, grids, distributions) {
   if (method === "阶梯卡") {
     if (grids[0].length !== 32 * 24)
-      throw new CalibrationIssue("阶梯卡取样网格不完整");
+      throw new CalibrationIssue(t("阶梯卡取样网格不完整"));
     return Array.from({ length: 9 }, (_, j) => {
       const col = Math.floor(((j + 0.5) * 32) / 9);
       return grids.map((grid) =>
@@ -172,7 +173,7 @@ export function fitResponse(frames, { method = "现场", step = 1 } = {}) {
     !["灰卡", "阶梯卡", "现场"].includes(method) ||
     (method === "阶梯卡" && (!Number.isFinite(step) || step < 0.1 || step > 3))
   )
-    throw new CalibrationIssue("校准参数无效");
+    throw new CalibrationIssue(t("校准参数无效"));
   const ordered = validateFrames(frames);
   const grids = ordered.map((b) =>
     Array.from(b.samples, (v, i) => (v + b.repeat[i]) / 2),
@@ -191,7 +192,7 @@ export function fitResponse(frames, { method = "现场", step = 1 } = {}) {
     quantile(distributions.at(-1), 0.95) < 0.97
   )
     throw new CalibrationIssue(
-      "未同时覆盖暗部和饱和高光，请调整照明或曝光范围",
+      t("未同时覆盖暗部和饱和高光，请调整照明或曝光范围"),
     );
   if (
     method === "现场" &&
@@ -199,20 +200,20 @@ export function fitResponse(frames, { method = "现场", step = 1 } = {}) {
       0.18
   )
     throw new CalibrationIssue(
-      "现场明暗跨度不足，请选择同时包含阴影和亮部的场景",
+      t("现场明暗跨度不足，请选择同时包含阴影和亮部的场景"),
     );
   if (
     method === "灰卡" &&
     quantile(distributions[ref], 0.85) - quantile(distributions[ref], 0.15) >
       0.17
   )
-    throw new CalibrationIssue("灰卡受光不均或未充满画面");
+    throw new CalibrationIssue(t("灰卡受光不均或未充满画面"));
   for (const bracket of ordered) {
     const changed = Array.from(bracket.samples).filter(
       (v, i) => Math.abs(v - bracket.repeat[i]) > 0.065,
     ).length;
     if (changed > 0.12 * bracket.samples.length)
-      throw new CalibrationIssue("检测到移动或光源闪烁，请固定手机");
+      throw new CalibrationIssue(t("检测到移动或光源闪烁，请固定手机"));
   }
   if (method !== "灰卡") motionCheck(grids, distributions);
 
@@ -232,7 +233,7 @@ export function fitResponse(frames, { method = "现场", step = 1 } = {}) {
         ),
       );
     if (valid.some((v) => v.length < 2) || !ascending)
-      throw new CalibrationIssue("请将九级阶梯自暗至亮对齐取景画面");
+      throw new CalibrationIssue(t("请将九级阶梯自暗至亮对齐取景画面"));
   }
 
   let lut = initialResponse.slice();
@@ -255,7 +256,7 @@ export function fitResponse(frames, { method = "现场", step = 1 } = {}) {
       .map((bin, i) => (bin.length ? i : -1))
       .filter((i) => i >= 0);
     if (codes.length < 5 || codes[0] > 80 || codes.at(-1) < 150)
-      throw new CalibrationIssue("有效灰阶未覆盖中灰两侧，请调整照明");
+      throw new CalibrationIssue(t("有效灰阶未覆盖中灰两侧，请调整照明"));
     firstCode = codes[0];
     lastCode = codes.at(-1);
     const values = monotone(
@@ -291,12 +292,12 @@ export function fitResponse(frames, { method = "现场", step = 1 } = {}) {
     if (method === "阶梯卡") chartOffsets.push(center - j * step);
   });
   if (!residuals.length || quantile(sorted(residuals), 0.9) > 0.65)
-    throw new CalibrationIssue("曝光序列响应不一致，请固定手机并使用稳定光源");
+    throw new CalibrationIssue(t("曝光序列响应不一致，请固定手机并使用稳定光源"));
   if (
     chartOffsets.length &&
     Math.max(...chartOffsets) - Math.min(...chartOffsets) > 0.65
   )
-    throw new CalibrationIssue("阶梯间隔与输入 EV 不符，请确认参考卡");
+    throw new CalibrationIssue(t("阶梯间隔与输入 EV 不符，请确认参考卡"));
 
   const darkest = ordered[0];
   const darkCut = quantile(distributions[0], 0.25);
@@ -313,7 +314,7 @@ export function fitResponse(frames, { method = "现场", step = 1 } = {}) {
   const floorCode = clamp(Math.max(firstCode, Math.ceil(floor * 255)), 1, 254);
   const stops = lut[lastCode] - lut[floorCode];
   if (!(stops >= 3 && stops <= 22))
-    throw new CalibrationIssue("可用范围无法可靠拟合，请调整场景重试");
+    throw new CalibrationIssue(t("可用范围无法可靠拟合，请调整场景重试"));
   return {
     response: Array.from(lut),
     stops,
@@ -334,11 +335,11 @@ export function referenceOffset(
   response = initialResponse,
 ) {
   if (!Number.isFinite(knownSceneEV) || !Number.isFinite(cameraEV))
-    throw new CalibrationIssue("参考 EV 与采集曝光均需为有效数值");
+    throw new CalibrationIssue(t("参考 EV 与采集曝光均需为有效数值"));
   const grid = sampleGrid(image);
   const distribution = sorted(grid);
   if (quantile(distribution, 0.85) - quantile(distribution, 0.15) > 0.17)
-    throw new CalibrationIssue("参考卡未充满画面或受光不均");
+    throw new CalibrationIssue(t("参考卡未充满画面或受光不均"));
   const sum = grid.reduce(
     (value, v) => value + 2 ** response[Math.round(v * 255)],
     0,

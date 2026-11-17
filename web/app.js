@@ -1,3 +1,4 @@
+import { t, initializeLanguage, isEnglish } from "./i18n.js";
 import {
   FORMATS,
   APERTURES,
@@ -238,14 +239,14 @@ function resetSettings() {
   location.reload();
 }
 function toast(message) {
-  $("toast").textContent = message;
+  $("toast").textContent = t(message);
   $("toast").classList.add("visible");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => $("toast").classList.remove("visible"), 4500);
 }
 function notice(title, text) {
-  $("notice-title").textContent = title;
-  $("notice-text").textContent = text;
+  $("notice-title").textContent = t(title);
+  $("notice-text").textContent = t(text);
   if (!$("notice").open) $("notice").showModal();
 }
 function warnEstimated() {
@@ -487,7 +488,7 @@ function drawHistogram() {
   };
   canvas.setAttribute(
     "aria-label",
-    `直方图横轴 ${isAbsolute ? "EV100" : "相对 EV"} ${number(axis.left)} 至 ${number(axis.left + axis.span)}，纵轴放大 ${number(axis.gain)} 倍`,
+    t(`直方图横轴 ${isAbsolute ? "EV100" : "相对 EV"} ${number(axis.left)} 至 ${number(axis.left + axis.span)}，纵轴放大 ${number(axis.gain)} 倍`),
   );
   const base = isAbsolute ? state.cameraEV : 0;
   const middle = isAbsolute ? exposureEV(state.exposure || state.manual) : 0;
@@ -606,7 +607,7 @@ function drawHistogram() {
     ctx.lineTo(x, plot.y + plot.h);
     ctx.stroke();
     ctx.fillStyle = spotColor(point.id);
-    ctx.fillText(String(point.id), x + 3, plot.y + 8);
+    ctx.fillText(t(String(point.id)), x + 3, plot.y + 8);
   }
   ctx.restore();
   ctx.fillStyle = "#a5a6a3";
@@ -615,7 +616,7 @@ function drawHistogram() {
   for (const n of levels) {
     if (n > max) continue;
     ctx.fillText(
-      n >= 1000 ? number(n / 1000) + "k" : String(Math.round(n)),
+      t(n >= 1000 ? number(n / 1000) + "k" : String(Math.round(n))),
       plot.x - 4,
       valueY(n),
     );
@@ -625,7 +626,7 @@ function drawHistogram() {
   const densityStep = maximumD <= 3 ? 0.5 : 1;
   for (let d = 0; d <= maximumD; d += densityStep) {
     const y = plot.y + plot.h * (1 - d / maximumD);
-    ctx.fillText(number(d), plot.x + plot.w + 3, y);
+    ctx.fillText(t(number(d)), plot.x + plot.w + 3, y);
   }
   ctx.textAlign = "center";
   const labelStep = spacing * ((plot.w / axis.span) * spacing < 27 ? 2 : 1);
@@ -634,7 +635,7 @@ function drawHistogram() {
     ev <= axis.left + axis.span;
     ev += labelStep
   )
-    ctx.fillText(number(ev), xAt(ev), plot.y + plot.h + 11);
+    ctx.fillText(t(number(ev)), xAt(ev), plot.y + plot.h + 11);
   ctx.fillStyle = "#ffbd59";
   for (const [ev, label] of [
     [-3, "II"],
@@ -643,14 +644,14 @@ function drawHistogram() {
   ]) {
     const x = xAt(middle + ev);
     if (x > plot.x + 5 && x < plot.x + plot.w - 7)
-      ctx.fillText(label, x, h - 7);
+      ctx.fillText(t(label), x, h - 7);
   }
-  $("pixel-label").textContent = state.log ? "像素 log" : "像素";
+  $("pixel-label").textContent = t(state.log ? "像素 log" : "像素");
   $("thresholds").children[0].textContent =
-    "欠 " + (selectedFilm ? number(middle + selectedFilm.low) : "—");
-  $("thresholds").children[1].textContent = isAbsolute ? "EV100" : "相对 EV";
+    t("欠 " + (selectedFilm ? number(middle + selectedFilm.low) : "—"));
+  $("thresholds").children[1].textContent = t(isAbsolute ? "EV100" : "相对 EV");
   $("thresholds").children[2].textContent =
-    "过 " + (selectedFilm ? number(middle + selectedFilm.high) : "—");
+    t("过 " + (selectedFilm ? number(middle + selectedFilm.high) : "—"));
   state.plot = { ...plot, axis };
 }
 
@@ -676,19 +677,19 @@ function updateLutControls() {
   $("preview-mode").value = state.previewMode;
   $("preview-scale").value = String(state.previewScale);
   $("lut-variant-row").hidden = !enabled || !lutEntries.length;
-  select.replaceChildren(...lutEntries.map((entry) => new Option(entry.description, entry.file)));
+  select.replaceChildren(...lutEntries.map((entry) => new Option(t(entry.description), entry.file)));
   if (selectedLut()) select.value = selectedLut().file;
   const info = $("lut-info");
   info.hidden = !enabled;
   $("lut-credit").hidden = !enabled;
-  info.textContent = ({
+  info.textContent = t({
     idle: "", loading: "正在载入胶片 LUT…",
     error: "LUT 载入失败，当前使用亮度模拟。重新选择 LUT 可重试。",
     missing: "此胶片没有可用的 LUT，当前使用亮度模拟。",
     ready: selectedLut()?.kind === "derived" ? "手册派生模拟 · 亮度和曝光预警沿用当前胶片曲线。" : "Spektrafilm · 亮度和曝光预警沿用当前胶片曲线。",
   }[lutState]);
   if (lutState === "ready" && selectedLut()?.approximation)
-    info.textContent += " " + selectedLut().approximation;
+    info.textContent += " " + t(selectedLut().approximation);
 }
 async function syncLut() {
   const generation = ++lutGeneration;
@@ -820,20 +821,20 @@ function renderPairs() {
     button.disabled = state.frozen;
     button.setAttribute(
       "aria-label",
-      `快门 ${timeLabel(pair.t)}，光圈 ${pair.a}，ISO ${pair.iso}`,
+      t(`快门 ${timeLabel(pair.t)}，光圈 ${pair.a}，ISO ${pair.iso}`),
     );
-    const t = document.createElement("span"),
+    const shutter = document.createElement("span"),
       a = document.createElement("span");
-    t.textContent = state.mode === "A" && !available ? "—" : timeLabel(pair.t);
+    shutter.textContent = t(state.mode === "A" && !available ? "—" : timeLabel(pair.t));
     a.textContent =
-      state.mode === "S" && !available ? "—" : "f/" + number(pair.a);
-    button.append(t);
+      t(state.mode === "S" && !available ? "—" : "f/" + number(pair.a));
+    button.append(shutter);
     if (corrected) {
       const actual = document.createElement("small");
       actual.textContent =
-        corrections[i].status === "corrected"
+        t(corrections[i].status === "corrected"
           ? "→ " + timeLabel(corrections[i].seconds)
-          : "";
+          : "");
       button.append(actual);
     }
     button.append(a);
@@ -849,8 +850,8 @@ function renderPairs() {
   });
   const correctedTime = reciprocity(film()?.name, e.t);
   $("reciprocity-note").textContent =
-    e.t >= 1 && (available || state.mode === "M") ? correctedTime.note : "";
-  $("reciprocity-note").title = correctedTime.source || "";
+    t(e.t >= 1 && (available || state.mode === "M") ? correctedTime.note : "");
+  $("reciprocity-note").title = t(correctedTime.source || "");
 }
 function renderIso() {
   const values = [...new Set([...ISOS, state.manual.iso])].sort(
@@ -875,7 +876,7 @@ function renderIso() {
   $("iso-wheel").replaceChildren();
   shown.forEach((iso) => {
     const b = document.createElement("button");
-    b.textContent = String(iso);
+    b.textContent = t(String(iso));
     b.className = iso === state.manual.iso ? "active" : "";
     b.disabled = state.frozen || state.isoLocked;
     b.addEventListener("click", () => {
@@ -906,29 +907,29 @@ function refresh() {
   $("single").disabled = state.frozen;
   $("comp").disabled = state.frozen || state.mode === "M";
   $("comp").value = Math.round(state.compensation * 3);
-  $("comp-label").textContent = state.mode === "M" ? "曝光偏差" : "曝光补偿";
+  $("comp-label").textContent = t(state.mode === "M" ? "曝光偏差" : "曝光补偿");
   const residual = finite(reading)
     ? reading - exposureEV(state.exposure)
     : null;
   $("comp-value").textContent =
-    state.mode === "M"
+    t(state.mode === "M"
       ? (finite(residual) ? signed(residual) : "—") + " EV"
-      : signed(state.compensation) + " EV";
+      : signed(state.compensation) + " EV");
   if (
     state.mode !== "M" &&
     finite(residual) &&
     Math.abs(residual - state.compensation) > 0.25
   )
     $("comp-label").textContent =
-      "超限 " + signed(residual - state.compensation) + " EV";
-  $("pair-iso").textContent = "ISO " + number(state.manual.iso);
-  $("iso-lock").textContent = state.isoLocked
+      t("超限 " + signed(residual - state.compensation) + " EV");
+  $("pair-iso").textContent = t("ISO " + number(state.manual.iso));
+  $("iso-lock").textContent = t(state.isoLocked
     ? "已锁定 · 解锁"
-    : "锁定至 " + selectedFilm.iso;
+    : "锁定至 " + selectedFilm.iso);
   $("iso-lock").disabled = state.frozen;
   $("preview-toggle").setAttribute("aria-pressed", state.preview);
   $("spots-toggle").setAttribute("aria-pressed", state.frozen);
-  $("preview-status").textContent = state.frozen
+  $("preview-status").textContent = t(state.frozen
     ? "冻结点测光"
     : state.preview
       ? absolute()
@@ -936,22 +937,22 @@ function refresh() {
           ? lutBytes ? "LUT 预览" : lutState === "loading" ? "正在载入 LUT" : "亮度模拟 · 无 LUT"
           : "胶片预览"
         : "预览待标定"
-      : "";
+      : "");
   $("histogram").classList.toggle("uncalibrated", !calibration());
   $("meter-reading").classList.toggle("calibrated", !!calibration());
-  $("meter-reading").textContent = finite(reading)
+  $("meter-reading").textContent = t(finite(reading)
     ? `${reading.toFixed(1)} EV100 · ${state.single ? "单次 · " : ""}${calibration() ? "已校准" : "估测"}`
     : state.image
       ? state.single
         ? "单次 · 等待有效测光"
         : "相对亮度 · 参数待设置"
-      : "— EV100";
+      : "— EV100");
   $("meter-configure").hidden = absolute() || !state.raw;
   const targetField = target(),
     source = state.source;
-  $("finder-info").textContent = source
+  $("finder-info").textContent = t(source
     ? `目标 ${number((2 * Math.atan(targetField.x) * 180) / Math.PI)}° × ${number((2 * Math.atan(targetField.y) * 180) / Math.PI)}°${state.missing ? " · 画面未补齐" : ""}`
-    : "手机视角待标定";
+    : "手机视角待标定");
   $("scan-start").hidden =
     !state.raw || !source || !!state.pano || !state.missing;
   renderPairs();
@@ -972,20 +973,21 @@ function renderFilmList() {
   $("film-select").replaceChildren();
   let group;
   for (const item of items) {
-    if (!group || group.label !== item.brand) {
+    const brand = item.brand === "自定义预设" ? t(item.brand) : item.brand;
+    if (!group || group.label !== brand) {
       group = document.createElement("optgroup");
-      group.label = item.brand;
+      group.label = brand;
       $("film-select").append(group);
     }
     const o = document.createElement("option");
     o.value = item.id;
-    o.textContent = `${item.name} · ISO ${item.iso}`;
+    o.textContent = t(`${item.name} · ISO ${item.iso}`);
     o.selected = item.id === state.filmId;
     group.append(o);
   }
   if (!items.length) {
     const o = document.createElement("option");
-    o.textContent = "无匹配型号";
+    o.textContent = t("无匹配型号");
     o.disabled = true;
     $("film-select").append(o);
   }
@@ -1001,46 +1003,46 @@ function refreshSettings() {
   $("camera-equivalent").value =
     p.optics?.mode === "equivalent" ? p.optics.equivalentMm : "";
   $("camera-fov-info").textContent =
-    p.optics?.mode === "equivalent"
+    t(p.optics?.mode === "equivalent"
       ? "根据 35 mm 等效焦距，以原生 4:3 画面按当前预览比例中心裁切估算。可直接输入实测水平视角覆盖估算。"
       : p.hfov
         ? "使用水平视角；旋转或改变预览比例时按中心裁切估算。实测标定可修正电子防抖等额外裁切。"
-        : "尚未设置手机镜头视角，无法判断目标画面是否需要拼接。";
+        : "尚未设置手机镜头视角，无法判断目标画面是否需要拼接。");
   const phone = lensSetup.devices.find((d) => d.id === p.optics?.phoneId);
   const phoneLens = phone?.lenses.find((l) => l.id === p.optics?.lensId);
-  $("lens-profile-info").textContent = completeOptics(p.optics)
-    ? `${[phone?.name, phoneLens?.name].filter(Boolean).join(" · ") || "当前镜头"} · f/${p.aperture} · ${p.optics.mode === "equivalent" ? `等效 ${number(p.optics.equivalentMm)} mm · ` : ""}预览水平 ${number(p.hfov)}°，已保存。`
-    : "首次使用每个镜头时填写视角和光圈，之后自动恢复。";
+  $("lens-profile-info").textContent = t(completeOptics(p.optics)
+    ? `${[isEnglish ? phone?.nameEn || phone?.name : phone?.name, isEnglish ? phoneLens?.nameEn || phoneLens?.name : phoneLens?.name].filter(Boolean).join(" · ") || "当前镜头"} · f/${p.aperture} · ${p.optics.mode === "equivalent" ? `等效 ${number(p.optics.equivalentMm)} mm · ` : ""}预览水平 ${number(p.hfov)}°，已保存。`
+    : "首次使用每个镜头时填写视角和光圈，之后自动恢复。");
   $("target-orientation").value = state.orientation;
   $("log-counts").checked = state.log;
   updateLutControls();
   if (film()) {
     renderFilmList();
     $("film-info").textContent =
-      film().info +
+      t(film().info +
       (film().color?.density.red
         ? " · 分层色彩来自厂家光谱与密度图，手机 RGB 光谱重建为近似。"
-        : "");
+        : ""));
     $("film-source").hidden = !film().url;
     $("film-source").href = film().url || "#";
     $("custom-iso").value = state.manual.iso;
     $("custom-iso").disabled = state.isoLocked;
     $("set-iso").disabled = state.isoLocked;
-    $("settings-iso-lock").textContent = state.isoLocked
+    $("settings-iso-lock").textContent = t(state.isoLocked
       ? "解锁 ISO"
-      : "锁定至 " + film().iso;
+      : "锁定至 " + film().iso);
   }
   $("color-style").value = state.style;
   $("style-info").textContent =
-    state.style === "aero"
+    t(state.style === "aero"
       ? "可见光近似映射，无法还原真实红外反射。"
       : state.style === "purple"
         ? "可见光画面的 LomoChrome Purple 风格近似。"
-        : "";
+        : "");
   const cal = calibration();
-  $("calibration-status").textContent = cal
+  $("calibration-status").textContent = t(cal
     ? `已保存 · ${cal.stops.toFixed(1)} EV · ${cal.channel} · ISO ${cal.iso}`
-    : "当前镜头和采集 ISO 未校准。直方图以红框标识。";
+    : "当前镜头和采集 ISO 未校准。直方图以红框标识。");
 }
 function openSettings() {
   refreshSettings();
@@ -1052,15 +1054,15 @@ function refreshCaptureControls(settings = camera.settings, reset = false) {
   const reported = camera.stream ? trackExposure(settings) : null;
   $("capture-iso").readOnly = automatic;
   $("capture-time").readOnly = automatic;
-  $("capture-iso-label").textContent = automatic
+  $("capture-iso-label").textContent = t(automatic
     ? "手机 ISO · 自动读取"
-    : "手机 ISO";
-  $("capture-time-label").textContent = automatic
+    : "手机 ISO");
+  $("capture-time-label").textContent = t(automatic
     ? "快门（秒）· 自动读取"
-    : "快门（秒）";
+    : "快门（秒）");
   $("capture-fixed-controls").hidden = automatic;
-  $("capture-iso").placeholder = automatic ? "相机未提供" : "例如 100";
-  $("capture-time").placeholder = automatic ? "相机未提供" : "1/100";
+  $("capture-iso").placeholder = t(automatic ? "相机未提供" : "例如 100");
+  $("capture-time").placeholder = t(automatic ? "相机未提供" : "1/100");
   if (automatic) {
     $("capture-iso").value = reported ? number(reported.iso) : "";
     $("capture-time").value = reported
@@ -1071,7 +1073,7 @@ function refreshCaptureControls(settings = camera.settings, reset = false) {
     $("capture-time").value = p.seconds || reported?.t || "";
   }
   const capture = camera.stream ? captureExposure(settings, p) : null;
-  $("capture-info").textContent = capture
+  $("capture-info").textContent = t(capture
     ? `${capture.source} · 相机 f/${capture.a} · ${timeLabel(capture.t)} · ISO ${number(capture.iso)}。用于场景 EV100、直方图与曝光组合，每 0.5 秒刷新参数。${settings.exposureMode !== "manual" ? "自动曝光参数可能滞后于画面。" : ""}${state.frozen ? "冻结测光保留冻结时的参数。" : ""}`
     : !camera.stream
       ? "开启相机后自动读取快门与 ISO，只需填写手机光圈。"
@@ -1087,7 +1089,7 @@ function refreshCaptureControls(settings = camera.settings, reset = false) {
               ? finite(sceneBase(settings).value)
                 ? "已使用当前已知 EV 标定。改变相机采集曝光后需重新标定。"
                 : "请实际固定相机曝光，确认后设置已知 EV 标定。"
-              : "请填写并确认固定采集参数；参数须与相机实际曝光一致。";
+              : "请填写并确认固定采集参数；参数须与相机实际曝光一致。");
 }
 function captureProfileFromInputs() {
   state.profile.mode = $("capture-mode").value;
@@ -1107,7 +1109,7 @@ function captureProfileFromInputs() {
 
 async function startCamera({ throwErrors = false } = {}) {
   $("start-camera").disabled = true;
-  $("start-message").textContent = "正在请求相机权限…";
+  $("start-message").textContent = t("正在请求相机权限…");
   calibrationToken++;
   state.frozen = false;
   frozenDisplay = null;
@@ -1135,10 +1137,10 @@ async function startCamera({ throwErrors = false } = {}) {
           ? "没有找到可用相机。请连接相机后重试。"
           : error.message;
     $("welcome").hidden = false;
-    $("start-message").textContent = message;
-    $("camera-status").textContent = message;
+    $("start-message").textContent = t(message);
+    $("camera-status").textContent = t(message);
     toast(message);
-    if (throwErrors) throw new Error(message);
+    if (throwErrors) throw new Error(t(message));
   } finally {
     $("start-camera").disabled = false;
   }
@@ -1151,7 +1153,7 @@ camera.addEventListener("started", (event) => {
   $("live-state").classList.add("running");
   $("live-state").innerHTML = "<i></i> LIVE";
   $("camera-status").textContent =
-    `${event.detail.settings.width} × ${event.detail.settings.height} · 当前镜头已开启`;
+    t(`${event.detail.settings.width} × ${event.detail.settings.height} · 当前镜头已开启`);
   refreshSettings();
 });
 camera.addEventListener("devices", (event) => {
@@ -1166,12 +1168,12 @@ camera.addEventListener("devices", (event) => {
   event.detail.forEach((device, i) => {
     const option = document.createElement("option");
     option.value = device.deviceId;
-    option.textContent = device.label || `镜头 ${i + 1}`;
+    option.textContent = t(device.label || `镜头 ${i + 1}`);
     option.selected = device.deviceId === activeCameraChoice;
     $("camera-select").append(option);
   });
   const selected = $("camera-select").selectedOptions[0];
-  $("camera-shortcut").textContent = selected?.textContent || "选择镜头";
+  $("camera-shortcut").textContent = t(selected?.textContent || "选择镜头");
   lensSetup.refreshCameraList();
 });
 camera.addEventListener("settings", (event) => {
@@ -1212,7 +1214,7 @@ camera.addEventListener("ended", () => {
   $("welcome").hidden = false;
 });
 camera.addEventListener("muted", (event) => {
-  $("live-state").lastChild.textContent = event.detail ? " 暂停" : " LIVE";
+  $("live-state").lastChild.textContent = t(event.detail ? " 暂停" : " LIVE");
 });
 
 function toggleFreeze() {
@@ -1254,15 +1256,15 @@ function drawSpots() {
   state.spots.forEach((point) => {
     const marker = document.createElement("span");
     marker.className = "spot";
-    marker.textContent = point.id;
+    marker.textContent = t(point.id);
     marker.style.left = point.x * 100 + "%";
     marker.style.top = point.y * 100 + "%";
     marker.style.color = spotColor(point.id);
     $("spots").append(marker);
     const label = document.createElement("button");
-    label.textContent = `${point.id} · ${point.ev.toFixed(1)} ${absolute() ? "EV100" : "EV"} ×`;
+    label.textContent = t(`${point.id} · ${point.ev.toFixed(1)} ${absolute() ? "EV100" : "EV"} ×`);
     label.style.color = spotColor(point.id);
-    label.title = "删除测光点";
+    label.title = t("删除测光点");
     label.addEventListener("click", () => {
       state.spots = state.spots.filter((p) => p.id !== point.id);
       drawSpots();
@@ -1271,9 +1273,9 @@ function drawSpots() {
     $("spot-list").append(label);
   });
   const exit = document.createElement("button");
-  exit.textContent = state.spots.length
+  exit.textContent = t(state.spots.length
     ? "退出冻结"
-    : "点击画面添加测光点 · 退出";
+    : "点击画面添加测光点 · 退出");
   exit.addEventListener("click", toggleFreeze);
   $("spot-list").append(exit);
 }
@@ -1350,15 +1352,15 @@ function updateScan(info = state.pano?.guide()) {
       : "继续保持重叠，补拍边缘";
   }
   $("scan-progress").value = guide.coverage;
-  $("scan-status").textContent = state.scan
+  $("scan-status").textContent = t(state.scan
     ? `${Math.round(guide.coverage * 100)}% 覆盖 · ${guide.captures} 帧 · ${guide.needsOverlap ? "请退回已采集区域恢复重叠" : direction}${state.pose ? "" : " · 图像配准"}`
     : state.manualCrop
       ? "二次构图 · 拖动调整已采集画面"
       : state.pose
         ? "二次构图 · 转动手机或拖动画面"
-        : "二次构图 · 拖动画面";
+        : "二次构图 · 拖动画面");
   $("scan-capture").hidden = !state.scan;
-  $("scan-finish").textContent = state.scan ? "完成 / 二次构图" : "继续补拍";
+  $("scan-finish").textContent = t(state.scan ? "完成 / 二次构图" : "继续补拍");
   const canvas = $("coverage-map"),
     ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1394,7 +1396,7 @@ function updateScan(info = state.pano?.guide()) {
   ctx.stroke();
   canvas.setAttribute(
     "aria-label",
-    `拼接覆盖 ${Math.round(guide.coverage * 100)}%，白色十字为当前方向，黄色圆圈为待补拍区域，${direction}`,
+    t(`拼接覆盖 ${Math.round(guide.coverage * 100)}%，白色十字为当前方向，黄色圆圈为待补拍区域，${direction}`),
   );
 }
 function cancelScan() {
@@ -1409,7 +1411,7 @@ function nextFrame() {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       camera.removeEventListener("frame", handle);
-      reject(new Error("相机画面暂停，请重试"));
+      reject(new Error(t("相机画面暂停，请重试")));
     }, 3000);
     function handle(event) {
       clearTimeout(timeout);
@@ -1425,28 +1427,28 @@ async function collectBracket(seconds, token) {
     token !== calibrationToken ||
     session.key !== state.profileKey
   )
-    throw new Error("镜头或校准流程已改变，请重新开始");
+    throw new Error(t("镜头或校准流程已改变，请重新开始"));
   if (!finite(seconds) || seconds <= 0)
-    throw new Error("请输入本档实际快门时间");
+    throw new Error(t("请输入本档实际快门时间"));
   if (
     Number($("capture-aperture").value) !== session.aperture ||
     Number($("calibration-iso").value) !== session.iso
   )
-    throw new Error("校准期间须保持同一手机光圈和 ISO，请重新开始");
+    throw new Error(t("校准期间须保持同一手机光圈和 ISO，请重新开始"));
   if (session.manual && !$("capture-confirmed").checked)
-    throw new Error("请先确认相机已实际固定 ISO 与光圈，并调整至本档快门");
+    throw new Error(t("请先确认相机已实际固定 ISO 与光圈，并调整至本档快门"));
   if (
     brackets.some((b) => Math.abs(Math.log2(b.actualSeconds / seconds)) < 0.01)
   )
-    throw new Error("已采集这个快门时间，请实际改变快门后再采样");
-  if (session.sampling) throw new Error("正在采集本档，请稍候");
+    throw new Error(t("已采集这个快门时间，请实际改变快门后再采样"));
+  if (session.sampling) throw new Error(t("正在采集本档，请稍候"));
   session.sampling = true;
   $("calibration-sample").disabled = true;
   try {
     const first = await nextFrame(),
       repeat = await nextFrame();
     if (token !== calibrationToken || session.key !== state.profileKey)
-      throw new Error("校准已取消或镜头已切换");
+      throw new Error(t("校准已取消或镜头已切换"));
     for (const frame of [first, repeat]) {
       const settings = frame.settings || {};
       if (
@@ -1454,17 +1456,17 @@ async function collectBracket(seconds, token) {
         settings.exposureMode &&
         settings.exposureMode !== "manual"
       )
-        throw new Error("浏览器报告相机仍在自动曝光，请实际固定曝光后重试");
+        throw new Error(t("浏览器报告相机仍在自动曝光，请实际固定曝光后重试"));
       if (
         settings.iso > 0 &&
         Math.abs(Math.log2(settings.iso / session.iso)) > 0.1
       )
-        throw new Error("相机实际 ISO 与校准 ISO 不一致");
+        throw new Error(t("相机实际 ISO 与校准 ISO 不一致"));
       if (
         settings.exposureTime > 0 &&
         Math.abs(Math.log2(settings.exposureTime / 10000 / seconds)) > 0.15
       )
-        throw new Error("相机实际快门与本档输入不一致，请等待曝光稳定后重试");
+        throw new Error(t("相机实际快门与本档输入不一致，请等待曝光稳定后重试"));
     }
     brackets.push({
       seconds:
@@ -1478,19 +1480,19 @@ async function collectBracket(seconds, token) {
     $("calibration-sample").disabled = false;
   }
   $("calibration-progress").textContent =
-    `已采集 ${brackets.length} 档 · ${timeLabel(seconds)}`;
+    t(`已采集 ${brackets.length} 档 · ${timeLabel(seconds)}`);
 }
 async function finishCalibration() {
   try {
     const session = calibrationSession;
     if (!session || session.key !== state.profileKey)
-      throw new Error("请先在当前镜头开始一次校准");
-    if (session.sampling) throw new Error("请等待本档两帧采样完成后再拟合");
+      throw new Error(t("请先在当前镜头开始一次校准"));
+    if (session.sampling) throw new Error(t("请等待本档两帧采样完成后再拟合"));
     if (
       Number($("calibration-iso").value) !== session.iso ||
       Number($("capture-aperture").value) !== session.aperture
     )
-      throw new Error("校准期间 ISO 或光圈已改变，请重新开始");
+      throw new Error(t("校准期间 ISO 或光圈已改变，请重新开始"));
     const result = fitResponse(brackets, {
       method: session.method,
       step: session.step,
@@ -1514,13 +1516,13 @@ async function finishCalibration() {
       });
     persist();
     $("calibration-progress").textContent =
-      `校准已保存，${result.stops.toFixed(1)} EV · 预览通道估测`;
+      t(`校准已保存，${result.stops.toFixed(1)} EV · 预览通道估测`);
     $("manual-calibration").hidden = true;
     refreshSettings();
     processImage();
     toast("当前镜头校准已保存");
   } catch (error) {
-    $("calibration-progress").textContent = error.message;
+    $("calibration-progress").textContent = t(error.message);
     toast(error.message);
   }
 }
@@ -1561,7 +1563,7 @@ async function startCalibration() {
     calibrationSession.manual = true;
     $("manual-calibration").hidden = false;
     $("calibration-progress").textContent =
-      "未开放自动扫描。请实际固定相机 ISO 与光圈，勾选“已确认相机曝光固定”，每档实际改变快门并输入对应秒数。至少采集 5 档、跨越 4 EV，每档采样两帧。仅改输入框无法完成校准。";
+      t("未开放自动扫描。请实际固定相机 ISO 与光圈，勾选“已确认相机曝光固定”，每档实际改变快门并输入对应秒数。至少采集 5 档、跨越 4 EV，每档采样两帧。仅改输入框无法完成校准。");
     return;
   }
   $("manual-calibration").hidden = true;
@@ -1579,26 +1581,26 @@ async function startCalibration() {
         range.max / range.min >= 16
       )
     )
-      throw new Error("浏览器开放的曝光跨度不足 4 EV");
+      throw new Error(t("浏览器开放的曝光跨度不足 4 EV"));
     for (let i = 0; i <= 12; i++) {
-      if (token !== calibrationToken) throw new Error("校准已取消");
+      if (token !== calibrationToken) throw new Error(t("校准已取消"));
       const seconds = (range.min * (range.max / range.min) ** (i / 12)) / 10000;
       const actual = await camera.fixedExposure(seconds, iso);
       if (Math.abs(Math.log2(actual.iso / iso)) > 0.1)
-        throw new Error("浏览器未固定所选 ISO，请重新设置");
+        throw new Error(t("浏览器未固定所选 ISO，请重新设置"));
       if (i === 0) {
         calibrationSession.iso = actual.iso;
         $("calibration-iso").value = String(actual.iso);
       } else if (
         Math.abs(Math.log2(actual.iso / calibrationSession.iso)) > 0.01
       )
-        throw new Error("扫描期间相机 ISO 发生变化，请重试");
+        throw new Error(t("扫描期间相机 ISO 发生变化，请重试"));
       await delay(400);
       await collectBracket(actual.seconds, token);
     }
     await finishCalibration();
   } catch (error) {
-    $("calibration-progress").textContent = error.message;
+    $("calibration-progress").textContent = t(error.message);
     toast(error.message);
   } finally {
     if (camera.track === originalTrack)
@@ -1703,7 +1705,7 @@ function bindEvents() {
       option.value = "custom";
       $("format").append(option);
     }
-    option.textContent = `自定义 ${number(w)} × ${number(h)}`;
+    option.textContent = t(`自定义 ${number(w)} × ${number(h)}`);
     $("format").value = "custom";
     cancelScan();
     persist();
@@ -2043,7 +2045,7 @@ function bindPresets() {
     const file = event.target.files[0];
     if (!file) return;
     try {
-      if (file.size > 2 * 1024 * 1024) throw new Error("预设文件超过 2 MiB");
+      if (file.size > 2 * 1024 * 1024) throw new Error(t("预设文件超过 2 MiB"));
       const presets = CustomPresets.decode(await file.text());
       state.presets = CustomPresets.merge(state.presets, presets);
       if (presets.some((p) => p.id === state.filmId)) {
@@ -2053,7 +2055,7 @@ function bindPresets() {
       refreshSettings();
       refresh();
       $("preset-status").textContent =
-        `已读取 ${presets.length} 个预设，可与安卓版互通`;
+        t(`已读取 ${presets.length} 个预设，可与安卓版互通`);
       toast("预设已导入");
     } catch (error) {
       toast(error.message);
@@ -2307,15 +2309,15 @@ async function initialize() {
   FORMATS.forEach((format, index) => {
     const option = document.createElement("option");
     option.value = index;
-    option.textContent = format.name;
-    option.title = `${format.w} × ${format.h} mm`;
+    option.textContent = t(format.name);
+    option.title = t(`${format.w} × ${format.h} mm`);
     option.selected = format.name === state.format.name;
     $("format").append(option);
   });
   if (state.customFormat) {
     const option = document.createElement("option");
     option.value = "custom";
-    option.textContent = `自定义 ${number(state.customFormat.w)} × ${number(state.customFormat.h)}`;
+    option.textContent = t(`自定义 ${number(state.customFormat.w)} × ${number(state.customFormat.h)}`);
     option.selected = state.format.name === "自定义";
     $("format").append(option);
   }
@@ -2347,8 +2349,9 @@ async function initialize() {
     )
       lensSetup.open();
   } catch (error) {
-    $("start-message").textContent = "胶片数据加载失败，请刷新页面重试。";
+    $("start-message").textContent = t("胶片数据加载失败，请刷新页面重试。");
     toast(error.message);
   }
 }
+initializeLanguage();
 initialize();

@@ -124,13 +124,15 @@ h1 {
   color: var(--muted);
 }
 .primary,
-button.selected {
+button.selected,
+#configure-lens {
   background: var(--amber);
   color: var(--ink);
   font-weight: 650;
 }
 .primary:hover,
-button.selected:hover {
+button.selected:hover,
+#configure-lens:hover {
   background: #ffd18c;
 }
 [hidden] {

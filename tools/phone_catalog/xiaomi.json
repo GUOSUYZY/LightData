@@ -1,0 +1,1925 @@
+{
+  "version": 1,
+  "updated": "2026-11-17",
+  "scope": "Xiaomi 主品牌；中国大陆 2022–2026 年已发布且至少一配置首发 MSRP 严格高于人民币 4000 元。价格取符合门槛的最低已确认配置；不含 REDMI/POCO。后置实体镜头，不把数字裁切当作独立镜头。",
+  "devices": [
+    {
+      "id": "xiaomi-12s",
+      "name": "Xiaomi 12S",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 12S",
+        "小米 12S",
+        "小米12S"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/mi12s/specs",
+      "launchYear": 2022,
+      "msrpCny": 4299,
+      "priceSource": "https://www.ithome.com/0/627/847.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 8GB+256GB 官方定价 4299 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4299 for 8GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 12S",
+          "configuration": "8GB+256GB",
+          "msrpCny": 4299,
+          "priceSource": "https://www.ithome.com/0/627/847.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main camera · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.9,
+          "equivalentMm": 24,
+          "source": "https://www.mi.com/mi12s/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 15,
+          "manufacturerFov": 123,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/mi12s/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "baseLaunchMsrpCny": 3999,
+      "unconfiguredLenses": [
+        {
+          "id": "macro",
+          "name": "长焦微距 · 50 mm",
+          "nameEn": "Telemacro · 50 mm",
+          "facing": "environment",
+          "role": "macro",
+          "equivalentMm": 50,
+          "apertureUnknown": true,
+          "source": "https://www.mi.com/mi12s/specs",
+          "note": "官网列出 50 mm 长焦微距，但未列光圈。未用猜测光圈创建可测光的快捷配置；请手动配置此镜头。",
+          "noteEn": "The manufacturer lists a 50 mm telemacro camera but no aperture. No metering shortcut is generated with a guessed aperture; configure this camera manually."
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-12s-pro",
+      "name": "Xiaomi 12S Pro",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 12S Pro",
+        "小米 12S Pro",
+        "小米12S Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/mi12s-pro/specs",
+      "launchYear": 2022,
+      "msrpCny": 4699,
+      "priceSource": "https://www.ithome.com/0/627/847.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 8GB+128GB 官方定价 4699 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4699 for 8GB+128GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 12S Pro",
+          "configuration": "8GB+128GB",
+          "msrpCny": 4699,
+          "priceSource": "https://www.ithome.com/0/627/847.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main camera · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.9,
+          "equivalentMm": 24,
+          "source": "https://www.mi.com/mi12s-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 焦距待设置",
+          "nameEn": "Ultra-wide · Set focal length",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "coverageUnknown": true,
+          "note": "厂家未标明此实体镜头的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer does not specify the native equivalent focal length of this physical camera. Enter equivalent focal length or horizontal field of view manually.",
+          "manufacturerFov": 115,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/mi12s-pro/specs"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 50 mm",
+          "nameEn": "Telephoto · 50 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.9,
+          "equivalentMm": 50,
+          "source": "https://www.mi.com/mi12s-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-12s-ultra",
+      "name": "Xiaomi 12S Ultra",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 12S Ultra",
+        "小米 12S Ultra",
+        "小米12S Ultra"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/mi12s-ultra/specs",
+      "launchYear": 2022,
+      "msrpCny": 5999,
+      "priceSource": "https://www.ithome.com/0/627/849.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 8GB+256GB 官方定价 5999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 5999 for 8GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 12S Ultra",
+          "configuration": "8GB+256GB",
+          "msrpCny": 5999,
+          "priceSource": "https://www.ithome.com/0/627/849.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.9,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/mi12s-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 13 mm",
+          "nameEn": "Ultra-wide · 13 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "manufacturerFov": 128,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/mi12s-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 120 mm",
+          "nameEn": "Periscope telephoto · 120 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 4.1,
+          "equivalentMm": 120,
+          "source": "https://www.mi.com/mi12s-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-12-pro-dimensity",
+      "name": "Xiaomi 12 Pro Dimensity",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 12 Pro Dimensity",
+        "小米 12 Pro Dimensity",
+        "小米12 Pro Dimensity",
+        "小米 12 Pro 天玑版",
+        "小米12 Pro天玑版",
+        "Xiaomi 12 Pro Dimensity Edition"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/mi12pro-dimensity/specs",
+      "launchYear": 2022,
+      "msrpCny": 4499,
+      "priceSource": "https://www.ithome.com/0/627/852.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 4499 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4499 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 12 Pro Dimensity",
+          "configuration": "12GB+256GB",
+          "msrpCny": 4499,
+          "priceSource": "https://www.ithome.com/0/627/852.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main camera · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.9,
+          "equivalentMm": 24,
+          "source": "https://www.mi.com/mi12pro-dimensity/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 15,
+          "manufacturerFov": 123,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/mi12pro-dimensity/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "baseLaunchMsrpCny": 3999,
+      "unconfiguredLenses": [
+        {
+          "id": "macro",
+          "name": "长焦微距 · 50 mm",
+          "nameEn": "Telemacro · 50 mm",
+          "facing": "environment",
+          "role": "macro",
+          "equivalentMm": 50,
+          "apertureUnknown": true,
+          "source": "https://www.mi.com/mi12pro-dimensity/specs",
+          "note": "官网列出 50 mm 长焦微距，但未列光圈。未用猜测光圈创建可测光的快捷配置；请手动配置此镜头。",
+          "noteEn": "The manufacturer lists a 50 mm telemacro camera but no aperture. No metering shortcut is generated with a guessed aperture; configure this camera manually."
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-13",
+      "name": "Xiaomi 13",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 13",
+        "小米 13",
+        "小米13"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/xiaomi-13/specs",
+      "launchYear": 2022,
+      "msrpCny": 4299,
+      "priceSource": "https://www.ithome.com/0/660/339.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 8GB+256GB 官方定价 4299 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4299 for 8GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 13",
+          "configuration": "8GB+256GB",
+          "msrpCny": 4299,
+          "priceSource": "https://www.ithome.com/0/660/339.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/xiaomi-13/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 15,
+          "source": "https://www.mi.com/xiaomi-13/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 75 mm",
+          "nameEn": "Telephoto · 75 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 75,
+          "source": "https://www.mi.com/xiaomi-13/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "baseLaunchMsrpCny": 3999,
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-13-pro",
+      "name": "Xiaomi 13 Pro",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 13 Pro",
+        "小米 13 Pro",
+        "小米13 Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/xiaomi-13-pro/specs",
+      "launchYear": 2022,
+      "msrpCny": 4999,
+      "priceSource": "https://www.ithome.com/0/660/343.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 8GB+128GB 官方定价 4999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4999 for 8GB+128GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 13 Pro",
+          "configuration": "8GB+128GB",
+          "msrpCny": 4999,
+          "priceSource": "https://www.ithome.com/0/660/343.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.9,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/xiaomi-13-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "nameEn": "Ultra-wide · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "manufacturerFov": 115,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/xiaomi-13-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 75 mm",
+          "nameEn": "Telephoto · 75 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 75,
+          "source": "https://www.mi.com/xiaomi-13-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-13-ultra",
+      "name": "Xiaomi 13 Ultra",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 13 Ultra",
+        "小米 13 Ultra",
+        "小米13 Ultra"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/xiaomi-13-ultra/specs",
+      "launchYear": 2023,
+      "msrpCny": 5999,
+      "priceSource": "https://www.ithome.com/0/687/322.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 5999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 5999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 13 Ultra",
+          "configuration": "12GB+256GB",
+          "msrpCny": 5999,
+          "priceSource": "https://www.ithome.com/0/687/322.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.9,
+          "equivalentMm": 23,
+          "variableAperture": true,
+          "apertureRange": [
+            1.9,
+            4
+          ],
+          "variableApertureNote": "主摄有两档物理光圈；此值为最大光圈，须按实际设置调整。",
+          "variableApertureNoteEn": "The main camera has two physical aperture positions. This is the widest aperture; enter the actual setting.",
+          "apertureOptions": [
+            1.9,
+            4
+          ],
+          "source": "https://www.mi.com/xiaomi-13-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 12 mm",
+          "nameEn": "Ultra-wide · 12 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.8,
+          "equivalentMm": 12,
+          "manufacturerFov": 122,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/xiaomi-13-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 75 mm",
+          "nameEn": "Telephoto · 75 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.8,
+          "equivalentMm": 75,
+          "source": "https://www.mi.com/xiaomi-13-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 120 mm",
+          "nameEn": "Periscope telephoto · 120 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3,
+          "equivalentMm": 120,
+          "source": "https://www.mi.com/xiaomi-13-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-14",
+      "name": "Xiaomi 14",
+      "aliases": [
+        "Xiaomi 14",
+        "小米 14",
+        "小米14"
+      ],
+      "modelPatterns": [
+        "^23127PN0CG$"
+      ],
+      "source": "https://www.mi.com/global/product/xiaomi-14/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 23,
+          "nameEn": "Main camera · 23 mm",
+          "source": "https://www.mi.com/xiaomi-14/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "nameEn": "Ultra-wide · 14 mm",
+          "source": "https://www.mi.com/xiaomi-14/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 75 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 75,
+          "nameEn": "Telephoto · 75 mm",
+          "source": "https://www.mi.com/xiaomi-14/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "modelSources": [
+        "https://www.mi.com/ru/support/user-guide-pdf/xiaomi-14/"
+      ],
+      "brand": "Xiaomi",
+      "launchYear": 2023,
+      "msrpCny": 4299,
+      "priceSource": "https://www.ithome.com/0/727/908.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 4299 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4299 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 14",
+          "configuration": "12GB+256GB",
+          "msrpCny": 4299,
+          "priceSource": "https://www.ithome.com/0/727/908.htm"
+        }
+      ],
+      "specSources": [
+        "https://www.mi.com/xiaomi-14/specs",
+        "https://www.mi.com/global/product/xiaomi-14/specs/"
+      ],
+      "baseLaunchMsrpCny": 3999,
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-14-pro",
+      "name": "Xiaomi 14 Pro",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 14 Pro",
+        "小米 14 Pro",
+        "小米14 Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/xiaomi-14-pro/specs",
+      "launchYear": 2023,
+      "msrpCny": 4999,
+      "priceSource": "https://www.ithome.com/0/727/914.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 4999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 14 Pro",
+          "configuration": "12GB+256GB",
+          "msrpCny": 4999,
+          "priceSource": "https://www.ithome.com/0/727/914.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.42,
+          "equivalentMm": 23,
+          "variableAperture": true,
+          "apertureRange": [
+            1.42,
+            4
+          ],
+          "variableApertureNote": "主摄支持可变物理光圈；此值为最大光圈，须按实际设置调整。",
+          "variableApertureNoteEn": "The main camera has a variable physical aperture. This is the widest aperture; enter the actual setting.",
+          "source": "https://www.mi.com/xiaomi-14-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "nameEn": "Ultra-wide · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "manufacturerFov": 115,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/xiaomi-14-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 75 mm",
+          "nameEn": "Telephoto · 75 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 75,
+          "source": "https://www.mi.com/xiaomi-14-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-14-ultra",
+      "name": "Xiaomi 14 Ultra",
+      "aliases": [
+        "Xiaomi 14 Ultra",
+        "小米 14 Ultra",
+        "小米14 Ultra"
+      ],
+      "modelPatterns": [
+        "^24030PN60G$"
+      ],
+      "source": "https://www.mi.com/global/product/xiaomi-14-ultra/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.63,
+          "equivalentMm": 23,
+          "note": "主摄为 f/1.63–f/4.0 无级可变光圈；此值为最大光圈，测光时须按实际设置调整。",
+          "nameEn": "Main camera · 23 mm",
+          "variableAperture": true,
+          "apertureRange": [
+            1.63,
+            4
+          ],
+          "variableApertureNote": "主摄支持可变物理光圈；此值为最大光圈，须按实际设置调整。",
+          "variableApertureNoteEn": "The main camera has a variable physical aperture. This is the widest aperture; enter the actual setting.",
+          "source": "https://www.mi.com/prod/xiaomi-14-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 12 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.8,
+          "equivalentMm": 12,
+          "nameEn": "Ultra-wide · 12 mm",
+          "source": "https://www.mi.com/prod/xiaomi-14-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 75 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.8,
+          "equivalentMm": 75,
+          "nameEn": "Telephoto · 75 mm",
+          "source": "https://www.mi.com/prod/xiaomi-14-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 120 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.5,
+          "equivalentMm": 120,
+          "nameEn": "Periscope telephoto · 120 mm",
+          "source": "https://www.mi.com/prod/xiaomi-14-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "modelSources": [
+        "https://gl123.alsgp0.mi-fds.com/gl123/XIAOMI/Xiaomi%2014%20Ultra/%E9%87%8F%E4%BA%A7/N1_%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97_en%20ar%20HK_A_20240116%20Web%20Version.pdf"
+      ],
+      "brand": "Xiaomi",
+      "launchYear": 2024,
+      "msrpCny": 6499,
+      "priceSource": "https://www.ithome.com/0/751/479.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 6499 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 6499 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 14 Ultra",
+          "configuration": "12GB+256GB",
+          "msrpCny": 6499,
+          "priceSource": "https://www.ithome.com/0/751/479.htm"
+        }
+      ],
+      "specSources": [
+        "https://www.mi.com/prod/xiaomi-14-ultra/specs",
+        "https://www.mi.com/global/product/xiaomi-14-ultra/specs/"
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-15",
+      "name": "Xiaomi 15",
+      "aliases": [
+        "Xiaomi 15",
+        "小米 15",
+        "小米15"
+      ],
+      "modelPatterns": [
+        "^24129PN74G$"
+      ],
+      "source": "https://www.mi.com/global/product/xiaomi-15/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.62,
+          "equivalentMm": 23,
+          "nameEn": "Main camera · 23 mm",
+          "source": "https://www.mi.com/prod/xiaomi-15/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "nameEn": "Ultra-wide · 14 mm",
+          "source": "https://www.mi.com/prod/xiaomi-15/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 60 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 60,
+          "nameEn": "Telephoto · 60 mm",
+          "source": "https://www.mi.com/prod/xiaomi-15/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "modelSources": [
+        "https://www.mi.com/tw/product/xiaomi-15/specs/",
+        "https://www.mi.com/cl/regulatoryinfo/subtel/"
+      ],
+      "brand": "Xiaomi",
+      "launchYear": 2024,
+      "msrpCny": 4499,
+      "priceSource": "https://www.ithome.com/0/806/219.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 4499 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4499 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 15",
+          "configuration": "12GB+256GB",
+          "msrpCny": 4499,
+          "priceSource": "https://www.ithome.com/0/806/219.htm"
+        }
+      ],
+      "specSources": [
+        "https://www.mi.com/prod/xiaomi-15/specs",
+        "https://www.mi.com/global/product/xiaomi-15/specs/"
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-15-pro",
+      "name": "Xiaomi 15 Pro",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 15 Pro",
+        "小米 15 Pro",
+        "小米15 Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-15-pro/specs",
+      "launchYear": 2024,
+      "msrpCny": 5299,
+      "priceSource": "https://www.ithome.com/0/806/313.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 5299 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 5299 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 15 Pro",
+          "configuration": "12GB+256GB",
+          "msrpCny": 5299,
+          "priceSource": "https://www.ithome.com/0/806/313.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.44,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-15-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "nameEn": "Ultra-wide · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "manufacturerFov": 115,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-15-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 120 mm",
+          "nameEn": "Periscope telephoto · 120 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.5,
+          "equivalentMm": 120,
+          "source": "https://www.mi.com/prod/xiaomi-15-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-15s-pro",
+      "name": "Xiaomi 15S Pro",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 15S Pro",
+        "小米 15S Pro",
+        "小米15S Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-15s-pro/specs",
+      "launchYear": 2025,
+      "msrpCny": 5499,
+      "priceSource": "https://ir.mi.com/system/files-encrypted/nasdaq_kms/assets/2025/05/27/6-36-49/Xiaomi%20Corp_25Q1_ER_ENG%20vF.pdf",
+      "priceEvidence": "manufacturer-investor-presentation",
+      "priceNote": "中国大陆首发起售价 5499 元，见小米 2025 年第一季度业绩演示材料中 5 月新品介绍；此处不由起售价推定存储配置。",
+      "priceNoteEn": "Mainland China launch starting price: CNY 5499, documented in Xiaomi’s Q1 2025 earnings presentation covering May products. The storage configuration is not inferred from the starting price.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 15S Pro",
+          "msrpCny": 5499,
+          "priceSource": "https://ir.mi.com/system/files-encrypted/nasdaq_kms/assets/2025/05/27/6-36-49/Xiaomi%20Corp_25Q1_ER_ENG%20vF.pdf",
+          "startingPrice": true
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.44,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-15s-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "nameEn": "Ultra-wide · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "manufacturerFov": 115,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-15s-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 120 mm",
+          "nameEn": "Periscope telephoto · 120 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.5,
+          "equivalentMm": 120,
+          "source": "https://www.mi.com/prod/xiaomi-15s-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-15-ultra",
+      "name": "Xiaomi 15 Ultra",
+      "aliases": [
+        "Xiaomi 15 Ultra",
+        "小米 15 Ultra",
+        "小米15 Ultra"
+      ],
+      "modelPatterns": [
+        "^25010PN30G$"
+      ],
+      "source": "https://www.mi.com/global/product/xiaomi-15-ultra/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.63,
+          "equivalentMm": 23,
+          "nameEn": "Main camera · 23 mm",
+          "source": "https://www.mi.com/global/product/xiaomi-15-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "nameEn": "Ultra-wide · 14 mm",
+          "source": "https://www.mi.com/global/product/xiaomi-15-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 70 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.8,
+          "equivalentMm": 70,
+          "nameEn": "Telephoto · 70 mm",
+          "source": "https://www.mi.com/global/product/xiaomi-15-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 100 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "equivalentMm": 100,
+          "nameEn": "Periscope telephoto · 100 mm",
+          "source": "https://www.mi.com/global/product/xiaomi-15-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "modelSources": [
+        "https://www.mi.com/tw/product/xiaomi-15-ultra/specs/",
+        "https://www.mi.com/cl/regulatoryinfo/subtel/"
+      ],
+      "brand": "Xiaomi",
+      "launchYear": 2025,
+      "msrpCny": 6499,
+      "priceSource": "https://www.ithome.com/0/834/153.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 6499 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 6499 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 15 Ultra",
+          "configuration": "12GB+256GB",
+          "msrpCny": 6499,
+          "priceSource": "https://www.ithome.com/0/834/153.htm"
+        }
+      ],
+      "specSources": [
+        "https://www.mi.com/global/product/xiaomi-15-ultra/specs/"
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-17",
+      "name": "Xiaomi 17",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 17",
+        "小米 17",
+        "小米17"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-17/specs",
+      "launchYear": 2025,
+      "msrpCny": 4499,
+      "priceSource": "https://www.ithome.com/0/885/831.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 4499 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4499 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 17",
+          "configuration": "12GB+256GB",
+          "msrpCny": 4499,
+          "priceSource": "https://www.ithome.com/0/885/831.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.67,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-17/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 17 mm",
+          "nameEn": "Ultra-wide · 17 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 17,
+          "manufacturerFov": 102,
+          "fovAxis": "unspecified",
+          "equivalentSource": "https://www.mi.com/global/product/xiaomi-17/specs/",
+          "equivalentNote": "等效 17 mm 由小米全球规格页确认；中国大陆规格页另列 102° FOV，未注明角度方向。",
+          "equivalentNoteEn": "The 17 mm equivalent is confirmed by Xiaomi’s global specifications. The mainland specification also lists a 102° FOV without an axis.",
+          "source": "https://www.mi.com/prod/xiaomi-17/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 60 mm",
+          "nameEn": "Telephoto · 60 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 60,
+          "source": "https://www.mi.com/prod/xiaomi-17/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-17-pro",
+      "name": "Xiaomi 17 Pro",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 17 Pro",
+        "小米 17 Pro",
+        "小米17 Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-17-pro/specs",
+      "launchYear": 2025,
+      "msrpCny": 4999,
+      "priceSource": "https://www.ithome.com/0/885/833.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 4999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 17 Pro",
+          "configuration": "12GB+256GB",
+          "msrpCny": 4999,
+          "priceSource": "https://www.ithome.com/0/885/833.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.67,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-17-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 17 mm",
+          "nameEn": "Ultra-wide · 17 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 17,
+          "manufacturerFov": 102,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-17-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 焦距待设置",
+          "nameEn": "Periscope telephoto · Set focal length",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3,
+          "coverageUnknown": true,
+          "note": "厂家未标明此实体镜头的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer does not specify the native equivalent focal length of this physical camera. Enter equivalent focal length or horizontal field of view manually.",
+          "opticalZoom": 5,
+          "source": "https://www.mi.com/prod/xiaomi-17-pro/specs"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-17-pro-max",
+      "name": "Xiaomi 17 Pro Max",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 17 Pro Max",
+        "小米 17 Pro Max",
+        "小米17 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-17-pro-max/specs",
+      "launchYear": 2025,
+      "msrpCny": 5999,
+      "priceSource": "https://www.ithome.com/0/885/835.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+512GB 官方定价 5999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 5999 for 12GB+512GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 17 Pro Max",
+          "configuration": "12GB+512GB",
+          "msrpCny": 5999,
+          "priceSource": "https://www.ithome.com/0/885/835.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.67,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-17-pro-max/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 17 mm",
+          "nameEn": "Ultra-wide · 17 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 17,
+          "manufacturerFov": 102,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-17-pro-max/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 焦距待设置",
+          "nameEn": "Periscope telephoto · Set focal length",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "coverageUnknown": true,
+          "note": "厂家未标明此实体镜头的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer does not specify the native equivalent focal length of this physical camera. Enter equivalent focal length or horizontal field of view manually.",
+          "opticalZoom": 5,
+          "source": "https://www.mi.com/prod/xiaomi-17-pro-max/specs"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-17-ultra",
+      "name": "Xiaomi 17 Ultra",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 17 Ultra",
+        "小米 17 Ultra",
+        "小米17 Ultra"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-17-ultra/specs",
+      "launchYear": 2025,
+      "msrpCny": 6999,
+      "priceSource": "https://ir.mi.com/system/files-encrypted/nasdaq_kms/assets/2026/03/24/6-22-11/Xiaomi%20Corp_25Q4_ER_CHN%20vF.pdf",
+      "priceEvidence": "manufacturer-investor-presentation",
+      "priceNote": "2025 年 12 月在中国大陆发布，首发起售价 6999 元，见小米 2025 年第四季度业绩演示材料。未将徕卡版或当前涨价后的售价代入。",
+      "priceNoteEn": "Launched in mainland China in December 2025 at CNY 6999, documented in Xiaomi’s Q4 2025 earnings presentation. This is not the Leica edition price or a later revised price.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 17 Ultra",
+          "msrpCny": 6999,
+          "priceSource": "https://ir.mi.com/system/files-encrypted/nasdaq_kms/assets/2026/03/24/6-22-11/Xiaomi%20Corp_25Q4_ER_CHN%20vF.pdf",
+          "startingPrice": true
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.67,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-17-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "nameEn": "Ultra-wide · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "manufacturerFov": 115,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-17-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "光学变焦 · 75–100 mm",
+          "nameEn": "Optical zoom · 75–100 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.39,
+          "equivalentMm": 75,
+          "equivalentRangeMm": [
+            75,
+            100
+          ],
+          "apertureRange": [
+            2.39,
+            2.96
+          ],
+          "zoomDependentAperture": true,
+          "equivalentSource": "https://www.mi.com/global/product/xiaomi-17-ultra/specs/",
+          "note": "75–100 mm 是同一个实体光学变焦镜头，并非两枚镜头。快捷配置采用 75 mm 端 f/2.39；随变焦最大光圈到 f/2.96，须手动填写当前焦距与光圈。",
+          "noteEn": "75–100 mm is one physical optical zoom camera, not two cameras. The shortcut uses 75 mm at f/2.39; the maximum aperture reaches f/2.96 as it zooms. Enter the current focal length and aperture manually.",
+          "source": "https://www.mi.com/prod/xiaomi-17-ultra/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-17-max",
+      "name": "Xiaomi 17 Max",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 17 Max",
+        "小米 17 Max",
+        "小米17 Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-17-max/specs",
+      "launchYear": 2026,
+      "msrpCny": 4799,
+      "priceSource": "https://finance.sina.com.cn/tech/roll/2026-05-22/doc-inhytuss5377003.shtml",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 定价 4799 元；PChome 上市次日报道（新浪转载，二级来源）明确区分其与 4299 元国补价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4799 for 12GB+256GB. PChome’s report the day after launch, republished by Sina, explicitly distinguishes this from the subsidised CNY 4299 price.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 17 Max",
+          "configuration": "12GB+256GB",
+          "msrpCny": 4799,
+          "priceSource": "https://finance.sina.com.cn/tech/roll/2026-05-22/doc-inhytuss5377003.shtml"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.65,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-17-max/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 17 mm",
+          "nameEn": "Ultra-wide · 17 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 17,
+          "manufacturerFov": 102,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-17-max/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 焦距待设置",
+          "nameEn": "Periscope telephoto · Set focal length",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "coverageUnknown": true,
+          "note": "厂家未标明此实体镜头的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer does not specify the native equivalent focal length of this physical camera. Enter equivalent focal length or horizontal field of view manually.",
+          "opticalZoom": 3,
+          "source": "https://www.mi.com/prod/xiaomi-17-max/specs"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-17t-pro",
+      "name": "Xiaomi 17T Pro",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 17T Pro",
+        "小米 17T Pro",
+        "小米17T Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-17t-pro/specs",
+      "launchYear": 2026,
+      "msrpCny": 4299,
+      "priceSource": "https://m.ithome.com/html/961385.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 4299 元；发布日 IT之家报道（二级来源）另列首销暑促 3999 元，后者不作为 MSRP。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 4299 for 12GB+256GB. The launch-day IT Home report separately lists a CNY 3999 summer promotion, which is not used as MSRP.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 17T Pro",
+          "configuration": "12GB+256GB",
+          "msrpCny": 4299,
+          "priceSource": "https://m.ithome.com/html/961385.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.67,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-17t-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 焦距待设置",
+          "nameEn": "Ultra-wide · Set focal length",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "coverageUnknown": true,
+          "note": "厂家未标明此实体镜头的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer does not specify the native equivalent focal length of this physical camera. Enter equivalent focal length or horizontal field of view manually.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-17t-pro/specs"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 115 mm",
+          "nameEn": "Periscope telephoto · 115 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3,
+          "equivalentMm": 115,
+          "source": "https://www.mi.com/prod/xiaomi-17t-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-18-pro",
+      "name": "Xiaomi 18 Pro",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 18 Pro",
+        "小米 18 Pro",
+        "小米18 Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-18-pro/specs",
+      "launchYear": 2026,
+      "msrpCny": 5999,
+      "priceSource": "https://www.ithome.com/0/100/6426.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 5999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 5999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 18 Pro",
+          "configuration": "12GB+256GB",
+          "msrpCny": 5999,
+          "priceSource": "https://www.ithome.com/0/100/6426.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.67,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-18-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 17 mm",
+          "nameEn": "Ultra-wide · 17 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 17,
+          "manufacturerFov": 102,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-18-pro/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 焦距待设置",
+          "nameEn": "Periscope telephoto · Set focal length",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "coverageUnknown": true,
+          "note": "厂家未标明此实体镜头的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer does not specify the native equivalent focal length of this physical camera. Enter equivalent focal length or horizontal field of view manually.",
+          "opticalZoom": 3.2,
+          "source": "https://www.mi.com/prod/xiaomi-18-pro/specs"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-18-pro-max",
+      "name": "Xiaomi 18 Pro Max",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 18 Pro Max",
+        "小米 18 Pro Max",
+        "小米18 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-18-pro-max/specs",
+      "launchYear": 2026,
+      "msrpCny": 6999,
+      "priceSource": "https://www.ithome.com/1/006/425.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 6999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 6999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 18 Pro Max",
+          "configuration": "12GB+256GB",
+          "msrpCny": 6999,
+          "priceSource": "https://www.ithome.com/1/006/425.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.67,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-18-pro-max/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 17 mm",
+          "nameEn": "Ultra-wide · 17 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 17,
+          "manufacturerFov": 102,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-18-pro-max/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 焦距待设置",
+          "nameEn": "Periscope telephoto · Set focal length",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "coverageUnknown": true,
+          "note": "厂家未标明此实体镜头的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer does not specify the native equivalent focal length of this physical camera. Enter equivalent focal length or horizontal field of view manually.",
+          "opticalZoom": 3.2,
+          "source": "https://www.mi.com/prod/xiaomi-18-pro-max/specs"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-18-fold",
+      "name": "Xiaomi 18 Fold",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi 18 Fold",
+        "小米 18 Fold",
+        "小米18 Fold"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-18-fold/specs",
+      "launchYear": 2026,
+      "msrpCny": 10999,
+      "priceSource": "https://www.ithome.com/0/999/441.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 10999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 10999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi 18 Fold",
+          "configuration": "12GB+256GB",
+          "msrpCny": 10999,
+          "priceSource": "https://www.ithome.com/0/999/441.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-18-fold/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 焦距待设置",
+          "nameEn": "Ultra-wide · Set focal length",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "coverageUnknown": true,
+          "note": "厂家未标明此实体镜头的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer does not specify the native equivalent focal length of this physical camera. Enter equivalent focal length or horizontal field of view manually.",
+          "source": "https://www.mi.com/prod/xiaomi-18-fold/specs"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 焦距待设置",
+          "nameEn": "Periscope telephoto · Set focal length",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "coverageUnknown": true,
+          "note": "厂家未标明此实体镜头的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer does not specify the native equivalent focal length of this physical camera. Enter equivalent focal length or horizontal field of view manually.",
+          "opticalZoom": 3.5,
+          "source": "https://www.mi.com/prod/xiaomi-18-fold/specs"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-mix-fold-2",
+      "name": "Xiaomi MIX Fold 2",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi MIX Fold 2",
+        "小米 MIX Fold 2",
+        "小米MIX Fold 2"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/xiaomimixfold2/specs",
+      "launchYear": 2022,
+      "msrpCny": 8999,
+      "priceSource": "https://www.ithome.com/0/634/609.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 8999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 8999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi MIX Fold 2",
+          "configuration": "12GB+256GB",
+          "msrpCny": 8999,
+          "priceSource": "https://www.ithome.com/0/634/609.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 焦距待设置",
+          "nameEn": "Main camera · Set focal length",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "coverageUnknown": true,
+          "note": "厂家未标明此实体镜头的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer does not specify the native equivalent focal length of this physical camera. Enter equivalent focal length or horizontal field of view manually.",
+          "source": "https://www.mi.com/xiaomimixfold2/specs"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 15,
+          "manufacturerFov": 123,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/xiaomimixfold2/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 45 mm",
+          "nameEn": "Telephoto · 45 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "equivalentMm": 45,
+          "source": "https://www.mi.com/xiaomimixfold2/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-mix-fold-3",
+      "name": "Xiaomi MIX Fold 3",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi MIX Fold 3",
+        "小米 MIX Fold 3",
+        "小米MIX Fold 3"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/xiaomi-mix-fold-3/specs",
+      "launchYear": 2023,
+      "msrpCny": 8999,
+      "priceSource": "https://www.ithome.com/0/712/328.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 8999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 8999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi MIX Fold 3",
+          "configuration": "12GB+256GB",
+          "msrpCny": 8999,
+          "priceSource": "https://www.ithome.com/0/712/328.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.77,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/xiaomi-mix-fold-3/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 15,
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/xiaomi-mix-fold-3/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 75 mm",
+          "nameEn": "Telephoto · 75 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 75,
+          "source": "https://www.mi.com/xiaomi-mix-fold-3/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 115 mm",
+          "nameEn": "Periscope telephoto · 115 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.92,
+          "equivalentMm": 115,
+          "source": "https://www.mi.com/xiaomi-mix-fold-3/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-mix-fold-4",
+      "name": "Xiaomi MIX Fold 4",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi MIX Fold 4",
+        "小米 MIX Fold 4",
+        "小米MIX Fold 4"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-mix-fold-4/specs",
+      "launchYear": 2024,
+      "msrpCny": 8999,
+      "priceSource": "https://www.ithome.com/0/783/027.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 8999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 8999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi MIX Fold 4",
+          "configuration": "12GB+256GB",
+          "msrpCny": 8999,
+          "priceSource": "https://www.ithome.com/0/783/027.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-mix-fold-4/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 15,
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-mix-fold-4/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 47 mm",
+          "nameEn": "Telephoto · 47 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 47,
+          "source": "https://www.mi.com/prod/xiaomi-mix-fold-4/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 115 mm",
+          "nameEn": "Periscope telephoto · 115 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.9,
+          "equivalentMm": 115,
+          "source": "https://www.mi.com/prod/xiaomi-mix-fold-4/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-mix-flip",
+      "name": "Xiaomi MIX Flip",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi MIX Flip",
+        "小米 MIX Flip",
+        "小米MIX Flip"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/global/product/xiaomi-mix-flip/specs/",
+      "launchYear": 2024,
+      "msrpCny": 5999,
+      "priceSource": "https://www.ithome.com/0/783/030.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 5999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 5999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi MIX Flip",
+          "configuration": "12GB+256GB",
+          "msrpCny": 5999,
+          "priceSource": "https://www.ithome.com/0/783/030.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/global/product/xiaomi-mix-flip/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 47 mm",
+          "nameEn": "Telephoto · 47 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 47,
+          "source": "https://www.mi.com/global/product/xiaomi-mix-flip/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    },
+    {
+      "id": "xiaomi-mix-flip-2",
+      "name": "Xiaomi MIX Flip 2",
+      "brand": "Xiaomi",
+      "aliases": [
+        "Xiaomi MIX Flip 2",
+        "小米 MIX Flip 2",
+        "小米MIX Flip 2"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.mi.com/prod/xiaomi-mix-flip2/specs",
+      "launchYear": 2025,
+      "msrpCny": 5999,
+      "priceSource": "https://www.ithome.com/0/863/940.htm",
+      "priceEvidence": "secondary-launch-report",
+      "priceNote": "中国大陆首发 12GB+256GB 官方定价 5999 元；价格来源为发布时的二级媒体报道，不是补贴、促销或当前售价。",
+      "priceNoteEn": "Mainland China launch MSRP: CNY 5999 for 12GB+256GB. Price evidence is a secondary launch report, before subsidies or promotional discounts.",
+      "priceVariants": [
+        {
+          "name": "Xiaomi MIX Flip 2",
+          "configuration": "12GB+256GB",
+          "msrpCny": 5999,
+          "priceSource": "https://www.ithome.com/0/863/940.htm"
+        }
+      ],
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main camera · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "equivalentMm": 23,
+          "source": "https://www.mi.com/prod/xiaomi-mix-flip2/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "nameEn": "Ultra-wide · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14,
+          "manufacturerFov": 115,
+          "fovAxis": "unspecified",
+          "source": "https://www.mi.com/prod/xiaomi-mix-flip2/specs",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "reviewed": "2026-11-17"
+    }
+  ]
+}

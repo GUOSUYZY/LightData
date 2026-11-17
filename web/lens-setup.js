@@ -1,3 +1,4 @@
+import { t, isEnglish } from "./i18n.js";
 import {
   deviceIdentity,
   matchDevice,
@@ -14,11 +15,11 @@ const deviceName = (device) => {
   const variants = [
     ...new Set(
       (device.aliases || []).filter(
-        (name) => /^iPhone /.test(name) && !device.name.endsWith(name),
+        (name) => /^iPhone .*\b(?:Plus|Max)$/.test(name) && !device.name.endsWith(name),
       ),
     ),
   ];
-  return [device.name, ...variants].join(" / ");
+  return [isEnglish ? device.nameEn || device.name : device.name, ...variants].join(" / ");
 };
 
 export class LensSetup {
@@ -34,7 +35,7 @@ export class LensSetup {
     $("setup-fov-mode").addEventListener("change", () => this.preview());
     for (const id of ["setup-aperture", "setup-hfov", "setup-equivalent"])
       $(id).addEventListener("input", () => {
-        $("setup-error").textContent = "";
+        $("setup-error").textContent = t("");
         this.preview();
       });
     $("camera-setup-form").addEventListener("submit", (event) => {
@@ -52,7 +53,7 @@ export class LensSetup {
   async initialize() {
     const [catalog, identity] = await Promise.allSettled([
       fetch("./data/cameras.json").then((r) => {
-        if (!r.ok) throw new Error("镜头参数库暂时不可用");
+        if (!r.ok) throw new Error(t("镜头参数库暂时不可用"));
         return r.json();
       }),
       deviceIdentity(),
@@ -61,9 +62,9 @@ export class LensSetup {
     this.identity =
       identity.status === "fulfilled" ? identity.value : { model: "" };
     this.detected = matchDevice(this.devices, this.identity);
-    $("setup-phone").replaceChildren(new Option("手动输入 / 其他设备", ""));
+    $("setup-phone").replaceChildren(new Option(t("手动输入 / 其他设备"), ""));
     for (const device of this.devices)
-      $("setup-phone").add(new Option(deviceName(device), device.id));
+      $("setup-phone").add(new Option(t(deviceName(device)), device.id));
     this.ready = true;
   }
 
@@ -93,17 +94,17 @@ export class LensSetup {
     if (current.active) this.prompted.add(current.id);
     this.returnSettings = $("settings").open || this.returnSettings;
     if ($("settings").open) $("settings").close();
-    $("setup-camera-label").textContent = current.active
+    $("setup-camera-label").textContent = t(current.active
       ? `${current.label || "当前相机"} · ${current.settings.width} × ${current.settings.height}`
-      : "首次使用：先开启相机确认当前镜头，再选择厂家参数或手动填写视角和光圈。";
+      : "首次使用：先开启相机确认当前镜头，再选择厂家参数或手动填写视角和光圈。");
     this.refreshCameraList();
-    $("setup-detection").textContent = this.detected
+    $("setup-detection").textContent = t(this.detected
       ? `已识别 ${deviceName(this.detected)}（${this.identity.source}）。请选择当前实际使用的镜头。`
       : this.identity.model
         ? `设备型号 ${this.identity.model} 暂未收录，请选择型号或手动填写。`
-        : "浏览器未提供具体型号，可手动选择手机或输入镜头参数。";
+        : "浏览器未提供具体型号，可手动选择手机或输入镜头参数。");
     if (!this.devices.length)
-      $("setup-detection").textContent += " 参数库暂时不可用，仍可手动填写。";
+      $("setup-detection").textContent += t(" 参数库暂时不可用，仍可手动填写。");
     const optics = current.optics || {};
     $("setup-phone").value =
       optics.phoneId ||
@@ -130,10 +131,10 @@ export class LensSetup {
         this.applyLens();
       }
     }
-    $("setup-save").textContent = current.active
+    $("setup-save").textContent = t(current.active
       ? "保存并使用"
-      : "开启相机并保存";
-    $("setup-error").textContent = "";
+      : "开启相机并保存");
+    $("setup-error").textContent = t("");
     this.preview();
     if (!$("camera-setup").open) $("camera-setup").showModal();
   }
@@ -147,14 +148,14 @@ export class LensSetup {
     $("setup-camera").replaceChildren();
     for (const device of current.cameras || [])
       $("setup-camera").add(
-        new Option(device.label || "默认后置镜头", device.id),
+        new Option(t(device.label || "默认后置镜头"), device.id),
       );
     if (!$("setup-camera").options.length)
-      $("setup-camera").add(new Option("默认后置镜头", ""));
+      $("setup-camera").add(new Option(t("默认后置镜头"), ""));
     $("setup-camera").value = current.selectedDeviceId || "";
-    $("setup-start").textContent = current.active
+    $("setup-start").textContent = t(current.active
       ? "开启 / 切换"
-      : "开启相机预览";
+      : "开启相机预览");
   }
 
   async previewCamera() {
@@ -165,9 +166,9 @@ export class LensSetup {
     try {
       await this.start($("setup-camera").value);
       if (!this.current().active)
-        throw new Error("相机尚未开启，请允许相机权限后重试。");
+        throw new Error(t("相机尚未开启，请允许相机权限后重试。"));
     } catch (error) {
-      $("setup-error").textContent = error.message;
+      $("setup-error").textContent = t(error.message);
     } finally {
       this.switching = false;
       this.busy(false);
@@ -188,21 +189,21 @@ export class LensSetup {
 
   fillLenses(clear = true) {
     $("setup-lens").replaceChildren(
-      new Option("请选择当前实际镜头 / 手动填写", ""),
+      new Option(t("请选择当前实际镜头 / 手动填写"), ""),
     );
     const phone = this.selectedPhone();
     for (const lens of phone?.lenses || []) {
       const equivalent = lensEquivalent(lens);
       $("setup-lens").add(
         new Option(
-          `${lens.name} · f/${lens.aperture}${equivalent && !/\d\s*mm/i.test(lens.name) ? ` · ${rounded(equivalent)} mm` : ""}`,
+          t(`${isEnglish ? lens.nameEn || lens.name : lens.name} · f/${lens.aperture}${equivalent && !/\d\s*mm/i.test(lens.name) ? ` · ${rounded(equivalent)} mm` : ""}`),
           lens.id,
         ),
       );
     }
     $("setup-lens").disabled = !phone;
     if (clear) {
-      $("setup-error").textContent = "";
+      $("setup-error").textContent = t("");
       // Switching the phone must not silently reuse the previous phone's lens data.
       $("setup-aperture").value = "";
       $("setup-hfov").value = "";
@@ -212,7 +213,7 @@ export class LensSetup {
   }
 
   applyLens() {
-    $("setup-error").textContent = "";
+    $("setup-error").textContent = t("");
     const lens = this.selectedPhone()?.lenses.find(
       (l) => l.id === $("setup-lens").value,
     );
@@ -245,14 +246,17 @@ export class LensSetup {
     const source = lens?.source || phone?.source;
     $("setup-source").hidden = !source;
     $("setup-source").href = source || "#";
-    $("setup-source-note").textContent = [
-      lens?.note,
+    const equivalentSource = lens?.equivalentSource;
+    $("setup-equivalent-source").hidden = !equivalentSource || equivalentSource === source;
+    $("setup-equivalent-source").href = equivalentSource || "#";
+    $("setup-source-note").textContent = t([
+      isEnglish ? lens?.noteEn || lens?.note : lens?.note,
       lens?.manufacturerFov
         ? `厂家视角 ${lens.manufacturerFov}°${lens.fovAxis === "unspecified" ? "（方向未注明，请填写水平视角或等效焦距）" : ""}`
         : "",
     ]
       .filter(Boolean)
-      .join(" · ");
+      .join(" · "));
     const current = this.current();
     const settings = current.active
       ? current.settings
@@ -261,11 +265,11 @@ export class LensSetup {
     const field =
       optics &&
       opticsField(optics, settings.width, settings.height, settings.zoom || 1);
-    $("setup-field-info").textContent = field
+    $("setup-field-info").textContent = t(field
       ? `${current.active ? "当前预览" : "按横向 16:9 预览"}：水平 ${rounded(field.hfov)}° × 垂直 ${rounded(field.vfov)}°。${equivalent ? "按原生 4:3 画面中心裁切估算，电子防抖或额外裁切可用实测视角修正。" : "请填写当前预览画面左右边缘之间的水平视角。"}`
       : equivalent
         ? "输入厂家标注的 35 mm 等效焦距，以原生 4:3 画面估算预览裁切。不是手机镜头的实际焦距。"
-        : "请输入当前预览的水平视角。厂家给出的对角视角不能直接填在这里；也可切换为等效焦距。";
+        : "请输入当前预览的水平视角。厂家给出的对角视角不能直接填在这里；也可切换为等效焦距。");
   }
 
   async submit() {
@@ -275,13 +279,13 @@ export class LensSetup {
       $("setup-camera").value !== this.current().selectedDeviceId
     ) {
       $("setup-error").textContent =
-        "请先点击“开启 / 切换”确认所选相机，再保存对应镜头参数。";
+        t("请先点击“开启 / 切换”确认所选相机，再保存对应镜头参数。");
       return;
     }
     const values = this.values();
     if (!makeOptics(values, this.current().settings)) {
       $("setup-error").textContent =
-        "请填写 f/0.5–64 的光圈，以及 0.1–175° 的水平视角或 1–2000 mm 的等效焦距。";
+        t("请填写 f/0.5–64 的光圈，以及 0.1–175° 的水平视角或 1–2000 mm 的等效焦距。");
       return;
     }
     this.saving = true;
@@ -290,15 +294,15 @@ export class LensSetup {
       if (!this.current().active) await this.start($("setup-camera").value);
       const current = this.current();
       if (!current.active)
-        throw new Error("相机尚未开启，请允许相机权限后重试。");
+        throw new Error(t("相机尚未开启，请允许相机权限后重试。"));
       if (this.editingId && current.id !== this.editingId)
-        throw new Error("当前相机已变化，请重新确认镜头参数。");
+        throw new Error(t("当前相机已变化，请重新确认镜头参数。"));
       const optics = makeOptics(values, current.settings);
       this.save(optics);
       this.prompted.add(current.id);
       this.close();
     } catch (error) {
-      $("setup-error").textContent = error.message;
+      $("setup-error").textContent = t(error.message);
     } finally {
       this.saving = false;
       this.busy(false);

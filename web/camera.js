@@ -1,3 +1,4 @@
+import { t } from "./i18n.js";
 // Use a small, fixed sampling grid on the existing analysis frame. The four
 // samples per cell damp sensor noise while keeping local subject motion visible.
 export class FrameMotion {
@@ -92,7 +93,7 @@ export class Camera extends EventTarget {
     const generation = ++this.generation;
     if (!navigator.mediaDevices?.getUserMedia)
       throw new Error(
-        "此浏览器无法使用相机。请在 HTTPS 页面使用支持相机的浏览器。",
+        t("此浏览器无法使用相机。请在 HTTPS 页面使用支持相机的浏览器。"),
       );
     const video = {
       width: { ideal: 1280 },
@@ -247,10 +248,10 @@ export class Camera extends EventTarget {
   }
 
   async fixedExposure(seconds, iso) {
-    if (!this.track) throw new Error("请先开启相机");
+    if (!this.track) throw new Error(t("请先开启相机"));
     if (!this.capabilities.exposureMode?.includes("manual"))
       throw new Error(
-        "浏览器未开放手动曝光。请在相机已固定曝光时填写并确认采集参数。",
+        t("浏览器未开放手动曝光。请在相机已固定曝光时填写并确认采集参数。"),
       );
     await this.track.applyConstraints({
       advanced: [
@@ -264,7 +265,7 @@ export class Camera extends EventTarget {
       !(actual.exposureTime > 0) ||
       !(actual.iso > 0)
     )
-      throw new Error("浏览器未确认固定曝光参数，仍按未知曝光处理。");
+      throw new Error(t("浏览器未确认固定曝光参数，仍按未知曝光处理。"));
     return { seconds: actual.exposureTime / 10000, iso: actual.iso };
   }
 

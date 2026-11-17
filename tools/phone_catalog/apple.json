@@ -1,0 +1,835 @@
+{
+  "version": 1,
+  "updated": "2026-11-17",
+  "scope": "Apple 后置实体镜头；保留原有ID和同光学组。2022年起中国大陆首发至少一个配置>RMB4000；原有iPhone13Pro作为legacy保留。",
+  "devices": [
+    {
+      "id": "apple-iphone-13-pro",
+      "name": "Apple iPhone 13 Pro",
+      "aliases": [
+        "iPhone 13 Pro",
+        "Apple iPhone 13 Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111871",
+      "lenses": [
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.8,
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "nameEn": "Ultrawide · 0.5×",
+          "noteEn": "The manufacturer gives FOV without an axis. Enter equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 77,
+          "note": "焦距由 Apple 发布稿确认；光圈见型号技术规格。",
+          "source": "https://www.apple.com/newsroom/2021/09/apple-unveils-iphone-13-pro-and-iphone-13-pro-max-more-pro-than-ever-before/",
+          "nameEn": "Telephoto · 3×",
+          "noteEn": "Focal length is confirmed by the Apple announcement; aperture is documented in the model specifications."
+        }
+      ],
+      "launchYear": 2021,
+      "msrpCny": 7999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2021/09/apple-unveils-iphone-13-pro-and-iphone-13-pro-max-more-pro-than-ever-before/",
+      "priceVariants": [
+        {
+          "name": "iPhone 13 Pro",
+          "storage": "128GB",
+          "msrpCny": 7999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2021/09/apple-unveils-iphone-13-pro-and-iphone-13-pro-max-more-pro-than-ever-before/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 13 Pro 128GB：RMB 7999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 13 Pro 128GB: RMB 7999. These are launch prices, before subsidies or trade-in.",
+      "legacy": true
+    },
+    {
+      "id": "apple-iphone-14",
+      "name": "Apple iPhone 14",
+      "aliases": [
+        "iPhone 14",
+        "Apple iPhone 14",
+        "iPhone 14 Plus",
+        "Apple iPhone 14 Plus"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111850",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.5,
+          "equivalentMm": 26,
+          "nameEn": "Main camera · 1×"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×"
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/111854"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 5999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-introduces-iphone-14-and-iphone-14-plus/",
+      "priceVariants": [
+        {
+          "name": "iPhone 14",
+          "storage": "128GB",
+          "msrpCny": 5999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-introduces-iphone-14-and-iphone-14-plus/"
+        },
+        {
+          "name": "iPhone 14 Plus",
+          "storage": "128GB",
+          "msrpCny": 6999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-introduces-iphone-14-and-iphone-14-plus/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 14 128GB：RMB 5999；iPhone 14 Plus 128GB：RMB 6999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 14 128GB: RMB 5999; iPhone 14 Plus 128GB: RMB 6999. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-14-pro",
+      "name": "Apple iPhone 14 Pro",
+      "aliases": [
+        "iPhone 14 Pro",
+        "Apple iPhone 14 Pro",
+        "iPhone 14 Pro Max",
+        "Apple iPhone 14 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111849",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24,
+          "nameEn": "Main camera · 1×"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 77,
+          "nameEn": "Telephoto · 3×"
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/111846"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 7999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-debuts-iphone-14-pro-and-iphone-14-pro-max/",
+      "priceVariants": [
+        {
+          "name": "iPhone 14 Pro",
+          "storage": "128GB",
+          "msrpCny": 7999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-debuts-iphone-14-pro-and-iphone-14-pro-max/"
+        },
+        {
+          "name": "iPhone 14 Pro Max",
+          "storage": "128GB",
+          "msrpCny": 8999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-debuts-iphone-14-pro-and-iphone-14-pro-max/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 14 Pro 128GB：RMB 7999；iPhone 14 Pro Max 128GB：RMB 8999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 14 Pro 128GB: RMB 7999; iPhone 14 Pro Max 128GB: RMB 8999. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-15",
+      "name": "Apple iPhone 15",
+      "aliases": [
+        "iPhone 15",
+        "Apple iPhone 15",
+        "iPhone 15 Plus",
+        "Apple iPhone 15 Plus"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111831",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "nameEn": "Main camera · 1×"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×"
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/111830"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 5999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/",
+      "priceVariants": [
+        {
+          "name": "iPhone 15",
+          "storage": "128GB",
+          "msrpCny": 5999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/"
+        },
+        {
+          "name": "iPhone 15 Plus",
+          "storage": "128GB",
+          "msrpCny": 6999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 15 128GB：RMB 5999；iPhone 15 Plus 128GB：RMB 6999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 15 128GB: RMB 5999; iPhone 15 Plus 128GB: RMB 6999. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-15-pro",
+      "name": "Apple iPhone 15 Pro",
+      "aliases": [
+        "iPhone 15 Pro",
+        "Apple iPhone 15 Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111829",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24,
+          "nameEn": "Main camera · 1×"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 77,
+          "nameEn": "Telephoto · 3×"
+        }
+      ],
+      "launchYear": 2023,
+      "msrpCny": 7999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/",
+      "priceVariants": [
+        {
+          "name": "iPhone 15 Pro",
+          "storage": "128GB",
+          "msrpCny": 7999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 15 Pro 128GB：RMB 7999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 15 Pro 128GB: RMB 7999. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-15-pro-max",
+      "name": "Apple iPhone 15 Pro Max",
+      "aliases": [
+        "iPhone 15 Pro Max",
+        "Apple iPhone 15 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111828",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24,
+          "nameEn": "Main camera · 1×"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 5×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 120,
+          "nameEn": "Telephoto · 5×"
+        }
+      ],
+      "launchYear": 2023,
+      "msrpCny": 9999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/",
+      "priceVariants": [
+        {
+          "name": "iPhone 15 Pro Max",
+          "storage": "256GB",
+          "msrpCny": 9999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 15 Pro Max 256GB：RMB 9999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 15 Pro Max 256GB: RMB 9999. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-16",
+      "name": "Apple iPhone 16",
+      "aliases": [
+        "iPhone 16",
+        "Apple iPhone 16",
+        "iPhone 16 Plus",
+        "Apple iPhone 16 Plus"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/121029",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "nameEn": "Main camera · 1×"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×"
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/121030"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 5999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-introduces-iphone-16-iphone-16-plus/",
+      "priceVariants": [
+        {
+          "name": "iPhone 16",
+          "storage": "128GB",
+          "msrpCny": 5999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-introduces-iphone-16-iphone-16-plus/"
+        },
+        {
+          "name": "iPhone 16 Plus",
+          "storage": "128GB",
+          "msrpCny": 6999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-introduces-iphone-16-iphone-16-plus/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 16 128GB：RMB 5999；iPhone 16 Plus 128GB：RMB 6999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 16 128GB: RMB 5999; iPhone 16 Plus 128GB: RMB 6999. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-16-pro",
+      "name": "Apple iPhone 16 Pro",
+      "aliases": [
+        "iPhone 16 Pro",
+        "Apple iPhone 16 Pro",
+        "iPhone 16 Pro Max",
+        "Apple iPhone 16 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/121031",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24,
+          "nameEn": "Main camera · 1×"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 5×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 120,
+          "nameEn": "Telephoto · 5×"
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/121032"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 7999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-debuts-iphone-16-pro-iphone-16-pro-max/",
+      "priceVariants": [
+        {
+          "name": "iPhone 16 Pro",
+          "storage": "128GB",
+          "msrpCny": 7999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-debuts-iphone-16-pro-iphone-16-pro-max/"
+        },
+        {
+          "name": "iPhone 16 Pro Max",
+          "storage": "256GB",
+          "msrpCny": 9999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-debuts-iphone-16-pro-iphone-16-pro-max/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 16 Pro 128GB：RMB 7999；iPhone 16 Pro Max 256GB：RMB 9999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 16 Pro 128GB: RMB 7999; iPhone 16 Pro Max 256GB: RMB 9999. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-17",
+      "name": "Apple iPhone 17",
+      "aliases": [
+        "iPhone 17",
+        "Apple iPhone 17"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/125089",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "nameEn": "Main camera · 1×"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×"
+        }
+      ],
+      "launchYear": 2025,
+      "msrpCny": 5999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2025/09/apple-debuts-iphone-17/",
+      "priceVariants": [
+        {
+          "name": "iPhone 17",
+          "storage": "256GB",
+          "msrpCny": 5999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2025/09/apple-debuts-iphone-17/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 17 256GB：RMB 5999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 17 256GB: RMB 5999. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-17-pro",
+      "name": "Apple iPhone 17 Pro",
+      "aliases": [
+        "iPhone 17 Pro",
+        "Apple iPhone 17 Pro",
+        "iPhone 17 Pro Max",
+        "Apple iPhone 17 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/125090",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24,
+          "nameEn": "Main camera · 1×"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 4×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 100,
+          "nameEn": "Telephoto · 4×"
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/125091"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 8999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max-cn/",
+      "priceVariants": [
+        {
+          "name": "iPhone 17 Pro",
+          "storage": "256GB",
+          "msrpCny": 8999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max-cn/"
+        },
+        {
+          "name": "iPhone 17 Pro Max",
+          "storage": "256GB",
+          "msrpCny": 9999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max-cn/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 17 Pro 256GB：RMB 8999；iPhone 17 Pro Max 256GB：RMB 9999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 17 Pro 256GB: RMB 8999; iPhone 17 Pro Max 256GB: RMB 9999. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-se3",
+      "name": "Apple iPhone SE (3rd generation)",
+      "aliases": [
+        "iPhone SE (3rd generation)",
+        "Apple iPhone SE (3rd generation)",
+        "iPhone SE (第三代)",
+        "iPhone SE3",
+        "iPhone SE 3",
+        "Apple iPhone SE 3"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111866",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "coverageUnknown": true,
+          "note": "Apple 技术规格只公开 f/1.8，未公开等效焦距或可用方向的视角；请选择当前镜头并实测/输入水平视角。",
+          "noteEn": "Apple specifies f/1.8 but does not publish equivalent focal length or an axis-specific FOV. Measure or enter the active preview’s horizontal FOV."
+        }
+      ],
+      "launchYear": 2022,
+      "msrpCny": 4699,
+      "priceSource": "https://finance.sina.cn/tech/2022-03-09/detail-imcwipih7391781.d.html?from=wap&fromtech=1",
+      "priceVariants": [
+        {
+          "name": "iPhone SE (3rd generation)",
+          "storage": "64GB",
+          "msrpCny": 3499,
+          "priceSource": "https://finance.sina.cn/tech/2022-03-09/detail-imcwipih7391781.d.html?from=wap&fromtech=1"
+        },
+        {
+          "name": "iPhone SE (3rd generation)",
+          "storage": "128GB",
+          "msrpCny": 3899,
+          "priceSource": "https://finance.sina.cn/tech/2022-03-09/detail-imcwipih7391781.d.html?from=wap&fromtech=1"
+        },
+        {
+          "name": "iPhone SE (3rd generation)",
+          "storage": "256GB",
+          "msrpCny": 4699,
+          "priceSource": "https://finance.sina.cn/tech/2022-03-09/detail-imcwipih7391781.d.html?from=wap&fromtech=1"
+        }
+      ],
+      "priceNote": "256GB 首发 RMB 4699 符合 >4000 门槛；64/128GB 为 RMB 3499/3899。Apple 发布稿仅列3499起，高容量价格取2022-03-09新浪科技发布会当日报道（二级价格来源）；技术参数仍只使用Apple。",
+      "priceNoteEn": "The 256GB launch price of RMB 4699 meets the >4000 threshold; 64/128GB were RMB 3499/3899. Apple confirms the RMB 3499 starting price. Higher-capacity prices use Sina Tech’s 2022-03-09 launch-event report, a secondary price source. Optical specifications use Apple only.",
+      "priceSources": [
+        "https://www.apple.com.cn/newsroom/2022/03/apple-announces-the-new-iphone-se-a-powerful-smartphone-in-an-iconic-design/",
+        "https://finance.sina.cn/tech/2022-03-09/detail-imcwipih7391781.d.html?from=wap&fromtech=1"
+      ]
+    },
+    {
+      "id": "apple-iphone-16e",
+      "name": "Apple iPhone 16e",
+      "aliases": [
+        "iPhone 16e",
+        "Apple iPhone 16e"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/122208",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26
+        }
+      ],
+      "launchYear": 2025,
+      "msrpCny": 4499,
+      "priceSource": "https://www.apple.com.cn/newsroom/2025/02/apple-debuts-iphone-16e/",
+      "priceVariants": [
+        {
+          "name": "iPhone 16e",
+          "storage": "128GB",
+          "msrpCny": 4499,
+          "priceSource": "https://www.apple.com.cn/newsroom/2025/02/apple-debuts-iphone-16e/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 16e 128GB：RMB 4499。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 16e 128GB: RMB 4499. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-air",
+      "name": "Apple iPhone Air",
+      "aliases": [
+        "iPhone Air",
+        "Apple iPhone Air"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.apple.com.cn/iphone-air/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26
+        }
+      ],
+      "launchYear": 2025,
+      "msrpCny": 7999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2025/10/iphone-air-will-be-available-in-china-beginning-october-22/",
+      "priceVariants": [
+        {
+          "name": "iPhone Air",
+          "storage": "256GB",
+          "msrpCny": 7999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2025/10/iphone-air-will-be-available-in-china-beginning-october-22/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone Air 256GB：RMB 7999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone Air 256GB: RMB 7999. These are launch prices, before subsidies or trade-in.",
+      "priceSources": [
+        "https://www.apple.com.cn/newsroom/2025/10/iphone-air-will-be-available-in-china-beginning-october-22/",
+        "https://www.apple.com.cn/newsroom/2025/09/introducing-iphone-air-a-powerful-new-iphone/"
+      ]
+    },
+    {
+      "id": "apple-iphone-17e",
+      "name": "Apple iPhone 17e",
+      "aliases": [
+        "iPhone 17e",
+        "Apple iPhone 17e"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.apple.com.cn/iphone-17e/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26
+        }
+      ],
+      "launchYear": 2026,
+      "msrpCny": 4499,
+      "priceSource": "https://www.apple.com.cn/newsroom/2026/03/apple-introduces-iphone-17e/",
+      "priceVariants": [
+        {
+          "name": "iPhone 17e",
+          "storage": "256GB",
+          "msrpCny": 4499,
+          "priceSource": "https://www.apple.com.cn/newsroom/2026/03/apple-introduces-iphone-17e/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 17e 256GB：RMB 4499。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 17e 256GB: RMB 4499. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-18-pro",
+      "name": "Apple iPhone 18 Pro",
+      "aliases": [
+        "iPhone 18 Pro",
+        "Apple iPhone 18 Pro",
+        "iPhone 18 Pro Max",
+        "Apple iPhone 18 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.apple.com.cn/iphone-18-pro/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.48,
+          "equivalentMm": 24,
+          "variableAperture": true,
+          "apertureRange": [
+            1.48,
+            4.0
+          ],
+          "apertureOptions": [
+            1.48,
+            1.8,
+            2.8,
+            4.0
+          ],
+          "variableApertureNote": "ƒ/1.48、ƒ/1.8、ƒ/2.8、ƒ/4.0 可变光圈；默认值为最大光圈，测光时须填写实际采集光圈。",
+          "variableApertureNoteEn": "Variable aperture options: f/1.48, f/1.8, f/2.8 and f/4.0. The preset defaults to maximum aperture; enter the actual capture aperture for metering.",
+          "note": "ƒ/1.48、ƒ/1.8、ƒ/2.8、ƒ/4.0 可变光圈；默认值为最大光圈，测光时须填写实际采集光圈。",
+          "noteEn": "Variable aperture options: f/1.48, f/1.8, f/2.8 and f/4.0. The preset defaults to maximum aperture; enter the actual capture aperture for metering."
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultrawide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 4×",
+          "nameEn": "Telephoto · 4×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 100
+        }
+      ],
+      "launchYear": 2026,
+      "msrpCny": 9999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/",
+      "priceVariants": [
+        {
+          "name": "iPhone 18 Pro",
+          "storage": "256GB",
+          "msrpCny": 9999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/"
+        },
+        {
+          "name": "iPhone 18 Pro Max",
+          "storage": "256GB",
+          "msrpCny": 10999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone 18 Pro 256GB：RMB 9999；iPhone 18 Pro Max 256GB：RMB 10999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 18 Pro 256GB: RMB 9999; iPhone 18 Pro Max 256GB: RMB 10999. These are launch prices, before subsidies or trade-in."
+    },
+    {
+      "id": "apple-iphone-duo",
+      "name": "Apple iPhone Duo",
+      "aliases": [
+        "iPhone Duo",
+        "Apple iPhone Duo"
+      ],
+      "modelPatterns": [],
+      "source": "https://www.apple.com.cn/iphone-duo/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultrawide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13
+        }
+      ],
+      "launchYear": 2026,
+      "msrpCny": 15999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2026/09/apple-unveils-iphone-duo/",
+      "priceVariants": [
+        {
+          "name": "iPhone Duo",
+          "storage": "256GB",
+          "msrpCny": 15999,
+          "priceSource": "https://www.apple.com.cn/newsroom/2026/09/apple-unveils-iphone-duo/"
+        }
+      ],
+      "priceNote": "中国大陆首发含税零售价；iPhone Duo 256GB：RMB 15999。不是当前商店售价或补贴/折抵价。",
+      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone Duo 256GB: RMB 15999. These are launch prices, before subsidies or trade-in."
+    }
+  ]
+}

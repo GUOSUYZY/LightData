@@ -1,0 +1,2030 @@
+{
+  "devices": [
+    {
+      "id": "vivo-x80",
+      "name": "vivo X80",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X80",
+        "X80"
+      ],
+      "modelPatterns": [
+        "^V2183A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x80",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x80"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 4399,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1055",
+      "priceNote": "vivo X80（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/x80",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.kocpc.com.tw/archives/442838",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x80",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 16,
+          "equivalentSource": "https://www.kocpc.com.tw/archives/442838",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "人像长焦",
+          "nameEn": "Portrait telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.98,
+          "source": "https://www.vivo.com.cn/vivo/param/x80",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 50,
+          "equivalentSource": "https://www.kocpc.com.tw/archives/442838",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x80-pro",
+      "name": "vivo X80 Pro",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X80 Pro",
+        "X80 Pro"
+      ],
+      "modelPatterns": [
+        "^V2185A$",
+        "^V2186A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x80pro",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x80pro"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 5499,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1055",
+      "priceNote": "vivo X80 Pro（8GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x80pro",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x80_pro-review-2427p5.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.vivo.com.cn/vivo/param/x80pro",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 14,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x80_pro-review-2427p5.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto-short",
+          "name": "人像长焦",
+          "nameEn": "Portrait telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.85,
+          "source": "https://www.vivo.com.cn/vivo/param/x80pro",
+          "note": "来源层级：厂家产品介绍；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: manufacturer product page; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 50,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x80pro/",
+          "equivalentSourceType": "manufacturer",
+          "equivalentNote": "来源层级：厂家产品介绍；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto-long",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3.4,
+          "source": "https://www.vivo.com.cn/vivo/param/x80pro",
+          "coverageUnknown": true,
+          "note": "官网已确认光圈，尚无已核实的此镜头等效焦距；请手动填写视角或等效焦距。",
+          "noteEn": "Aperture is confirmed. No verified equivalent focal length for this lens; enter its field of view or equivalent focal length manually."
+        }
+      ]
+    },
+    {
+      "id": "vivo-x90",
+      "name": "vivo X90",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X90",
+        "X90"
+      ],
+      "modelPatterns": [
+        "^V2241A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x90",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x90"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 4499,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1108",
+      "priceNote": "vivo X90（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/x90",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://i.ifeng.com/c/8LINp4KbqtV",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "人像长焦",
+          "nameEn": "Portrait telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.98,
+          "source": "https://www.vivo.com.cn/vivo/param/x90",
+          "equivalentMm": 50,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x90/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x90",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 16,
+          "equivalentSource": "https://i.ifeng.com/c/8LINp4KbqtV",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x90-pro",
+      "name": "vivo X90 Pro",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X90 Pro",
+        "X90 Pro"
+      ],
+      "modelPatterns": [
+        "^V2242A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x90pro",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x90pro"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 4999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1108",
+      "priceNote": "vivo X90 Pro（8GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/x90pro",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://petapixel.com/2023/04/07/vivo-x90-pro-review-back-on-track/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "人像长焦",
+          "nameEn": "Portrait telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.6,
+          "source": "https://www.vivo.com.cn/vivo/param/x90pro",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 50,
+          "equivalentSource": "https://petapixel.com/2023/04/07/vivo-x90-pro-review-back-on-track/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x90pro",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 16,
+          "equivalentSource": "https://petapixel.com/2023/04/07/vivo-x90-pro-review-back-on-track/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x90-pro-plus",
+      "name": "vivo X90 Pro+",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X90 Pro+",
+        "X90 Pro+"
+      ],
+      "modelPatterns": [
+        "^V2227A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x90proplus",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x90proplus"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 6499,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1108",
+      "priceNote": "vivo X90 Pro+ （12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/x90proplus",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.notebookcheck.net/Vivo-X90-Pro-Review-Vivo-sets-the-bar-very-high-with-its-flagship-smartphone.693302.0.html",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto-short",
+          "name": "人像长焦",
+          "nameEn": "Portrait telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.6,
+          "source": "https://www.vivo.com.cn/vivo/param/x90proplus",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 50,
+          "equivalentSource": "https://www.dxomark.com/vivo-x90-pro-plus-camera-test-results/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.vivo.com.cn/vivo/param/x90proplus",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 14,
+          "equivalentSource": "https://www.dxomark.com/vivo-x90-pro-plus-camera-test-results/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto-long",
+          "name": "潜望长焦",
+          "nameEn": "Periscope telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3.5,
+          "source": "https://www.vivo.com.cn/vivo/param/x90proplus",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 90,
+          "equivalentSource": "https://www.dxomark.com/vivo-x90-pro-plus-camera-test-results/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x90s",
+      "name": "vivo X90s",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X90s",
+        "X90s"
+      ],
+      "modelPatterns": [
+        "^V2241HA$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x90s",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x90s"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 4299,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1171",
+      "priceNote": "X90s（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/x90s",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://news.mydrivers.com/1/918/918809_2.htm",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "人像长焦",
+          "nameEn": "Portrait telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.98,
+          "source": "https://www.vivo.com.cn/vivo/param/x90s",
+          "equivalentMm": 50,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x90s/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x90s",
+          "note": "来源层级：原测评明确相同相机硬件，有条件沿用；标称 35mm 等效焦距。X90s 原测评明确其相机模组与 X90 相同，16mm 采用 X90 原样张焦距；并非独立通道校准。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: conditional transfer where an original review explicitly confirms the same camera hardware; nominal 35mm-equivalent focal length. The X90s review confirms the X90 camera hardware; 16mm is transferred from the original X90 samples, rather than independently calibrated. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 16,
+          "equivalentSource": "https://i.ifeng.com/c/8LINp4KbqtV",
+          "equivalentSourceType": "same-hardware-review",
+          "equivalentNote": "来源层级：原测评明确相同相机硬件，有条件沿用；标称 35mm 等效焦距。X90s 原测评明确其相机模组与 X90 相同，16mm 采用 X90 原样张焦距；并非独立通道校准。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "equivalentSupportingSource": "https://news.mydrivers.com/1/918/918809_2.htm"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x100",
+      "name": "vivo X100",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X100",
+        "X100"
+      ],
+      "modelPatterns": [
+        "^V2309A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x100",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x100"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 4299,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1206",
+      "priceNote": "vivo X100 （16GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x100",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.mobigyaan.com/vivo-x100-review",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x100",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.mobigyaan.com/vivo-x100-review",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x100",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x100/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x100-pro",
+      "name": "vivo X100 Pro",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X100 Pro",
+        "X100 Pro"
+      ],
+      "modelPatterns": [
+        "^V2324A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x100pro",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x100pro"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 4999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1206",
+      "priceNote": "vivo X100 Pro （12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/x100pro",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://amateurphotographer.com/review/vivo-x100-pro-review/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.5,
+          "source": "https://www.vivo.com.cn/vivo/param/x100pro",
+          "equivalentMm": 100,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x100pro/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x100pro",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x100pro/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x100s",
+      "name": "vivo X100s",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X100s",
+        "X100s"
+      ],
+      "modelPatterns": [
+        "^V2359A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x100s",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x100s"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 4399,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1243",
+      "priceNote": "vivo X100s（16GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x100s",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.antutu.com/doc/131749",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x100s",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.antutu.com/doc/131749",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x100s",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.antutu.com/doc/131749",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x100s-pro",
+      "name": "vivo X100s Pro",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X100s Pro",
+        "X100s Pro"
+      ],
+      "modelPatterns": [
+        "^V2324HA$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x100spro",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x100spro"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 4999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1243",
+      "priceNote": "vivo X100s Pro （12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/x100spro",
+          "note": "来源层级：原作者发布报道所列厂家规格；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: manufacturer specification reproduced in the original launch report; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://smhn.info/202405-vivo-x100s-x100s-pro-spec",
+          "equivalentSourceType": "original-launch-report",
+          "equivalentNote": "来源层级：原作者发布报道所列厂家规格；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.5,
+          "source": "https://www.vivo.com.cn/vivo/param/x100spro",
+          "note": "来源层级：原作者发布报道所列厂家规格；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: manufacturer specification reproduced in the original launch report; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 100,
+          "equivalentSource": "https://smhn.info/202405-vivo-x100s-x100s-pro-spec",
+          "equivalentSourceType": "original-launch-report",
+          "equivalentNote": "来源层级：原作者发布报道所列厂家规格；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x100spro",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x100spro/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x100-ultra",
+      "name": "vivo X100 Ultra",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X100 Ultra",
+        "X100 Ultra"
+      ],
+      "modelPatterns": [
+        "^V2366GA$",
+        "^V2366HA$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x100ultra",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x100ultra"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 6499,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1243",
+      "priceNote": "vivo X100 Ultra（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/x100ultra",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x100ultra/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.67,
+          "source": "https://www.vivo.com.cn/vivo/param/x100ultra",
+          "equivalentMm": 85,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x100ultra/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.vivo.com.cn/vivo/param/x100ultra",
+          "equivalentMm": 14,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x100ultra/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x200",
+      "name": "vivo X200",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X200",
+        "X200"
+      ],
+      "modelPatterns": [
+        "^V2415A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x200",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x200"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 4299,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1273",
+      "priceNote": "vivo X200（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x200",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.gadgetmatch.com/vivo-x200-camera-review-gadgetsnaps/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x200",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.gadgetmatch.com/vivo-x200-camera-review-gadgetsnaps/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x200",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x200/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x200-pro",
+      "name": "vivo X200 Pro",
+      "aliases": [
+        "vivo X200 Pro",
+        "X200 Pro"
+      ],
+      "modelPatterns": [
+        "^V2405A$",
+        "^V2405DA$",
+        "^V2413$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x200pro",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x200pro",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x200pro/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.67,
+          "source": "https://www.vivo.com.cn/vivo/param/x200pro",
+          "equivalentMm": 85,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x200pro/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x200pro",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x200pro/"
+        }
+      ],
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x200pro"
+      ],
+      "brand": "vivo",
+      "launchYear": 2024,
+      "msrpCny": 5299,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1273",
+      "priceNote": "vivo X200 Pro（12GB+256GB），中国大陆首发定价。"
+    },
+    {
+      "id": "vivo-x200-pro-mini",
+      "name": "vivo X200 Pro mini",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X200 Pro mini",
+        "X200 Pro mini"
+      ],
+      "modelPatterns": [
+        "^V2419A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x200promini",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x200promini"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 4699,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1273",
+      "priceNote": "vivo X200 Pro mini（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x200promini",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x200_pro_mini_handson_review-news-64924.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x200promini",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x200_pro_mini_handson_review-news-64924.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x200promini",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x200_pro_mini_handson_review-news-64924.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x200s",
+      "name": "vivo X200s",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X200s",
+        "X200s"
+      ],
+      "modelPatterns": [
+        "^V2458A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x200s",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x200s"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 4199,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1307",
+      "priceNote": "vivo X200s（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x200s",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://m.mydrivers.com/newsview/1043182_5.html",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x200s",
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x200s/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x200s",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x200s/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x200-ultra",
+      "name": "vivo X200 Ultra",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X200 Ultra",
+        "X200 Ultra"
+      ],
+      "modelPatterns": [
+        "^V2454A$",
+        "^V2454DA$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x200ultra",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x200ultra"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 6499,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1307",
+      "priceNote": "vivo X200 Ultra（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.69,
+          "source": "https://www.vivo.com.cn/vivo/param/x200ultra",
+          "equivalentMm": 35,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/param/x200ultra"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.27,
+          "source": "https://www.vivo.com.cn/vivo/param/x200ultra",
+          "equivalentMm": 85,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/param/x200ultra"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x200ultra",
+          "equivalentMm": 14,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/param/x200ultra"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x300",
+      "name": "vivo X300",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X300",
+        "X300"
+      ],
+      "modelPatterns": [
+        "^V2509A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x300",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x300"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 4399,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1334",
+      "priceNote": "12GB+256GB，中国大陆首发价；现行规格页建议零售价可能已调整。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.68,
+          "source": "https://www.vivo.com.cn/vivo/param/x300",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x300-review-2897.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x300",
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x300/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x300",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x300/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x300-pro",
+      "name": "vivo X300 Pro",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X300 Pro",
+        "X300 Pro"
+      ],
+      "modelPatterns": [
+        "^V2502A$",
+        "^V2502DA$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x300pro",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x300pro"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 5299,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1334",
+      "priceNote": "12GB+256GB，中国大陆首发价；现行规格页建议零售价可能已调整。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x300pro",
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x300pro/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.67,
+          "source": "https://www.vivo.com.cn/vivo/param/x300pro",
+          "equivalentMm": 85,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x300pro/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x300pro",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x300pro/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x300s",
+      "name": "vivo X300s",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X300s",
+        "X300s"
+      ],
+      "modelPatterns": [
+        "^V2548A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x300s",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x300s"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 4999,
+      "priceSource": "https://www.ithome.com/0/935/717.htm",
+      "priceNote": "12GB+256GB，中国大陆首发价；现行规格页建议零售价可能已调整。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.68,
+          "source": "https://www.vivo.com.cn/vivo/param/x300s",
+          "coverageUnknown": true,
+          "note": "官网已确认光圈，尚无已核实的此镜头等效焦距；请手动填写视角或等效焦距。",
+          "noteEn": "Aperture is confirmed. No verified equivalent focal length for this lens; enter its field of view or equivalent focal length manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x300s",
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x300s/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x300s",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x300s/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x300-ultra",
+      "name": "vivo X300 Ultra",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X300 Ultra",
+        "X300 Ultra"
+      ],
+      "modelPatterns": [
+        "^V2547A$",
+        "^V2547DA$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x300ultra",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x300ultra"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 6999,
+      "priceSource": "https://www.ithome.com/0/934/230.htm",
+      "priceNote": "12GB+256GB，中国大陆首发价；现行规格页建议零售价可能已调整。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.85,
+          "source": "https://www.vivo.com.cn/vivo/param/x300ultra",
+          "equivalentMm": 35,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/param/x300ultra"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.67,
+          "source": "https://www.vivo.com.cn/vivo/param/x300ultra",
+          "equivalentMm": 85,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/param/x300ultra"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x300ultra",
+          "equivalentMm": 14,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/param/x300ultra"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x500",
+      "name": "vivo X500",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X500",
+        "X500"
+      ],
+      "modelPatterns": [
+        "^V2609A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x500",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x500"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 5499,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1392",
+      "priceNote": "vivo X500（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.68,
+          "source": "https://www.vivo.com.cn/vivo/param/x500",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x500/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.55,
+          "source": "https://www.vivo.com.cn/vivo/param/x500",
+          "equivalentMm": 72,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x500/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x500",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x500/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x500-pro",
+      "name": "vivo X500 Pro",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X500 Pro",
+        "X500 Pro"
+      ],
+      "modelPatterns": [
+        "^V2608A$",
+        "^V2608DA$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x500pro",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x500pro"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 6499,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1392",
+      "priceNote": "vivo X500 Pro（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x500pro",
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x500pro/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.52,
+          "source": "https://www.vivo.com.cn/vivo/param/x500pro",
+          "equivalentMm": 85,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x500pro/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x500pro",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x500_x500_pro_x500_pro_max_handson-review-3001.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x500-pro-max",
+      "name": "vivo X500 Pro Max",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X500 Pro Max",
+        "X500 Pro Max"
+      ],
+      "modelPatterns": [
+        "^V2602A$",
+        "^V2602DA$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/x500promax",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/x500promax"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 6999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1392",
+      "priceNote": "vivo X500 Pro Max（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/x500promax",
+          "equivalentMm": 24,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x500promax/"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.67,
+          "source": "https://www.vivo.com.cn/vivo/param/x500promax",
+          "equivalentMm": 85,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/x500promax/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/x500promax",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.androidauthority.com/vivo-x500-pro-max-review-3729439/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x-fold",
+      "name": "vivo X Fold",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X Fold",
+        "X Fold"
+      ],
+      "modelPatterns": [
+        "^V2178A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/xfold",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/xfold"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 8999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1037",
+      "priceNote": "X Fold（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold",
+          "note": "来源层级：厂家规格表（媒体托管）；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: manufacturer spec sheet hosted by a press outlet; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://cache.pressmailing.net/content/0fe475f0-49db-4736-840c-38c77c852448/vivo%20X%20Fold-Specsheet.pdf",
+          "equivalentSourceType": "manufacturer-press-kit",
+          "equivalentNote": "来源层级：厂家规格表（媒体托管）；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold",
+          "note": "来源层级：厂家规格表（媒体托管）；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: manufacturer spec sheet hosted by a press outlet; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "manufacturerFov": 114,
+          "fovAxis": "unspecified",
+          "equivalentMm": 14,
+          "equivalentSource": "https://cache.pressmailing.net/content/0fe475f0-49db-4736-840c-38c77c852448/vivo%20X%20Fold-Specsheet.pdf",
+          "equivalentSourceType": "manufacturer-press-kit",
+          "equivalentNote": "来源层级：厂家规格表（媒体托管）；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto-short",
+          "name": "人像长焦",
+          "nameEn": "Portrait telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.98,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold",
+          "equivalentMm": 47,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/xfold/"
+        },
+        {
+          "id": "telephoto-long",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3.4,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold",
+          "note": "来源层级：厂家规格表（媒体托管）；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: manufacturer spec sheet hosted by a press outlet; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 124.15,
+          "equivalentSource": "https://cache.pressmailing.net/content/0fe475f0-49db-4736-840c-38c77c852448/vivo%20X%20Fold-Specsheet.pdf",
+          "equivalentSourceType": "manufacturer-press-kit",
+          "equivalentNote": "来源层级：厂家规格表（媒体托管）；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x-fold-plus",
+      "name": "vivo X Fold+",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X Fold+",
+        "X Fold+"
+      ],
+      "modelPatterns": [
+        "^V2229A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/xfoldplus",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/xfoldplus"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 9999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1090",
+      "priceNote": "X Fold+（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/xfoldplus",
+          "note": "来源层级：厂家规格表（媒体托管）；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: manufacturer spec sheet hosted by a press outlet; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.igizmo.it/wp-content/uploads/2022/12/vivo-X-Fold-Spec-Sheet.pdf",
+          "equivalentSourceType": "manufacturer-press-kit",
+          "equivalentNote": "来源层级：厂家规格表（媒体托管）；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.vivo.com.cn/vivo/param/xfoldplus",
+          "note": "来源层级：厂家规格表（媒体托管）；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: manufacturer spec sheet hosted by a press outlet; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "manufacturerFov": 114,
+          "fovAxis": "unspecified",
+          "equivalentMm": 14,
+          "equivalentSource": "https://www.igizmo.it/wp-content/uploads/2022/12/vivo-X-Fold-Spec-Sheet.pdf",
+          "equivalentSourceType": "manufacturer-press-kit",
+          "equivalentNote": "来源层级：厂家规格表（媒体托管）；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto-short",
+          "name": "人像长焦",
+          "nameEn": "Portrait telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.98,
+          "source": "https://www.vivo.com.cn/vivo/param/xfoldplus",
+          "equivalentMm": 47,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/xfoldplus/"
+        },
+        {
+          "id": "telephoto-long",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3.4,
+          "source": "https://www.vivo.com.cn/vivo/param/xfoldplus",
+          "coverageUnknown": true,
+          "note": "官网已确认光圈，尚无已核实的此镜头等效焦距；请手动填写视角或等效焦距。",
+          "noteEn": "Aperture is confirmed. No verified equivalent focal length for this lens; enter its field of view or equivalent focal length manually."
+        }
+      ]
+    },
+    {
+      "id": "vivo-x-fold2",
+      "name": "vivo X Fold2",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X Fold2",
+        "X Fold2"
+      ],
+      "modelPatterns": [
+        "^V2266A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/xfold2",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/xfold2"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 8999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1145",
+      "priceNote": "X Fold2（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold2",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x_fold2-review-2579p5.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold2",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 16,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x_fold2-review-2579p5.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "人像长焦",
+          "nameEn": "Portrait telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.98,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold2",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 47,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x_fold2-review-2579p5.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x-flip",
+      "name": "vivo X Flip",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X Flip",
+        "X Flip"
+      ],
+      "modelPatterns": [
+        "^V2256A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/xflip",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/xflip"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 5999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1145",
+      "priceNote": "X Flip（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/xflip",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x_flip-review-2576p5.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.vivo.com.cn/vivo/param/xflip",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 16,
+          "equivalentSource": "https://www.gsmarena.com/vivo_x_flip-review-2576p5.php",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x-fold3",
+      "name": "vivo X Fold3",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X Fold3",
+        "X Fold3"
+      ],
+      "modelPatterns": [
+        "^V2303A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/xfold3",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/xfold3"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 6999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1233",
+      "priceNote": "X Fold3（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.75,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold3",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.donews.com/news/detail/5/4222794.html",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold3",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 15,
+          "equivalentSource": "https://m.mydrivers.com/newsview/971811_all.html",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "人像长焦",
+          "nameEn": "Portrait telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.85,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold3",
+          "equivalentMm": 50,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/xfold3/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x-fold3-pro",
+      "name": "vivo X Fold3 Pro",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X Fold3 Pro",
+        "X Fold3 Pro"
+      ],
+      "modelPatterns": [
+        "^V2337A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/xfold3pro",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/xfold3pro"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 9999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1233",
+      "priceNote": "X Fold3 Pro（16GB+512GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.68,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold3pro",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://www.leikeji.com/article/61946",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.57,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold3pro",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.leikeji.com/article/61946",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold3pro",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.leikeji.com/article/61946",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x-fold5",
+      "name": "vivo X Fold5",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X Fold5",
+        "X Fold5"
+      ],
+      "modelPatterns": [
+        "^V2436A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/xfold5",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/xfold5"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 6999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1313",
+      "priceNote": "vivo X Fold5（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold5",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://m.igao7.com/news/202506/PSyVsNKDwtqfvKwp.html",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.55,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold5",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 70,
+          "equivalentSource": "https://m.igao7.com/news/202506/PSyVsNKDwtqfvKwp.html",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.05,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold5",
+          "equivalentMm": 15,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/xfold5/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-x-fold6",
+      "name": "vivo X Fold6",
+      "brand": "vivo",
+      "aliases": [
+        "vivo X Fold6",
+        "X Fold6"
+      ],
+      "modelPatterns": [
+        "^V2545A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/xfold6",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/xfold6"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 7999,
+      "priceSource": "https://www.vivo.com.cn/brand/news/detail?id=1369",
+      "priceNote": "vivo X Fold6（12GB+256GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.68,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold6",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 23,
+          "equivalentSource": "https://unwire.hk/2026/11/04/vivo-x-fold6-review/review-2/",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.57,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold6",
+          "equivalentMm": 70,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/xfold6/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.05,
+          "source": "https://www.vivo.com.cn/vivo/param/xfold6",
+          "equivalentMm": 16,
+          "equivalentSource": "https://www.vivo.com.cn/vivo/xfold6/"
+        }
+      ]
+    },
+    {
+      "id": "vivo-s50-pro-mini",
+      "name": "vivo S50 Pro mini",
+      "brand": "vivo",
+      "aliases": [
+        "vivo S50 Pro mini",
+        "S50 Pro mini"
+      ],
+      "modelPatterns": [
+        "^V2527A$"
+      ],
+      "source": "https://www.vivo.com.cn/vivo/param/s50promini",
+      "modelSources": [
+        "https://www.vivo.com.cn/vivo/param/s50promini"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 4299,
+      "priceSource": "https://www.vivo.com.cn/vivo/param/s50promini",
+      "priceNote": "vivo S50 Pro mini（16GB+512GB），中国大陆首发定价。",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "source": "https://www.vivo.com.cn/vivo/param/s50promini",
+          "coverageUnknown": true,
+          "note": "官网已确认光圈，尚无已核实的此镜头等效焦距；请手动填写视角或等效焦距。",
+          "noteEn": "Aperture is confirmed. No verified equivalent focal length for this lens; enter its field of view or equivalent focal length manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.65,
+          "source": "https://www.vivo.com.cn/vivo/param/s50promini",
+          "note": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。",
+          "noteEn": "Source level: original hands-on camera review; nominal 35mm-equivalent focal length. The active browser stream may be cropped; verify its actual field of view.",
+          "equivalentMm": 73,
+          "equivalentSource": "https://mobile.zol.com.cn/1101/11016042_all.html",
+          "equivalentSourceType": "original-review",
+          "equivalentNote": "来源层级：原作者实机评测；标称 35mm 等效焦距。浏览器当前流可能裁切，仍需核对实际取景范围。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.vivo.com.cn/vivo/param/s50promini",
+          "coverageUnknown": true,
+          "note": "官网已确认光圈，尚无已核实的此镜头等效焦距；请手动填写视角或等效焦距。",
+          "noteEn": "Aperture is confirmed. No verified equivalent focal length for this lens; enter its field of view or equivalent focal length manually.",
+          "manufacturerFov": 110,
+          "fovAxis": "unspecified"
+        }
+      ]
+    }
+  ]
+}
