@@ -428,6 +428,19 @@ try {
 } catch (error) {
   await page.screenshot({ path: path.join(snapshots, "failure.png") });
   console.log("Page errors:", errors);
+  console.log(
+    "Capture profile diagnostic:",
+    await page.evaluate(() => ({
+      current: document
+        .getElementById("capture-video")
+        .srcObject?.getVideoTracks()[0]
+        ?.getSettings(),
+      saved: Object.entries(
+        JSON.parse(localStorage.getItem("lightdata.web.v1") || "{}").devices ||
+          {},
+      ).map(([key, p]) => ({ key, aperture: p.aperture, mode: p.mode })),
+    })),
+  );
   throw error;
 } finally {
   await browser.close();
