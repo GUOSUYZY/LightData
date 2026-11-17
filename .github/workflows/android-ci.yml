@@ -32,8 +32,13 @@ jobs:
 
       - name: Install the required SDK packages
         run: |
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "platforms;android-37.0" "build-tools;36.0.0" "platform-tools"
+          SDK_MANAGER="$(find "$ANDROID_HOME/cmdline-tools" -path '*/bin/sdkmanager' -type f | sort -V | tail -n 1)"
+          if [[ -z "$SDK_MANAGER" ]]; then
+            echo "No sdkmanager found in the runner's Android SDK" >&2
+            exit 1
+          fi
+          yes | "$SDK_MANAGER" --sdk_root="$ANDROID_HOME" --licenses > /dev/null || true
+          "$SDK_MANAGER" --sdk_root="$ANDROID_HOME" "platforms;android-37.0" "build-tools;36.0.0" "platform-tools"
 
       - name: Test, lint, and build
         run: ./gradlew testDebugUnitTest lintDebug assembleDebug compileDebugAndroidTestKotlin --stacktrace
