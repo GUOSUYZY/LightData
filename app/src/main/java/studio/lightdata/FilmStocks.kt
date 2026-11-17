@@ -56,6 +56,7 @@ private fun group(brand: String, family: Family, process: String, rows: String) 
                 family.shape,
                 process + " · " + family.info + "通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
                 filmSourceUrl(id),
+                evidence = FilmEvidence.FAMILY_APPROXIMATION,
             ),
         )
     }

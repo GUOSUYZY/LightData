@@ -69,6 +69,62 @@ class CameraFailureTest {
     }
 
     @Test
+    fun safetyAdviceRespectsAutoThirdsAndManualShutterChoices() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity {
+                it.sample = liveSample()
+                it.modeTo("A")
+                it.adjustCompensation(0)
+                it.applySafetyOffset(.5) // Half a stop becomes the nearest supported two-thirds.
+                assertEquals(2, it.compensationThirds)
+                it.modeTo("M")
+                it.setValues(Exposure(1.0 / 125, 8.0, 400.0))
+                it.applySafetyOffset(1.0)
+                assertEquals(1.0 / 60, it.manual.t, 1e-12)
+                assertEquals(8.0, it.manual.a, 0.0)
+                assertEquals(400.0, it.manual.iso, 0.0)
+                it.modeTo("A")
+                it.adjustCompensation(0)
+                it.toggleFreeze()
+                it.applySafetyOffset(.5)
+                val frozenTarget = it.exposure
+                assertEquals(0, it.compensationThirds) // Deferred until leaving HOLD.
+                it.toggleFreeze()
+                assertEquals(frozenTarget, it.exposure)
+                assertEquals(2, it.compensationThirds)
+            }
+        }
+    }
+
+    @Test
+    fun frozenSafetyComparisonKeepsItsSubjectUntilReturningLive() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity {
+                it.sample = liveSample()
+                it.modeTo("M")
+                it.setValues(Exposure(1.0 / 125, 8.0, 400.0))
+                it.toggleFreeze()
+                if (!it.safety) it.toggleSafety()
+                it.point(.5, .5)
+                val point = it.spots.single()
+                assertEquals(it.safetyPointId, point.id)
+                it.applySafetyOffset(-.5)
+                assertTrue(it.frozen)
+                assertEquals(1, it.spots.size)
+                assertEquals(it.safetyPointId, point.id)
+                assertEquals(Exposure(1.0 / 160, 8.0, 400.0).ev, it.exposure.ev, 0.0)
+                assertEquals(1.0 / 125, it.manual.t, 0.0)
+                it.applySafetyOffset(-.5)
+                assertEquals(Exposure(1.0 / 250, 8.0, 400.0).ev, it.exposure.ev, 0.0)
+                it.toggleFreeze()
+                assertFalse(it.frozen)
+                assertEquals(1.0 / 250, it.manual.t, 1e-12)
+                assertTrue(it.spots.isEmpty())
+            }
+        }
+    }
+
+    @Test
     fun cancellingScanAlsoReleasesCalibrationInteractionLock() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity {

@@ -47,7 +47,7 @@ class FilmStocksTest {
             "Film library: " +
                 filmRecords.size +
                 " presets; " +
-                filmRecords.count { !it.film.info.contains("通用近似") } +
+                filmRecords.count { it.film.evidence == FilmEvidence.MANUFACTURER_CURVE } +
                 " chart profiles; " +
                 filmRecords.count { reciprocity(it.film.name, 10.0).sourceUrl != null } +
                 " reciprocity references"

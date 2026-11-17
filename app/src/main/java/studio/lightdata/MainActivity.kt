@@ -19,9 +19,16 @@ data class Sample(
     val hist: IntArray,
     val missing: Boolean,
     val scan: ScanGuide?,
+    val cameraLimits: CameraLimits? = null,
 )
 
-data class Spot(val id: Int, val x: Double, val y: Double, val ev: Double)
+data class Spot(
+    val id: Int,
+    val x: Double,
+    val y: Double,
+    val ev: Double,
+    val cameraLimited: Boolean = false,
+)
 
 class MainActivity : ComponentActivity() {
     val prefs by lazy { getSharedPreferences("meter", MODE_PRIVATE) }
@@ -47,6 +54,11 @@ class MainActivity : ComponentActivity() {
     var compensationThirds by mutableIntStateOf(0)
         private set
     var preview by mutableStateOf(false)
+    var safety by mutableStateOf(false)
+    var toneGoal by mutableStateOf(ToneGoal.MIDTONE)
+        private set
+    var safetyPointId by mutableStateOf<Int?>(null)
+        private set
     var frozen by mutableStateOf(false)
     var single by mutableStateOf(false)
     var held by mutableStateOf<Double?>(null)
@@ -69,7 +81,12 @@ class MainActivity : ComponentActivity() {
     }
     private var scanRequest by mutableStateOf<ScanRequest?>(null)
     val scanActive get() = scanRequest != null
-    private var frozenExposure: Exposure? = null
+    // Exposure is read by several independently composed panels during frozen comparisons.
+    private var frozenExposure by mutableStateOf<Exposure?>(null)
+    private var frozenBaseExposure: Exposure? = null
+    private var frozenMeterReading: Double? = null
+    private var frozenSafetyStops = 0.0
+    private var frozenCompensation = 0
     @Volatile private var epoch = 0
     private var active = false
     var total by mutableDoubleStateOf(12.0)
@@ -152,6 +169,8 @@ class MainActivity : ComponentActivity() {
         put("mode", mode)
         compensationThirds = prefs.getInt("compensationThirds", 0).coerceIn(-15, 15)
         manual = Exposure(saved("t", 1.0 / 125), saved("a", 8.0), saved("iso", 400.0))
+        safety = prefs.getBoolean("safety", false)
+        toneGoal = ToneGoal.entries.getOrElse(prefs.getInt("toneGoal", 1)) { ToneGoal.MIDTONE }
         style = saved("style", 0.0).toInt()
         total = saved("total", 12.0)
         above = saved("above", 4.0)
@@ -254,6 +273,7 @@ class MainActivity : ComponentActivity() {
         epoch++
         frozen = false
         spots.clear()
+        safetyPointId = null
         held = null
         sample = null
         if (force || current != next) {
@@ -283,8 +303,9 @@ class MainActivity : ComponentActivity() {
             upright(session.capture(frame, src, axes), displayTurn) to session.guide(displayTurn)
         }
         val out = scan?.first ?: crop(frame, src, goal)
-        val hist = out.distribution()
-        val result = Sample(out, hist, !src.covers(goal), scan?.second)
+        val measurement = out.measurement()
+        val hist = measurement.histogram
+        val result = Sample(out, hist, !src.covers(goal), scan?.second, measurement.cameraLimits)
         runOnUiThread {
             if (!active || !allowed || token != epoch || frozen) return@runOnUiThread
             if (message.startsWith("正在连接")) {
@@ -324,11 +345,36 @@ class MainActivity : ComponentActivity() {
         epoch++
     }
 
+    fun toggleSafety() {
+        safety = !safety
+        prefs.edit().putBoolean("safety", safety).apply()
+        if (safety && !frozen && sample != null && !cameraRetry) {
+            message = "安全曝光 · 点测光点固定画面，再点选重要区域"
+        }
+    }
+
     fun toggleFreeze() {
-        if (sample == null) return
-        if (!frozen) frozenExposure = exposure
-        frozen = !frozen
+        if (!frozen) {
+            if (sample == null) return
+            frozenExposure = exposure
+            frozenBaseExposure = exposure
+            frozenMeterReading = appliedReading ?: manual.ev
+            frozenSafetyStops = 0.0
+            frozenCompensation = compensationThirds
+            frozen = true
+        } else {
+            // Keep subject points through frozen comparisons. Apply the selected target only when
+            // returning to a live measurement, and never resurrect it after a camera invalidation.
+            val deferredStops = frozenSafetyStops.takeIf { sample != null } ?: 0.0
+            val base = frozenBaseExposure
+            frozen = false
+            if (base != null && deferredStops != 0.0) {
+                if (mode == "M") setValues(nearestMeteredShutter(base, deferredStops))
+                else adjustCompensation(frozenCompensation + nearestExposureThirds(deferredStops))
+            }
+        }
         spots.clear()
+        safetyPointId = null
         number = 1
     }
 
@@ -336,8 +382,85 @@ class MainActivity : ComponentActivity() {
         val f = sample?.frame ?: return
         if (!frozen || f.sample(x, y) ushr 24 == 0) return
         val old = spots.find { hypot(it.x - x, it.y - y) < .045 }
-        if (old != null) spots.remove(old)
-        else spots += Spot(number++, x, y, f.spot(x, y, response))
+        if (old != null) {
+            spots.remove(old)
+            if (safetyPointId == old.id) safetyPointId = null
+        } else {
+            val point = Spot(number++, x, y, f.spot(x, y, response), f.cameraLimitedAt(x, y))
+            if (!point.ev.isFinite()) return
+            spots += point
+            if (safety) safetyPointId = point.id
+        }
+    }
+
+    /** The exact target that Apply commits, including auto-mode thirds and compensation limits. */
+    private fun safetyCandidate(stops: Double): Exposure {
+        if (frozen) {
+            val base = frozenBaseExposure ?: exposure
+            if (stops == 0.0) return frozenExposure ?: base
+            val total = frozenSafetyStops + stops
+            if (mode == "M") return nearestMeteredShutter(base, total)
+            val thirds = (frozenCompensation + nearestExposureThirds(total)).coerceIn(-15, 15)
+            return solve(mode, manual, frozenMeterReading ?: base.ev, thirds)
+        }
+        if (stops == 0.0) return exposure
+        if (mode == "M") return nearestMeteredShutter(exposure, stops)
+        val thirds = (compensationThirds + nearestExposureThirds(stops)).coerceIn(-15, 15)
+        return solve(mode, manual, appliedReading ?: manual.ev, thirds)
+    }
+
+    fun safetyAnalysis(): SafetyAnalysis? {
+        val s = sample?.takeIf { !it.missing } ?: return null
+        val point = safetyPointId?.let { id -> spots.find { it.id == id }?.let { it.id to it.ev } }
+        return analyzeSafety(
+            s.hist,
+            response,
+            s.frame.cameraEv,
+            film,
+            exposure,
+            s.cameraLimits,
+            point,
+            toneGoal,
+            ::safetyCandidate,
+        )
+    }
+
+    fun toneGoalDialog() {
+        choose("主体希望放在哪里", ToneGoal.entries.map { it.dialogLabel }) { i ->
+            toneGoal = ToneGoal.entries[i]
+            prefs.edit().putInt("toneGoal", i).apply()
+        }
+    }
+
+    fun safetyPointDialog() {
+        val items = listOf("自动代表亮度（随目标变化）") + spots.map {
+            "#%d · %.1f EV100 · %.1f 区".format(
+                java.util.Locale.US, it.id, it.ev, zoneAt(shootingPlan(film, exposure), it.ev),
+            )
+        }
+        choose("用于曝光推荐的参考区域", items) { i ->
+            safetyPointId = spots.getOrNull(i - 1)?.id
+        }
+    }
+
+    fun applySafetyOffset(stops: Double) {
+        if (!stops.isFinite() || abs(stops) > 5 || sample == null) return
+        if (frozen) {
+            // Evaluate the next state against the old pending offset, then commit both together.
+            val candidate = safetyCandidate(stops)
+            frozenSafetyStops += stops
+            frozenExposure = candidate
+            message =
+                if (abs(frozenCompensation + nearestExposureThirds(frozenSafetyStops)) > 15)
+                    "冻结模拟 · 超出自动补偿范围，请手动设置"
+                else "冻结对比已更新 · 退出 HOLD 应用"
+            return
+        }
+        val base = exposure
+        val restoredCompensation = compensationThirds
+        if (mode == "M") setValues(nearestMeteredShutter(base, stops))
+        else adjustCompensation(restoredCompensation + nearestExposureThirds(stops))
+        message = "已应用曝光偏移，请核对取整后的拍摄参数"
     }
 
     fun setValues(e: Exposure) {
@@ -464,6 +587,7 @@ class MainActivity : ComponentActivity() {
                         settings = false
                         frozen = false
                         spots.clear()
+                        safetyPointId = null
                         cancelScan()
                         runningCal = true
                         message = "校准 准备中"

@@ -52,6 +52,18 @@ class ReciprocityTest {
     }
 
     @Test
+    fun apertureInstructionsAreDiscreteExposureGuidanceRatherThanShutterTime() {
+        val advice = reciprocity("T-MAX 400", 10.0)
+        assertEquals(ReciprocityStatus.APERTURE_ADVICE, advice.status)
+        assertNull(advice.exposureSeconds)
+        assertEquals(1.0 / 3, advice.apertureCompensationStops!!, 0.0)
+        assertEquals("开大 1/3 档", advice.label)
+        assertNull(reciprocity("T-MAX 400", 10.01).apertureCompensationStops)
+        assertEquals(ReciprocityStatus.UNPUBLISHED, reciprocity("EKTACHROME E100", 120.0).status)
+        assertNull(reciprocity("EKTACHROME E100", 120.0).apertureCompensationStops)
+    }
+
+    @Test
     fun phoenixLabelsBorrowedExponentAsEstimateInsteadOfManufacturerCorrection() {
         val result = reciprocity("Phoenix II", 10.0)
         assertEquals(ReciprocityStatus.ESTIMATED, result.status)

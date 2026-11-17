@@ -32,6 +32,8 @@ private val muted = Color(0xffa5a6a3)
 private val amber = Color(0xffffbd59)
 private val red = Color(0xffec756a)
 private val green = Color(0xff6dd8a0)
+private val blue = Color(0xff60bfff)
+private val unknown = Color(0xffcd83ff)
 private val spotColors = listOf(Color(0xffffce58), Color(0xff55ccff), Color(0xffff85bb),
     Color(0xff68e3a8), Color(0xffba9dff), Color(0xffff9864))
 private fun spotColor(id: Int): Color = spotColors.getOrNull(id - 1)
@@ -76,11 +78,12 @@ private fun Action(s: String, on: Boolean = false, doIt: () -> Unit) {
 
 @Composable
 fun Instrument(a: MainActivity) {
-    BackHandler(a.settings || a.resizing || a.frozen || a.scanActive) {
+    BackHandler(a.settings || a.resizing || a.frozen || a.scanActive || a.safety) {
         when {
             a.settings -> a.settings = false
             a.resizing -> a.resizing = false
             a.frozen -> a.toggleFreeze()
+            a.safety -> a.toggleSafety()
             else -> a.cancelScan()
         }
     }
@@ -174,6 +177,7 @@ private fun Toolbar(a: MainActivity, land: Boolean) {
     }
     @Composable
     fun buttons() {
+        Tool("安全", 3, a.safety) { a.toggleSafety() }
         Tool("预览", 0, a.preview) { a.preview = !a.preview }
         Tool("测光点", 1, a.frozen) { if (!a.runningCal) a.toggleFreeze() }
         Tool(if (a.resizing) "完成" else "设置", 2, a.resizing) {
@@ -228,12 +232,20 @@ private fun Tool(title: String, type: Int, active: Boolean, click: () -> Unit) {
                     drawLine(c, p(.5f, 0f), p(.5f, .3f), 2f)
                     drawLine(c, p(.5f, .7f), p(.5f, 1f), 2f)
                 }
-                else -> {
+                2 -> {
                     for (i in 0..2) {
                         val y = .18f + i * .32f
                         drawLine(c, p(.04f, y), p(.96f, y), 2f)
                         drawCircle(c, w * .105f, p(if (i == 1) .68f else .32f, y))
                     }
+                }
+                else -> {
+                    // A compact luminance range with a film boundary and a protected anchor.
+                    drawLine(c, p(.15f, .88f), p(.85f, .12f), 1.5f)
+                    drawLine(c, p(.15f, .12f), p(.15f, .88f), 1.5f)
+                    drawLine(c, p(.15f, .88f), p(.92f, .88f), 1.5f)
+                    drawCircle(c, w * .16f, p(.65f, .35f))
+                    drawLine(c, p(.65f, .12f), p(.65f, .60f), 1.5f)
                 }
             }
         }
@@ -279,15 +291,17 @@ private fun Finder(a: MainActivity) {
                     if (maxWidth / maxHeight > aspect) Modifier.fillMaxHeight().aspectRatio(aspect)
                     else Modifier.fillMaxWidth().aspectRatio(aspect)
                 Box(fitted) {
+                    val shooting = shootingPlan(a.film, a.exposure)
                     val look =
                         Look(
                             f,
                             a.response,
-                            f.cameraEv - a.exposure.ev,
+                            f.cameraEv - shooting.effectiveEv,
                             a.film,
                             a.preview,
                             a.mode == "M",
                             a.style,
+                            a.safety,
                         )
                     AndroidView(
                         factory = { Preview(it) },
@@ -330,7 +344,13 @@ private fun Finder(a: MainActivity) {
                         for (pt in a.spots) {
                             val at = Offset((pt.x * w).toFloat(), (pt.y * h).toFloat())
                             drawCircle(Color.Black, 9.dp.toPx(), at, style = Stroke(4.dp.toPx()))
-                            drawCircle(spotColor(pt.id), 9.dp.toPx(), at, style = Stroke(2.dp.toPx()))
+                            drawCircle(
+                                if (a.safety && pt.cameraLimited) unknown else spotColor(pt.id),
+                                9.dp.toPx(), at, style = Stroke(2.dp.toPx()),
+                            )
+                            if (a.safety && a.safetyPointId == pt.id) {
+                                drawCircle(amber, 13.dp.toPx(), at, style = Stroke(1.5.dp.toPx()))
+                            }
                             drawContext.canvas.nativeCanvas.drawText(
                                 pt.id.toString(),
                                 at.x + 10.dp.toPx(),
@@ -350,9 +370,10 @@ private fun Finder(a: MainActivity) {
             val summary =
                 a.spots.lastOrNull()?.let {
                     "#%d   %.1f EV100   ·   Zone %.1f".format(
-                        java.util.Locale.US, it.id, it.ev, it.ev - a.exposure.ev + 5
+                        java.util.Locale.US, it.id, it.ev,
+                        zoneAt(shootingPlan(a.film, a.exposure), it.ev)
                     )
-                } ?: "点按画面添加测光点"
+                } ?: if (a.safety) "点按重要高光或暗部，设为曝光参考" else "点按画面添加测光点"
             Label(summary + "   ·   再点同一位置删除", 12,
                 a.spots.lastOrNull()?.let { spotColor(it.id) } ?: amber, Modifier.padding(horizontal = 10.dp))
         }
@@ -390,7 +411,11 @@ private fun Finder(a: MainActivity) {
                 if (a.message.isNotEmpty()) amber else muted,
                 Modifier.weight(1f),
             )
-            Label(if (a.preview) "胶片预览" else "取景", 10, if (a.preview) amber else muted)
+            Label(
+                if (a.safety) "安全曝光 · 估算" else if (a.preview) "胶片预览" else "取景",
+                10,
+                if (a.safety || a.preview) amber else muted,
+            )
         }
     }
 }
@@ -399,9 +424,15 @@ private fun Finder(a: MainActivity) {
 private fun Histogram(a: MainActivity) {
     val sample = a.sample
     val film = a.film
-    val middle = a.exposure.ev
+    val shooting = shootingPlan(film, a.exposure)
+    val middle = shooting.effectiveEv
     val response = a.response
     val reading = a.reading
+    val safetyAnalysis = if (a.safety) {
+        remember(sample, film, a.exposure, response, a.toneGoal, a.safetyPointId, a.spots.size) {
+            a.safetyAnalysis()
+        }
+    } else null
     var window by remember { mutableStateOf<HistogramWindow?>(null) }
     val chart = window ?: HistogramWindow.following(reading)
     val currentChart by rememberUpdatedState(chart)
@@ -414,7 +445,7 @@ private fun Histogram(a: MainActivity) {
         Modifier.fillMaxSize().background(ink).padding(5.dp)
             .border(1.dp, if (a.cal == null) red else line).padding(7.dp)
     ) {
-        Label("曝光直方图", 15, bold = true)
+        Label(if (a.safety) "安全曝光" else "曝光直方图", 15, bold = true)
         Label(
             if (reading == null) "等待测光" else
                 "%.1f EV100".format(java.util.Locale.US, reading) + if (a.cal == null) " · 估测" else "",
@@ -508,7 +539,11 @@ private fun Histogram(a: MainActivity) {
                     if (i == 0) path.moveTo(0f, y) else path.lineTo(w * i / 128, y)
                 }
                 drawPath(path, amber, style = Stroke(1.5.dp.toPx()))
-                for ((ev, c) in listOf(middle + film.low to green, middle to paper, middle + film.high to red))
+                for ((ev, c) in listOf(
+                    middle + film.low to (if (a.safety) blue else green),
+                    middle to paper,
+                    middle + film.high to red,
+                ))
                     drawLine(c, Offset(x(ev), 0f), Offset(x(ev), h), 1.5.dp.toPx())
                 val paint = android.graphics.Paint(1).apply {
                     color = android.graphics.Color.WHITE
@@ -524,7 +559,11 @@ private fun Histogram(a: MainActivity) {
                     val segment = 5.dp.toPx()
                     val pattern = if (group.size == 1) null else PathEffect.dashPathEffect(
                         floatArrayOf(segment, segment * (group.size - 1)), segment * (group.size - index))
-                    drawLine(spotColor(pt.id), Offset(xx, 0f), Offset(xx, h), 1.dp.toPx(), pathEffect = pattern)
+                    drawLine(
+                        spotColor(pt.id), Offset(xx, 0f), Offset(xx, h),
+                        if (a.safety && a.safetyPointId == pt.id) 2.dp.toPx() else 1.dp.toPx(),
+                        pathEffect = pattern,
+                    )
                     val label = "#" + pt.id
                     val labelX = min(xx + 2, w - paint.measureText(label)).coerceAtLeast(0f)
                     val row = labelRows.indexOfFirst { it < labelX }.let { if (it < 0) labelRows.size else it }
@@ -564,10 +603,158 @@ private fun Histogram(a: MainActivity) {
                 }
             }
         }
-        if (sample != null) Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Label("欠 %.1f".format(java.util.Locale.US, middle + film.low), 10, green, monoType = true)
-            Label("过 %.1f".format(java.util.Locale.US, middle + film.high), 10, red, monoType = true)
+        if (sample != null && !a.safety) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Label("欠 %.1f".format(java.util.Locale.US, middle + film.low), 10, green, monoType = true)
+                Label("过 %.1f".format(java.util.Locale.US, middle + film.high), 10, red, monoType = true)
+            }
         }
+        if (a.safety) SafetyPanel(a, safetyAnalysis)
+    }
+}
+
+@Composable
+private fun SafetyPanel(a: MainActivity, analysis: SafetyAnalysis?) {
+    Column(
+        Modifier.fillMaxWidth().heightIn(max = 230.dp)
+            .verticalScroll(rememberScrollState())
+            .semantics {
+                contentDescription = "胶片安全曝光估算，红色高光风险，蓝色暗部风险，紫色手机触限"
+            },
+    ) {
+        Label(
+            a.film.evidence.label + " · 工作范围为估算，非底片保证",
+            9,
+            if (a.film.evidence == FilmEvidence.MANUFACTURER_CURVE) muted else amber,
+        )
+        if (analysis == null) {
+            Label(
+                if (a.sample?.missing == true) "目标视场未覆盖完整，暂不出全画面结论"
+                else "等待有效测光；先确认固定手机与重要区域",
+                10, muted, Modifier.padding(vertical = 4.dp),
+            )
+            return@Column
+        }
+        val current = analysis.current
+        Label(
+            "高光 " + percentLabel(current.highlightFraction) + "% · 暗部 " +
+                percentLabel(current.shadowFraction) + "%",
+            11,
+            if (current.highlightFraction > 0 || current.shadowFraction > 0) amber else paper,
+        )
+        if (current.cameraUncertainFraction > 0) {
+            Label(
+                "手机触限 · 白 " + percentLabel(current.cameraWhiteFraction) +
+                    "% 黑 " + percentLabel(current.cameraBlackFraction) + "% · 多通道 " +
+                    percentLabel(current.cameraChannelFraction) + "%",
+                9, unknown,
+            )
+        }
+        Label(
+            when {
+                current.bothEndsNeedCompromise -> "主要明暗超出估计范围 · 必须选择优先保留的一侧"
+                current.primaryTonesFit && (current.shadowFraction > 0 || current.highlightFraction > 0) ->
+                    "主要明暗在估计范围内 · 小面积高光／暗部仍有风险"
+                current.primaryTonesFit -> "主要明暗在估计范围内 · 需结合重要区域复核"
+                else -> "主要明暗接近边界 · 调整曝光会移动全部区域"
+            },
+            10,
+            if (current.bothEndsNeedCompromise) red else muted,
+        )
+        Label("主要5–95%跨度 " + n(current.sampleSpan) + " EV · 估计工作 " +
+            n(current.workingSpan) + " EV", 9, muted)
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            MeterButton(a.toneGoal.shortLabel, true, true, Modifier.weight(1.35f), a::toneGoalDialog)
+            MeterButton(
+                analysis.referencePoint?.let { "点 #$it" } ?: "自动取值",
+                analysis.referencePoint != null,
+                true,
+                Modifier.weight(1f),
+            ) {
+                if (a.spots.isEmpty()) {
+                    if (!a.frozen) a.toggleFreeze()
+                } else a.safetyPointDialog()
+            }
+        }
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Label(
+                analysis.decisionLabel(),
+                10, amber, Modifier.weight(1f),
+            )
+            if (abs(analysis.recommendedStops) <= 5) {
+                Action("采用 " + signed(analysis.recommendedStops), true) {
+                    a.applySafetyOffset(analysis.recommendedStops)
+                }
+            } else Label("超补偿范围", 10, red)
+        }
+        if (a.spots.find { it.id == analysis.referencePoint }?.cameraLimited == true) {
+            Label("参考点含手机触限 · 建议仅适用于受测亮度，真实范围可能更大", 9, unknown)
+        }
+        Row(Modifier.fillMaxWidth().padding(top = 2.dp)) {
+            for (candidate in analysis.comparisons) {
+                val selected = candidate.requestedStops == 0.0
+                val result = candidate.assessment
+                val correction = result.shooting.reciprocity
+                Column(
+                    Modifier.weight(1f).padding(horizontal = 1.dp)
+                        .clip(RoundedCornerShape(3.dp))
+                        .background(if (selected) Color(0xff342c22) else panel)
+                        .clickable { a.applySafetyOffset(candidate.requestedStops) }
+                        .semantics {
+                            contentDescription = "采用" +
+                                (if (selected) "当前" else signed(candidate.requestedStops) + "EV") +
+                                "，快门" + timeLabel(candidate.metered.t) + "，高光风险" +
+                                percentLabel(result.highlightFraction) + "%，暗部风险" +
+                                percentLabel(result.shadowFraction) + "%"
+                        }
+                        .padding(horizontal = 3.dp, vertical = 3.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Label(
+                        when {
+                            candidate.requestedStops < 0 -> "−1/2 EV"
+                            candidate.requestedStops > 0 -> "+1/2 EV"
+                            else -> "当前"
+                        },
+                        10, if (selected) amber else paper, bold = selected, monoType = true,
+                    )
+                    Label(timeLabel(candidate.metered.t) + " · ƒ/" + n(candidate.metered.a),
+                        9, muted, monoType = true)
+                    Label("高" + percentLabel(result.highlightFraction) + " 暗" +
+                        percentLabel(result.shadowFraction), 9, paper, monoType = true)
+                    if (correction.exposureSeconds != null &&
+                        (correction.status == ReciprocityStatus.CORRECTED ||
+                            correction.status == ReciprocityStatus.ESTIMATED)
+                    ) Label("→" + timeLabel(correction.exposureSeconds), 9, amber, monoType = true)
+                    if (correction.status == ReciprocityStatus.APERTURE_ADVICE) {
+                        Label("光圈 " + signed(correction.apertureCompensationStops ?: 0.0), 9, amber)
+                    }
+                    if (correction.status == ReciprocityStatus.UNPUBLISHED) {
+                        Label("倒易律 ?", 9, red)
+                    }
+                }
+            }
+        }
+        val correction = current.shooting.reciprocity
+        if (!a.film.digital) {
+            Label(
+                when (correction.status) {
+                    ReciprocityStatus.CORRECTED -> "已计入倒易律 · " + correction.label
+                    ReciprocityStatus.ESTIMATED -> "倒易律经验估算 · " + correction.label
+                    ReciprocityStatus.APERTURE_ADVICE ->
+                        "已计入光圈补偿量 · " + correction.label + " · 滤镜色彩未模拟"
+                    ReciprocityStatus.UNPUBLISHED ->
+                        "倒易律资料不足 · 未虚构补偿，结果为估算"
+                    ReciprocityStatus.UNCHANGED -> "此测得快门按厂家区间无需倒易律补偿"
+                },
+                9,
+                if (correction.status == ReciprocityStatus.UNPUBLISHED) red else muted,
+            )
+        }
+        if (analysis.comparisons.any { it.assessment.shooting.uncertain }) {
+            Label("带 ? 的候选：当前快门无补偿资料，未虚构倍率，风险仅供估算", 9, red)
+        }
+        Label("红 高光风险 · 蓝 暗部风险 · 紫 手机触限；请用灰卡与实片复核", 9, muted)
     }
 }
 

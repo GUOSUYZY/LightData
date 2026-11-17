@@ -7,6 +7,7 @@ enum class ReciprocityStatus {
     CORRECTED,
     ESTIMATED,
     UNCHANGED,
+    APERTURE_ADVICE,
     UNPUBLISHED,
 }
 
@@ -16,6 +17,8 @@ data class ReciprocityResult(
     val status: ReciprocityStatus,
     val label: String,
     val sourceUrl: String?,
+    /** Published additional lens exposure, in stops; never used as a shutter multiplier. */
+    val apertureCompensationStops: Double? = null,
 )
 
 private const val HP5_GUIDE =
@@ -95,21 +98,35 @@ private val correctedTables = buildMap {
     put("TRI-X 400", triX)
     put("TRI-X 320", triX)
 }
+private data class OpeningInstruction(val stops: Double?, val text: String)
+
+// Keep these as discrete, manufacturer-specific instructions; never interpolate a missing row.
 private val openingAdvice =
     mapOf(
-        "T-MAX 100" to mapOf(.0001 to "开大 1/3 档", 1.0 to "开大 1/3 档"),
-        "T-MAX 400" to mapOf(10.0 to "开大 1/3 档"),
-        "PRO 400H" to mapOf(4.0 to "开大 1/2 档", 16.0 to "开大 1 档"),
-        "PROVIA 100F" to mapOf(240.0 to "2.5G 滤镜，开大 1/3 档"),
-        "VELVIA 50" to
-            mapOf(
-                4.0 to "5M 滤镜，开大 1/3 档",
-                8.0 to "7.5M 滤镜，开大 1/2 档",
-                16.0 to "10M 滤镜，开大 2/3 档",
-                32.0 to "12.5M 滤镜，开大 1 档",
-            ),
-        "PANCRO 400" to mapOf(1.0 to "开大 1/2 档", 10.0 to "开大 1 档", 60.0 to "开大 2 档"),
-        "EKTACHROME E100" to mapOf(120.0 to "日光加 CC10R，快门补偿未给出"),
+        "T-MAX 100" to mapOf(
+            .0001 to OpeningInstruction(1.0 / 3, "开大 1/3 档"),
+            1.0 to OpeningInstruction(1.0 / 3, "开大 1/3 档"),
+        ),
+        "T-MAX 400" to mapOf(10.0 to OpeningInstruction(1.0 / 3, "开大 1/3 档")),
+        "PRO 400H" to mapOf(
+            4.0 to OpeningInstruction(.5, "开大 1/2 档"),
+            16.0 to OpeningInstruction(1.0, "开大 1 档"),
+        ),
+        "PROVIA 100F" to mapOf(240.0 to OpeningInstruction(1.0 / 3, "2.5G 滤镜，开大 1/3 档")),
+        "VELVIA 50" to mapOf(
+            4.0 to OpeningInstruction(1.0 / 3, "5M 滤镜，开大 1/3 档"),
+            8.0 to OpeningInstruction(.5, "7.5M 滤镜，开大 1/2 档"),
+            16.0 to OpeningInstruction(2.0 / 3, "10M 滤镜，开大 2/3 档"),
+            32.0 to OpeningInstruction(1.0, "12.5M 滤镜，开大 1 档"),
+        ),
+        "PANCRO 400" to mapOf(
+            1.0 to OpeningInstruction(.5, "开大 1/2 档"),
+            10.0 to OpeningInstruction(1.0, "开大 1 档"),
+            60.0 to OpeningInstruction(2.0, "开大 2 档"),
+        ),
+        "EKTACHROME E100" to mapOf(
+            120.0 to OpeningInstruction(null, "日光加 CC10R，快门补偿未给出"),
+        ),
     )
 
 /** Keeps the ideal metered exposure independent of the film-camera shooting instruction. */
@@ -137,6 +154,15 @@ fun reciprocity(filmName: String, meteredSeconds: Double): ReciprocityResult {
         }
     fun unknown(label: String) =
         ReciprocityResult(meteredSeconds, null, ReciprocityStatus.UNPUBLISHED, label, source)
+    fun advice(stops: Double, text: String) =
+        ReciprocityResult(
+            meteredSeconds,
+            null,
+            ReciprocityStatus.APERTURE_ADVICE,
+            text,
+            source,
+            stops,
+        )
     fun normal() =
         ReciprocityResult(
             meteredSeconds,
@@ -165,12 +191,12 @@ fun reciprocity(filmName: String, meteredSeconds: Double): ReciprocityResult {
     }
     if (filmName == "ACROS II") {
         if (meteredSeconds < 120.0) return normal()
-        if (meteredSeconds <= 1000.0) return unknown("开大 1/2 档，保留测得快门")
+        if (meteredSeconds <= 1000.0) return advice(.5, "开大 1/2 档，保留测得快门")
     }
     if (filmName == "PANCRO 400" && meteredSeconds < 1.0) return normal()
     if (unchangedRanges[filmName]?.contains(meteredSeconds) == true) return normal()
     openingAdvice[filmName]?.get(meteredSeconds)?.let {
-        return unknown(it)
+        return if (it.stops == null) unknown(it.text) else advice(it.stops, it.text)
     }
     correctedTables[filmName]?.get(meteredSeconds)?.let { t ->
         val development =
