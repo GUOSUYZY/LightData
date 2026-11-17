@@ -174,6 +174,19 @@ class FinderTest {
     }
 
     @Test
+    fun darkBlueExposureGainIsAppliedInLinearLight() {
+        val first = Frame(32, 24, IntArray(32 * 24) { 0xff000020.toInt() }, 0.0, "rear")
+        for (lut in listOf(defaultResponse, defaultResponse.copyOf())) {
+            val mosaic = Mosaic(field, id, first, lut)
+            mosaic.add(first.copy(cameraEv = 3.0), field, id)
+            val rgb = mosaic.view(id).sample(.5,.5)
+            assertEquals(95, rgb and 255)
+            assertEquals(0, rgb and 0xffff00)
+            assertEquals(22, luma(rgb))
+        }
+    }
+
+    @Test
     fun compensatedScanAndReframingAgreeWithAnIndependentCamera() {
         val first = render(field, 0.0)
         val m = Mosaic(target, id, first)

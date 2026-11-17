@@ -11,6 +11,9 @@ fun linearToSrgb(value: Double): Double =
 private val toLinear16 = IntArray(256) { (srgbToLinear(it / 255.0) * 65535).roundToInt() }
 private val grayCode = IntArray(65536) { (255 * linearToSrgb(it / 65535.0)).roundToInt() }
 
+internal fun scaleSrgbCode(code: Int, linearGain: Double): Int =
+    grayCode[(toLinear16[code] * linearGain).roundToInt().coerceIn(0, 65535)]
+
 /** Gray code with the same linear Rec.709 luminance as this sRGB pixel. */
 fun luma(rgb: Int): Int {
     val r = toLinear16[rgb ushr 16 and 255]

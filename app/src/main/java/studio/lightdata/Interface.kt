@@ -596,7 +596,9 @@ private fun Meter(a: MainActivity) {
         }
         ExposureTable(a, e, Modifier.weight(2.25f))
         val iso = (speeds + a.manual.iso).distinct().sorted()
-        Wheel("ISO", iso, e.iso, !a.frozen, ::n, Modifier.weight(1f)) {
+        Wheel("ISO", iso, e.iso, !a.frozen && !a.isoLocked, ::isoLabel, Modifier.weight(1f),
+            lockLabel = if (a.isoLocked) "已锁定 · 解锁" else "锁定至 " + isoLabel(a.filmIso),
+            onLock = { if (!a.frozen) a.toggleIsoLock() }) {
             a.setValues(a.manual.copy(iso = it))
         }
     }
@@ -679,7 +681,7 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
         Column(Modifier.fillMaxSize()) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Label(if (showTimes) "等效曝光 · → 实拍" else "等效曝光", if (compact) 10 else 12, muted)
-                Label("ISO " + n(e.iso), if (compact) 10 else 12, muted, monoType = true)
+                Label("ISO " + isoLabel(e.iso), if (compact) 10 else 12, muted, monoType = true)
             }
             Row(
                 Modifier.weight(1f).fillMaxWidth().pointerInput(a.mode, a.frozen) {
@@ -761,7 +763,7 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
                                         "，光圈 " +
                                         n(pair.a) +
                                         "，ISO " +
-                                        n(pair.iso)
+                                        isoLabel(pair.iso)
                             },
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
@@ -833,6 +835,8 @@ private fun Wheel(
     enabled: Boolean,
     fmt: (Double) -> String,
     m: Modifier,
+    lockLabel: String,
+    onLock: () -> Unit,
     change: (Double) -> Unit,
 ) {
     val selected = values.indexOf(value).coerceAtLeast(0)
@@ -876,7 +880,10 @@ private fun Wheel(
                 }
             }
         ) {
-            Label(title, 11, muted)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Label(title, 11, muted, Modifier.weight(1f))
+                Label(lockLabel, 11, amber, Modifier.clickable(onClick = onLock).padding(horizontal = 3.dp, vertical = 2.dp))
+            }
             Row(
                 Modifier.fillMaxWidth().weight(1f),
                 verticalAlignment = Alignment.CenterVertically,
@@ -963,37 +970,31 @@ private fun Settings(a: MainActivity, m: Modifier) {
                 a.selectCamera(true)
             }
         }
-        Setting("自定义 ISO", n(a.manual.iso)) {
-            a.input("目标胶片 ISO", a.manual.iso, .001..10000000.0) {
-                a.setValues(a.manual.copy(iso = it))
+        Setting("曝光曲线", a.film.name + " · ISO " + isoLabel(a.filmIso)) { a.chooseFilm() }
+        Setting("测光 ISO", isoLabel(a.manual.iso) + if (a.isoLocked) " · 已锁定" else " · 手动") {
+            if (a.frozen) a.notifyUser("请先退出点测光")
+            else if (a.isoLocked) a.choose("跟随胶片 ISO " + isoLabel(a.filmIso), listOf("解锁并设置 ISO")) {
+                a.input("测光 ISO", a.manual.iso, .001..10000000.0) { value ->
+                    a.toggleIsoLock()
+                    a.setValues(a.manual.copy(iso = value))
+                }
+            }
+            else a.choose("测光 ISO", listOf("设置 ISO", "恢复胶片 ISO " + isoLabel(a.filmIso))) { i ->
+                if (i == 1) a.toggleIsoLock()
+                else a.input("测光 ISO", a.manual.iso, .001..10000000.0) { a.setValues(a.manual.copy(iso = it)) }
             }
         }
-        Setting("曝光曲线", a.film.name) {
-            val brands = filmRecords.map { it.brand }.distinct().sorted()
-            a.choose("曝光－密度曲线 · "+films.size+" 款", brands + listOf("自定义数码", "自定义胶片")) { i ->
-                if (i < brands.size) {
-                    val records=filmRecords.filter{it.brand==brands[i]}.sortedBy{it.film.name}
-                    a.choose(brands[i],records.map{it.film.name+"  ·  EI "+it.iso}){j->a.setFilmChoice(records[j].film)}
-                }
-                else {
-                    a.input("总动态范围（EV）", a.total, 1.0..32.0) { t ->
-                        a.input("中灰以上（EV）", min(a.above, t - .1), .1..t - .1) { v ->
-                            a.total = t
-                            a.above = v
-                            a.customDigital = i == brands.size
-                            a.put("digital", a.customDigital)
-                            a.put("total", t)
-                            a.put("above", v)
-                            a.setFilmChoice(customFilm(a.customDigital, t, v))
-                        }
-                    }
-                }
+        FlowRow {
+            Action("新建预设") { a.editCustomPreset() }
+            a.customPresets.find { it.id == a.selectedPresetId }?.let { preset ->
+                Action("编辑") { a.editCustomPreset(preset) }
             }
+            Action("导入 JSON") { a.pickPresetFile() }
+            if (a.customPresets.isNotEmpty()) Action("导出 JSON") { a.exportPresetFile() }
         }
         Label(a.film.info + " 上下限为预览用估算值。", 11, muted)
         if (colorCurves.containsKey(a.film.name)) Label("分层色彩预览 · 手机 RGB 光谱近似，日光中性校正。", 11, muted)
         val record=filmRecords.find{it.film.name==a.film.name}
-        if(record!=null && record.iso.toDouble()!=a.manual.iso) Action("使用参考 EI "+record.iso){a.setValues(a.manual.copy(iso=record.iso.toDouble()))}
         Row {
             if (record != null) Action(filmSourceLabel(record.document)) { open(filmSourceUrl(record.document)) }
             reciprocity(a.film.name, 10.0).sourceUrl?.let { url -> Action("倒易律 ↗") { open(url) } }

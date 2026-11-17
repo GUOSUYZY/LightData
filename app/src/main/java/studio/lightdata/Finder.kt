@@ -238,6 +238,10 @@ class Mosaic(
     // response is calibrated on luminance, so apply its gain to RGB without altering hue.
     private fun gains(delta: Double): DoubleArray {
         if (abs(delta) < .002) return DoubleArray(256) { 1.0 }
+        if (response === defaultResponse) {
+            val gain = 2.0.pow(delta)
+            return DoubleArray(256) { gain }
+        }
         return DoubleArray(256) { y ->
             val desired = response[y] + delta
             var l = 0
@@ -246,16 +250,19 @@ class Mosaic(
                 val m = (l + r) / 2
                 if (response[m] < desired) l = m + 1 else r = m
             }
-            val best = if (l > 0 && desired - response[l - 1] < response[l] - desired) l - 1 else l
-            best.toDouble() / max(1, y)
+            val below = max(0, l - 1)
+            val span = response[l] - response[below]
+            val fraction = if (span > 0.0) ((desired - response[below]) / span).coerceIn(0.0, 1.0) else 0.0
+            val targetCode = below + fraction
+            srgbToLinear(targetCode / 255.0) / srgbToLinear(max(.5, y.toDouble()) / 255.0)
         }
     }
 
     private fun color(c: Int, gain: Double): Int {
         if (gain == 1.0) return c
-        val r = ((c ushr 16 and 255) * gain).roundToInt().coerceIn(0, 255)
-        val g = ((c ushr 8 and 255) * gain).roundToInt().coerceIn(0, 255)
-        val b = ((c and 255) * gain).roundToInt().coerceIn(0, 255)
+        val r = scaleSrgbCode(c ushr 16 and 255, gain)
+        val g = scaleSrgbCode(c ushr 8 and 255, gain)
+        val b = scaleSrgbCode(c and 255, gain)
         return (c and -0x1000000) or (r shl 16) or (g shl 8) or b
     }
 
@@ -296,7 +303,7 @@ class Mosaic(
             expected.add(value)
         }
         if (locations.size < 12) return 0 to 0
-        val normalized = IntArray(256) { (it * gain[it]).roundToInt().coerceIn(0, 255) }
+        val normalized = IntArray(256) { scaleSrgbCode(it, gain[it]) }
         fun error(dx: Int, dy: Int): Double {
             val offset = dy * f.w + dx
             var loss = 0

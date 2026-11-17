@@ -5,6 +5,21 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class FilmStocksTest {
+    @Test fun independentlySampledFomapanCurvesMatchThePrintedMiddleTrace() {
+        val stocks = listOf("FOMAPAN 100 Classic", "FOMAPAN 200 Creative", "FOMAPAN 400 Action")
+        val curves = stocks.map { name -> filmRecords.first { it.film.name == name }.film }
+        // The three published log-relative-exposure plots look almost identical.
+        for (curve in curves) {
+            assertEquals(56, curve.dots.size)
+            val atLogMinusTwo = curve.dots.minBy { kotlin.math.abs(it.first - 1.49487) }
+            assertEquals(1.40, atLogMinusTwo.second, .01)
+            assertTrue(curve.info.contains("各自采样"))
+        }
+        assertEquals(3, curves.map { it.dots }.distinct().size)
+        for (stock in listOf("KODACHROME 64", "KODACHROME 64 Professional"))
+            assertTrue(filmRecords.first { it.film.name == stock }.film.info.contains("相同形状"))
+    }
+
     @Test
     fun eachSelectableStockHasASourceAndUsableDensityScale() {
         assertEquals(filmRecords.size, films.map { it.name }.distinct().size)

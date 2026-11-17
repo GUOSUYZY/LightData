@@ -4,6 +4,18 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ReciprocityTest {
+    @Test fun phoenixUsesItsOwnPublishedFormulaAndMarksExtrapolatedTimes() {
+        val example = reciprocity("Phoenix II", 10.0)
+        assertTrue(example.sourceUrl!!.contains("harmanphoto.co.uk"))
+        assertEquals(20.4, example.exposureSeconds!!, .05)
+        for (stock in listOf("Phoenix II", "PAN 200 · Kentmere", "HP5 PLUS")) {
+            assertFalse(reciprocity(stock, 50.0).label.contains("公式外推"))
+            val beyond = reciprocity(stock, 51.0)
+            assertTrue(beyond.label.contains("公式外推"))
+            assertTrue(beyond.exposureSeconds!! > 51.0)
+        }
+    }
+
     @Test
     fun hp5UsesManufacturersExampleAndKeepsTheMeteredTime() {
         val result = reciprocity("HP5 PLUS", 10.0)

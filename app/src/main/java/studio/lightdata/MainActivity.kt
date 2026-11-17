@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.WindowManager
@@ -22,6 +23,9 @@ data class Sample(
 )
 
 data class Spot(val id: Int, val x: Double, val y: Double, val ev: Double)
+
+fun isoLabel(value: Double): String =
+    java.math.BigDecimal.valueOf(value).stripTrailingZeros().toPlainString()
 
 class MainActivity : ComponentActivity() {
     val prefs by lazy { getSharedPreferences("meter", MODE_PRIVATE) }
@@ -43,6 +47,11 @@ class MainActivity : ComponentActivity() {
     var mode by mutableStateOf("A")
     var manual by mutableStateOf(Exposure(1.0 / 125, 8.0, 100.0))
     var film by mutableStateOf(films.first())
+        private set
+    var filmIso by mutableDoubleStateOf(filmRecords.first().iso.toDouble())
+        private set
+    var isoLocked by mutableStateOf(true)
+        private set
     var style by mutableIntStateOf(0)
     var compensationThirds by mutableIntStateOf(0)
         private set
@@ -70,9 +79,10 @@ class MainActivity : ComponentActivity() {
     private var frozenExposure: Exposure? = null
     @Volatile private var epoch = 0
     private var active = false
-    var total by mutableDoubleStateOf(12.0)
-    var above by mutableDoubleStateOf(4.0)
-    var customDigital by mutableStateOf(false)
+    var customPresets by mutableStateOf(emptyList<CustomPreset>())
+        private set
+    var selectedPresetId by mutableStateOf<String?>(null)
+        private set
     val layout = mutableStateMapOf<String, Float>()
     val response
         get() = cal?.responseFor(sample?.frame?.encoding ?: YuvEncoding.default) ?: defaultResponse
@@ -143,12 +153,7 @@ class MainActivity : ComponentActivity() {
         compensationThirds = prefs.getInt("compensationThirds", 0).coerceIn(-15, 15)
         manual = Exposure(saved("t", 1.0 / 125), saved("a", 8.0), saved("iso", 400.0))
         style = saved("style", 0.0).toInt()
-        total = saved("total", 12.0)
-        above = saved("above", 4.0)
-        customDigital = prefs.getString("digital", "false") == "true"
-        film =
-            films.find { it.name == prefs.getString("film", films.first().name) }
-                ?: customFilm(customDigital, total, above)
+        restoreFilm()
         logCounts = prefs.getBoolean("logCounts", false)
         for (prefix in listOf("p", "l", "squarep", "squarel")) {
             for (i in 1..2) {
@@ -319,10 +324,16 @@ class MainActivity : ComponentActivity() {
     }
 
     fun setValues(e: Exposure) {
-        manual = e
-        put("t", e.t)
-        put("a", e.a)
-        put("iso", e.iso)
+        manual = if (isoLocked) e.copy(iso = filmIso) else e
+        prefs.edit().putString("t", manual.t.toString()).putString("a", manual.a.toString())
+            .putString("iso", manual.iso.toString()).apply()
+    }
+
+    fun toggleIsoLock() {
+        if (frozen) return
+        isoLocked = !isoLocked
+        if (isoLocked) manual = manual.copy(iso = filmIso)
+        prefs.edit().putBoolean("filmIsoLocked", isoLocked).putString("iso", manual.iso.toString()).apply()
     }
 
     fun adjustCompensation(thirds: Int) {
@@ -352,10 +363,95 @@ class MainActivity : ComponentActivity() {
         selectCamera()
     }
 
-    fun setFilmChoice(v: Film) {
-        film = v
-        put("film", v.name)
+    private fun restoreFilm() {
+        customPresets = CustomPresets.decode(prefs.getString("customPresets", null)
+            ?: CustomPresets.encode(emptyList()))
+        val previous = prefs.getString("film", films.first().name)
+        var preset = customPresets.find { it.id == prefs.getString("customPresetId", null) }
+        if (preset == null && previous in listOf("自定义胶片", "自定义数码")) {
+            preset = CustomPreset.create(previous!!, previous == "自定义数码", saved("total", 12.0),
+                saved("above", 4.0), manual.iso)
+            customPresets = customPresets + preset
+            prefs.edit().putString("customPresets", CustomPresets.encode(customPresets))
+                .putString("customPresetId", preset.id).apply()
+        }
+        val record = filmRecords.find { it.film.name == previous } ?: filmRecords.first()
+        selectedPresetId = preset?.id
+        film = preset?.toFilm() ?: record.film
+        filmIso = preset?.iso ?: record.iso.toDouble()
+        // Keep an existing user's deliberate EI override when upgrading an older installation.
+        isoLocked = prefs.getBoolean("filmIsoLocked", !prefs.contains("iso") || manual.iso == filmIso)
+        if (isoLocked) manual = manual.copy(iso = filmIso)
+        prefs.edit().putBoolean("filmIsoLocked", isoLocked).apply()
     }
+
+    private fun applyFilm(value: Film, speed: Double, id: String?, lock: Boolean) {
+        film = value
+        filmIso = speed
+        selectedPresetId = id
+        isoLocked = lock
+        if (lock) manual = manual.copy(iso = speed)
+        if (frozen) frozenExposure = solve(mode, manual, held ?: reading ?: manual.ev, compensationThirds)
+        prefs.edit().putString("film", value.name).putString("customPresetId", id)
+            .putBoolean("filmIsoLocked", lock).putString("iso", manual.iso.toString()).apply()
+    }
+
+    fun selectFilm(record: FilmRecord) = applyFilm(record.film, record.iso.toDouble(), null, true)
+    fun selectPreset(preset: CustomPreset) = applyFilm(preset.toFilm(), preset.iso, preset.id, true)
+
+    fun savePreset(preset: CustomPreset) {
+        customPresets = CustomPresets.merge(customPresets, listOf(preset))
+        prefs.edit().putString("customPresets", CustomPresets.encode(customPresets)).apply()
+        selectPreset(preset)
+    }
+
+    private fun importPresets(incoming: List<CustomPreset>) {
+        val merged = CustomPresets.merge(customPresets, incoming)
+        val selected = merged.find { it.id == selectedPresetId }
+        val changed = merged.count { it !in customPresets }
+        customPresets = merged
+        prefs.edit().putString("customPresets", CustomPresets.encode(merged)).apply()
+        if (selected != null && incoming.any { it.id == selected.id })
+            applyFilm(selected.toFilm(), selected.iso, selected.id, isoLocked)
+        notifyUser("已读取 ${incoming.size} 个预设，新增或更新 ${changed} 个")
+    }
+
+    private val openPresets = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        uri?.let(::readPresetDocument)
+    }
+
+    internal fun readPresetDocument(uri: Uri) = presetIO({
+        requireNotNull(contentResolver.openInputStream(uri)).bufferedReader(Charsets.UTF_8)
+            .use { CustomPresets.decode(it) }
+    }, ::importPresets)
+
+    private val writePresets = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+        uri?.let(::writePresetDocument)
+    }
+
+    internal fun writePresetDocument(uri: Uri) {
+        val json = CustomPresets.encode(customPresets)
+        presetIO({
+            requireNotNull(contentResolver.openOutputStream(uri, "wt")).bufferedWriter(Charsets.UTF_8)
+                .use { it.write(json) }
+        }, { notifyUser("自定义预设已导出") })
+    }
+
+    // Document providers can classify plain JSON as text, binary, or a vendor type.
+    fun pickPresetFile() = openPresets.launch(arrayOf("*/*"))
+    fun exportPresetFile() = writePresets.launch("LightData-presets.json")
+
+    private fun <T> presetIO(work: () -> T, complete: (T) -> Unit) {
+        Thread {
+            val result = runCatching(work)
+            runOnUiThread {
+                if (!isFinishing && !isDestroyed) runCatching { complete(result.getOrThrow()) }
+                    .onFailure { notifyUser("预设文件操作失败：" + it.localizedMessage) }
+            }
+        }.start()
+    }
+
+    fun notifyUser(text: String) = android.widget.Toast.makeText(this, text, android.widget.Toast.LENGTH_LONG).show()
 
     fun choose(title: String, items: List<String>, action: (Int) -> Unit) {
         AlertDialog.Builder(this)
@@ -374,7 +470,7 @@ class MainActivity : ComponentActivity() {
             EditText(this).apply {
                 inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
                 setSingleLine()
-                setText(n(initial))
+                setText(isoLabel(initial))
                 selectAll()
             }
         val dialog =
