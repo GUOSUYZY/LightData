@@ -62,6 +62,41 @@ class MainActivity : ComponentActivity() {
     var preview by mutableStateOf(false)
     var useLut by mutableStateOf(false)
     var previewScale by mutableDoubleStateOf(.5)
+    var recordScan by mutableStateOf(false)
+    private data class ScanShot(val jpeg: ByteArray,val meta: String)
+    private val scanShots = mutableListOf<ScanShot>()
+    private fun recordShot(f: Frame, src: Field, target: Field, axes: FloatArray?, exposureMs: Double,
+                           time: Long, guide: ScanGuide, turn: Int, cameraMeta: String?) {
+        synchronized(scanShots) { if (scanShots.size >= 40) return }
+        val bitmap = android.graphics.Bitmap.createBitmap(f.pixels,f.w,f.h,android.graphics.Bitmap.Config.ARGB_8888)
+        val bytes = java.io.ByteArrayOutputStream()
+        try { bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG,95,bytes) }
+        finally { bitmap.recycle() }
+        val meta = org.json.JSONObject().put("camera",f.id).put("cameraEV",f.cameraEv)
+            .put("captureResult",cameraMeta?.let { org.json.JSONObject(it) })
+            .put("source",org.json.JSONArray(listOf(src.x,src.y))).put("target",org.json.JSONArray(listOf(target.x,target.y)))
+            .put("axes",axes?.let { org.json.JSONArray(it.toList()) }).put("exposureMs",exposureMs)
+            .put("timeMs",time).put("displayTurn",turn).put("captures",guide.captures).put("coverage",guide.coverage)
+        synchronized(scanShots) { scanShots.add(ScanShot(bytes.toByteArray(),meta.toString())) }
+    }
+    private val saveScan = registerForActivityResult(ActivityResultContracts.CreateDocument("application/zip")) { uri ->
+        if (uri != null) {
+            val shots = synchronized(scanShots) { scanShots.toList() }
+            Thread {
+                runCatching {
+                    java.util.zip.ZipOutputStream(requireNotNull(contentResolver.openOutputStream(uri))).use { zip ->
+                        for ((i,shot) in shots.withIndex()) for ((ext,data) in listOf("jpg" to shot.jpeg,"json" to shot.meta.toByteArray())) {
+                            zip.putNextEntry(java.util.zip.ZipEntry("${i+1}.$ext")); zip.write(data); zip.closeEntry()
+                        }
+                    }
+                }.onFailure { runOnUiThread { android.widget.Toast.makeText(this,"导出失败",0).show() } }
+            }.start()
+        }
+    }
+    fun exportScan() {
+        if (synchronized(scanShots) { scanShots.isEmpty() }) android.widget.Toast.makeText(this,"请先开启记录并进行拼接",0).show()
+        else saveScan.launch("LightData-panorama.zip")
+    }
     var showFps by mutableStateOf(false)
     var renderedFps by mutableIntStateOf(0)
     var previewView = java.lang.ref.WeakReference<Preview>(null)
@@ -351,7 +386,12 @@ class MainActivity : ComponentActivity() {
             val axes = pose.axes(scanRotation, timestamp)
             val session = it.session ?: ScanSession(frame, goal, axes, response, OpenCvScanAligner.available).also { s -> it.session = s }
             if (it.reanchor) { session.resumeTracking(); it.reanchor = false }
-            session.capture(src, axes, if (timestamp > 0) timestamp / 1_000_000 else now, live::trackingImage, packet.exposureMs) { frame } to session.guide(displayTurn)
+            val time = if (timestamp > 0) timestamp / 1_000_000 else now
+            var candidate: Frame? = null
+            val shown = session.capture(src,axes,time,live::trackingImage,packet.exposureMs) { frame.also { candidate = it } }
+            val guide = session.guide(displayTurn)
+            if (recordScan) candidate?.let { recordShot(it,src,goal,axes,packet.exposureMs,time,guide,displayTurn,packet.scanMetadata) }
+            shown to guide
         }
         fun measure(): Measurement {
             val full = live.fullFrame()
@@ -439,6 +479,7 @@ class MainActivity : ComponentActivity() {
             return
         }
         if (sample?.missing != true || frozen || runningCal) return
+        if (recordScan) synchronized(scanShots) { scanShots.clear() }
         rig.setPanoramaLock(true)
         scanRequest = ScanRequest(windowManager.defaultDisplay.rotation)
         epoch++

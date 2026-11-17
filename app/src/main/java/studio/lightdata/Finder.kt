@@ -416,6 +416,38 @@ internal class Mosaic(
         return fit.copy(tx=fit.tx*frame.w/width,ty=fit.ty*frame.h/height,width=frame.w,height=frame.h)
     }
 
+    // Test the final warp before mutating the atlas. Compare local structure rather
+    // than intensity so device exposure and white-balance changes do not veto a match.
+    private fun overlapAgrees(frame: Frame, p: Projection, warp: ScanWarp): Boolean {
+        val stride = max(7,min(w,h)/24)
+        var good = 0
+        var bad = 0
+        for (y in 4 until h-4 step stride) for (x in 4 until w-4 step stride) {
+            var n = 0
+            var a = 0.0; var b = 0.0
+            var aa = 0.0; var bb = 0.0; var ab = 0.0
+            for (dy in -4..4 step 2) for (dx in -4..4 step 2) {
+                val row = y+dy; val col = x+dx
+                val old = atlas[row*w+col]
+                if (old == 0) continue
+                val z = p.depth(xs[col],ys[row])
+                if (z <= .001) continue
+                val px = p.u(xs[col],ys[row],z); val py = p.v(xs[col],ys[row],z)
+                val u = warp.x(px,py); val v = warp.y(px,py)
+                if (u < 0 || v < 0 || u >= frame.w || v >= frame.h) continue
+                val raw = frame.pixels[v.toInt()*frame.w+u.toInt()]
+                if (raw ushr 24 == 0) continue
+                val l = luma(old).toDouble(); val r = luma(raw).toDouble()
+                a+=l; b+=r; aa+=l*l; bb+=r*r; ab+=l*r; n++
+            }
+            if (n < 16) continue
+            val va = aa-a*a/n; val vb = bb-b*b/n
+            if (max(va,vb) < 36*n) continue
+            if (ab-a*b/n > .55*sqrt(max(0.0,va*vb))) good++ else bad++
+        }
+        return bad < 4 || good >= 2*bad
+    }
+
     // Estimate residual camera processing after normalizing the measured exposure.
     // Only matched, unclipped overlap contributes; the median rejects local scene motion.
     private fun overlapGains(frame: Frame, p: Projection, warp: ScanWarp, gains: DoubleArray): Array<DoubleArray> {
@@ -520,6 +552,7 @@ internal class Mosaic(
         val nativeFit = if (count > 0) alignOverlap(frame,source,rotation) else null
         if (count > 0 && requireVisual && nativeFit == null) return false
         val warp = nativeFit ?: register(frame,p,gain).let { (x,y) -> ScanWarp(tx=x.toDouble(),ty=y.toDouble()) }
+        if (count > 0 && !overlapAgrees(frame,p,warp)) return false
         val residual = overlapGains(frame,p,warp,gain)
         val feather = max(2.0,min(frame.w,frame.h)*.14)
         for (y in ys.indices) for (x in xs.indices) {
@@ -701,7 +734,7 @@ internal class ScanSession(center: Frame, target: Field, origin: FloatArray?, re
         settling = !stationary && !continuous && lastAttempt != null
         val step = if (mosaic.coverage >= .90) .45 else if (stationary) 1.0 else Math.toDegrees(atan(min(field.x,field.y)))*.33
         if (!mosaic.ready && !lost && (stationary || continuous || (aligner != null && accepted == 0 && lastAttempt == null)) &&
-            (lastAttempt == null || moved(lastAttempt!!,orientation,step) || (retryStationary && (stationary || (continuous && nowMs-attemptedAt >= 110))))) {
+            (lastAttempt == null || moved(lastAttempt!!,orientation,step) || (retryStationary && ((stationary && nowMs-attemptedAt >= 220) || (continuous && nowMs-attemptedAt >= 110))))) {
             val before = mosaic.coverage
             // If moving registration is unreliable, allow a stationary retry at this pose.
             disconnected = !mosaic.add(field,orientation,!stationary,::image)
@@ -710,7 +743,7 @@ internal class ScanSession(center: Frame, target: Field, origin: FloatArray?, re
                 nextTarget = mosaic.nextUncovered(mosaic.aim(orientation),field)
                 rendered = null
             }
-            retryStationary = disconnected && !stationary
+            retryStationary = disconnected
             attemptedAt = nowMs
             lastAttempt = orientation
         }

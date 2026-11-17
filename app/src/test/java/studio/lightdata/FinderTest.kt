@@ -271,6 +271,17 @@ class FinderTest {
         assertEquals(2,session.guide(0).captures)
     }
 
+    @Test fun stationaryFallbackRejectsInconsistentStructureBeforeWritingAnyPixels() {
+        val first = render(field,0.0)
+        val m = Mosaic(target,id,first)
+        m.add(first,field,id)
+        val before = m.view(id).pixels
+        val flipped = render(field,.32).let { it.copy(pixels=it.pixels.reversedArray()) }
+        assertFalse(m.add(flipped,field,yaw(.32)))
+        assertArrayEquals(before,m.view(id).pixels)
+        assertTrue(m.add(render(field,.32),field,yaw(.32)))
+    }
+
     @Test fun localGainReducesTopBottomBrightnessErrorInNewCoverage() {
         val c = render(field,0.0)
         val first = c.copy(pixels=IntArray(c.pixels.size) { gray(140) })

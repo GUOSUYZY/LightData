@@ -131,6 +131,7 @@ class Rig(
 
     data class Plane(val data: ByteArray, val rowStride: Int, val pixelStride: Int)
     class Packet(val w: Int, val h: Int, val planes: List<Plane>, val encoding: YuvEncoding) {
+        var scanMetadata: String? = null
         var exposureMs = 0.0
         fun pixel(x: Int, y: Int): Int {
             fun code(p: Plane, col: Int, row: Int) = p.data[row*p.rowStride+col*p.pixelStride].toInt() and 255
@@ -501,6 +502,17 @@ class Rig(
         val synced =
             l.c[CameraCharacteristics.SENSOR_INFO_TIMESTAMP_SOURCE] ==
                 CameraCharacteristics.SENSOR_INFO_TIMESTAMP_SOURCE_REALTIME
+        if (panoramaLock) {
+            val wb = meta[CaptureResult.COLOR_CORRECTION_GAINS]
+            image.scanMetadata = org.json.JSONObject()
+                .put("aeState",meta[CaptureResult.CONTROL_AE_STATE])
+                .put("awbState",meta[CaptureResult.CONTROL_AWB_STATE])
+                .put("aeLock",meta[CaptureResult.CONTROL_AE_LOCK])
+                .put("awbLock",meta[CaptureResult.CONTROL_AWB_LOCK])
+                .put("iso",iso).put("aperture",a)
+                .put("wbGains",wb?.let { org.json.JSONArray(listOf(it.red,it.greenEven,it.greenOdd,it.blue)) })
+                .toString()
+        }
         image.exposureMs = time/1e6
         val ev = Exposure(time / 1e9, a, iso * boost).ev
         val sensorTime = if (synced) ts else 0L

@@ -1060,6 +1060,10 @@ private fun Settings(a: MainActivity, m: Modifier) {
                 a.put("previewScale", scales[i])
             }
         }
+        Row {
+            Action(if (a.recordScan) "关闭拼接诊断记录" else "开启拼接诊断记录",a.recordScan) { a.recordScan = !a.recordScan }
+            Action("导出拼接诊断 ZIP") { a.exportScan() }
+        }
         Row(Modifier.fillMaxWidth().toggleable(a.showFps,role=Role.Switch) { enabled ->
             a.showFps = enabled
             a.prefs.edit().putBoolean("showFps",enabled).apply()
