@@ -81,7 +81,13 @@ try {
   await page.addInitScript(() => {
     const original = MediaStreamTrack.prototype.getSettings;
     MediaStreamTrack.prototype.getSettings = function () {
-      return { ...original.call(this), ...globalThis.testCameraSettings };
+      // Chromium 145 can rotate fake-device IDs on reload. This metadata fixture
+      // represents one camera; camera-isolation checks explicitly override its ID.
+      return {
+        ...original.call(this),
+        deviceId: "lightdata-synthetic-camera",
+        ...globalThis.testCameraSettings,
+      };
     };
   });
   await page.goto(base);
@@ -116,6 +122,16 @@ try {
   await expect(page.locator("#capture-info")).toContainText("用于场景 EV100");
   await expect(page.locator("#capture-fixed-controls")).toBeHidden();
   await page.screenshot({ path: path.join(snapshots, "capture-metadata.png") });
+  await page.evaluate(() => {
+    globalThis.testCameraSettings.deviceId = "lightdata-other-camera";
+  });
+  await expect(page.locator("#capture-aperture")).toHaveValue("");
+  await expect(page.locator("#meter-reading")).toContainText("相对亮度");
+  await page.evaluate(() => {
+    delete globalThis.testCameraSettings.deviceId;
+  });
+  await expect(page.locator("#capture-aperture")).toHaveValue("2.3");
+  await expect(page.locator("#meter-reading")).toContainText("EV100");
   const screenshotReading = await valueReading();
   await page.evaluate(() => {
     globalThis.testCameraSettings.iso = 500;
