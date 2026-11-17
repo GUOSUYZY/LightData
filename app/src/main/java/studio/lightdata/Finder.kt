@@ -730,9 +730,13 @@ internal class ScanSession(center: Frame, target: Field, origin: FloatArray?, re
         val maxMotion = Math.toDegrees(2*min(field.x,field.y)/LONG_EDGE) * 2.5 *
             elapsed.coerceIn(1,500)/max(1.0,exposureMs)
         val sharp = elapsed in 1..500 && !moved(previousOrientation,orientation,min(8.0,maxMotion))
-        val continuous = aligner != null && sharp
+        // A failed registration must not require another large turn or a perfect
+        // stationary interval. Small frame-to-frame movement permits a fresh candidate.
+        val retry = retryStationary && elapsed in 1..500 &&
+            !moved(previousOrientation,orientation,1.5) && nowMs-attemptedAt >= 160
+        val continuous = aligner != null && (sharp || retry)
         settling = !stationary && !continuous && lastAttempt != null
-        val step = if (mosaic.coverage >= .90) .45 else if (stationary) 1.0 else Math.toDegrees(atan(min(field.x,field.y)))*.33
+        val step = if (mosaic.coverage >= .90) .45 else if (stationary) 1.0 else Math.toDegrees(atan(min(field.x,field.y)))*.14
         if (!mosaic.ready && !lost && (stationary || continuous || (aligner != null && accepted == 0 && lastAttempt == null)) &&
             (lastAttempt == null || moved(lastAttempt!!,orientation,step) || (retryStationary && ((stationary && nowMs-attemptedAt >= 220) || (continuous && nowMs-attemptedAt >= 110))))) {
             val before = mosaic.coverage

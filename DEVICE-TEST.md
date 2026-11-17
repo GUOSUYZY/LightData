@@ -58,3 +58,9 @@ Android 11 模拟器使用虚拟相机验证了超广角入口、自动停稳采
 Android 11 x86_64 模拟器加载 OpenCV 4.12 原生库。合成纹理场景的输入为 480×364、20 FPS、每帧转动约 1.15°、模拟快门 4 ms；连续左右扫描全程未停，采集 5 个关键帧并达到 100% 覆盖。一次运行的中位耗时为原生配准 3.8 ms、整个取景更新 2.0 ms、含拼图写入的关键帧更新 18.1 ms，未计生成测试图或相机回调前的时间。空白重叠区被视觉配准拒绝。合成色偏、残余亮度偏差和过亮重叠区测试分别验证三通道补偿与羽化接缝。
 
 算法参考 AOSP Camera2 的广角全景特征配准，以及 OpenCV 拼接示例的曝光补偿和边缘融合布局；实际链接 OpenCV 的角点检测、Lucas–Kanade 光流和 RANSAC。三星实体设备的性能、硬件锁定效果以及近景视差仍待实测。[AOSP 源码](https://android.googlesource.com/platform/packages/apps/Camera2/+/8bddf8c/jni/feature_mos/src/mosaic/AlignFeatures.cpp) · [OpenCV 拼接示例](https://docs.opencv.org/4.x/d9/dd8/samples_2cpp_2stitching_detailed_8cpp-example.html)
+
+## 0.1.10-beta 可选配准对比
+
+用户提供的 40 张三星候选图在本机模拟器中进行相同顺序的 Mosaic 重放，LK、ORB、ECC、自动组合的覆盖率分别为 42.37%、42.23%、42.26%、42.37%，新增覆盖次数分别为 7、4、6、7。录制的应用状态最终为 21.55%。直接重放绕过采集调度，因此结果仅说明这些候选图包含可补拍内容。各模式的中位处理耗时一次运行约为 4.4、4.6、13.0、15.8 毫秒，不能代替实体手机连续采集性能。记录在左侧尝试期间达到上限，缺少完整的门侧扫描。
+
+设置提供 LK、ORB、ECC、自动四个选项，默认沿用 LK。切换时结束当前拼接，重新确认中心后生效。诊断记录保留第一张和最近 79 张候选图。私有图像未加入版本库或 APK；RecordedPanoramaTest 在应用私有 files/replay.zip 存在时运行。

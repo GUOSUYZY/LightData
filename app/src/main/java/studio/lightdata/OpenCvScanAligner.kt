@@ -5,11 +5,71 @@ import org.opencv.calib3d.Calib3d
 import org.opencv.core.*
 import org.opencv.imgproc.Imgproc
 import org.opencv.video.Video
+import org.opencv.features2d.ORB
+import org.opencv.features2d.BFMatcher
 import kotlin.math.*
 
 /** Sensor-seeded, pyramidal Lucas–Kanade registration with a robust similarity fit. */
 internal object OpenCvScanAligner : ScanAligner {
     val available: ScanAligner? by lazy { if (OpenCVLoader.initLocal()) this else null }
+
+    fun forMode(mode: String): ScanAligner? {
+        if (available == null) return null
+        return when(mode) {
+            "ORB" -> ScanAligner { w,h,a,b,m -> alternative(w,h,a,b,m,false) }
+            "ECC" -> ScanAligner { w,h,a,b,m -> alternative(w,h,a,b,m,true) }
+            "自动" -> ScanAligner { w,h,a,b,m ->
+                align(w,h,a,b,m) ?: alternative(w,h,a,b,m,false) ?: alternative(w,h,a,b,m,true)
+            }
+            else -> this
+        }
+    }
+    private fun alternative(w: Int,h: Int,a: ByteArray,b: ByteArray,mask: ByteArray,ecc: Boolean): ScanWarp? {
+        val mats = mutableListOf<Mat>()
+        fun <T: Mat> T.keep(): T { mats.add(this); return this }
+        fun gray(data: ByteArray) = Mat(h,w,CvType.CV_8UC1).keep().apply { put(0,0,data) }
+        try {
+            val ref = gray(a); val src = gray(b); val valid = gray(mask)
+            val fit: Mat
+            if (ecc) {
+                fit = Mat.eye(2,3,CvType.CV_32F).keep()
+                val kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT,Size(15.0,15.0)).keep()
+                Imgproc.erode(valid,valid,kernel)
+                if (Core.countNonZero(valid) < 300) return null
+                val score = Video.findTransformECC(ref,src,fit,Video.MOTION_EUCLIDEAN,
+                    TermCriteria(TermCriteria.COUNT+TermCriteria.EPS,35,.0005),valid,5)
+                if (score < .85) return null
+            } else {
+                val orb = ORB.create(700,1.2f,8,12,0,2,ORB.HARRIS_SCORE,21,10)
+                val matcher = BFMatcher.create(Core.NORM_HAMMING,false)
+                try {
+                    val k1 = MatOfKeyPoint().keep(); val k2 = MatOfKeyPoint().keep()
+                    val d1 = Mat().keep(); val d2 = Mat().keep()
+                    orb.detectAndCompute(ref,valid,k1,d1)
+                    orb.detectAndCompute(src,Mat().keep(),k2,d2)
+                    if (d1.empty() || d2.rows()<2) return null
+                    val matches = mutableListOf<MatOfDMatch>()
+                    try {
+                        matcher.knnMatch(d1,d2,matches,2)
+                        val good = matches.map { it.toArray() }.filter { it.size==2 && it[0].distance < .72*it[1].distance }.map { it[0] }
+                        if (good.size<8) return null
+                        val p1=k1.toArray(); val p2=k2.toArray()
+                        val from=MatOfPoint2f(*good.map { p1[it.queryIdx].pt }.toTypedArray()).keep()
+                        val to=MatOfPoint2f(*good.map { p2[it.trainIdx].pt }.toTypedArray()).keep()
+                        val inliers=Mat().keep()
+                        fit=Calib3d.estimateAffinePartial2D(from,to,inliers,Calib3d.RANSAC,2.0).keep()
+                        if (fit.empty() || Core.countNonZero(inliers)<max(7,(good.size*.6).toInt())) return null
+                    } finally { matches.forEach { it.release() } }
+                } finally { orb.clear(); matcher.clear() }
+            }
+            val values=Mat().keep()
+            fit.convertTo(values,CvType.CV_64F)
+            val m=DoubleArray(6); values.get(0,0,m)
+            if (hypot(m[0],m[3]) !in .93..1.07 || abs(m[3])>.10 || hypot(m[2],m[5])>min(w,h)*.20) return null
+            return ScanWarp(m[0],m[3],m[2],m[5])
+        } catch (_: CvException) { return null }
+        finally { mats.asReversed().forEach { it.release() } }
+    }
 
     override fun align(w: Int, h: Int, reference: ByteArray, incoming: ByteArray, mask: ByteArray): ScanWarp? {
         if (min(w,h) < 20) return null

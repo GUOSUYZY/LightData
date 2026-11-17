@@ -62,12 +62,18 @@ class MainActivity : ComponentActivity() {
     var preview by mutableStateOf(false)
     var useLut by mutableStateOf(false)
     var previewScale by mutableDoubleStateOf(.5)
+    var scanAlgorithm by mutableStateOf("LK")
+    fun chooseScanAlgorithm(value: String) {
+        cancelScan()
+        scanAlgorithm = value
+        prefs.edit().putString("scanAlgorithm",value).apply()
+    }
     var recordScan by mutableStateOf(false)
     private data class ScanShot(val jpeg: ByteArray,val meta: String)
     private val scanShots = mutableListOf<ScanShot>()
     private fun recordShot(f: Frame, src: Field, target: Field, axes: FloatArray?, exposureMs: Double,
                            time: Long, guide: ScanGuide, turn: Int, cameraMeta: String?) {
-        synchronized(scanShots) { if (scanShots.size >= 40) return }
+
         val bitmap = android.graphics.Bitmap.createBitmap(f.pixels,f.w,f.h,android.graphics.Bitmap.Config.ARGB_8888)
         val bytes = java.io.ByteArrayOutputStream()
         try { bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG,95,bytes) }
@@ -77,7 +83,11 @@ class MainActivity : ComponentActivity() {
             .put("source",org.json.JSONArray(listOf(src.x,src.y))).put("target",org.json.JSONArray(listOf(target.x,target.y)))
             .put("axes",axes?.let { org.json.JSONArray(it.toList()) }).put("exposureMs",exposureMs)
             .put("timeMs",time).put("displayTurn",turn).put("captures",guide.captures).put("coverage",guide.coverage)
-        synchronized(scanShots) { scanShots.add(ScanShot(bytes.toByteArray(),meta.toString())) }
+        synchronized(scanShots) {
+            // Preserve the center anchor and recent attempts when a direction stalls.
+            if (scanShots.size >= 80) scanShots.removeAt(1)
+            scanShots.add(ScanShot(bytes.toByteArray(),meta.put("algorithm",scanAlgorithm).toString()))
+        }
     }
     private val saveScan = registerForActivityResult(ActivityResultContracts.CreateDocument("application/zip")) { uri ->
         if (uri != null) {
@@ -251,6 +261,7 @@ class MainActivity : ComponentActivity() {
         style = saved("style", 0.0).toInt()
         useLut = prefs.getBoolean("useLut", false)
         previewScale = saved("previewScale", .5).coerceIn(.25, 1.0)
+        scanAlgorithm = prefs.getString("scanAlgorithm","LK") ?: "LK"
         showFps = prefs.getBoolean("showFps", false)
         restoreFilm()
         logCounts = prefs.getBoolean("logCounts", true)
@@ -384,7 +395,7 @@ class MainActivity : ComponentActivity() {
         val scan = request?.let {
             val frame by lazy(LazyThreadSafetyMode.NONE) { live.panoramaFrame() }
             val axes = pose.axes(scanRotation, timestamp)
-            val session = it.session ?: ScanSession(frame, goal, axes, response, OpenCvScanAligner.available).also { s -> it.session = s }
+            val session = it.session ?: ScanSession(frame, goal, axes, response, OpenCvScanAligner.forMode(scanAlgorithm)).also { s -> it.session = s }
             if (it.reanchor) { session.resumeTracking(); it.reanchor = false }
             val time = if (timestamp > 0) timestamp / 1_000_000 else now
             var candidate: Frame? = null

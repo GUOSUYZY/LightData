@@ -117,7 +117,7 @@ try {
   await expect(page.locator("#pixel-label")).toHaveText("像素 log");
   await expect(page.locator(".toolbar a[href*=releases]")).toHaveAttribute(
     "href",
-    /releases\/tag\/0\.1\.9-beta$/,
+    /releases\/tag\/0\.1\.10-beta$/,
   );
   await expect(page.locator("#camera-setup")).toBeVisible();
   await expect(page.locator("#setup-brand")).toHaveValue("");

@@ -262,12 +262,12 @@ class FinderTest {
             session.capture(field,yaw(angle),t,null,1.0) { render(field,angle) }
         }
         update(1000,0.0)
-        update(1050,.105)
-        update(1100,.21)
+        update(1050,.03)
+        update(1100,.10)
         assertEquals(1,calls)
-        update(1170,.21)
+        update(1170,.10)
         assertEquals(1,calls)
-        update(1220,.21)
+        update(1220,.10)
         assertEquals(2,session.guide(0).captures)
     }
 

@@ -1060,6 +1060,11 @@ private fun Settings(a: MainActivity, m: Modifier) {
                 a.put("previewScale", scales[i])
             }
         }
+        Label("拼接配准算法",14,paper)
+        Row(Modifier.horizontalScroll(rememberScrollState())) {
+            for (mode in listOf("LK","ORB","ECC","自动"))
+                Action(mode,a.scanAlgorithm == mode) { a.chooseScanAlgorithm(mode) }
+        }
         Row {
             Action(if (a.recordScan) "关闭拼接诊断记录" else "开启拼接诊断记录",a.recordScan) { a.recordScan = !a.recordScan }
             Action("导出拼接诊断 ZIP") { a.exportScan() }
