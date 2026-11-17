@@ -120,6 +120,8 @@ try {
     /releases\/tag\/0\.1\.5-beta$/,
   );
   await expect(page.locator("#camera-setup")).toBeVisible();
+  await expect(page.locator("#setup-brand")).toHaveValue("");
+  await expect(page.locator("#setup-phone")).toBeDisabled();
   await expect(page.locator("#setup-lens")).toBeDisabled();
   await page.locator("#setup-save").click();
   await expect(page.locator("#setup-error")).toContainText("请填写");
@@ -637,7 +639,9 @@ try {
   await phone.goto(base);
   await expect(phone.locator("#camera-setup")).toBeVisible();
   await expect(phone.locator("#pixel-label")).toHaveText("像素 log");
+  await expect(phone.locator("#setup-brand")).toHaveValue("Samsung");
   await expect(phone.locator("#setup-phone")).toHaveValue("samsung-fold7");
+  await expect(phone.locator('#setup-phone option[value^="apple-"]')).toHaveCount(0);
   await expect(phone.locator("#setup-detection")).toContainText(
     "UA Client Hints",
   );
@@ -658,6 +662,32 @@ try {
   await expect(phone.locator("#setup-equivalent-source")).toHaveAttribute(
     "href", /notebookcheck\.net/,
   );
+  await phone.locator("#setup-brand").selectOption("Apple");
+  await expect(phone.locator("#setup-phone")).toHaveValue("");
+  await expect(phone.locator("#setup-phone")).toBeEnabled();
+  await expect(phone.locator("#setup-lens")).toBeDisabled();
+  await expect(phone.locator("#setup-aperture")).toHaveValue("");
+  await expect(phone.locator("#setup-equivalent")).toHaveValue("");
+  await expect(phone.locator('#setup-phone option[value^="samsung-"]')).toHaveCount(0);
+  await expect(phone.locator('#setup-phone option[value="apple-iphone-x"]')).toHaveText("iPhone X");
+  await expect(phone.locator('#setup-phone option[value="apple-iphone-xs-max"]')).toHaveText("iPhone XS Max");
+  await expect(phone.locator('#setup-phone option[value="apple-iphone-13-mini"]')).toHaveText("iPhone 13 mini");
+  await phone.locator("#setup-phone").selectOption("apple-iphone-x");
+  await phone.locator("#setup-lens").selectOption("wide");
+  await expect(phone.locator("#setup-aperture")).toHaveValue("1.8");
+  await phone.locator("#setup-phone").selectOption("apple-iphone-15-pro-max");
+  await expect(phone.locator("#setup-aperture")).toHaveValue("");
+  await phone.locator("#setup-lens").selectOption("telephoto");
+  await expect(phone.locator("#setup-equivalent")).toHaveValue("120");
+  await phone.locator("#setup-phone").selectOption("apple-iphone-15-pro");
+  await phone.locator("#setup-lens").selectOption("telephoto");
+  await expect(phone.locator("#setup-equivalent")).toHaveValue("77");
+  await phone.screenshot({ path: path.join(snapshots, "lens-brand-iphone.png") });
+  await phone.locator("#setup-brand").selectOption("Xiaomi");
+  await expect(phone.locator("#setup-phone")).toHaveValue("");
+  await expect(phone.locator("#setup-lens")).toBeDisabled();
+  await expect(phone.locator("#setup-aperture")).toHaveValue("");
+  await expect(phone.locator("#setup-equivalent")).toHaveValue("");
   await phone.locator("#setup-phone").selectOption("xiaomi-15");
   await expect(phone.locator("#setup-aperture")).toHaveValue("");
   await phone.locator("#setup-lens").selectOption("wide");
@@ -675,6 +705,7 @@ try {
   await expect(phone.locator("#capture-aperture")).toHaveValue("1.62");
   await expect(phone.locator("#camera-equivalent")).toHaveValue("23");
   await phone.locator("#configure-lens").click();
+  await expect(phone.locator("#setup-brand")).toHaveValue("Xiaomi");
   await expect(phone.locator("#setup-phone")).toHaveValue("xiaomi-15");
   await expect(phone.locator("#setup-lens")).toHaveValue("wide");
   await expect(phone.locator("#setup-equivalent")).toHaveValue("23");
@@ -685,6 +716,16 @@ try {
   );
   expect(lensProfiles["matched-phone-camera"].phoneId).toBe("xiaomi-15");
   expect(lensProfiles["matched-phone-camera"].equivalentMm).toBe(23);
+  await phone.reload();
+  await phone.locator("#settings-toggle").click();
+  await phone.locator("#configure-lens").click();
+  await expect(phone.locator("#setup-brand")).toHaveValue("Xiaomi");
+  await expect(phone.locator("#setup-phone")).toHaveValue("xiaomi-15");
+  await phone.locator("#setup-brand").selectOption("");
+  await expect(phone.locator("#setup-phone")).toHaveValue("");
+  await expect(phone.locator("#setup-phone")).toBeDisabled();
+  await expect(phone.locator("#setup-lens")).toBeDisabled();
+  await expect(phone.locator("#setup-aperture")).toHaveValue("");
   await phoneContext.close();
   const denied = await browser.newContext({
     locale: "zh-CN",
@@ -798,7 +839,7 @@ try {
   await englishContext.close();
   expect(errors).toEqual([]);
   console.log(
-    "Browser checks passed: logarithmic default and legacy migration, settings reset preserving optics/calibrations/presets, explicit linear choice persistence, first-use lens setup, per-camera optics/zoom/reload, expanded sourced phone/lens presets, bilingual browser-language defaults and saved overrides, highlighted lens setup, camera, changing AE, relative fallback, single reading, film ISO lock, 2 spots, touch pan/pinch, panorama/reframe, custom frame/JSON persistence, four layouts, split drag, reference expiry, background pause/resume, denied permission.",
+    "Browser checks passed: logarithmic default and legacy migration, settings reset preserving optics/calibrations/presets, explicit linear choice persistence, first-use lens setup, per-camera optics/zoom/reload, linked brand/model selectors and restored selections, individual iPhones from X onward, expanded sourced phone/lens presets, bilingual browser-language defaults and saved overrides, highlighted lens setup, camera, changing AE, relative fallback, single reading, film ISO lock, 2 spots, touch pan/pinch, panorama/reframe, custom frame/JSON persistence, four layouts, split drag, reference expiry, background pause/resume, denied permission.",
   );
   console.log("Screenshots:", snapshots);
 } catch (error) {

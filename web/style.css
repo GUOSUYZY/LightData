@@ -57,7 +57,8 @@ select:focus-visible,
   outline-offset: 2px;
 }
 button:disabled,
-input:disabled {
+input:disabled,
+select:disabled {
   opacity: 0.4;
   cursor: default;
 }

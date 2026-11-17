@@ -78,7 +78,7 @@ test("model matching is exact, anchored and rejects ambiguous catalog entries", 
   );
 });
 
-test("official Android hardware codes and shared Apple variants match the intended optical group", () => {
+test("official Android hardware codes and individual Apple variants match the intended model", () => {
   for (const [model, id] of [
     ["23127PN0CG", "xiaomi-14"],
     ["24030PN60G", "xiaomi-14-ultra"],
@@ -93,8 +93,8 @@ test("official Android hardware codes and shared Apple variants match the intend
     ["V2405DA", "vivo-x200-pro"],
     ["HUAWEI HLS-AL00", "huawei-mate90"],
     ["HONOR SDY-AN00", "honor-70-pro"],
-    ["iPhone 16 Pro Max", "apple-iphone-16-pro"],
-    ["iPhone 14 Plus", "apple-iphone-14"],
+    ["iPhone 16 Pro Max", "apple-iphone-16-pro-max"],
+    ["iPhone 14 Plus", "apple-iphone-14-plus"],
   ]) {
     assert.equal(matchDevice(devices, { model }).id, id);
     assert.equal(matchDevice(devices, { model: model + " unknown" }), null);
@@ -256,16 +256,48 @@ test("catalog eligibility records launch prices and preserves legacy support wit
     brands.add(device.brand);
     assert.equal(matchDevice(devices, { model: device.name })?.id, device.id,
       `${device.name}: ambiguous display name`);
-    assert.ok(device.msrpCny > 4000, `${device.id}: qualifying China launch MSRP`);
-    assert.ok(device.priceNote, `${device.id}: qualifying configuration`);
-    assert.equal(new URL(device.priceSource).protocol, "https:");
-    assert.ok(device.legacy || (device.launchYear >= 2022 && device.launchYear <= 2026), device.id);
+    if (device.catalogScope === "iphone-x-onward") {
+      assert.equal(device.brand, "Apple");
+      assert.ok(device.launchYear >= 2017 && device.launchYear <= 2026, device.id);
+    } else {
+      assert.ok(device.msrpCny > 4000, `${device.id}: qualifying China launch MSRP`);
+      assert.ok(device.priceNote, `${device.id}: qualifying configuration`);
+      assert.equal(new URL(device.priceSource).protocol, "https:");
+      assert.ok(device.legacy || (device.launchYear >= 2022 && device.launchYear <= 2026), device.id);
+    }
     if (device.modelPatterns?.length) assert.ok(device.modelSources?.length, device.id);
   }
   assert.deepEqual([...brands].sort(), ["Apple", "HONOR", "HUAWEI", "OPPO", "Samsung", "Xiaomi", "vivo"].sort());
   for (const model of ["iPhone", "HUAWEI", "HONOR", "Android", "K"]) {
     assert.equal(matchDevice(devices, { model }), null);
   }
+});
+
+test("every iPhone from X onward has an individual selectable model without ambiguous aliases", () => {
+  const models = [
+    "X", "XS", "XS Max", "XR", "11", "11 Pro", "11 Pro Max",
+    "SE (2nd generation)", "12", "12 mini", "12 Pro", "12 Pro Max",
+    "13", "13 mini", "13 Pro", "13 Pro Max", "SE (3rd generation)",
+    "14", "14 Plus", "14 Pro", "14 Pro Max", "15", "15 Plus", "15 Pro", "15 Pro Max",
+    "16", "16 Plus", "16 Pro", "16 Pro Max", "16e", "17", "17 Pro", "17 Pro Max",
+    "Air", "17e", "18 Pro", "18 Pro Max", "Duo",
+  ];
+  const ids = new Set();
+  for (const model of models) {
+    const phone = matchDevice(devices, { model: `iPhone ${model}` });
+    assert.ok(phone, `${model}: one unambiguous profile`);
+    assert.equal(phone.brand, "Apple");
+    assert.equal(phone.catalogScope, "iphone-x-onward");
+    assert.ok(!ids.has(phone.id), `${model}: individual model entry`);
+    ids.add(phone.id);
+  }
+  assert.equal(ids.size, devices.filter((d) => d.brand === "Apple").length);
+  assert.equal(devices.filter((d) => d.brand === "Apple").reduce((n, d) => n + d.lenses.length, 0), 86);
+  const pro = matchDevice(devices, { model: "iPhone 12 Pro" });
+  const max = matchDevice(devices, { model: "iPhone 12 Pro Max" });
+  assert.equal(pro.lenses.find((l) => l.role === "telephoto").aperture, 2);
+  assert.equal(max.lenses.find((l) => l.role === "telephoto").aperture, 2.2);
+  assert.ok(matchDevice(devices, { model: "iPhone 13 Pro" }).lenses.some((l) => l.id === "wide"));
 });
 
 test("Samsung presets fill documented equivalents while unverified lenses stay manual", () => {

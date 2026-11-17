@@ -576,11 +576,18 @@
           <button id="setup-start" type="button">开启相机预览</button>
         </div>
         <p id="setup-detection" class="subtle"></p>
-        <label
-          >手机型号<select id="setup-phone">
-            <option value="">手动输入 / 其他设备</option>
-          </select></label
-        >
+        <div class="form-row">
+          <label
+            >手机品牌<select id="setup-brand">
+              <option value="">手动输入 / 其他设备</option>
+            </select></label
+          >
+          <label
+            >手机型号<select id="setup-phone" disabled>
+              <option value="">请选择型号 / 手动填写</option>
+            </select></label
+          >
+        </div>
         <label
           >与当前画面对应的镜头<select id="setup-lens">
             <option value="">请选择当前实际镜头 / 手动填写</option>

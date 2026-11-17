@@ -68,6 +68,8 @@ export const MESSAGES = {
   "恢复默认设置并刷新页面。保留镜头参数、校准记录和自定义胶片预设。": "Restore defaults and reload. Lens settings, calibrations and custom film presets are retained.",
   "源码与问题反馈": "Source & feedback", "设置手机镜头": "Set up phone lens", "暂不设置": "Skip for now",
   "浏览器相机": "Browser camera", "开启相机预览": "Start camera preview", "手机型号": "Phone model",
+  "手机品牌": "Phone brand", "请选择型号 / 手动填写": "Choose a model / Enter manually",
+  "三星": "Samsung", "华为": "Huawei", "荣耀": "HONOR", "小米": "Xiaomi",
   "手动输入 / 其他设备": "Manual entry / Other device", "与当前画面对应的镜头": "Lens used for the current image",
   "请选择当前实际镜头 / 手动填写": "Choose the active lens / Enter manually", "查看厂家镜头参数": "Manufacturer lens specifications",
   "视角输入方式": "Field of view input", "水平视角": "Horizontal field of view", "35 mm 等效焦距": "35 mm equivalent focal length",

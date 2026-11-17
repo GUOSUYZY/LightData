@@ -28,10 +28,14 @@ def build():
         device.setdefault("brand", device["name"].split()[0])
         if not device.get("lenses"):
             raise ValueError(f"No lenses: {device['id']}")
-        if not device.get("legacy") and not 2022 <= device.get("launchYear", 0) <= 2026:
-            raise ValueError(f"Outside reviewed launch dates: {device['id']}")
-        if device.get("msrpCny", 0) <= 4000 or not device.get("priceSource"):
-            raise ValueError(f"Missing qualifying launch price: {device['id']}")
+        if device.get("catalogScope") == "iphone-x-onward":
+            if device["brand"] != "Apple" or not 2017 <= device.get("launchYear", 0) <= 2026:
+                raise ValueError(f"Outside reviewed iPhone launch dates: {device['id']}")
+        else:
+            if not device.get("legacy") and not 2022 <= device.get("launchYear", 0) <= 2026:
+                raise ValueError(f"Outside reviewed launch dates: {device['id']}")
+            if device.get("msrpCny", 0) <= 4000 or not device.get("priceSource"):
+                raise ValueError(f"Missing qualifying launch price: {device['id']}")
         lens_ids = set()
         for lens in device["lenses"]:
             if lens["id"] in lens_ids:
@@ -43,9 +47,9 @@ def build():
         order.get(d.get("brand", d["name"].split()[0]), 99),
         -d.get("launchYear", 0), d["name"].lower()))
     catalog = {
-        "version": 2,
+        "version": 3,
         "updated": "2026-11-17",
-        "scope": "China mainland launches after 2021, with at least one launch configuration strictly above CNY 4000; previously supported legacy profiles retained.",
+        "scope": "All iPhone models from iPhone X onward; other brands: China mainland launches after 2021, with at least one launch configuration strictly above CNY 4000. Previously supported legacy profiles retained.",
         "devices": devices,
     }
     TARGET.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

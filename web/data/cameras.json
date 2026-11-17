@@ -1,7 +1,7 @@
 {
-  "version": 2,
+  "version": 3,
   "updated": "2026-11-17",
-  "scope": "China mainland launches after 2021, with at least one launch configuration strictly above CNY 4000; previously supported legacy profiles retained.",
+  "scope": "All iPhone models from iPhone X onward; other brands: China mainland launches after 2021, with at least one launch configuration strictly above CNY 4000. Previously supported legacy profiles retained.",
   "devices": [
     {
       "id": "samsung-s26",
@@ -2254,7 +2254,11 @@
         "iPhone 17e",
         "Apple iPhone 17e"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A3575$",
+        "^A3635$",
+        "^A3634$"
+      ],
       "source": "https://www.apple.com.cn/iphone-17e/specs/",
       "lenses": [
         {
@@ -2264,7 +2268,10 @@
           "facing": "environment",
           "role": "wide",
           "aperture": 1.6,
-          "equivalentMm": 26
+          "equivalentMm": 26,
+          "source": "https://www.apple.com.cn/iphone-17e/specs/",
+          "equivalentSource": "https://www.apple.com.cn/iphone-17e/specs/",
+          "equivalentEvidence": "manufacturer-specification"
         }
       ],
       "launchYear": 2026,
@@ -2278,20 +2285,30 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2026/03/apple-introduces-iphone-17e/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 17e 256GB：RMB 4499。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 17e 256GB: RMB 4499. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：256GB：RMB 4499。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 256GB: RMB 4499. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-17e"
     },
     {
       "id": "apple-iphone-18-pro",
       "name": "Apple iPhone 18 Pro",
       "aliases": [
         "iPhone 18 Pro",
-        "Apple iPhone 18 Pro",
-        "iPhone 18 Pro Max",
-        "Apple iPhone 18 Pro Max"
+        "Apple iPhone 18 Pro"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A3472$",
+        "^A3713$",
+        "^A3715$",
+        "^A3714$"
+      ],
       "source": "https://www.apple.com.cn/iphone-18-pro/specs/",
       "lenses": [
         {
@@ -2316,7 +2333,10 @@
           "variableApertureNote": "ƒ/1.48、ƒ/1.8、ƒ/2.8、ƒ/4.0 可变光圈；默认值为最大光圈，测光时须填写实际采集光圈。",
           "variableApertureNoteEn": "Variable aperture options: f/1.48, f/1.8, f/2.8 and f/4.0. The preset defaults to maximum aperture; enter the actual capture aperture for metering.",
           "note": "ƒ/1.48、ƒ/1.8、ƒ/2.8、ƒ/4.0 可变光圈；默认值为最大光圈，测光时须填写实际采集光圈。",
-          "noteEn": "Variable aperture options: f/1.48, f/1.8, f/2.8 and f/4.0. The preset defaults to maximum aperture; enter the actual capture aperture for metering."
+          "noteEn": "Variable aperture options: f/1.48, f/1.8, f/2.8 and f/4.0. The preset defaults to maximum aperture; enter the actual capture aperture for metering.",
+          "source": "https://www.apple.com.cn/iphone-18-pro/specs/",
+          "equivalentSource": "https://www.apple.com.cn/iphone-18-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2325,7 +2345,10 @@
           "facing": "environment",
           "role": "ultrawide",
           "aperture": 2.2,
-          "equivalentMm": 13
+          "equivalentMm": 13,
+          "source": "https://www.apple.com.cn/iphone-18-pro/specs/",
+          "equivalentSource": "https://www.apple.com.cn/iphone-18-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "telephoto",
@@ -2334,7 +2357,10 @@
           "facing": "environment",
           "role": "telephoto",
           "aperture": 2.8,
-          "equivalentMm": 100
+          "equivalentMm": 100,
+          "source": "https://www.apple.com.cn/iphone-18-pro/specs/",
+          "equivalentSource": "https://www.apple.com.cn/iphone-18-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
         }
       ],
       "launchYear": 2026,
@@ -2346,7 +2372,116 @@
           "storage": "256GB",
           "msrpCny": 9999,
           "priceSource": "https://www.apple.com.cn/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/"
+        }
+      ],
+      "priceNote": "已核验的中国大陆首发含税零售价：256GB：RMB 9999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 256GB: RMB 9999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-18-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-18-pro-max"
+      ],
+      "sharedOpticsSources": [
+        "https://www.apple.com.cn/iphone-18-pro/specs/",
+        "https://support.apple.com/en-us/148591"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.48,
+          "equivalentMm": 24,
+          "variableAperture": true,
+          "apertureRange": [
+            1.48,
+            4.0
+          ],
+          "apertureOptions": [
+            1.48,
+            1.8,
+            2.8,
+            4.0
+          ],
+          "variableApertureNote": "ƒ/1.48、ƒ/1.8、ƒ/2.8、ƒ/4.0 可变光圈；默认值为最大光圈，测光时须填写实际采集光圈。",
+          "variableApertureNoteEn": "Variable aperture options: f/1.48, f/1.8, f/2.8 and f/4.0. The preset defaults to maximum aperture; enter the actual capture aperture for metering.",
+          "note": "ƒ/1.48、ƒ/1.8、ƒ/2.8、ƒ/4.0 可变光圈；默认值为最大光圈，测光时须填写实际采集光圈。",
+          "noteEn": "Variable aperture options: f/1.48, f/1.8, f/2.8 and f/4.0. The preset defaults to maximum aperture; enter the actual capture aperture for metering.",
+          "source": "https://support.apple.com/en-us/148591",
+          "equivalentSource": "https://support.apple.com/en-us/148591",
+          "equivalentEvidence": "manufacturer-specification"
         },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultrawide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "source": "https://support.apple.com/en-us/148591",
+          "equivalentSource": "https://support.apple.com/en-us/148591",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 4×",
+          "nameEn": "Telephoto · 4×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 100,
+          "source": "https://support.apple.com/en-us/148591",
+          "equivalentSource": "https://support.apple.com/en-us/148591",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "launchYear": 2026,
+      "msrpCny": 10999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/",
+      "id": "apple-iphone-18-pro-max",
+      "name": "Apple iPhone 18 Pro Max",
+      "aliases": [
+        "iPhone 18 Pro Max",
+        "Apple iPhone 18 Pro Max"
+      ],
+      "modelPatterns": [
+        "^A3473$",
+        "^A3716$",
+        "^A3718$",
+        "^A3717$"
+      ],
+      "source": "https://support.apple.com/en-us/148591",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-18-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-18-pro"
+      ],
+      "sharedOpticsSources": [
+        "https://www.apple.com.cn/iphone-18-pro/specs/",
+        "https://support.apple.com/en-us/148591"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping.",
+      "priceVariants": [
         {
           "name": "iPhone 18 Pro Max",
           "storage": "256GB",
@@ -2354,9 +2489,8 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 18 Pro 256GB：RMB 9999；iPhone 18 Pro Max 256GB：RMB 10999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 18 Pro 256GB: RMB 9999; iPhone 18 Pro Max 256GB: RMB 10999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：256GB：RMB 10999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 256GB: RMB 10999. Historical reference only; this model is included regardless of price."
     },
     {
       "id": "apple-iphone-duo",
@@ -2365,7 +2499,12 @@
         "iPhone Duo",
         "Apple iPhone Duo"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A3447$",
+        "^A3719$",
+        "^A3721$",
+        "^A3720$"
+      ],
       "source": "https://www.apple.com.cn/iphone-duo/specs/",
       "lenses": [
         {
@@ -2375,7 +2514,10 @@
           "facing": "environment",
           "role": "wide",
           "aperture": 1.6,
-          "equivalentMm": 26
+          "equivalentMm": 26,
+          "source": "https://www.apple.com.cn/iphone-duo/specs/",
+          "equivalentSource": "https://www.apple.com.cn/iphone-duo/specs/",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2384,7 +2526,10 @@
           "facing": "environment",
           "role": "ultrawide",
           "aperture": 2.2,
-          "equivalentMm": 13
+          "equivalentMm": 13,
+          "source": "https://www.apple.com.cn/iphone-duo/specs/",
+          "equivalentSource": "https://www.apple.com.cn/iphone-duo/specs/",
+          "equivalentEvidence": "manufacturer-specification"
         }
       ],
       "launchYear": 2026,
@@ -2398,9 +2543,16 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2026/09/apple-unveils-iphone-duo/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone Duo 256GB：RMB 15999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone Duo 256GB: RMB 15999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：256GB：RMB 15999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 256GB: RMB 15999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-duo"
     },
     {
       "id": "apple-iphone-16e",
@@ -2409,7 +2561,12 @@
         "iPhone 16e",
         "Apple iPhone 16e"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A3212$",
+        "^A3408$",
+        "^A3410$",
+        "^A3409$"
+      ],
       "source": "https://support.apple.com/en-us/122208",
       "lenses": [
         {
@@ -2419,7 +2576,10 @@
           "facing": "environment",
           "role": "wide",
           "aperture": 1.6,
-          "equivalentMm": 26
+          "equivalentMm": 26,
+          "source": "https://support.apple.com/en-us/122208",
+          "equivalentSource": "https://support.apple.com/en-us/122208",
+          "equivalentEvidence": "manufacturer-specification"
         }
       ],
       "launchYear": 2025,
@@ -2433,9 +2593,16 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2025/02/apple-debuts-iphone-16e/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 16e 128GB：RMB 4499。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 16e 128GB: RMB 4499. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 4499。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 4499. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-16e"
     },
     {
       "id": "apple-iphone-17",
@@ -2444,7 +2611,12 @@
         "iPhone 17",
         "Apple iPhone 17"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A3258$",
+        "^A3519$",
+        "^A3521$",
+        "^A3520$"
+      ],
       "source": "https://support.apple.com/en-us/125089",
       "lenses": [
         {
@@ -2454,7 +2626,10 @@
           "role": "wide",
           "aperture": 1.6,
           "equivalentMm": 26,
-          "nameEn": "Main camera · 1×"
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/en-us/125089",
+          "equivalentSource": "https://support.apple.com/en-us/125089",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2463,7 +2638,10 @@
           "role": "ultrawide",
           "aperture": 2.2,
           "equivalentMm": 13,
-          "nameEn": "Ultrawide · 0.5×"
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/en-us/125089",
+          "equivalentSource": "https://support.apple.com/en-us/125089",
+          "equivalentEvidence": "manufacturer-specification"
         }
       ],
       "launchYear": 2025,
@@ -2477,20 +2655,30 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2025/09/apple-debuts-iphone-17/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 17 256GB：RMB 5999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 17 256GB: RMB 5999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：256GB：RMB 5999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 256GB: RMB 5999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-17"
     },
     {
       "id": "apple-iphone-17-pro",
       "name": "Apple iPhone 17 Pro",
       "aliases": [
         "iPhone 17 Pro",
-        "Apple iPhone 17 Pro",
-        "iPhone 17 Pro Max",
-        "Apple iPhone 17 Pro Max"
+        "Apple iPhone 17 Pro"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A3256$",
+        "^A3522$",
+        "^A3524$",
+        "^A3523$"
+      ],
       "source": "https://support.apple.com/en-us/125090",
       "lenses": [
         {
@@ -2500,7 +2688,10 @@
           "role": "wide",
           "aperture": 1.78,
           "equivalentMm": 24,
-          "nameEn": "Main camera · 1×"
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/en-us/125090",
+          "equivalentSource": "https://support.apple.com/en-us/125090",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2509,7 +2700,10 @@
           "role": "ultrawide",
           "aperture": 2.2,
           "equivalentMm": 13,
-          "nameEn": "Ultrawide · 0.5×"
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/en-us/125090",
+          "equivalentSource": "https://support.apple.com/en-us/125090",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "telephoto",
@@ -2518,11 +2712,11 @@
           "role": "telephoto",
           "aperture": 2.8,
           "equivalentMm": 100,
-          "nameEn": "Telephoto · 4×"
+          "nameEn": "Telephoto · 4×",
+          "source": "https://support.apple.com/en-us/125090",
+          "equivalentSource": "https://support.apple.com/en-us/125090",
+          "equivalentEvidence": "manufacturer-specification"
         }
-      ],
-      "aliasSources": [
-        "https://support.apple.com/en-us/125091"
       ],
       "launchYear": 2025,
       "msrpCny": 8999,
@@ -2533,7 +2727,101 @@
           "storage": "256GB",
           "msrpCny": 8999,
           "priceSource": "https://www.apple.com.cn/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max-cn/"
+        }
+      ],
+      "priceNote": "已核验的中国大陆首发含税零售价：256GB：RMB 8999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 256GB: RMB 8999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-17-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-17-pro-max"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/125090",
+        "https://support.apple.com/zh-cn/125091"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24,
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/zh-cn/125091",
+          "equivalentSource": "https://support.apple.com/zh-cn/125091",
+          "equivalentEvidence": "manufacturer-specification"
         },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/zh-cn/125091",
+          "equivalentSource": "https://support.apple.com/zh-cn/125091",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 4×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 100,
+          "nameEn": "Telephoto · 4×",
+          "source": "https://support.apple.com/zh-cn/125091",
+          "equivalentSource": "https://support.apple.com/zh-cn/125091",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "launchYear": 2025,
+      "msrpCny": 9999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max-cn/",
+      "id": "apple-iphone-17-pro-max",
+      "name": "Apple iPhone 17 Pro Max",
+      "aliases": [
+        "iPhone 17 Pro Max",
+        "Apple iPhone 17 Pro Max"
+      ],
+      "modelPatterns": [
+        "^A3257$",
+        "^A3525$",
+        "^A3527$",
+        "^A3526$"
+      ],
+      "source": "https://support.apple.com/zh-cn/125091",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-17-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-17-pro"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/125090",
+        "https://support.apple.com/zh-cn/125091"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping.",
+      "priceVariants": [
         {
           "name": "iPhone 17 Pro Max",
           "storage": "256GB",
@@ -2541,9 +2829,8 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max-cn/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 17 Pro 256GB：RMB 8999；iPhone 17 Pro Max 256GB：RMB 9999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 17 Pro 256GB: RMB 8999; iPhone 17 Pro Max 256GB: RMB 9999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：256GB：RMB 9999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 256GB: RMB 9999. Historical reference only; this model is included regardless of price."
     },
     {
       "id": "apple-iphone-air",
@@ -2552,7 +2839,12 @@
         "iPhone Air",
         "Apple iPhone Air"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A3260$",
+        "^A3516$",
+        "^A3518$",
+        "^A3517$"
+      ],
       "source": "https://www.apple.com.cn/iphone-air/specs/",
       "lenses": [
         {
@@ -2562,7 +2854,10 @@
           "facing": "environment",
           "role": "wide",
           "aperture": 1.6,
-          "equivalentMm": 26
+          "equivalentMm": 26,
+          "source": "https://www.apple.com.cn/iphone-air/specs/",
+          "equivalentSource": "https://www.apple.com.cn/iphone-air/specs/",
+          "equivalentEvidence": "manufacturer-specification"
         }
       ],
       "launchYear": 2025,
@@ -2576,24 +2871,34 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2025/10/iphone-air-will-be-available-in-china-beginning-october-22/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone Air 256GB：RMB 7999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone Air 256GB: RMB 7999. These are launch prices, before subsidies or trade-in.",
+      "priceNote": "已核验的中国大陆首发含税零售价：256GB：RMB 7999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 256GB: RMB 7999. Historical reference only; this model is included regardless of price.",
       "priceSources": [
         "https://www.apple.com.cn/newsroom/2025/10/iphone-air-will-be-available-in-china-beginning-october-22/",
         "https://www.apple.com.cn/newsroom/2025/09/introducing-iphone-air-a-powerful-new-iphone/"
       ],
-      "brand": "Apple"
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-air"
     },
     {
       "id": "apple-iphone-16",
       "name": "Apple iPhone 16",
       "aliases": [
         "iPhone 16",
-        "Apple iPhone 16",
-        "iPhone 16 Plus",
-        "Apple iPhone 16 Plus"
+        "Apple iPhone 16"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A3081$",
+        "^A3286$",
+        "^A3288$",
+        "^A3287$"
+      ],
       "source": "https://support.apple.com/en-us/121029",
       "lenses": [
         {
@@ -2603,7 +2908,10 @@
           "role": "wide",
           "aperture": 1.6,
           "equivalentMm": 26,
-          "nameEn": "Main camera · 1×"
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/en-us/121029",
+          "equivalentSource": "https://support.apple.com/en-us/121029",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2612,11 +2920,11 @@
           "role": "ultrawide",
           "aperture": 2.2,
           "equivalentMm": 13,
-          "nameEn": "Ultrawide · 0.5×"
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/en-us/121029",
+          "equivalentSource": "https://support.apple.com/en-us/121029",
+          "equivalentEvidence": "manufacturer-specification"
         }
-      ],
-      "aliasSources": [
-        "https://support.apple.com/en-us/121030"
       ],
       "launchYear": 2024,
       "msrpCny": 5999,
@@ -2627,7 +2935,89 @@
           "storage": "128GB",
           "msrpCny": 5999,
           "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-introduces-iphone-16-iphone-16-plus/"
+        }
+      ],
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 5999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 5999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-16",
+      "sharedOpticsWith": [
+        "apple-iphone-16-plus"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/121029",
+        "https://support.apple.com/zh-cn/121030"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/zh-cn/121030",
+          "equivalentSource": "https://support.apple.com/zh-cn/121030",
+          "equivalentEvidence": "manufacturer-specification"
         },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/zh-cn/121030",
+          "equivalentSource": "https://support.apple.com/zh-cn/121030",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "launchYear": 2024,
+      "msrpCny": 6999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-introduces-iphone-16-iphone-16-plus/",
+      "id": "apple-iphone-16-plus",
+      "name": "Apple iPhone 16 Plus",
+      "aliases": [
+        "iPhone 16 Plus",
+        "Apple iPhone 16 Plus"
+      ],
+      "modelPatterns": [
+        "^A3082$",
+        "^A3289$",
+        "^A3291$",
+        "^A3290$"
+      ],
+      "source": "https://support.apple.com/zh-cn/121030",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-16",
+      "sharedOpticsWith": [
+        "apple-iphone-16"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/121029",
+        "https://support.apple.com/zh-cn/121030"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping.",
+      "priceVariants": [
         {
           "name": "iPhone 16 Plus",
           "storage": "128GB",
@@ -2635,20 +3025,22 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-introduces-iphone-16-iphone-16-plus/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 16 128GB：RMB 5999；iPhone 16 Plus 128GB：RMB 6999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 16 128GB: RMB 5999; iPhone 16 Plus 128GB: RMB 6999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 6999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 6999. Historical reference only; this model is included regardless of price."
     },
     {
       "id": "apple-iphone-16-pro",
       "name": "Apple iPhone 16 Pro",
       "aliases": [
         "iPhone 16 Pro",
-        "Apple iPhone 16 Pro",
-        "iPhone 16 Pro Max",
-        "Apple iPhone 16 Pro Max"
+        "Apple iPhone 16 Pro"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A3083$",
+        "^A3292$",
+        "^A3294$",
+        "^A3293$"
+      ],
       "source": "https://support.apple.com/en-us/121031",
       "lenses": [
         {
@@ -2658,7 +3050,10 @@
           "role": "wide",
           "aperture": 1.78,
           "equivalentMm": 24,
-          "nameEn": "Main camera · 1×"
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/en-us/121031",
+          "equivalentSource": "https://support.apple.com/en-us/121031",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2667,7 +3062,10 @@
           "role": "ultrawide",
           "aperture": 2.2,
           "equivalentMm": 13,
-          "nameEn": "Ultrawide · 0.5×"
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/en-us/121031",
+          "equivalentSource": "https://support.apple.com/en-us/121031",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "telephoto",
@@ -2676,11 +3074,11 @@
           "role": "telephoto",
           "aperture": 2.8,
           "equivalentMm": 120,
-          "nameEn": "Telephoto · 5×"
+          "nameEn": "Telephoto · 5×",
+          "source": "https://support.apple.com/en-us/121031",
+          "equivalentSource": "https://support.apple.com/en-us/121031",
+          "equivalentEvidence": "manufacturer-specification"
         }
-      ],
-      "aliasSources": [
-        "https://support.apple.com/en-us/121032"
       ],
       "launchYear": 2024,
       "msrpCny": 7999,
@@ -2691,7 +3089,101 @@
           "storage": "128GB",
           "msrpCny": 7999,
           "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-debuts-iphone-16-pro-iphone-16-pro-max/"
+        }
+      ],
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 7999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 7999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-16-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-16-pro-max"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/121031",
+        "https://support.apple.com/zh-cn/121032"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24,
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/zh-cn/121032",
+          "equivalentSource": "https://support.apple.com/zh-cn/121032",
+          "equivalentEvidence": "manufacturer-specification"
         },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/zh-cn/121032",
+          "equivalentSource": "https://support.apple.com/zh-cn/121032",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 5×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 120,
+          "nameEn": "Telephoto · 5×",
+          "source": "https://support.apple.com/zh-cn/121032",
+          "equivalentSource": "https://support.apple.com/zh-cn/121032",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "launchYear": 2024,
+      "msrpCny": 9999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-debuts-iphone-16-pro-iphone-16-pro-max/",
+      "id": "apple-iphone-16-pro-max",
+      "name": "Apple iPhone 16 Pro Max",
+      "aliases": [
+        "iPhone 16 Pro Max",
+        "Apple iPhone 16 Pro Max"
+      ],
+      "modelPatterns": [
+        "^A3084$",
+        "^A3295$",
+        "^A3297$",
+        "^A3296$"
+      ],
+      "source": "https://support.apple.com/zh-cn/121032",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-16-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-16-pro"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/121031",
+        "https://support.apple.com/zh-cn/121032"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping.",
+      "priceVariants": [
         {
           "name": "iPhone 16 Pro Max",
           "storage": "256GB",
@@ -2699,20 +3191,22 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2024/09/apple-debuts-iphone-16-pro-iphone-16-pro-max/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 16 Pro 128GB：RMB 7999；iPhone 16 Pro Max 256GB：RMB 9999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 16 Pro 128GB: RMB 7999; iPhone 16 Pro Max 256GB: RMB 9999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：256GB：RMB 9999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 256GB: RMB 9999. Historical reference only; this model is included regardless of price."
     },
     {
       "id": "apple-iphone-15",
       "name": "Apple iPhone 15",
       "aliases": [
         "iPhone 15",
-        "Apple iPhone 15",
-        "iPhone 15 Plus",
-        "Apple iPhone 15 Plus"
+        "Apple iPhone 15"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A2846$",
+        "^A3089$",
+        "^A3092$",
+        "^A3090$"
+      ],
       "source": "https://support.apple.com/en-us/111831",
       "lenses": [
         {
@@ -2722,7 +3216,10 @@
           "role": "wide",
           "aperture": 1.6,
           "equivalentMm": 26,
-          "nameEn": "Main camera · 1×"
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/en-us/111831",
+          "equivalentSource": "https://support.apple.com/en-us/111831",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2731,11 +3228,11 @@
           "role": "ultrawide",
           "aperture": 2.4,
           "equivalentMm": 13,
-          "nameEn": "Ultrawide · 0.5×"
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/en-us/111831",
+          "equivalentSource": "https://support.apple.com/en-us/111831",
+          "equivalentEvidence": "manufacturer-specification"
         }
-      ],
-      "aliasSources": [
-        "https://support.apple.com/en-us/111830"
       ],
       "launchYear": 2023,
       "msrpCny": 5999,
@@ -2746,7 +3243,89 @@
           "storage": "128GB",
           "msrpCny": 5999,
           "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/"
+        }
+      ],
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 5999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 5999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-15",
+      "sharedOpticsWith": [
+        "apple-iphone-15-plus"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/111831",
+        "https://support.apple.com/zh-cn/111830"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/zh-cn/111830",
+          "equivalentSource": "https://support.apple.com/zh-cn/111830",
+          "equivalentEvidence": "manufacturer-specification"
         },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/zh-cn/111830",
+          "equivalentSource": "https://support.apple.com/zh-cn/111830",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "launchYear": 2023,
+      "msrpCny": 6999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/",
+      "id": "apple-iphone-15-plus",
+      "name": "Apple iPhone 15 Plus",
+      "aliases": [
+        "iPhone 15 Plus",
+        "Apple iPhone 15 Plus"
+      ],
+      "modelPatterns": [
+        "^A2847$",
+        "^A3093$",
+        "^A3096$",
+        "^A3094$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111830",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-15",
+      "sharedOpticsWith": [
+        "apple-iphone-15"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/111831",
+        "https://support.apple.com/zh-cn/111830"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping.",
+      "priceVariants": [
         {
           "name": "iPhone 15 Plus",
           "storage": "128GB",
@@ -2754,9 +3333,8 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 15 128GB：RMB 5999；iPhone 15 Plus 128GB：RMB 6999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 15 128GB: RMB 5999; iPhone 15 Plus 128GB: RMB 6999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 6999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 6999. Historical reference only; this model is included regardless of price."
     },
     {
       "id": "apple-iphone-15-pro",
@@ -2765,7 +3343,12 @@
         "iPhone 15 Pro",
         "Apple iPhone 15 Pro"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A2848$",
+        "^A3101$",
+        "^A3104$",
+        "^A3102$"
+      ],
       "source": "https://support.apple.com/en-us/111829",
       "lenses": [
         {
@@ -2775,7 +3358,10 @@
           "role": "wide",
           "aperture": 1.78,
           "equivalentMm": 24,
-          "nameEn": "Main camera · 1×"
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/en-us/111829",
+          "equivalentSource": "https://support.apple.com/en-us/111829",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2784,7 +3370,10 @@
           "role": "ultrawide",
           "aperture": 2.2,
           "equivalentMm": 13,
-          "nameEn": "Ultrawide · 0.5×"
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/en-us/111829",
+          "equivalentSource": "https://support.apple.com/en-us/111829",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "telephoto",
@@ -2793,7 +3382,10 @@
           "role": "telephoto",
           "aperture": 2.8,
           "equivalentMm": 77,
-          "nameEn": "Telephoto · 3×"
+          "nameEn": "Telephoto · 3×",
+          "source": "https://support.apple.com/en-us/111829",
+          "equivalentSource": "https://support.apple.com/en-us/111829",
+          "equivalentEvidence": "manufacturer-specification"
         }
       ],
       "launchYear": 2023,
@@ -2807,9 +3399,16 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 15 Pro 128GB：RMB 7999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 15 Pro 128GB: RMB 7999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 7999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 7999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-15-pro"
     },
     {
       "id": "apple-iphone-15-pro-max",
@@ -2818,7 +3417,12 @@
         "iPhone 15 Pro Max",
         "Apple iPhone 15 Pro Max"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A2849$",
+        "^A3105$",
+        "^A3108$",
+        "^A3106$"
+      ],
       "source": "https://support.apple.com/en-us/111828",
       "lenses": [
         {
@@ -2828,7 +3432,10 @@
           "role": "wide",
           "aperture": 1.78,
           "equivalentMm": 24,
-          "nameEn": "Main camera · 1×"
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/en-us/111828",
+          "equivalentSource": "https://support.apple.com/en-us/111828",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2837,7 +3444,10 @@
           "role": "ultrawide",
           "aperture": 2.2,
           "equivalentMm": 13,
-          "nameEn": "Ultrawide · 0.5×"
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/en-us/111828",
+          "equivalentSource": "https://support.apple.com/en-us/111828",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "telephoto",
@@ -2846,7 +3456,10 @@
           "role": "telephoto",
           "aperture": 2.8,
           "equivalentMm": 120,
-          "nameEn": "Telephoto · 5×"
+          "nameEn": "Telephoto · 5×",
+          "source": "https://support.apple.com/en-us/111828",
+          "equivalentSource": "https://support.apple.com/en-us/111828",
+          "equivalentEvidence": "manufacturer-specification"
         }
       ],
       "launchYear": 2023,
@@ -2860,20 +3473,31 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 15 Pro Max 256GB：RMB 9999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 15 Pro Max 256GB: RMB 9999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：256GB：RMB 9999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 256GB: RMB 9999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-15-pro-max"
     },
     {
       "id": "apple-iphone-14",
       "name": "Apple iPhone 14",
       "aliases": [
         "iPhone 14",
-        "Apple iPhone 14",
-        "iPhone 14 Plus",
-        "Apple iPhone 14 Plus"
+        "Apple iPhone 14"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A2649$",
+        "^A2881$",
+        "^A2884$",
+        "^A2883$",
+        "^A2882$"
+      ],
       "source": "https://support.apple.com/en-us/111850",
       "lenses": [
         {
@@ -2883,7 +3507,10 @@
           "role": "wide",
           "aperture": 1.5,
           "equivalentMm": 26,
-          "nameEn": "Main camera · 1×"
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/en-us/111850",
+          "equivalentSource": "https://support.apple.com/en-us/111850",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2892,11 +3519,11 @@
           "role": "ultrawide",
           "aperture": 2.4,
           "equivalentMm": 13,
-          "nameEn": "Ultrawide · 0.5×"
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/en-us/111850",
+          "equivalentSource": "https://support.apple.com/en-us/111850",
+          "equivalentEvidence": "manufacturer-specification"
         }
-      ],
-      "aliasSources": [
-        "https://support.apple.com/en-us/111854"
       ],
       "launchYear": 2022,
       "msrpCny": 5999,
@@ -2907,7 +3534,90 @@
           "storage": "128GB",
           "msrpCny": 5999,
           "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-introduces-iphone-14-and-iphone-14-plus/"
+        }
+      ],
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 5999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 5999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-14",
+      "sharedOpticsWith": [
+        "apple-iphone-14-plus"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/111850",
+        "https://support.apple.com/zh-cn/111854"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.5,
+          "equivalentMm": 26,
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/zh-cn/111854",
+          "equivalentSource": "https://support.apple.com/zh-cn/111854",
+          "equivalentEvidence": "manufacturer-specification"
         },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/zh-cn/111854",
+          "equivalentSource": "https://support.apple.com/zh-cn/111854",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "launchYear": 2022,
+      "msrpCny": 6999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-introduces-iphone-14-and-iphone-14-plus/",
+      "id": "apple-iphone-14-plus",
+      "name": "Apple iPhone 14 Plus",
+      "aliases": [
+        "iPhone 14 Plus",
+        "Apple iPhone 14 Plus"
+      ],
+      "modelPatterns": [
+        "^A2632$",
+        "^A2885$",
+        "^A2888$",
+        "^A2887$",
+        "^A2886$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111854",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-14",
+      "sharedOpticsWith": [
+        "apple-iphone-14"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/111850",
+        "https://support.apple.com/zh-cn/111854"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping.",
+      "priceVariants": [
         {
           "name": "iPhone 14 Plus",
           "storage": "128GB",
@@ -2915,20 +3625,23 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-introduces-iphone-14-and-iphone-14-plus/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 14 128GB：RMB 5999；iPhone 14 Plus 128GB：RMB 6999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 14 128GB: RMB 5999; iPhone 14 Plus 128GB: RMB 6999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 6999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 6999. Historical reference only; this model is included regardless of price."
     },
     {
       "id": "apple-iphone-14-pro",
       "name": "Apple iPhone 14 Pro",
       "aliases": [
         "iPhone 14 Pro",
-        "Apple iPhone 14 Pro",
-        "iPhone 14 Pro Max",
-        "Apple iPhone 14 Pro Max"
+        "Apple iPhone 14 Pro"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A2650$",
+        "^A2889$",
+        "^A2892$",
+        "^A2891$",
+        "^A2890$"
+      ],
       "source": "https://support.apple.com/en-us/111849",
       "lenses": [
         {
@@ -2938,7 +3651,10 @@
           "role": "wide",
           "aperture": 1.78,
           "equivalentMm": 24,
-          "nameEn": "Main camera · 1×"
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/en-us/111849",
+          "equivalentSource": "https://support.apple.com/en-us/111849",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "ultrawide",
@@ -2947,7 +3663,10 @@
           "role": "ultrawide",
           "aperture": 2.2,
           "equivalentMm": 13,
-          "nameEn": "Ultrawide · 0.5×"
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/en-us/111849",
+          "equivalentSource": "https://support.apple.com/en-us/111849",
+          "equivalentEvidence": "manufacturer-specification"
         },
         {
           "id": "telephoto",
@@ -2956,11 +3675,11 @@
           "role": "telephoto",
           "aperture": 2.8,
           "equivalentMm": 77,
-          "nameEn": "Telephoto · 3×"
+          "nameEn": "Telephoto · 3×",
+          "source": "https://support.apple.com/en-us/111849",
+          "equivalentSource": "https://support.apple.com/en-us/111849",
+          "equivalentEvidence": "manufacturer-specification"
         }
-      ],
-      "aliasSources": [
-        "https://support.apple.com/en-us/111846"
       ],
       "launchYear": 2022,
       "msrpCny": 7999,
@@ -2971,7 +3690,102 @@
           "storage": "128GB",
           "msrpCny": 7999,
           "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-debuts-iphone-14-pro-and-iphone-14-pro-max/"
+        }
+      ],
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 7999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 7999. Historical reference only; this model is included regardless of price.",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-14-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-14-pro-max"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/111849",
+        "https://support.apple.com/zh-cn/111846"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24,
+          "nameEn": "Main camera · 1×",
+          "source": "https://support.apple.com/zh-cn/111846",
+          "equivalentSource": "https://support.apple.com/zh-cn/111846",
+          "equivalentEvidence": "manufacturer-specification"
         },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13,
+          "nameEn": "Ultrawide · 0.5×",
+          "source": "https://support.apple.com/zh-cn/111846",
+          "equivalentSource": "https://support.apple.com/zh-cn/111846",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 77,
+          "nameEn": "Telephoto · 3×",
+          "source": "https://support.apple.com/zh-cn/111846",
+          "equivalentSource": "https://support.apple.com/zh-cn/111846",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ],
+      "launchYear": 2022,
+      "msrpCny": 8999,
+      "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-debuts-iphone-14-pro-and-iphone-14-pro-max/",
+      "id": "apple-iphone-14-pro-max",
+      "name": "Apple iPhone 14 Pro Max",
+      "aliases": [
+        "iPhone 14 Pro Max",
+        "Apple iPhone 14 Pro Max"
+      ],
+      "modelPatterns": [
+        "^A2651$",
+        "^A2893$",
+        "^A2896$",
+        "^A2895$",
+        "^A2894$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111846",
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-14-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-14-pro"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/en-us/111849",
+        "https://support.apple.com/zh-cn/111846"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping.",
+      "priceVariants": [
         {
           "name": "iPhone 14 Pro Max",
           "storage": "128GB",
@@ -2979,9 +3793,8 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2022/09/apple-debuts-iphone-14-pro-and-iphone-14-pro-max/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 14 Pro 128GB：RMB 7999；iPhone 14 Pro Max 128GB：RMB 8999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 14 Pro 128GB: RMB 7999; iPhone 14 Pro Max 128GB: RMB 8999. These are launch prices, before subsidies or trade-in.",
-      "brand": "Apple"
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 8999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 8999. Historical reference only; this model is included regardless of price."
     },
     {
       "id": "apple-iphone-se3",
@@ -2994,7 +3807,13 @@
         "iPhone SE 3",
         "Apple iPhone SE 3"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A2595$",
+        "^A2782$",
+        "^A2784$",
+        "^A2785$",
+        "^A2783$"
+      ],
       "source": "https://support.apple.com/en-us/111866",
       "lenses": [
         {
@@ -3006,7 +3825,8 @@
           "aperture": 1.8,
           "coverageUnknown": true,
           "note": "Apple 技术规格只公开 f/1.8，未公开等效焦距或可用方向的视角；请选择当前镜头并实测/输入水平视角。",
-          "noteEn": "Apple specifies f/1.8 but does not publish equivalent focal length or an axis-specific FOV. Measure or enter the active preview’s horizontal FOV."
+          "noteEn": "Apple specifies f/1.8 but does not publish equivalent focal length or an axis-specific FOV. Measure or enter the active preview’s horizontal FOV.",
+          "source": "https://support.apple.com/en-us/111866"
         }
       ],
       "launchYear": 2022,
@@ -3038,7 +3858,146 @@
         "https://www.apple.com.cn/newsroom/2022/03/apple-announces-the-new-iphone-se-a-powerful-smartphone-in-an-iconic-design/",
         "https://finance.sina.cn/tech/2022-03-09/detail-imcwipih7391781.d.html?from=wap&fromtech=1"
       ],
-      "brand": "Apple"
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-se3"
+    },
+    {
+      "id": "apple-iphone-13",
+      "name": "Apple iPhone 13",
+      "aliases": [
+        "iPhone 13",
+        "Apple iPhone 13"
+      ],
+      "modelPatterns": [
+        "^A2482$",
+        "^A2631$",
+        "^A2634$",
+        "^A2635$",
+        "^A2633$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111872",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-13-mini-camera-review-powerful-mobile-imaging-in-pocket-format/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111872"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultra-wide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-13-mini-camera-review-powerful-mobile-imaging-in-pocket-format/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "source": "https://support.apple.com/zh-cn/111872"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2021,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-13",
+      "sharedOpticsWith": [
+        "apple-iphone-13-mini"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/zh-cn/111872",
+        "https://support.apple.com/zh-cn/111873"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "id": "apple-iphone-13-mini",
+      "name": "Apple iPhone 13 mini",
+      "aliases": [
+        "iPhone 13 mini",
+        "Apple iPhone 13 mini"
+      ],
+      "modelPatterns": [
+        "^A2481$",
+        "^A2626$",
+        "^A2629$",
+        "^A2630$",
+        "^A2628$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111873",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-13-mini-camera-review-powerful-mobile-imaging-in-pocket-format/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111873"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultra-wide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-13-mini-camera-review-powerful-mobile-imaging-in-pocket-format/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "source": "https://support.apple.com/zh-cn/111873"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2021,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-13",
+      "sharedOpticsWith": [
+        "apple-iphone-13"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/zh-cn/111872",
+        "https://support.apple.com/zh-cn/111873"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
     },
     {
       "id": "apple-iphone-13-pro",
@@ -3047,9 +4006,29 @@
         "iPhone 13 Pro",
         "Apple iPhone 13 Pro"
       ],
-      "modelPatterns": [],
+      "modelPatterns": [
+        "^A2483$",
+        "^A2636$",
+        "^A2639$",
+        "^A2640$",
+        "^A2638$"
+      ],
       "source": "https://support.apple.com/en-us/111871",
       "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.5,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-13-pro-camera-test-retested/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/en-us/111871"
+        },
         {
           "id": "ultrawide",
           "name": "超广角 · 0.5×",
@@ -3058,9 +4037,13 @@
           "aperture": 1.8,
           "manufacturerFov": 120,
           "fovAxis": "unspecified",
-          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "note": "Apple 确认 f/1.8 与 120° FOV（未指明方向）；13 mm 等效焦距由 DXOMARK 原测评补充，实际视频裁切仍需校正。",
           "nameEn": "Ultrawide · 0.5×",
-          "noteEn": "The manufacturer gives FOV without an axis. Enter equivalent focal length or horizontal field of view manually."
+          "noteEn": "Apple confirms f/1.8 and a 120° FOV without an axis. The 13 mm equivalent is supplemented by the original DXOMARK review; actual video cropping still needs calibration.",
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-13-pro-camera-test-retested/",
+          "equivalentEvidence": "original-review-specification",
+          "source": "https://support.apple.com/en-us/111871"
         },
         {
           "id": "telephoto",
@@ -3072,7 +4055,9 @@
           "note": "焦距由 Apple 发布稿确认；光圈见型号技术规格。",
           "source": "https://www.apple.com/newsroom/2021/09/apple-unveils-iphone-13-pro-and-iphone-13-pro-max-more-pro-than-ever-before/",
           "nameEn": "Telephoto · 3×",
-          "noteEn": "Focal length is confirmed by the Apple announcement; aperture is documented in the model specifications."
+          "noteEn": "Focal length is confirmed by the Apple announcement; aperture is documented in the model specifications.",
+          "equivalentSource": "https://www.apple.com/newsroom/2021/09/apple-unveils-iphone-13-pro-and-iphone-13-pro-max-more-pro-than-ever-before/",
+          "equivalentEvidence": "manufacturer-specification"
         }
       ],
       "launchYear": 2021,
@@ -3086,10 +4071,864 @@
           "priceSource": "https://www.apple.com.cn/newsroom/2021/09/apple-unveils-iphone-13-pro-and-iphone-13-pro-max-more-pro-than-ever-before/"
         }
       ],
-      "priceNote": "中国大陆首发含税零售价；iPhone 13 Pro 128GB：RMB 7999。不是当前商店售价或补贴/折抵价。",
-      "priceNoteEn": "Mainland China launch retail prices including tax: iPhone 13 Pro 128GB: RMB 7999. These are launch prices, before subsidies or trade-in.",
+      "priceNote": "已核验的中国大陆首发含税零售价：128GB：RMB 7999。仅作历史资料，入选不受价格限制。",
+      "priceNoteEn": "Verified mainland China launch retail price including tax: 128GB: RMB 7999. Historical reference only; this model is included regardless of price.",
       "legacy": true,
-      "brand": "Apple"
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-13-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-13-pro-max"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/zh-cn/111871",
+        "https://support.apple.com/zh-cn/111870"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "id": "apple-iphone-13-pro-max",
+      "name": "Apple iPhone 13 Pro Max",
+      "aliases": [
+        "iPhone 13 Pro Max",
+        "Apple iPhone 13 Pro Max"
+      ],
+      "modelPatterns": [
+        "^A2484$",
+        "^A2641$",
+        "^A2644$",
+        "^A2645$",
+        "^A2643$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111870",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.5,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-13-pro-max-camera-review-apple-flagship-imaging/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111870"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultra-wide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.8,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-13-pro-max-camera-review-apple-flagship-imaging/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "source": "https://support.apple.com/zh-cn/111870"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 77 mm",
+          "nameEn": "Telephoto · 77 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 77,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-13-pro-max-camera-review-apple-flagship-imaging/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111870"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2021,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-13-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-13-pro"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/zh-cn/111871",
+        "https://support.apple.com/zh-cn/111870"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "id": "apple-iphone-12",
+      "name": "Apple iPhone 12",
+      "aliases": [
+        "iPhone 12",
+        "Apple iPhone 12"
+      ],
+      "modelPatterns": [
+        "^A2172$",
+        "^A2402$",
+        "^A2404$",
+        "^A2403$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111876",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-12-camera-review-pro-level-video-amateur-zoom/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111876"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultra-wide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-12-camera-review-pro-level-video-amateur-zoom/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "等效 13 mm 为原测评列出的名义规格；DXOMARK 同文实测视角约等效 14 mm。默认采用名义值，视频裁切需按实际校正。",
+          "equivalentNoteEn": "The original review lists a nominal 13 mm equivalent and measures coverage at about 14 mm. The preset uses the nominal value; calibrate the actual video crop.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "reviewMeasuredEquivalentMm": 14,
+          "source": "https://support.apple.com/zh-cn/111876"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2020,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-12",
+      "sharedOpticsWith": [
+        "apple-iphone-12-mini"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/zh-cn/111876",
+        "https://support.apple.com/zh-cn/111877"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "id": "apple-iphone-12-mini",
+      "name": "Apple iPhone 12 mini",
+      "aliases": [
+        "iPhone 12 mini",
+        "Apple iPhone 12 mini"
+      ],
+      "modelPatterns": [
+        "^A2176$",
+        "^A2398$",
+        "^A2400$",
+        "^A2399$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111877",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-12-mini-camera-review-performance-in-your-pocket/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111877"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultra-wide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-12-mini-camera-review-performance-in-your-pocket/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "等效 13 mm 为原测评列出的名义规格；DXOMARK 同文实测视角约等效 14 mm。默认采用名义值，视频裁切需按实际校正。",
+          "equivalentNoteEn": "The original review lists a nominal 13 mm equivalent and measures coverage at about 14 mm. The preset uses the nominal value; calibrate the actual video crop.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "reviewMeasuredEquivalentMm": 14,
+          "source": "https://support.apple.com/zh-cn/111877"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2020,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-12",
+      "sharedOpticsWith": [
+        "apple-iphone-12"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/zh-cn/111876",
+        "https://support.apple.com/zh-cn/111877"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "id": "apple-iphone-12-pro",
+      "name": "Apple iPhone 12 Pro",
+      "aliases": [
+        "iPhone 12 Pro",
+        "Apple iPhone 12 Pro"
+      ],
+      "modelPatterns": [
+        "^A2341$",
+        "^A2406$",
+        "^A2408$",
+        "^A2407$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111875",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-12-pro-camera-review-great-smartphone-video/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111875"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultra-wide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-12-pro-camera-review-great-smartphone-video/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "等效 13 mm 为原测评列出的名义规格；DXOMARK 同文实测视角约等效 14 mm。默认采用名义值，视频裁切需按实际校正。",
+          "equivalentNoteEn": "The original review lists a nominal 13 mm equivalent and measures coverage at about 14 mm. The preset uses the nominal value; calibrate the actual video crop.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "reviewMeasuredEquivalentMm": 14,
+          "source": "https://support.apple.com/zh-cn/111875"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 52 mm",
+          "nameEn": "Telephoto · 52 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 52,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-12-pro-camera-review-great-smartphone-video/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111875"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2020,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-12-pro"
+    },
+    {
+      "id": "apple-iphone-12-pro-max",
+      "name": "Apple iPhone 12 Pro Max",
+      "aliases": [
+        "iPhone 12 Pro Max",
+        "Apple iPhone 12 Pro Max"
+      ],
+      "modelPatterns": [
+        "^A2342$",
+        "^A2410$",
+        "^A2412$",
+        "^A2411$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111874",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-12-pro-max-camera-review-big-and-beautiful/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111874"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultra-wide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-12-pro-max-camera-review-big-and-beautiful/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "等效 13 mm 为原测评列出的名义规格；DXOMARK 同文实测视角约等效 14 mm。默认采用名义值，视频裁切需按实际校正。",
+          "equivalentNoteEn": "The original review lists a nominal 13 mm equivalent and measures coverage at about 14 mm. The preset uses the nominal value; calibrate the actual video crop.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "reviewMeasuredEquivalentMm": 14,
+          "source": "https://support.apple.com/zh-cn/111874"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 65 mm",
+          "nameEn": "Telephoto · 65 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.2,
+          "equivalentMm": 65,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-12-pro-max-camera-review-big-and-beautiful/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111874"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2020,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-12-pro-max"
+    },
+    {
+      "id": "apple-iphone-se2",
+      "name": "Apple iPhone SE (2nd generation)",
+      "aliases": [
+        "iPhone SE (2nd generation)",
+        "Apple iPhone SE (2nd generation)",
+        "iPhone SE (第二代)",
+        "iPhone SE2",
+        "iPhone SE 2",
+        "Apple iPhone SE 2"
+      ],
+      "modelPatterns": [
+        "^A2275$",
+        "^A2298$",
+        "^A2296$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111882",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "coverageUnknown": true,
+          "note": "Apple 技术规格确认光圈，但本次未核验到可靠的原生等效焦距；请手动输入等效焦距或水平视角。",
+          "noteEn": "Apple’s technical specifications confirm the aperture, but no reliable native equivalent focal length has been verified here. Enter equivalent focal length or horizontal field of view manually.",
+          "source": "https://support.apple.com/zh-cn/111882"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2020,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-se2"
+    },
+    {
+      "id": "apple-iphone-11",
+      "name": "Apple iPhone 11",
+      "aliases": [
+        "iPhone 11",
+        "Apple iPhone 11"
+      ],
+      "modelPatterns": [
+        "^A2111$",
+        "^A2223$",
+        "^A2221$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111865",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-11-camera-review/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111865"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultra-wide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-11-camera-review/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "source": "https://support.apple.com/zh-cn/111865"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2019,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-11"
+    },
+    {
+      "id": "apple-iphone-11-pro",
+      "name": "Apple iPhone 11 Pro",
+      "aliases": [
+        "iPhone 11 Pro",
+        "Apple iPhone 11 Pro"
+      ],
+      "modelPatterns": [
+        "^A2160$",
+        "^A2217$",
+        "^A2215$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111879",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/updated-apple-iphone-11-pro-max-camera-review-still-an-excellent-imaging-option/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111879"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultra-wide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/updated-apple-iphone-11-pro-max-camera-review-still-an-excellent-imaging-option/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "source": "https://support.apple.com/zh-cn/111879"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 52 mm",
+          "nameEn": "Telephoto · 52 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 52,
+          "equivalentSource": "https://www.dxomark.com/updated-apple-iphone-11-pro-max-camera-review-still-an-excellent-imaging-option/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111879"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2019,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-11-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-11-pro-max"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/zh-cn/111879",
+        "https://support.apple.com/zh-cn/111878"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "id": "apple-iphone-11-pro-max",
+      "name": "Apple iPhone 11 Pro Max",
+      "aliases": [
+        "iPhone 11 Pro Max",
+        "Apple iPhone 11 Pro Max"
+      ],
+      "modelPatterns": [
+        "^A2161$",
+        "^A2220$",
+        "^A2218$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111878",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/updated-apple-iphone-11-pro-max-camera-review-still-an-excellent-imaging-option/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111878"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "nameEn": "Ultra-wide · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13,
+          "equivalentSource": "https://www.dxomark.com/updated-apple-iphone-11-pro-max-camera-review-still-an-excellent-imaging-option/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "source": "https://support.apple.com/zh-cn/111878"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 52 mm",
+          "nameEn": "Telephoto · 52 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 52,
+          "equivalentSource": "https://www.dxomark.com/updated-apple-iphone-11-pro-max-camera-review-still-an-excellent-imaging-option/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111878"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2019,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-11-pro",
+      "sharedOpticsWith": [
+        "apple-iphone-11-pro"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/zh-cn/111879",
+        "https://support.apple.com/zh-cn/111878"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "id": "apple-iphone-xr",
+      "name": "Apple iPhone XR",
+      "aliases": [
+        "iPhone XR",
+        "Apple iPhone XR"
+      ],
+      "modelPatterns": [
+        "^A1984$",
+        "^A2105$",
+        "^A2106$",
+        "^A2107$",
+        "^A2108$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111868",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-xr-camera-review/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111868"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2018,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-xr"
+    },
+    {
+      "id": "apple-iphone-xs",
+      "name": "Apple iPhone XS",
+      "aliases": [
+        "iPhone XS",
+        "Apple iPhone XS"
+      ],
+      "modelPatterns": [
+        "^A1920$",
+        "^A2097$",
+        "^A2098$",
+        "^A2099$",
+        "^A2100$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111881",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-xs-max-review-flagship-imaging-power/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111881"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 52 mm",
+          "nameEn": "Telephoto · 52 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 52,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-xs-max-review-flagship-imaging-power/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111881"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2018,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-xs",
+      "sharedOpticsWith": [
+        "apple-iphone-xs-max"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/zh-cn/111881",
+        "https://support.apple.com/zh-cn/111880"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "id": "apple-iphone-xs-max",
+      "name": "Apple iPhone XS Max",
+      "aliases": [
+        "iPhone XS Max",
+        "Apple iPhone XS Max"
+      ],
+      "modelPatterns": [
+        "^A1921$",
+        "^A2101$",
+        "^A2102$",
+        "^A2103$",
+        "^A2104$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111880",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 26,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-xs-max-review-flagship-imaging-power/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111880"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 52 mm",
+          "nameEn": "Telephoto · 52 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "equivalentMm": 52,
+          "equivalentSource": "https://www.dxomark.com/apple-iphone-xs-max-review-flagship-imaging-power/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111880"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2018,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-xs",
+      "sharedOpticsWith": [
+        "apple-iphone-xs"
+      ],
+      "sharedOpticsSources": [
+        "https://support.apple.com/zh-cn/111881",
+        "https://support.apple.com/zh-cn/111880"
+      ],
+      "sharedOpticsNote": "仅共享此目录中的后置原生焦距及光圈参数；各型号单独记录规格来源，不代表所有相机硬件或视频裁切相同。",
+      "sharedOpticsNoteEn": "Only the native rear-camera focal lengths and apertures in this catalogue are shared. Each model retains its own specification source; this does not imply identical camera hardware or video cropping."
+    },
+    {
+      "id": "apple-iphone-x",
+      "name": "Apple iPhone X",
+      "aliases": [
+        "iPhone X",
+        "Apple iPhone X"
+      ],
+      "modelPatterns": [
+        "^A1865$",
+        "^A1901$",
+        "^A1902$"
+      ],
+      "source": "https://support.apple.com/zh-cn/111864",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "nameEn": "Main camera · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 28,
+          "equivalentSource": "https://www.dpreview.com/reviews/4941827141/iphone-x-review/",
+          "equivalentEvidence": "original-review-specification",
+          "equivalentNote": "光圈来自 Apple 技术规格；等效焦距采用原作者相机测评列出的名义规格，并非 Apple 规格页给出的毫米数。",
+          "equivalentNoteEn": "Aperture is from Apple’s technical specifications. Equivalent focal length is the nominal specification reported in the original camera review, not a millimetre value published on the Apple specifications page.",
+          "source": "https://support.apple.com/zh-cn/111864"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "coverageUnknown": true,
+          "note": "Apple 规格未列等效焦距。DPReview 原测评写 56 mm，GSMArena 原实测对比文写 52 mm；证据冲突，未选定长焦视角，请手动设置。",
+          "noteEn": "Apple lists no equivalent focal length. The original DPReview test reports 56 mm while GSMArena’s original comparison test reports 52 mm. The conflicting values are not used to set coverage; enter it manually.",
+          "equivalentSource": "https://www.dpreview.com/reviews/4941827141/iphone-x-review/",
+          "equivalentEvidence": "conflicting-original-reviews",
+          "equivalentReportedValues": [
+            {
+              "equivalentMm": 56,
+              "source": "https://www.dpreview.com/reviews/4941827141/iphone-x-review/"
+            },
+            {
+              "equivalentMm": 52,
+              "source": "https://www.gsmarena.com/apple_iphone_x_vs_samsung_galaxy_s9_plus_shootout-review-1739.php"
+            }
+          ],
+          "source": "https://support.apple.com/zh-cn/111864"
+        }
+      ],
+      "brand": "Apple",
+      "catalogScope": "iphone-x-onward",
+      "launchYear": 2017,
+      "reviewed": "2026-11-17",
+      "modelListSource": "https://support.apple.com/en-us/108044",
+      "modelSources": [
+        "https://support.apple.com/en-us/108044"
+      ],
+      "opticalGroupId": "apple-iphone-x"
     },
     {
       "id": "huawei-mate80-pro-max-fengchiban",

@@ -11,16 +11,15 @@ import {
 
 const $ = (id) => document.getElementById(id);
 const rounded = (value) => String(Number(value.toFixed(2)));
-const deviceName = (device) => {
-  const variants = [
-    ...new Set(
-      (device.aliases || []).filter(
-        (name) => /^iPhone .*\b(?:Plus|Max)$/.test(name) && !device.name.endsWith(name),
-      ),
-    ),
-  ];
-  return [isEnglish ? device.nameEn || device.name : device.name, ...variants].join(" / ");
+const deviceName = (device) => isEnglish ? device.nameEn || device.name : device.name;
+const modelName = (device) => {
+  const name = deviceName(device);
+  const prefix = `${device.brand} `;
+  return name.toLowerCase().startsWith(prefix.toLowerCase())
+    ? name.slice(prefix.length)
+    : name;
 };
+const brandNames = { Samsung: "三星", Apple: "Apple", HUAWEI: "华为", HONOR: "荣耀", Xiaomi: "小米" };
 
 export class LensSetup {
   constructor({ current, start, save }) {
@@ -30,6 +29,7 @@ export class LensSetup {
     this.devices = [];
     this.prompted = new Set();
     $("setup-start").addEventListener("click", () => this.previewCamera());
+    $("setup-brand").addEventListener("change", () => this.fillPhones());
     $("setup-phone").addEventListener("change", () => this.fillLenses());
     $("setup-lens").addEventListener("change", () => this.applyLens());
     $("setup-fov-mode").addEventListener("change", () => this.preview());
@@ -62,9 +62,11 @@ export class LensSetup {
     this.identity =
       identity.status === "fulfilled" ? identity.value : { model: "" };
     this.detected = matchDevice(this.devices, this.identity);
-    $("setup-phone").replaceChildren(new Option(t("手动输入 / 其他设备"), ""));
-    for (const device of this.devices)
-      $("setup-phone").add(new Option(t(deviceName(device)), device.id));
+    $("setup-brand").replaceChildren(new Option(t("手动输入 / 其他设备"), ""));
+    for (const brand of new Set(this.devices.map((device) => device.brand)))
+      $("setup-brand").add(new Option(t(brandNames[brand] || brand), brand));
+    $("setup-brand").disabled = !this.devices.length;
+    this.fillPhones("", false);
     this.ready = true;
   }
 
@@ -106,13 +108,12 @@ export class LensSetup {
     if (!this.devices.length)
       $("setup-detection").textContent += t(" 参数库暂时不可用，仍可手动填写。");
     const optics = current.optics || {};
-    $("setup-phone").value =
-      optics.phoneId ||
-      this.preferredPhoneId ||
-      current.phoneId ||
-      this.detected?.id ||
-      "";
-    this.fillLenses(false);
+    const phoneId = optics.phoneId ?? this.preferredPhoneId ??
+      (current.phoneId || this.detected?.id || "");
+    const phone = this.devices.find((device) => device.id === phoneId);
+    $("setup-brand").value = phone?.brand ||
+      (optics.phoneId === "" ? "" : this.preferredBrand || "");
+    this.fillPhones(phone?.id || "", false);
     $("setup-lens").value = optics.lensId || "";
     $("setup-aperture").value = optics.aperture || current.aperture || "";
     $("setup-fov-mode").value = optics.mode || "horizontal";
@@ -143,6 +144,16 @@ export class LensSetup {
     return this.devices.find((d) => d.id === $("setup-phone").value);
   }
 
+  fillPhones(phoneId = "", clear = true) {
+    const brand = $("setup-brand").value;
+    $("setup-phone").replaceChildren(new Option(t("请选择型号 / 手动填写"), ""));
+    for (const device of this.devices.filter((device) => device.brand === brand))
+      $("setup-phone").add(new Option(modelName(device), device.id));
+    $("setup-phone").value = phoneId;
+    $("setup-phone").disabled = !brand;
+    this.fillLenses(clear);
+  }
+
   refreshCameraList() {
     const current = this.current();
     $("setup-camera").replaceChildren();
@@ -162,6 +173,7 @@ export class LensSetup {
     if (this.saving || this.switching) return;
     this.switching = true;
     this.preferredPhoneId = $("setup-phone").value;
+    this.preferredBrand = $("setup-brand").value;
     this.busy(true);
     try {
       await this.start($("setup-camera").value);
@@ -183,8 +195,16 @@ export class LensSetup {
       "setup-close",
       "setup-skip",
       "setup-camera",
+      "setup-brand",
+      "setup-phone",
+      "setup-lens",
     ])
       $(id).disabled = value;
+    if (!value) {
+      $("setup-brand").disabled = !this.devices.length;
+      $("setup-phone").disabled = !$("setup-brand").value;
+      $("setup-lens").disabled = !this.selectedPhone();
+    }
   }
 
   fillLenses(clear = true) {
