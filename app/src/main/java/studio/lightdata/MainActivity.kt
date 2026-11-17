@@ -69,7 +69,9 @@ class MainActivity : ComponentActivity() {
         prefs.edit().putString("scanAlgorithm",value).apply()
     }
     var recordScan by mutableStateOf(false)
-    private data class ScanShot(val jpeg: ByteArray,val meta: String)
+    private data class ScanShot(val jpeg: ByteArray,val meta: String,val accepted: Boolean)
+    private var recordedAccepted = 0
+    private var droppedScanAttempts = 0
     private val scanShots = mutableListOf<ScanShot>()
     private fun recordShot(f: Frame, src: Field, target: Field, axes: FloatArray?, exposureMs: Double,
                            time: Long, guide: ScanGuide, turn: Int, cameraMeta: String?) {
@@ -84,17 +86,31 @@ class MainActivity : ComponentActivity() {
             .put("axes",axes?.let { org.json.JSONArray(it.toList()) }).put("exposureMs",exposureMs)
             .put("timeMs",time).put("displayTurn",turn).put("captures",guide.captures).put("coverage",guide.coverage)
         synchronized(scanShots) {
-            // Preserve the center anchor and recent attempts when a direction stalls.
-            if (scanShots.size >= 80) scanShots.removeAt(1)
-            scanShots.add(ScanShot(bytes.toByteArray(),meta.put("algorithm",scanAlgorithm).toString()))
+            val accepted = guide.captures > recordedAccepted
+            recordedAccepted = maxOf(recordedAccepted,guide.captures)
+            // Never evict an accepted keyframe: all later registration depends on it.
+            if (!accepted && scanShots.count { !it.accepted } >= 60) {
+                val rejected = scanShots.indexOfFirst { !it.accepted }
+                scanShots.removeAt(rejected)
+                droppedScanAttempts++
+            }
+            scanShots.add(ScanShot(bytes.toByteArray(),meta.put("algorithm",scanAlgorithm)
+                .put("accepted",accepted).toString(),accepted))
         }
     }
     private val saveScan = registerForActivityResult(ActivityResultContracts.CreateDocument("application/zip")) { uri ->
         if (uri != null) {
-            val shots = synchronized(scanShots) { scanShots.toList() }
+            val snapshot = synchronized(scanShots) { scanShots.toList() to droppedScanAttempts }
+            val shots = snapshot.first
             Thread {
                 runCatching {
                     java.util.zip.ZipOutputStream(requireNotNull(contentResolver.openOutputStream(uri))).use { zip ->
+                        zip.putNextEntry(java.util.zip.ZipEntry("manifest.json"))
+                        zip.write(org.json.JSONObject().put("formatVersion",2)
+                            .put("droppedRejectedAttempts",snapshot.second)
+                            .put("acceptedFrames",shots.count { it.accepted })
+                            .put("completeAcceptedHistory",snapshot.second >= 0).toString().toByteArray())
+                        zip.closeEntry()
                         for ((i,shot) in shots.withIndex()) for ((ext,data) in listOf("jpg" to shot.jpeg,"json" to shot.meta.toByteArray())) {
                             zip.putNextEntry(java.util.zip.ZipEntry("${i+1}.$ext")); zip.write(data); zip.closeEntry()
                         }
@@ -490,7 +506,11 @@ class MainActivity : ComponentActivity() {
             return
         }
         if (sample?.missing != true || frozen || runningCal) return
-        if (recordScan) synchronized(scanShots) { scanShots.clear() }
+        if (recordScan) synchronized(scanShots) {
+            scanShots.clear()
+            recordedAccepted = 0
+            droppedScanAttempts = 0
+        }
         rig.setPanoramaLock(true)
         scanRequest = ScanRequest(windowManager.defaultDisplay.rotation)
         epoch++
