@@ -447,6 +447,7 @@
             ><input
               id="log-counts"
               type="checkbox"
+              checked
             />像素纵轴使用对数坐标</label
           >
           <p id="calibration-status" class="subtle">
@@ -509,6 +510,13 @@
             横竖屏和近方形窗口分别记忆比例。分界线也可用方向键调整。
           </p>
           <button id="layout-reset">恢复默认比例</button>
+        </fieldset>
+        <fieldset>
+          <legend>设置管理</legend>
+          <button id="settings-reset" type="button">重置设置</button>
+          <p class="subtle">
+            恢复默认设置并刷新页面。保留镜头参数、校准记录和自定义胶片预设。
+          </p>
         </fieldset>
         <p class="about">
           LightData Web · 0.1.2-beta<br /><a

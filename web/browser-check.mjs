@@ -79,6 +79,11 @@ async function valueReading() {
 }
 try {
   await page.addInitScript(() => {
+    if (!localStorage.getItem("lightdata.web.v1")) {
+      // A legacy browser stored linear as the old default, with no scale version.
+      localStorage.setItem("lightdata.web.v1", JSON.stringify({ log: false }));
+      localStorage.setItem("lightdata.test-unrelated", "keep");
+    }
     const original = MediaStreamTrack.prototype.getSettings;
     MediaStreamTrack.prototype.getSettings = function () {
       // Chromium 145 can rotate fake-device IDs on reload. This metadata fixture
@@ -93,6 +98,7 @@ try {
   await page.goto(base);
   await expect(page.locator("#film-select option")).toHaveCount(167);
   await expect(page.locator("#format option")).toHaveCount(17);
+  await expect(page.locator("#pixel-label")).toHaveText("像素 log");
   await expect(page.locator(".toolbar a[href*=releases]")).toHaveAttribute(
     "href",
     /0\.1\.2-beta/,
@@ -376,6 +382,7 @@ try {
   await page.reload();
   await settings();
   await expect(page.locator("#log-counts")).not.toBeChecked();
+  await expect(page.locator("#pixel-label")).toHaveText("像素");
   await expect(page.locator("#custom-iso")).toHaveValue("80");
   await close();
   await page.locator("#start-camera").click();
@@ -471,6 +478,94 @@ try {
   await page.locator("#camera-stop").click();
   await expect(page.locator("#live-state")).toContainText("OFF");
   await close();
+  const retainedFixture = await page.evaluate(() => {
+    const value = JSON.parse(localStorage.getItem("lightdata.web.v1"));
+    const key = Object.keys(value.devices)[0];
+    // This synthetic calibration checks retention only, not measurement accuracy.
+    value.devices[key].calibrations = {
+      100: {
+        iso: 100,
+        stops: 12,
+        channel: "browser fixture",
+        response: Array.from({ length: 256 }, (_, i) => (i - 117) / 20),
+      },
+    };
+    Object.assign(value.devices[key], {
+      mode: "manual",
+      iso: 100,
+      seconds: 0.1,
+      confirmed: true,
+    });
+    Object.assign(value, {
+      mode: "M",
+      focal: 17,
+      compensation: 2,
+      style: "purple",
+      preview: true,
+      isoLocked: false,
+      log: false,
+    });
+    localStorage.setItem("lightdata.web.v1", JSON.stringify(value));
+    return {
+      key,
+      lenses: value.lenses,
+      presets: value.presets,
+      calibration: value.devices[key].calibrations,
+    };
+  });
+  await page.reload();
+  await settings();
+  await expect(page.locator("#log-counts")).not.toBeChecked();
+  await expect(page.locator("#color-style")).toHaveValue("purple");
+  await page.locator("#settings-reset").scrollIntoViewIfNeeded();
+  await page.screenshot({ path: path.join(snapshots, "settings-reset.png") });
+  await Promise.all([
+    page.waitForEvent("load"),
+    page.locator("#settings-reset").click(),
+  ]);
+  await expect(page.locator("#format option")).toHaveCount(17);
+  await expect(page.locator("#format")).toHaveValue("4");
+  await expect(page.locator("#focal")).toHaveValue("35");
+  await expect(page.locator("[data-mode=A]")).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await expect(page.locator("#preview-toggle")).toHaveAttribute(
+    "aria-pressed",
+    "false",
+  );
+  await expect(page.locator("#comp")).toHaveValue("0");
+  await expect(page.locator("#pixel-label")).toHaveText("像素 log");
+  await expect(page.locator("#camera-setup")).toBeHidden();
+  await settings();
+  await expect(page.locator("#log-counts")).toBeChecked();
+  await expect(page.locator("#color-style")).toHaveValue("color");
+  await expect(page.locator("#custom-iso")).toHaveValue("400");
+  await expect(page.locator("#custom-iso")).toBeDisabled();
+  await expect(page.locator("#film-select option:checked")).toHaveText(
+    "HP5 PLUS · ISO 400",
+  );
+  const afterReset = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("lightdata.web.v1")),
+  );
+  expect(afterReset.lenses).toEqual(retainedFixture.lenses);
+  expect(afterReset.presets).toBe(retainedFixture.presets);
+  expect(afterReset.devices[retainedFixture.key].calibrations).toEqual(
+    retainedFixture.calibration,
+  );
+  expect(afterReset.devices[retainedFixture.key].mode).toBe("auto");
+  expect(afterReset.devices[retainedFixture.key].confirmed).toBe(false);
+  expect(afterReset.layouts || {}).toEqual({});
+  expect(
+    await page.evaluate(() => localStorage.getItem("lightdata.test-unrelated")),
+  ).toBe("keep");
+  await page.locator("#log-counts").uncheck();
+  await close();
+  await page.reload();
+  await settings();
+  await expect(page.locator("#log-counts")).not.toBeChecked();
+  await expect(page.locator("#pixel-label")).toHaveText("像素");
+  await close();
   const phoneContext = await browser.newContext({
     permissions: ["camera"],
     viewport: { width: 430, height: 932 },
@@ -500,6 +595,7 @@ try {
   phone.on("pageerror", (error) => errors.push(error.message));
   await phone.goto(base);
   await expect(phone.locator("#camera-setup")).toBeVisible();
+  await expect(phone.locator("#pixel-label")).toHaveText("像素 log");
   await expect(phone.locator("#setup-phone")).toHaveValue("samsung-fold7");
   await expect(phone.locator("#setup-detection")).toContainText(
     "UA Client Hints",
@@ -565,7 +661,7 @@ try {
   await denied.close();
   expect(errors).toEqual([]);
   console.log(
-    "Browser checks passed: first-use lens setup, per-camera optics/zoom/reload, Client Hints phone/lens presets, camera, changing AE, relative fallback, single reading, film ISO lock, 2 spots, touch pan/pinch, panorama/reframe, custom frame/JSON persistence, four layouts, split drag, reference expiry, background pause/resume, denied permission.",
+    "Browser checks passed: logarithmic default and legacy migration, settings reset preserving optics/calibrations/presets, explicit linear choice persistence, first-use lens setup, per-camera optics/zoom/reload, Client Hints phone/lens presets, camera, changing AE, relative fallback, single reading, film ISO lock, 2 spots, touch pan/pinch, panorama/reframe, custom frame/JSON persistence, four layouts, split drag, reference expiry, background pause/resume, denied permission.",
   );
   console.log("Screenshots:", snapshots);
 } catch (error) {

@@ -35,6 +35,7 @@ import { completeOptics, makeOptics, opticsField } from "./optics.js";
 
 const $ = (id) => document.getElementById(id);
 const STORE = "lightdata.web.v1";
+const HISTOGRAM_SETTINGS_VERSION = 1;
 const COLORS = [
   "#ffce58",
   "#55ccff",
@@ -69,7 +70,10 @@ const state = {
   isoLocked: saved.isoLocked !== false,
   style: saved.style || "color",
   preview: saved.preview || false,
-  log: saved.log ?? true,
+  log:
+    saved.histogramSettingsVersion === HISTOGRAM_SETTINGS_VERSION
+      ? (saved.log ?? true)
+      : true,
   devices: saved.devices || {},
   lenses: saved.lenses || {},
   phoneId: saved.phoneId || "",
@@ -158,8 +162,10 @@ let lastPairKey = "",
 let brackets = [],
   calibrationToken = 0,
   calibrationSession = null;
+let resetting = false;
 
 function persist() {
+  if (resetting) return;
   const value = Object.fromEntries(
     [
       "mode",
@@ -181,11 +187,45 @@ function persist() {
     ].map((key) => [key, state[key]]),
   );
   value.presets = CustomPresets.encode(state.presets);
+  value.histogramSettingsVersion = HISTOGRAM_SETTINGS_VERSION;
   try {
     localStorage.setItem(STORE, JSON.stringify(value));
   } catch {
     toast("设备存储不可用，本次设置将在关闭页面后丢失");
   }
+}
+function resetSettings() {
+  const retained = {
+    log: true,
+    histogramSettingsVersion: HISTOGRAM_SETTINGS_VERSION,
+    devices: Object.fromEntries(
+      Object.entries(state.devices).map(([key, profile]) => [
+        key,
+        {
+          ...profile,
+          mode: "auto",
+          iso: "",
+          seconds: null,
+          confirmed: false,
+          referenceBase: null,
+          referenceSignature: null,
+        },
+      ]),
+    ),
+    lenses: state.lenses,
+    phoneId: state.phoneId,
+    presets: CustomPresets.encode(state.presets),
+  };
+  try {
+    localStorage.setItem(STORE, JSON.stringify(retained));
+  } catch {
+    toast("无法保存重置后的设置，请检查浏览器存储权限后重试");
+    return;
+  }
+  resetting = true;
+  calibrationToken++;
+  camera.stop();
+  location.reload();
 }
 function toast(message) {
   $("toast").textContent = message;
@@ -1796,6 +1836,7 @@ function bindEvents() {
     persist();
     layout();
   });
+  $("settings-reset").addEventListener("click", resetSettings);
   $("scan-start").addEventListener("click", startScan);
   $("scan-cancel").addEventListener("click", () => {
     cancelScan();
@@ -2182,6 +2223,8 @@ async function initialize() {
     state.exposure = { ...state.manual };
     fillPreset();
     await lensReady;
+    if (saved.histogramSettingsVersion !== HISTOGRAM_SETTINGS_VERSION)
+      persist();
     refreshSettings();
     layout();
     refresh();
