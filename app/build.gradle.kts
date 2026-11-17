@@ -9,8 +9,8 @@ android {
         applicationId = "studio.lightdata"
         minSdk = 28
         targetSdk = 35
-        versionCode = 5
-        versionName = "0.1.2-beta"
+        versionCode = 6
+        versionName = "0.1.3-beta"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures { compose = true }
