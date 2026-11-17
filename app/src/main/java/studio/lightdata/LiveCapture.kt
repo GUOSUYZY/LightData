@@ -31,6 +31,18 @@ class LiveCapture(val image: Rig.Packet, val ev: Double, val id: String, val tim
         else floor((u-.5)*gateWidth + uprightWidth*.5).toInt()
     private fun yAt(v: Double) = if (covered) (uprightHeight-height)/2 + floor(v*height).toInt()
         else floor((v-.5)*gateHeight + uprightHeight*.5).toInt()
+    fun panoramaFrame(): Frame {
+        val ratio = min(1.0,LONG_EDGE.toDouble()/max(uprightWidth,uprightHeight))
+        val w = max(1,(uprightWidth*ratio).roundToInt())
+        val h = max(1,(uprightHeight*ratio).roundToInt())
+        val xs = IntArray(w) { ((it+.5)*uprightWidth/w).toInt() }
+        val rgb = IntArray(w*h)
+        for (row in 0 until h) {
+            val y = ((row+.5)*uprightHeight/h).toInt()
+            for (col in xs.indices) rgb[row*w+col] = pixel(xs[col],y)
+        }
+        return Frame(w,h,rgb,ev,id,timestamp,image.encoding)
+    }
     fun trackingImage() = TrackingImage(uprightWidth,uprightHeight) { u,v ->
         pixel((u*uprightWidth).toInt(),(v*uprightHeight).toInt())
     }

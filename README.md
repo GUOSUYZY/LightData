@@ -2,9 +2,13 @@
 
 Android 和网页版单屏取景器与胶片测光表。安卓版最低支持 Android 9，使用 Camera2 采集图像、Compose 排布控件、OpenGL ES 绘制预览。应用在本机处理图像，退出拼接或测光点模式后即可回到实时画面。
 
+## 安卓广角拼接
+
+确认中心后缓慢扫向覆盖图的黄圈。Android 使用 OpenCV 4.12 的角点检测、双向金字塔光流和 RANSAC 相似变换配准移动关键帧。采集时会在支持的镜头上锁定自动曝光和白平衡，按相邻帧重叠区域估算剩余色差，并在线性光域融合边缘。低照度或画面缺少纹理时，放慢转动或短暂停住可帮助补拍。已采集区域外的黑色空白继续排除在测光之外。
+
 ## 网页版
 
-[打开 LightData Web](https://rayforloy.github.io/LightData/) · [Android 安装包](https://github.com/RayforLoy/LightData/releases/tag/0.1.6-beta)
+[打开 LightData Web](https://rayforloy.github.io/LightData/) · [Android 安装包](https://github.com/RayforLoy/LightData/releases/tag/0.1.7-beta)
 
 网页版使用原生 JavaScript 和 Canvas，静态文件位于 `web/`，无需服务器处理相机画面。沿用安卓版的单屏布局、横竖屏及近方形折叠屏排布，支持拖动分界线、A/S/M、±5 EV 补偿、多列等效曝光和倒易律时间、168 款胶片、ISO 锁定、JSON 预设、胶片预览、不同颜色的冻结测光点及直方图平移缩放。手机图像和设置均在本地处理、保存，不上传相机画面。手册仍为外部链接，页面仅加载提取后的曲线和来源。
 

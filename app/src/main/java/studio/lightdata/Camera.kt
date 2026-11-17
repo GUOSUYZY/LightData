@@ -109,6 +109,16 @@ class Rig(
     private var baseTime = 10_000_000L
     private var baseIso = 100
     private var scan: Scan? = null
+    private var panoramaLock = false
+    fun setPanoramaLock(enabled: Boolean) {
+        h.post {
+            if (panoramaLock != enabled) {
+                panoramaLock = enabled
+                if (scan == null) request()
+            }
+        }
+    }
+
     private var processingPreview = false
 
     private class Scan(val method: String, val step: Double, val times: List<Long>, val iso: Int) {
@@ -121,6 +131,7 @@ class Rig(
 
     data class Plane(val data: ByteArray, val rowStride: Int, val pixelStride: Int)
     class Packet(val w: Int, val h: Int, val planes: List<Plane>, val encoding: YuvEncoding) {
+        var exposureMs = 0.0
         fun pixel(x: Int, y: Int): Int {
             fun code(p: Plane, col: Int, row: Int) = p.data[row*p.rowStride+col*p.pixelStride].toInt() and 255
             return encoding.rgb(code(planes[0],x,y),code(planes[1],x/2,y/2),code(planes[2],x/2,y/2))
@@ -405,6 +416,12 @@ class Rig(
                 CaptureRequest.CONTROL_VIDEO_STABILIZATION_MODE,
                 CaptureRequest.CONTROL_VIDEO_STABILIZATION_MODE_OFF,
             )
+            if (panoramaLock && b == null) {
+                if (l.c[CameraCharacteristics.CONTROL_AE_LOCK_AVAILABLE] == true)
+                    req.set(CaptureRequest.CONTROL_AE_LOCK, true)
+                if (l.c[CameraCharacteristics.CONTROL_AWB_LOCK_AVAILABLE] == true)
+                    req.set(CaptureRequest.CONTROL_AWB_LOCK, true)
+            }
             if (b != null) {
                 raw?.let { req.addTarget(it.surface) }
                 req.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF)
@@ -484,6 +501,7 @@ class Rig(
         val synced =
             l.c[CameraCharacteristics.SENSOR_INFO_TIMESTAMP_SOURCE] ==
                 CameraCharacteristics.SENSOR_INFO_TIMESTAMP_SOURCE_REALTIME
+        image.exposureMs = time/1e6
         val ev = Exposure(time / 1e9, a, iso * boost).ev
         val sensorTime = if (synced) ts else 0L
         if (b == null) {

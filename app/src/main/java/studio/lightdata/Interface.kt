@@ -283,7 +283,7 @@ private fun Finder(a: MainActivity) {
                 when {
                     a.frozen -> "● HOLD"
                     s?.scan?.coverage == 1.0 -> "● 拼接构图"
-                    a.scanActive -> "● 停稳采集"
+                    a.scanActive -> "● 扫描采集"
                     s?.missing == true -> "○ 待确认中心"
                     f == null -> "○ WAIT"
                     else -> "● LIVE"
@@ -433,8 +433,8 @@ private fun Finder(a: MainActivity) {
                         guide.homeDirection != null && guide.coverage >= 1 -> "按箭头转回拼接中心"
                         guide.needsOverlap -> "请移回已拍区域，保留重叠"
                         guide.coverage >= 1 -> "已完成 · 转动设备二次构图"
-                        guide.settling -> "停稳后自动采集"
-                        else -> "将白十字移向图中黄圈，再停稳"
+                        guide.settling -> "请放慢转动"
+                        else -> "将白十字缓慢移向黄圈"
                     },
                     11, muted, Modifier.weight(1f),
                 )

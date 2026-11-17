@@ -236,6 +236,37 @@ class FinderTest {
         assertNull(m.homeDirection(id))
     }
 
+    @Test fun overlapCompensatesWhiteBalanceAndResidualExposureInNewCoverage() {
+        val center = render(field,0.0)
+        val base = 0xff708090.toInt()
+        val warm = 0xff96796e.toInt()
+        val first = center.copy(pixels=IntArray(center.w*center.h) { base })
+        val second = first.copy(pixels=IntArray(first.pixels.size) { warm })
+        val m = Mosaic(target,id,first)
+        m.add(first,field,id)
+        assertEquals(0,m.view(id).sample(.09,.5))
+        m.add(second,field,yaw(.43))
+        val corrected = m.view(id).sample(.09,.5)
+        for (shift in listOf(16,8,0)) {
+            assertEquals((base ushr shift and 255).toDouble(),
+                (corrected ushr shift and 255).toDouble(),1.0)
+        }
+    }
+
+    @Test fun featherBoundsTheSeamWhenClippedOverlapCannotEstimateGain() {
+        val c = render(field,0.0)
+        val first = c.copy(pixels=IntArray(c.pixels.size) { gray(248) })
+        val second = c.copy(pixels=IntArray(c.pixels.size) { gray(170) })
+        val m = Mosaic(target,id,first)
+        m.add(first,field,id)
+        m.add(second,field,yaw(.43))
+        val f = m.view(id)
+        val codes = (f.w/12..f.w/2).map { f.pixels[(f.h/2)*f.w+it] and 255 }
+        assertTrue(codes.first() == 170 && codes.last() == 248)
+        assertTrue("seam step "+codes.zipWithNext { a,b -> abs(a-b) }.max(),
+            codes.zipWithNext { a,b -> abs(a-b) }.max() < 12)
+    }
+
     @Test fun movingCameraUpdatesAimWithoutDecodingOrWritingUntilSettled() {
         val first = render(field,0.0)
         val session = ScanSession(first,target,id,defaultResponse)

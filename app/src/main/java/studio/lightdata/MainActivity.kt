@@ -347,11 +347,11 @@ class MainActivity : ComponentActivity() {
         val now = android.os.SystemClock.elapsedRealtime()
         val displayTurn = Math.floorMod(scanRotation - rot, 4) * 90
         val scan = request?.let {
-            val frame by lazy(LazyThreadSafetyMode.NONE) { upright(packet.frame(ev,l.id,timestamp),turn) }
+            val frame by lazy(LazyThreadSafetyMode.NONE) { live.panoramaFrame() }
             val axes = pose.axes(scanRotation, timestamp)
-            val session = it.session ?: ScanSession(frame, goal, axes, response).also { s -> it.session = s }
+            val session = it.session ?: ScanSession(frame, goal, axes, response, OpenCvScanAligner.available).also { s -> it.session = s }
             if (it.reanchor) { session.resumeTracking(); it.reanchor = false }
-            session.capture(src, axes, if (timestamp > 0) timestamp / 1_000_000 else now, live::trackingImage) { frame } to session.guide(displayTurn)
+            session.capture(src, axes, if (timestamp > 0) timestamp / 1_000_000 else now, live::trackingImage, packet.exposureMs) { frame } to session.guide(displayTurn)
         }
         fun measure(): Measurement {
             val full = live.fullFrame()
@@ -426,7 +426,10 @@ class MainActivity : ComponentActivity() {
     }
 
     fun cancelScan() {
-        if (scanRequest != null) epoch++
+        if (scanRequest != null) {
+            epoch++
+            rig.setPanoramaLock(false)
+        }
         scanRequest = null
     }
 
@@ -436,6 +439,7 @@ class MainActivity : ComponentActivity() {
             return
         }
         if (sample?.missing != true || frozen || runningCal) return
+        rig.setPanoramaLock(true)
         scanRequest = ScanRequest(windowManager.defaultDisplay.rotation)
         epoch++
     }
