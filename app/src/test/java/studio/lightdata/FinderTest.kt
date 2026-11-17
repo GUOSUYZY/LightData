@@ -253,6 +253,35 @@ class FinderTest {
         }
     }
 
+    @Test fun rejectedMovingKeyframeCanRetryAtEdgeBeforeStationaryTimeout() {
+        var calls = 0
+        val aligner = ScanAligner { _,_,_,_,_ -> if (++calls == 1) null else ScanWarp() }
+        val first = render(field,0.0)
+        val session = ScanSession(first,target,id,defaultResponse,aligner)
+        fun update(t: Long, angle: Double) {
+            session.capture(field,yaw(angle),t,null,1.0) { render(field,angle) }
+        }
+        update(1000,0.0)
+        update(1050,.105)
+        update(1100,.21)
+        assertEquals(1,calls)
+        update(1170,.21)
+        assertEquals(1,calls)
+        update(1220,.21)
+        assertEquals(2,session.guide(0).captures)
+    }
+
+    @Test fun localGainReducesTopBottomBrightnessErrorInNewCoverage() {
+        val c = render(field,0.0)
+        val first = c.copy(pixels=IntArray(c.pixels.size) { gray(140) })
+        val second = c.copy(pixels=IntArray(c.pixels.size) { gray(120+40*(it/c.w)/c.h) })
+        val m = Mosaic(target,id,first)
+        m.add(first,field,id)
+        m.add(second,field,yaw(.43))
+        val view = m.view(id)
+        for (y in listOf(.2,.8)) assertEquals(140.0,(view.sample(.09,y) and 255).toDouble(),5.0)
+    }
+
     @Test fun featherBoundsTheSeamWhenClippedOverlapCannotEstimateGain() {
         val c = render(field,0.0)
         val first = c.copy(pixels=IntArray(c.pixels.size) { gray(248) })

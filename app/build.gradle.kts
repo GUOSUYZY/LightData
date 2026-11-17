@@ -10,8 +10,8 @@ android {
         providers.gradleProperty("lightdataAbi").orNull?.let { ndk.abiFilters.add(it) }
         minSdk = 28
         targetSdk = 35
-        versionCode = 10
-        versionName = "0.1.7-beta"
+        versionCode = 11
+        versionName = "0.1.8-beta"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging { jniLibs { useLegacyPackaging = true } }

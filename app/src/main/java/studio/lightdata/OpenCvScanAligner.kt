@@ -55,7 +55,24 @@ internal object OpenCvScanAligner : ScanAligner {
             fit.get(0,0,m)
             if (hypot(m[0],m[3]) !in .95..1.05 || abs(m[3]) > .08 ||
                 hypot(m[2],m[5]) > min(w,h)*.15) return null
-            return ScanWarp(m[0],m[3],m[2],m[5])
+            val global = ScanWarp(m[0],m[3],m[2],m[5])
+            // Allow a coherent nearby surface to depart from the global motion.
+            // Unsupported grid nodes retain the inertial/global projection.
+            val dx = DoubleArray(16)
+            val dy = DoubleArray(16)
+            for (node in dx.indices) {
+                val x = (node%4)*w/3.0
+                val y = (node/4)*h/3.0
+                val nearby = good.filter { abs(pts[it].x-x)<w*.25 && abs(pts[it].y-y)<h*.25 }
+                if (nearby.size < 4) continue
+                val rx = nearby.map { tracked[it].x-global.x(pts[it].x,pts[it].y) }.sorted()
+                val ry = nearby.map { tracked[it].y-global.y(pts[it].x,pts[it].y) }.sorted()
+                val n = nearby.size
+                if (rx[3*n/4]-rx[n/4]>1.5 || ry[3*n/4]-ry[n/4]>1.5) continue
+                dx[node] = rx[n/2].coerceIn(-3.0,3.0)/w
+                dy[node] = ry[n/2].coerceIn(-3.0,3.0)/h
+            }
+            return global.copy(width=w,height=h,offsetsX=dx,offsetsY=dy)
         } catch (_: CvException) {
             return null
         } finally {

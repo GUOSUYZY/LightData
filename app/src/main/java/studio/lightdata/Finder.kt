@@ -167,9 +167,23 @@ data class ScanGuide(
 )
 
 internal data class ScanWarp(val a: Double = 1.0, val b: Double = 0.0,
-                            val tx: Double = 0.0, val ty: Double = 0.0) {
-    fun x(u: Double,v: Double) = a*u-b*v+tx
-    fun y(u: Double,v: Double) = b*u+a*v+ty
+                            val tx: Double = 0.0, val ty: Double = 0.0,
+                            val width: Int = 1, val height: Int = 1,
+                            val offsetsX: DoubleArray? = null, val offsetsY: DoubleArray? = null) {
+    private fun local(values: DoubleArray?, u: Double, v: Double): Double {
+        if (values == null) return 0.0
+        val x = (u*3/width).coerceIn(0.0,3.0)
+        val y = (v*3/height).coerceIn(0.0,3.0)
+        val col = min(2,x.toInt())
+        val row = min(2,y.toInt())
+        val i = row*4+col
+        val fx = x-col
+        val fy = y-row
+        return (values[i]*(1-fx)+values[i+1]*fx)*(1-fy) +
+            (values[i+4]*(1-fx)+values[i+5]*fx)*fy
+    }
+    fun x(u: Double,v: Double) = a*u-b*v+tx+width*local(offsetsX,u,v)
+    fun y(u: Double,v: Double) = b*u+a*v+ty+height*local(offsetsY,u,v)
 }
 
 internal fun interface ScanAligner {
@@ -399,16 +413,17 @@ internal class Mosaic(
             }
         }
         val fit = native.align(width,height,reference,current,mask) ?: return null
-        return fit.copy(tx=fit.tx*frame.w/width,ty=fit.ty*frame.h/height)
+        return fit.copy(tx=fit.tx*frame.w/width,ty=fit.ty*frame.h/height,width=frame.w,height=frame.h)
     }
 
     // Estimate residual camera processing after normalizing the measured exposure.
     // Only matched, unclipped overlap contributes; the median rejects local scene motion.
-    private fun overlapGains(frame: Frame, p: Projection, warp: ScanWarp, gains: DoubleArray): DoubleArray {
+    private fun overlapGains(frame: Frame, p: Projection, warp: ScanWarp, gains: DoubleArray): Array<DoubleArray> {
         val result = DoubleArray(3) { 1.0 }
-        if (count == 0) return result
+        if (count == 0) return Array(4) { result }
         val ratios = Array(3) { ArrayList<Double>() }
-        val step = max(1,min(w,h)/32)
+        val blocks = Array(4) { Array(3) { ArrayList<Double>() } }
+        val step = max(1,min(w,h)/48)
         for (y in step/2 until h step step) for (x in step/2 until w step step) {
             val old = atlas[y*w+x]
             if (old == 0) continue
@@ -426,8 +441,11 @@ internal class Mosaic(
                 val shift = 16-8*c
                 val a = (old ushr shift) and 255
                 val b = (normalized ushr shift) and 255
-                if (a in 18..235 && b in 18..235)
-                    ratios[c].add(srgbToLinear(a/255.0)/srgbToLinear(b/255.0))
+                if (a in 18..235 && b in 18..235) {
+                    val ratio = srgbToLinear(a/255.0)/srgbToLinear(b/255.0)
+                    ratios[c].add(ratio)
+                    blocks[(if (u >= frame.w*.5) 1 else 0)+(if (v >= frame.h*.5) 2 else 0)][c].add(ratio)
+                }
             }
         }
         for (c in 0..2) {
@@ -437,7 +455,14 @@ internal class Mosaic(
             if (list[3*list.size/4] < 1.5*list[list.size/4])
                 result[c] = list[list.size/2].coerceIn(.5,2.0)
         }
-        return result
+        return Array(4) { tile -> DoubleArray(3) { c ->
+            val local = blocks[tile][c]
+            if (local.size < 16) result[c] else {
+                local.sort()
+                if (local[3*local.size/4] > local[local.size/4]*1.25) result[c]
+                else local[local.size/2].coerceIn(result[c]*.78,result[c]*1.28)
+            }
+        } }
     }
 
     fun add(frame: Frame, source: Field, pose: FloatArray) = add(source,pose) { frame }
@@ -496,7 +521,6 @@ internal class Mosaic(
         if (count > 0 && requireVisual && nativeFit == null) return false
         val warp = nativeFit ?: register(frame,p,gain).let { (x,y) -> ScanWarp(tx=x.toDouble(),ty=y.toDouble()) }
         val residual = overlapGains(frame,p,warp,gain)
-        val channelLut = Array(3) { c -> IntArray(256) { scaleSrgbCode(it,residual[c]) } }
         val feather = max(2.0,min(frame.w,frame.h)*.14)
         for (y in ys.indices) for (x in xs.indices) {
             val j = y * w + x
@@ -513,12 +537,29 @@ internal class Mosaic(
             val weight = (min(min(u+.5,frame.w-u),min(v+.5,frame.h-v))/feather).coerceIn(.001,1.0).toFloat()
             if (atlas[j] != 0 && confidence[j] >= weight) continue
             val normalized = color(c,gain[luma(c)])
+            val fx = (2*u/frame.w-.5).coerceIn(0.0,1.0)
+            val fy = (2*v/frame.h-.5).coerceIn(0.0,1.0)
+            var mix = (weight-confidence[j]).toDouble()
+            if (atlas[j] != 0 && x > 0 && y > 0) {
+                val left = atlas[j-1]
+                val above = atlas[j-w]
+                val old = luma(atlas[j])
+                val detail = (left != 0 && abs(old-luma(left)) > 12) ||
+                    (above != 0 && abs(old-luma(above)) > 12)
+                val src = v.toInt()*frame.w+u.toInt()
+                val edgeInSource = (u >= 1 && abs(luma(c)-luma(frame.pixels[src-1])) > 12) ||
+                    (v >= 1 && abs(luma(c)-luma(frame.pixels[src-frame.w])) > 12)
+                if (detail && edgeInSource && abs(old-luma(normalized)) > 20)
+                    mix = if (mix > .5) 1.0 else 0.0
+            }
             var pixel = -0x1000000
             for (channel in 0..2) {
                 val shift = 16-channel*8
-                val incoming = channelLut[channel][(normalized ushr shift) and 255]
+                val top = residual[0][channel]*(1-fx)+residual[1][channel]*fx
+                val bottom = residual[2][channel]*(1-fx)+residual[3][channel]*fx
+                val incoming = scaleSrgbCode((normalized ushr shift) and 255,top*(1-fy)+bottom*fy)
                 val mixed = if (atlas[j] == 0) incoming else
-                    blendSrgbCode((atlas[j] ushr shift) and 255,incoming,(weight-confidence[j]).toDouble())
+                    blendSrgbCode((atlas[j] ushr shift) and 255,incoming,mix)
                 pixel = pixel or (mixed shl shift)
             }
             if (atlas[j] == 0) {
@@ -597,6 +638,7 @@ internal class ScanSession(center: Frame, target: Field, origin: FloatArray?, re
     private var anchor: FloatArray? = null
     private var since = 0L
     private var lastTime = -1L
+    private var attemptedAt = Long.MIN_VALUE
     private var retryStationary = false
     private var disconnected = false
     private var lastAttempt: FloatArray? = null
@@ -657,9 +699,9 @@ internal class ScanSession(center: Frame, target: Field, origin: FloatArray?, re
         val sharp = elapsed in 1..500 && !moved(previousOrientation,orientation,min(8.0,maxMotion))
         val continuous = aligner != null && sharp
         settling = !stationary && !continuous && lastAttempt != null
-        val step = if (stationary) 1.0 else Math.toDegrees(atan(min(field.x,field.y)))*.33
+        val step = if (mosaic.coverage >= .90) .45 else if (stationary) 1.0 else Math.toDegrees(atan(min(field.x,field.y)))*.33
         if (!mosaic.ready && !lost && (stationary || continuous || (aligner != null && accepted == 0 && lastAttempt == null)) &&
-            (lastAttempt == null || moved(lastAttempt!!,orientation,step) || (retryStationary && stationary))) {
+            (lastAttempt == null || moved(lastAttempt!!,orientation,step) || (retryStationary && (stationary || (continuous && nowMs-attemptedAt >= 110))))) {
             val before = mosaic.coverage
             // If moving registration is unreliable, allow a stationary retry at this pose.
             disconnected = !mosaic.add(field,orientation,!stationary,::image)
@@ -669,6 +711,7 @@ internal class ScanSession(center: Frame, target: Field, origin: FloatArray?, re
                 rendered = null
             }
             retryStationary = disconnected && !stationary
+            attemptedAt = nowMs
             lastAttempt = orientation
         }
         if (rendered == null || moved(renderedPose!!,orientation,.06)) {
