@@ -1,0 +1,909 @@
+{
+  "version": 1,
+  "updated": "2026-11-17",
+  "devices": [
+    {
+      "id": "samsung-fold7",
+      "name": "Samsung Galaxy Z Fold7",
+      "aliases": [
+        "Galaxy Z Fold7",
+        "Samsung Galaxy Z Fold7",
+        "Galaxy Z Fold 7"
+      ],
+      "modelPatterns": [
+        "^SM-F966[A-Z0-9/]*$"
+      ],
+      "source": "https://www.samsung.com/uk/business/smartphones/galaxy-z/galaxy-z-fold7-silver-shadow-512gb-sm-f966bzsceub/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "manufacturerFov": 85,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/global/samsung-galaxy-z-fold7-raising-the-bar-for-smartphones"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/global/samsung-galaxy-z-fold7-raising-the-bar-for-smartphones"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "manufacturerFov": 36,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/global/samsung-galaxy-z-fold7-raising-the-bar-for-smartphones"
+        }
+      ],
+      "modelSources": [
+        "https://www.samsung.com/uk/business/smartphones/galaxy-z/galaxy-z-fold7-silver-shadow-512gb-sm-f966bzsceub/"
+      ]
+    },
+    {
+      "id": "samsung-fold6",
+      "name": "Samsung Galaxy Z Fold6",
+      "aliases": [
+        "Galaxy Z Fold6",
+        "Samsung Galaxy Z Fold6",
+        "Galaxy Z Fold 6"
+      ],
+      "modelPatterns": [
+        "^SM-F956[A-Z0-9/]*$"
+      ],
+      "source": "https://www.samsung.com/hk_en/smartphones/galaxy-z/galaxy-z-fold6-silver-shadow-256gb-sm-f9560zsdtgy/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "manufacturerFov": 85,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/ca/samsung-galaxy-z-fold6-and-z-flip6-elevate-galaxy-ai-to-new-heights"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "manufacturerFov": 123,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/ca/samsung-galaxy-z-fold6-and-z-flip6-elevate-galaxy-ai-to-new-heights"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "manufacturerFov": 36,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/ca/samsung-galaxy-z-fold6-and-z-flip6-elevate-galaxy-ai-to-new-heights"
+        }
+      ],
+      "modelSources": [
+        "https://www.samsung.com/hk_en/smartphones/galaxy-z/galaxy-z-fold6-silver-shadow-256gb-sm-f9560zsdtgy/"
+      ]
+    },
+    {
+      "id": "samsung-s25-ultra",
+      "name": "Samsung Galaxy S25 Ultra",
+      "aliases": [
+        "Galaxy S25 Ultra",
+        "Samsung Galaxy S25 Ultra"
+      ],
+      "modelPatterns": [
+        "^SM-S938[A-Z0-9/]*$"
+      ],
+      "source": "https://www.samsung.com/uk/support/model/SM-S938BZGHEUB/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "manufacturerFov": 85,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/global/samsung-galaxy-s25-series-sets-the-standard-of-ai-phone-as-a-true-ai-companion"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.9,
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/global/samsung-galaxy-s25-series-sets-the-standard-of-ai-phone-as-a-true-ai-companion"
+        },
+        {
+          "id": "telephoto-3x",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "manufacturerFov": 36,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/global/samsung-galaxy-s25-series-sets-the-standard-of-ai-phone-as-a-true-ai-companion"
+        },
+        {
+          "id": "telephoto-5x",
+          "name": "长焦 · 5×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3.4,
+          "manufacturerFov": 22,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/global/samsung-galaxy-s25-series-sets-the-standard-of-ai-phone-as-a-true-ai-companion"
+        }
+      ],
+      "modelSources": [
+        "https://www.samsung.com/uk/support/model/SM-S938BZGHEUB/"
+      ]
+    },
+    {
+      "id": "samsung-s24-ultra",
+      "name": "Samsung Galaxy S24 Ultra",
+      "aliases": [
+        "Galaxy S24 Ultra",
+        "Samsung Galaxy S24 Ultra"
+      ],
+      "modelPatterns": [
+        "^SM-S928[A-Z0-9/]*$"
+      ],
+      "source": "https://www.samsung.com/uk/support/model/SM-S928BZTHEUB/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "manufacturerFov": 85,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/us/enter-new-era-of-mobile-ai-samsung-galaxy-s24-series/"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/us/enter-new-era-of-mobile-ai-samsung-galaxy-s24-series/"
+        },
+        {
+          "id": "telephoto-3x",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "manufacturerFov": 36,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/us/enter-new-era-of-mobile-ai-samsung-galaxy-s24-series/"
+        },
+        {
+          "id": "telephoto-5x",
+          "name": "长焦 · 5×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3.4,
+          "manufacturerFov": 22,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。",
+          "source": "https://news.samsung.com/us/enter-new-era-of-mobile-ai-samsung-galaxy-s24-series/"
+        }
+      ],
+      "modelSources": [
+        "https://www.samsung.com/uk/support/model/SM-S928BZTHEUB/"
+      ]
+    },
+    {
+      "id": "apple-iphone-13-pro",
+      "name": "Apple iPhone 13 Pro",
+      "aliases": [
+        "iPhone 13 Pro",
+        "Apple iPhone 13 Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111871",
+      "lenses": [
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.8,
+          "manufacturerFov": 120,
+          "fovAxis": "unspecified",
+          "note": "厂家只标注 FOV，未注明角度方向；请手动设置等效焦距或水平视角。"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 77,
+          "note": "焦距由 Apple 发布稿确认；光圈见型号技术规格。",
+          "source": "https://www.apple.com/newsroom/2021/09/apple-unveils-iphone-13-pro-and-iphone-13-pro-max-more-pro-than-ever-before/"
+        }
+      ]
+    },
+    {
+      "id": "apple-iphone-14",
+      "name": "Apple iPhone 14",
+      "aliases": [
+        "iPhone 14",
+        "Apple iPhone 14",
+        "iPhone 14 Plus",
+        "Apple iPhone 14 Plus"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111850",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.5,
+          "equivalentMm": 26
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/111854"
+      ]
+    },
+    {
+      "id": "apple-iphone-14-pro",
+      "name": "Apple iPhone 14 Pro",
+      "aliases": [
+        "iPhone 14 Pro",
+        "Apple iPhone 14 Pro",
+        "iPhone 14 Pro Max",
+        "Apple iPhone 14 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111849",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 77
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/111846"
+      ]
+    },
+    {
+      "id": "apple-iphone-15",
+      "name": "Apple iPhone 15",
+      "aliases": [
+        "iPhone 15",
+        "Apple iPhone 15",
+        "iPhone 15 Plus",
+        "Apple iPhone 15 Plus"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111831",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.4,
+          "equivalentMm": 13
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/111830"
+      ]
+    },
+    {
+      "id": "apple-iphone-15-pro",
+      "name": "Apple iPhone 15 Pro",
+      "aliases": [
+        "iPhone 15 Pro",
+        "Apple iPhone 15 Pro"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111829",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 3×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 77
+        }
+      ]
+    },
+    {
+      "id": "apple-iphone-15-pro-max",
+      "name": "Apple iPhone 15 Pro Max",
+      "aliases": [
+        "iPhone 15 Pro Max",
+        "Apple iPhone 15 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/111828",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 5×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 120
+        }
+      ]
+    },
+    {
+      "id": "apple-iphone-16",
+      "name": "Apple iPhone 16",
+      "aliases": [
+        "iPhone 16",
+        "Apple iPhone 16",
+        "iPhone 16 Plus",
+        "Apple iPhone 16 Plus"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/121029",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/121030"
+      ]
+    },
+    {
+      "id": "apple-iphone-16-pro",
+      "name": "Apple iPhone 16 Pro",
+      "aliases": [
+        "iPhone 16 Pro",
+        "Apple iPhone 16 Pro",
+        "iPhone 16 Pro Max",
+        "Apple iPhone 16 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/121031",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 5×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 120
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/121032"
+      ]
+    },
+    {
+      "id": "apple-iphone-17",
+      "name": "Apple iPhone 17",
+      "aliases": [
+        "iPhone 17",
+        "Apple iPhone 17"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/125089",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 26
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13
+        }
+      ]
+    },
+    {
+      "id": "apple-iphone-17-pro",
+      "name": "Apple iPhone 17 Pro",
+      "aliases": [
+        "iPhone 17 Pro",
+        "Apple iPhone 17 Pro",
+        "iPhone 17 Pro Max",
+        "Apple iPhone 17 Pro Max"
+      ],
+      "modelPatterns": [],
+      "source": "https://support.apple.com/en-us/125090",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 1×",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.78,
+          "equivalentMm": 24
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 0.5×",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 13
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 4×",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "equivalentMm": 100
+        }
+      ],
+      "aliasSources": [
+        "https://support.apple.com/en-us/125091"
+      ]
+    },
+    {
+      "id": "xiaomi-14",
+      "name": "Xiaomi 14",
+      "aliases": [
+        "Xiaomi 14",
+        "小米 14",
+        "小米14"
+      ],
+      "modelPatterns": [
+        "^23127PN0CG$"
+      ],
+      "source": "https://www.mi.com/global/product/xiaomi-14/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 23
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 75 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 75
+        }
+      ],
+      "modelSources": [
+        "https://www.mi.com/ru/support/user-guide-pdf/xiaomi-14/"
+      ]
+    },
+    {
+      "id": "xiaomi-14-ultra",
+      "name": "Xiaomi 14 Ultra",
+      "aliases": [
+        "Xiaomi 14 Ultra",
+        "小米 14 Ultra",
+        "小米14 Ultra"
+      ],
+      "modelPatterns": [
+        "^24030PN60G$"
+      ],
+      "source": "https://www.mi.com/global/product/xiaomi-14-ultra/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.63,
+          "equivalentMm": 23,
+          "note": "主摄为 f/1.63–f/4.0 无级可变光圈；此值为最大光圈，测光时须按实际设置调整。"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 12 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 1.8,
+          "equivalentMm": 12
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 75 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.8,
+          "equivalentMm": 75
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 120 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.5,
+          "equivalentMm": 120
+        }
+      ],
+      "modelSources": [
+        "https://gl123.alsgp0.mi-fds.com/gl123/XIAOMI/Xiaomi%2014%20Ultra/%E9%87%8F%E4%BA%A7/N1_%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97_en%20ar%20HK_A_20240116%20Web%20Version.pdf"
+      ]
+    },
+    {
+      "id": "xiaomi-15",
+      "name": "Xiaomi 15",
+      "aliases": [
+        "Xiaomi 15",
+        "小米 15",
+        "小米15"
+      ],
+      "modelPatterns": [
+        "^24129PN74G$"
+      ],
+      "source": "https://www.mi.com/global/product/xiaomi-15/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.62,
+          "equivalentMm": 23
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 60 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2,
+          "equivalentMm": 60
+        }
+      ],
+      "modelSources": [
+        "https://www.mi.com/tw/product/xiaomi-15/specs/",
+        "https://www.mi.com/cl/regulatoryinfo/subtel/"
+      ]
+    },
+    {
+      "id": "xiaomi-15-ultra",
+      "name": "Xiaomi 15 Ultra",
+      "aliases": [
+        "Xiaomi 15 Ultra",
+        "小米 15 Ultra",
+        "小米15 Ultra"
+      ],
+      "modelPatterns": [
+        "^25010PN30G$"
+      ],
+      "source": "https://www.mi.com/global/product/xiaomi-15-ultra/specs/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.63,
+          "equivalentMm": 23
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "equivalentMm": 14
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 70 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 1.8,
+          "equivalentMm": 70
+        },
+        {
+          "id": "periscope",
+          "name": "潜望长焦 · 100 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "equivalentMm": 100
+        }
+      ],
+      "modelSources": [
+        "https://www.mi.com/tw/product/xiaomi-15-ultra/specs/",
+        "https://www.mi.com/cl/regulatoryinfo/subtel/"
+      ]
+    },
+    {
+      "id": "oppo-find-x8",
+      "name": "OPPO Find X8",
+      "aliases": [
+        "OPPO Find X8",
+        "Find X8"
+      ],
+      "modelPatterns": [
+        "^CPH2651$",
+        "^PKB110$"
+      ],
+      "source": "https://www.oppo.com/en/smartphones/series-find-x/find-x8/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "equivalentMm": 24
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2,
+          "equivalentMm": 15
+        },
+        {
+          "id": "telephoto",
+          "name": "潜望长焦 · 73 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "equivalentMm": 73
+        }
+      ],
+      "modelSources": [
+        "https://www.oppo.com/en/smartphones/series-find-x/find-x8/specs/",
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x8/specs/"
+      ]
+    },
+    {
+      "id": "oppo-find-x8-pro",
+      "name": "OPPO Find X8 Pro",
+      "aliases": [
+        "OPPO Find X8 Pro",
+        "Find X8 Pro"
+      ],
+      "modelPatterns": [
+        "^CPH2659$",
+        "^PKC110$"
+      ],
+      "source": "https://www.oppo.com/en/smartphones/series-find-x/find-x8-pro/",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "equivalentMm": 23
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2,
+          "equivalentMm": 15
+        },
+        {
+          "id": "telephoto-3x",
+          "name": "潜望长焦 · 73 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "equivalentMm": 73
+        },
+        {
+          "id": "telephoto-6x",
+          "name": "潜望长焦 · 135 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 4.3,
+          "equivalentMm": 135
+        }
+      ],
+      "modelSources": [
+        "https://www.oppo.com/en/smartphones/series-find-x/find-x8-pro/specs/",
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/"
+      ]
+    },
+    {
+      "id": "vivo-x200-pro",
+      "name": "vivo X200 Pro",
+      "aliases": [
+        "vivo X200 Pro",
+        "X200 Pro"
+      ],
+      "modelPatterns": [
+        "^V2413$",
+        "^V2405A$",
+        "^V2405DA$"
+      ],
+      "source": "https://www.vivo.com/in/products/x200-pro",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.57,
+          "equivalentMm": 23
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2,
+          "equivalentMm": 15
+        },
+        {
+          "id": "telephoto",
+          "name": "潜望长焦 · 85 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.67,
+          "equivalentMm": 85
+        }
+      ],
+      "modelSources": [
+        "https://www.vivo.com/eu/features?language=en_GB",
+        "https://www.vivo.com.cn/vivo/param/x200pro"
+      ]
+    }
+  ]
+}

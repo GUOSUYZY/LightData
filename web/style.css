@@ -783,6 +783,25 @@ dialog::backdrop {
 .settings-body {
   padding: 4px 20px 18px;
 }
+.lens-setup-body {
+  padding: 4px 20px 18px;
+}
+#setup-error {
+  color: var(--red);
+  font-size: 12px;
+  line-height: 1.6;
+}
+#setup-error:empty,
+#setup-source-note:empty {
+  display: none;
+}
+#setup-source {
+  font-size: 12px;
+  color: var(--amber);
+}
+#camera-setup h2 {
+  margin: 0;
+}
 fieldset {
   border: 0;
   border-bottom: 1px solid var(--line);

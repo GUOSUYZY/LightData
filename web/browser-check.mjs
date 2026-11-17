@@ -97,11 +97,24 @@ try {
     "href",
     /0\.1\.2-beta/,
   );
-  await page.locator("#start-camera").click();
+  await expect(page.locator("#camera-setup")).toBeVisible();
+  await expect(page.locator("#setup-lens")).toBeDisabled();
+  await page.locator("#setup-save").click();
+  await expect(page.locator("#setup-error")).toContainText("请填写");
+  await page.locator("#setup-aperture").fill("2.3");
+  await page.locator("#setup-hfov").fill("70");
+  await expect(page.locator("#setup-error")).toBeEmpty();
+  await page.screenshot({ path: path.join(snapshots, "lens-onboarding.png") });
+  await page.locator("#setup-save").click();
   await expect(page.locator("#live-state")).toContainText("LIVE");
+  await expect(page.locator("#camera-setup")).toBeHidden();
   await expect(page.locator("#meter-reading")).toContainText("相对亮度");
   await settings();
   await expect(page.locator("#capture-mode")).toHaveValue("auto");
+  await expect(page.locator("#capture-aperture")).toHaveValue("2.3");
+  await expect(page.locator("#camera-hfov")).toHaveValue("70");
+  await page.locator("#capture-aperture").fill("");
+  await page.locator("#capture-aperture").dispatchEvent("change");
   await expect(page.locator("#log-counts")).toBeChecked();
   await page.evaluate(() => {
     globalThis.testCameraSettings = {
@@ -128,6 +141,40 @@ try {
   });
   await expect(page.locator("#capture-aperture")).toHaveValue("");
   await expect(page.locator("#meter-reading")).toContainText("相对亮度");
+  await expect(page.locator("#camera-setup")).toBeVisible();
+  await expect(page.locator("#setup-aperture")).toHaveValue("");
+  await page.locator("#setup-aperture").fill("1.8");
+  await page.locator("#setup-fov-mode").selectOption("equivalent");
+  await page.locator("#setup-equivalent").fill("23");
+  await expect(page.locator("#setup-field-info")).toContainText("当前预览");
+  await page.locator("#setup-save").click();
+  await expect(page.locator("#settings")).toBeVisible();
+  await expect(page.locator("#capture-aperture")).toHaveValue("1.8");
+  await expect(page.locator("#camera-equivalent")).toHaveValue("23");
+  const unzoomed = Number(await page.locator("#camera-hfov").inputValue());
+  await page.evaluate(() => {
+    globalThis.testCameraSettings.zoom = 2;
+  });
+  await expect
+    .poll(async () => Number(await page.locator("#camera-hfov").inputValue()))
+    .toBeLessThan(unzoomed - 15);
+  await expect(page.locator("#camera-setup")).toBeHidden();
+  await expect(page.locator("#capture-aperture")).toHaveValue("1.8");
+  await page.evaluate(() => {
+    delete globalThis.testCameraSettings.deviceId;
+    delete globalThis.testCameraSettings.zoom;
+  });
+  await expect(page.locator("#capture-aperture")).toHaveValue("2.3");
+  await expect(page.locator("#meter-reading")).toContainText("EV100");
+  await expect(page.locator("#camera-setup")).toBeHidden();
+  await page.evaluate(() => {
+    globalThis.testCameraSettings.deviceId = "lightdata-deferred-camera";
+  });
+  await expect(page.locator("#camera-setup")).toBeVisible();
+  await page.locator("#setup-skip").click();
+  await expect(page.locator("#capture-aperture")).toHaveValue("");
+  await page.waitForTimeout(650);
+  await expect(page.locator("#camera-setup")).toBeHidden();
   await page.evaluate(() => {
     delete globalThis.testCameraSettings.deviceId;
   });
@@ -337,6 +384,7 @@ try {
   await settings();
   await expect(page.locator("#capture-mode")).toHaveValue("auto");
   await expect(page.locator("#capture-aperture")).toHaveValue("2.3");
+  await expect(page.locator("#camera-setup")).toBeHidden();
   await page.evaluate(() => {
     globalThis.testCameraSettings = {
       exposureMode: "continuous",
@@ -423,6 +471,80 @@ try {
   await page.locator("#camera-stop").click();
   await expect(page.locator("#live-state")).toContainText("OFF");
   await close();
+  const phoneContext = await browser.newContext({
+    permissions: ["camera"],
+    viewport: { width: 430, height: 932 },
+  });
+  await phoneContext.addInitScript(() => {
+    Object.defineProperty(navigator, "userAgentData", {
+      configurable: true,
+      value: {
+        getHighEntropyValues: async () => ({
+          model: "SM-F9660",
+          platform: "Android",
+        }),
+      },
+    });
+    const original = MediaStreamTrack.prototype.getSettings;
+    MediaStreamTrack.prototype.getSettings = function () {
+      return {
+        ...original.call(this),
+        deviceId: "matched-phone-camera",
+        exposureTime: 100,
+        iso: 250,
+        facingMode: "environment",
+      };
+    };
+  });
+  const phone = await phoneContext.newPage();
+  phone.on("pageerror", (error) => errors.push(error.message));
+  await phone.goto(base);
+  await expect(phone.locator("#camera-setup")).toBeVisible();
+  await expect(phone.locator("#setup-phone")).toHaveValue("samsung-fold7");
+  await expect(phone.locator("#setup-detection")).toContainText(
+    "UA Client Hints",
+  );
+  await expect(phone.locator("#setup-lens")).toHaveValue("");
+  await phone.locator("#setup-start").click();
+  await expect(phone.locator("#live-state")).toContainText("LIVE");
+  await expect(phone.locator("#setup-camera option")).toHaveCount(1);
+  await expect(phone.locator("#setup-save")).toHaveText("保存并使用");
+  await phone.locator("#setup-lens").selectOption("wide");
+  await expect(phone.locator("#setup-aperture")).toHaveValue("1.7");
+  await expect(phone.locator("#setup-hfov")).toHaveValue("");
+  await expect(phone.locator("#setup-source-note")).toContainText("方向未注明");
+  await expect(phone.locator("#setup-source")).toHaveAttribute(
+    "href",
+    /samsung\.com/,
+  );
+  await phone.locator("#setup-phone").selectOption("xiaomi-15");
+  await expect(phone.locator("#setup-aperture")).toHaveValue("");
+  await phone.locator("#setup-lens").selectOption("wide");
+  await expect(phone.locator("#setup-aperture")).toHaveValue("1.62");
+  await expect(phone.locator("#setup-equivalent")).toHaveValue("23");
+  await expect(phone.locator("#setup-fov-mode")).toHaveValue("equivalent");
+  await phone.screenshot({
+    path: path.join(snapshots, "lens-matched-phone.png"),
+  });
+  await phone.locator("#setup-save").click();
+  await expect(phone.locator("#live-state")).toContainText("LIVE");
+  await expect(phone.locator("#camera-setup")).toBeHidden();
+  await expect(phone.locator("#meter-reading")).toContainText("EV100");
+  await phone.locator("#settings-toggle").click();
+  await expect(phone.locator("#capture-aperture")).toHaveValue("1.62");
+  await expect(phone.locator("#camera-equivalent")).toHaveValue("23");
+  await phone.locator("#configure-lens").click();
+  await expect(phone.locator("#setup-phone")).toHaveValue("xiaomi-15");
+  await expect(phone.locator("#setup-lens")).toHaveValue("wide");
+  await expect(phone.locator("#setup-equivalent")).toHaveValue("23");
+  await phone.locator("#setup-close").click();
+  await expect(phone.locator("#settings")).toBeVisible();
+  const lensProfiles = await phone.evaluate(
+    () => JSON.parse(localStorage.getItem("lightdata.web.v1")).lenses,
+  );
+  expect(lensProfiles["matched-phone-camera"].phoneId).toBe("xiaomi-15");
+  expect(lensProfiles["matched-phone-camera"].equivalentMm).toBe(23);
+  await phoneContext.close();
   const denied = await browser.newContext({
     permissions: [],
     viewport: { width: 430, height: 932 },
@@ -434,12 +556,16 @@ try {
   });
   const d = await denied.newPage();
   await d.goto(base);
-  await d.locator("#start-camera").click();
+  await expect(d.locator("#camera-setup")).toBeVisible();
+  await d.locator("#setup-aperture").fill("2");
+  await d.locator("#setup-hfov").fill("70");
+  await d.locator("#setup-save").click();
   await expect(d.locator("#start-message")).toContainText("权限被拒绝");
+  await expect(d.locator("#setup-error")).toContainText("相机权限被拒绝");
   await denied.close();
   expect(errors).toEqual([]);
   console.log(
-    "Browser checks passed: camera, changing AE, relative fallback, single reading, film ISO lock, 2 spots, touch pan/pinch, panorama/reframe, custom frame/JSON persistence, four layouts, split drag, reference expiry, background pause/resume, denied permission.",
+    "Browser checks passed: first-use lens setup, per-camera optics/zoom/reload, Client Hints phone/lens presets, camera, changing AE, relative fallback, single reading, film ISO lock, 2 spots, touch pan/pinch, panorama/reframe, custom frame/JSON persistence, four layouts, split drag, reference expiry, background pause/resume, denied permission.",
   );
   console.log("Screenshots:", snapshots);
 } catch (error) {

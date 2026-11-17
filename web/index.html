@@ -201,6 +201,10 @@
           <p id="camera-status" class="subtle">
             开启相机后列出浏览器可访问的镜头。
           </p>
+          <button id="configure-lens">设置当前镜头的视角与光圈</button>
+          <p id="lens-profile-info" class="subtle">
+            首次使用每个镜头时填写，之后自动恢复。
+          </p>
           <label
             >采集曝光依据<select id="capture-mode">
               <option value="auto">自动读取相机快门与 ISO（估测）</option>
@@ -275,11 +279,21 @@
             >当前预览水平视角（°）<input
               id="camera-hfov"
               type="number"
-              min="5"
-              max="170"
+              min="0.1"
+              max="175"
               step="0.1"
               placeholder="按实际预览标定"
           /></label>
+          <label
+            >或输入手机镜头的 35 mm 等效焦距（mm）<input
+              id="camera-equivalent"
+              type="number"
+              min="1"
+              max="2000"
+              step="any"
+              placeholder="例如 24；按原生 4:3 中心裁切估算"
+          /></label>
+          <p id="camera-fov-info" class="subtle"></p>
           <div class="form-row">
             <label
               >画面边缘覆盖宽度<input
@@ -505,6 +519,93 @@
           >
         </p>
       </div>
+    </dialog>
+    <dialog id="camera-setup" aria-labelledby="setup-title">
+      <div class="dialog-title">
+        <h2 id="setup-title">设置手机镜头</h2>
+        <button
+          id="setup-close"
+          class="close"
+          type="button"
+          aria-label="暂不设置"
+        >
+          ×
+        </button>
+      </div>
+      <form id="camera-setup-form" class="lens-setup-body" novalidate>
+        <p id="setup-camera-label" class="subtle"></p>
+        <div class="form-row">
+          <label
+            >浏览器相机<select id="setup-camera">
+              <option value="">默认后置镜头</option>
+            </select></label
+          >
+          <button id="setup-start" type="button">开启相机预览</button>
+        </div>
+        <p id="setup-detection" class="subtle"></p>
+        <label
+          >手机型号<select id="setup-phone">
+            <option value="">手动输入 / 其他设备</option>
+          </select></label
+        >
+        <label
+          >与当前画面对应的镜头<select id="setup-lens">
+            <option value="">请选择当前实际镜头 / 手动填写</option>
+          </select></label
+        >
+        <p id="setup-source-note" class="subtle"></p>
+        <a id="setup-source" href="#" target="_blank" rel="noopener" hidden
+          >查看厂家镜头参数</a
+        >
+        <div class="form-row">
+          <label
+            >手机镜头光圈 f/<input
+              id="setup-aperture"
+              type="number"
+              min="0.5"
+              max="64"
+              step="any"
+              inputmode="decimal"
+              placeholder="例如 1.8"
+          /></label>
+          <label
+            >视角输入方式<select id="setup-fov-mode">
+              <option value="horizontal">水平视角</option>
+              <option value="equivalent">35 mm 等效焦距</option>
+            </select></label
+          >
+        </div>
+        <label id="setup-horizontal-field"
+          >当前预览水平视角（°）<input
+            id="setup-hfov"
+            type="number"
+            min="0.1"
+            max="175"
+            step="any"
+            inputmode="decimal"
+            placeholder="例如 70"
+        /></label>
+        <label id="setup-equivalent-field" hidden
+          >手机镜头等效焦距（mm）<input
+            id="setup-equivalent"
+            type="number"
+            min="1"
+            max="2000"
+            step="any"
+            inputmode="decimal"
+            placeholder="例如 24"
+        /></label>
+        <p id="setup-field-info" class="subtle"></p>
+        <p id="setup-error" role="alert"></p>
+        <div class="actions">
+          <button id="setup-save" type="submit" class="primary">
+            保存并使用</button
+          ><button id="setup-skip" type="button" class="quiet">暂不设置</button>
+        </div>
+        <p class="subtle">
+          镜头参数保存在当前浏览器。尚未填写时仍可取景，测光和覆盖范围会提示参数待设置。
+        </p>
+      </form>
     </dialog>
     <dialog id="notice">
       <div class="dialog-title"><h2 id="notice-title">测光提示</h2></div>

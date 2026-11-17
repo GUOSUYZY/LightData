@@ -39,8 +39,8 @@ jobs:
       - name: Assemble static site
         run: |
           mkdir -p public/data
-          cp web/index.html web/style.css web/app.js web/core.js web/camera.js web/panorama.js web/calibration.js web/icon.png public/
-          cp web/data/films.json public/data/
+          cp web/index.html web/style.css web/app.js web/core.js web/camera.js web/optics.js web/lens-setup.js web/panorama.js web/calibration.js web/icon.png public/
+          cp web/data/films.json web/data/cameras.json public/data/
           touch public/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

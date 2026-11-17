@@ -30,6 +30,8 @@ import {
 } from "./camera.js";
 import { Panorama, cropFrame, orientationMatrix } from "./panorama.js";
 import { sampleGrid, fitResponse } from "./calibration.js";
+import { LensSetup } from "./lens-setup.js";
+import { completeOptics, makeOptics, opticsField } from "./optics.js";
 
 const $ = (id) => document.getElementById(id);
 const STORE = "lightdata.web.v1";
@@ -69,6 +71,8 @@ const state = {
   preview: saved.preview || false,
   log: saved.log ?? true,
   devices: saved.devices || {},
+  lenses: saved.lenses || {},
+  phoneId: saved.phoneId || "",
   layouts: saved.layouts || {},
   presets: [],
   films: [],
@@ -101,6 +105,49 @@ try {
   state.presets = [];
 }
 const camera = new Camera($("capture-video"));
+const cameraId = () =>
+  camera.settings.deviceId || camera.track?.label || "default";
+let activeCameraChoice = "";
+const lensSetup = new LensSetup({
+  current: () => ({
+    id: cameraId(),
+    active: !!camera.stream,
+    settings: camera.settings,
+    label: camera.track?.label,
+    optics: state.profile.optics || state.lenses[cameraId()],
+    aperture: state.profile.aperture,
+    hfov: state.profile.hfov,
+    phoneId: state.phoneId,
+    cameras: Array.from($("camera-select").options, (o) => ({
+      id: o.value,
+      label: o.textContent,
+    })),
+    selectedDeviceId: camera.stream
+      ? activeCameraChoice
+      : $("camera-select").value,
+  }),
+  start: (deviceId) => {
+    if (typeof deviceId === "string") $("camera-select").value = deviceId;
+    return startCamera({ throwErrors: true });
+  },
+  save: (optics) => {
+    if (state.frozen) toggleFreeze();
+    cancelScan();
+    state.profile.optics = optics;
+    state.profile.aperture = optics.aperture;
+    state.profile.hfov = opticsField(
+      optics,
+      camera.settings.width,
+      camera.settings.height,
+      camera.settings.zoom || 1,
+    )?.hfov;
+    rememberOptics();
+    persist();
+    refreshSettings();
+    processImage();
+    toast("已保存当前镜头的视角与光圈");
+  },
+});
 const viewContext = $("view").getContext("2d");
 const chartContext = $("chart").getContext("2d");
 let lastPairKey = "",
@@ -128,6 +175,8 @@ function persist() {
       "preview",
       "log",
       "devices",
+      "lenses",
+      "phoneId",
       "layouts",
     ].map((key) => [key, state[key]]),
   );
@@ -217,8 +266,18 @@ function target() {
   return field(w, h, state.focal);
 }
 function sourceField() {
+  if (!state.raw) return null;
+  if (state.profile.optics) {
+    const field = opticsField(
+      state.profile.optics,
+      state.raw.width,
+      state.raw.height,
+      camera.settings.zoom || 1,
+    );
+    if (field) return field;
+  }
   const hfov = Number(state.profile.hfov);
-  if (!(hfov >= 5 && hfov <= 170) || !state.raw) return null;
+  if (!(hfov >= 0.1 && hfov <= 175)) return null;
   const x = Math.tan((hfov * Math.PI) / 360);
   return { x, y: (x * state.raw.height) / state.raw.width };
 }
@@ -254,9 +313,52 @@ function updateProfile(settings = camera.settings) {
   };
   state.devices[key] = state.profile;
   if (state.profile.mode === "reported") state.profile.mode = "auto";
+  const remembered = state.lenses[cameraId()];
+  if (remembered) {
+    // Physical lens optics may be reused; response calibrations remain per capture profile.
+    state.profile.optics = { ...remembered };
+    state.profile.aperture = remembered.aperture;
+  } else if (!state.profile.optics) {
+    // Preserve pre-onboarding users' already measured and saved lens settings.
+    const legacy = makeOptics(
+      {
+        mode: "horizontal",
+        aperture: state.profile.aperture,
+        hfov: state.profile.hfov,
+      },
+      settings,
+    );
+    if (legacy) state.profile.optics = legacy;
+  }
+  if (state.profile.optics) {
+    state.profile.hfov = opticsField(
+      state.profile.optics,
+      settings.width,
+      settings.height,
+      settings.zoom || 1,
+    )?.hfov;
+    rememberOptics();
+    persist();
+  }
   state.histWindow = null;
   state.held = null;
   refreshSettings();
+  lensSetup.consider();
+}
+function rememberOptics() {
+  if (!camera.stream) return;
+  const profile = state.profile;
+  if (!profile.optics) {
+    profile.optics = makeOptics(
+      { mode: "horizontal", aperture: profile.aperture, hfov: profile.hfov },
+      camera.settings,
+    );
+  }
+  if (profile.optics) {
+    profile.optics.aperture = Number(profile.aperture);
+    state.lenses[cameraId()] = { ...profile.optics };
+    if (profile.optics.phoneId) state.phoneId = profile.optics.phoneId;
+  }
 }
 function chooseFilm(id) {
   state.filmId = id;
@@ -780,7 +882,20 @@ function refreshSettings() {
   $("capture-aperture").value = p.aperture || "";
   $("capture-confirmed").checked = !!p.confirmed;
   refreshCaptureControls(camera.settings, true);
-  $("camera-hfov").value = p.hfov || "";
+  $("camera-hfov").value = p.hfov ? number(p.hfov) : "";
+  $("camera-equivalent").value =
+    p.optics?.mode === "equivalent" ? p.optics.equivalentMm : "";
+  $("camera-fov-info").textContent =
+    p.optics?.mode === "equivalent"
+      ? "根据 35 mm 等效焦距，以原生 4:3 画面按当前预览比例中心裁切估算。可直接输入实测水平视角覆盖估算。"
+      : p.hfov
+        ? "使用水平视角；旋转或改变预览比例时按中心裁切估算。实测标定可修正电子防抖等额外裁切。"
+        : "尚未设置手机镜头视角，无法判断目标画面是否需要拼接。";
+  const phone = lensSetup.devices.find((d) => d.id === p.optics?.phoneId);
+  const phoneLens = phone?.lenses.find((l) => l.id === p.optics?.lensId);
+  $("lens-profile-info").textContent = completeOptics(p.optics)
+    ? `${[phone?.name, phoneLens?.name].filter(Boolean).join(" · ") || "当前镜头"} · f/${p.aperture} · ${p.optics.mode === "equivalent" ? `等效 ${number(p.optics.equivalentMm)} mm · ` : ""}预览水平 ${number(p.hfov)}°，已保存。`
+    : "首次使用每个镜头时填写视角和光圈，之后自动恢复。";
   $("target-orientation").value = state.orientation;
   $("log-counts").checked = state.log;
   if (film()) {
@@ -868,12 +983,13 @@ function captureProfileFromInputs() {
       confirmed: $("capture-confirmed").checked,
     });
   if (!finite(state.profile.seconds)) state.profile.seconds = null;
+  rememberOptics();
   refreshCaptureControls();
   persist();
   processImage();
 }
 
-async function startCamera() {
+async function startCamera({ throwErrors = false } = {}) {
   $("start-camera").disabled = true;
   $("start-message").textContent = "正在请求相机权限…";
   calibrationToken++;
@@ -904,6 +1020,7 @@ async function startCamera() {
     $("start-message").textContent = message;
     $("camera-status").textContent = message;
     toast(message);
+    if (throwErrors) throw new Error(message);
   } finally {
     $("start-camera").disabled = false;
   }
@@ -920,16 +1037,24 @@ camera.addEventListener("started", (event) => {
   refreshSettings();
 });
 camera.addEventListener("devices", (event) => {
+  const labelMatches = event.detail.filter(
+    (d) => d.label && d.label === camera.track?.label,
+  );
+  const active =
+    event.detail.find((d) => d.deviceId === camera.settings.deviceId) ||
+    (labelMatches.length === 1 ? labelMatches[0] : null);
+  activeCameraChoice = active?.deviceId || $("camera-select").value;
   $("camera-select").replaceChildren();
   event.detail.forEach((device, i) => {
     const option = document.createElement("option");
     option.value = device.deviceId;
     option.textContent = device.label || `镜头 ${i + 1}`;
-    option.selected = device.deviceId === camera.settings.deviceId;
+    option.selected = device.deviceId === activeCameraChoice;
     $("camera-select").append(option);
   });
   const selected = $("camera-select").selectedOptions[0];
   $("camera-shortcut").textContent = selected?.textContent || "选择镜头";
+  lensSetup.refreshCameraList();
 });
 camera.addEventListener("settings", (event) => {
   if (camera.stream) updateProfile(event.detail);
@@ -1534,14 +1659,52 @@ function bindEvents() {
   });
   $("camera-hfov").addEventListener("change", () => {
     const hfov = Number($("camera-hfov").value);
-    if (hfov >= 5 && hfov <= 170) {
+    if (hfov >= 0.1 && hfov <= 175) {
       if (state.frozen) toggleFreeze();
       state.profile.hfov = hfov;
+      state.profile.optics = {
+        mode: "horizontal",
+        hfov,
+        aperture: Number(state.profile.aperture),
+        width: camera.settings.width || 1280,
+        height: camera.settings.height || 720,
+        zoom: camera.settings.zoom || 1,
+      };
+      rememberOptics();
       persist();
       cancelScan();
+      refreshSettings();
       processImage();
-    } else toast("水平视角须在 5–170° 内");
+    } else toast("水平视角须在 0.1–175° 内");
   });
+  $("camera-equivalent").addEventListener("change", () => {
+    const equivalentMm = Number($("camera-equivalent").value);
+    if (!(equivalentMm >= 1 && equivalentMm <= 2000)) {
+      toast("等效焦距须在 1–2000 mm 内");
+      return;
+    }
+    if (state.frozen) toggleFreeze();
+    cancelScan();
+    state.profile.optics = {
+      mode: "equivalent",
+      equivalentMm,
+      aperture: Number(state.profile.aperture),
+      width: camera.settings.width || 1280,
+      height: camera.settings.height || 720,
+      zoom: camera.settings.zoom || 1,
+    };
+    state.profile.hfov = opticsField(
+      state.profile.optics,
+      state.profile.optics.width,
+      state.profile.optics.height,
+      state.profile.optics.zoom,
+    ).hfov;
+    rememberOptics();
+    persist();
+    refreshSettings();
+    processImage();
+  });
+  $("configure-lens").addEventListener("click", () => lensSetup.open());
   $("calibrate-fov").addEventListener("click", () => {
     const w = Number($("scene-width").value),
       d = Number($("scene-distance").value);
@@ -1993,6 +2156,7 @@ function bindGestures() {
 
 async function initialize() {
   bindEvents();
+  const lensReady = lensSetup.initialize();
   FORMATS.forEach((format, index) => {
     const option = document.createElement("option");
     option.value = index;
@@ -2017,9 +2181,21 @@ async function initialize() {
     if (state.isoLocked) state.manual.iso = film().iso;
     state.exposure = { ...state.manual };
     fillPreset();
+    await lensReady;
     refreshSettings();
     layout();
     refresh();
+    if (camera.stream) lensSetup.consider();
+    else if (
+      !Object.values(state.lenses).some(completeOptics) &&
+      !Object.values(state.devices).some((p) =>
+        makeOptics(
+          { mode: "horizontal", aperture: p.aperture, hfov: p.hfov },
+          {},
+        ),
+      )
+    )
+      lensSetup.open();
   } catch (error) {
     $("start-message").textContent = "胶片数据加载失败，请刷新页面重试。";
     toast(error.message);
