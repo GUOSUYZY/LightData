@@ -203,8 +203,8 @@
           </p>
           <label
             >采集曝光依据<select id="capture-mode">
-              <option value="auto">读取固定曝光参数</option>
-              <option value="reported">使用浏览器报告的自动曝光（估测）</option>
+              <option value="auto">自动读取相机快门与 ISO（估测）</option>
+              <option value="fixed">仅使用已固定的曝光参数</option>
               <option value="manual">手动输入固定采集参数</option>
               <option value="reference">已知 EV 参考标定</option>
             </select></label
@@ -219,21 +219,23 @@
                 step="0.1"
                 placeholder="例如 1.8" /></label
             ><label
-              >手机 ISO<input
+              ><span id="capture-iso-label">手机 ISO · 自动读取</span
+              ><input
                 id="capture-iso"
                 type="number"
                 min="0.001"
                 step="any"
                 placeholder="例如 100" /></label
             ><label
-              >快门（秒）<input
+              ><span id="capture-time-label">快门（秒）· 自动读取</span
+              ><input
                 id="capture-time"
                 type="text"
                 inputmode="decimal"
                 placeholder="1/100"
             /></label>
           </div>
-          <div class="actions">
+          <div id="capture-fixed-controls" class="actions" hidden>
             <button id="apply-capture">固定采集曝光</button
             ><label class="check"
               ><input
@@ -243,7 +245,8 @@
             >
           </div>
           <p id="capture-info" class="subtle">
-            自动曝光中的参数可能不对应当前帧。缺少可靠参数时，先显示相对亮度。手机参数与下方目标胶片参数分别设置。
+            自动读取浏览器返回的快门与
+            ISO，只需填写手机光圈。缺少参数时显示相对亮度，手机采集参数与目标胶片参数分开管理。
           </p>
           <div class="reference-fields">
             <div class="form-row">

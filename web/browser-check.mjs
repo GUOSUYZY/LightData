@@ -95,8 +95,47 @@ try {
   await expect(page.locator("#live-state")).toContainText("LIVE");
   await expect(page.locator("#meter-reading")).toContainText("相对亮度");
   await settings();
-  await page.locator("#capture-aperture").fill("2");
+  await expect(page.locator("#capture-mode")).toHaveValue("auto");
+  await page.evaluate(() => {
+    globalThis.testCameraSettings = {
+      exposureMode: "continuous",
+      exposureTime: 299.94234,
+      iso: 250,
+    };
+  });
+  await expect(page.locator("#capture-iso")).toHaveValue("250");
+  await expect(page.locator("#capture-time")).toHaveValue("0.029994234");
+  await expect(page.locator("#capture-iso")).not.toBeEditable();
+  await expect(page.locator("#capture-time")).not.toBeEditable();
+  await expect(page.locator("#capture-info")).toContainText("请填写手机光圈");
+  await expect(page.locator("#meter-reading")).toContainText("相对亮度");
+  await page.locator("#capture-aperture").fill("2.3");
   await page.locator("#capture-aperture").dispatchEvent("change");
+  await expect(page.locator("#meter-reading")).toContainText("EV100");
+  await expect(page.locator("#capture-info")).toContainText("ISO 250");
+  await expect(page.locator("#capture-info")).toContainText("用于场景 EV100");
+  await expect(page.locator("#capture-fixed-controls")).toBeHidden();
+  await page.screenshot({ path: path.join(snapshots, "capture-metadata.png") });
+  const screenshotReading = await valueReading();
+  await page.evaluate(() => {
+    globalThis.testCameraSettings.iso = 500;
+  });
+  await expect(page.locator("#capture-iso")).toHaveValue("500");
+  await expect.poll(valueReading).toBeLessThan(screenshotReading - 0.8);
+  await page.locator("#capture-mode").selectOption("fixed");
+  await expect(page.locator("#meter-reading")).toContainText("相对亮度");
+  await page.locator("#capture-mode").selectOption("auto");
+  await expect(page.locator("#meter-reading")).toContainText("EV100");
+  await page.evaluate(() => {
+    globalThis.testCameraSettings = {
+      exposureMode: "continuous",
+      exposureTime: undefined,
+      iso: undefined,
+    };
+  });
+  await expect(page.locator("#capture-iso")).toHaveValue("");
+  await expect(page.locator("#capture-time")).toHaveValue("");
+  await expect(page.locator("#meter-reading")).toContainText("相对亮度");
   await page.evaluate(() => {
     globalThis.testCameraSettings = {
       exposureMode: "continuous",
@@ -104,9 +143,8 @@ try {
       iso: 100,
     };
   });
-  await page.waitForTimeout(600);
-  await expect(page.locator("#meter-reading")).toContainText("相对亮度");
-  await page.locator("#capture-mode").selectOption("reported");
+  await expect(page.locator("#capture-time")).toHaveValue("0.01");
+  await expect(page.locator("#capture-iso")).toHaveValue("100");
   await close();
   await expect(page.locator("#meter-reading")).toContainText("EV100");
   const first = await valueReading();
@@ -279,6 +317,19 @@ try {
   await page.locator("#start-camera").click();
   await expect(page.locator("#live-state")).toContainText("LIVE");
   await expect(page.locator("#image-frame")).toBeVisible();
+  await settings();
+  await expect(page.locator("#capture-mode")).toHaveValue("auto");
+  await expect(page.locator("#capture-aperture")).toHaveValue("2.3");
+  await page.evaluate(() => {
+    globalThis.testCameraSettings = {
+      exposureMode: "continuous",
+      exposureTime: 299.94234,
+      iso: 250,
+    };
+  });
+  await expect(page.locator("#capture-iso")).toHaveValue("250");
+  await expect(page.locator("#meter-reading")).toContainText("EV100");
+  await close();
   await page.setViewportSize({ width: 1200, height: 1380 });
   await expect(page.locator("body")).toHaveClass(/side/);
   await page.screenshot({ path: path.join(snapshots, "fold-portrait.png") });
@@ -316,10 +367,10 @@ try {
     };
   });
   await page.waitForTimeout(600);
+  await page.locator("#capture-mode").selectOption("reference");
   await page.locator("#capture-aperture").fill("2");
   await page.locator("#capture-iso").fill("100");
   await page.locator("#capture-time").fill("0.1");
-  await page.locator("#capture-mode").selectOption("reference");
   await page.locator("#capture-confirmed").check();
   await page.locator("#reference-ev").fill("8");
   await page.locator("#set-reference").click();
@@ -329,7 +380,7 @@ try {
     globalThis.testCameraSettings.exposureTime = 2000;
   });
   await expect(page.locator("#meter-reading")).toContainText("相对亮度");
-  await page.locator("#capture-mode").selectOption("reported");
+  await page.locator("#capture-mode").selectOption("auto");
   await close();
   await expect(page.locator("#meter-reading")).toContainText("EV100");
   const pausedReading = await valueReading();

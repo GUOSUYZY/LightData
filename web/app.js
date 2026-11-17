@@ -25,6 +25,7 @@ import {
   Camera,
   parseTime,
   captureExposure,
+  trackExposure,
   referenceSignature,
 } from "./camera.js";
 import { Panorama, cropFrame, orientationMatrix } from "./panorama.js";
@@ -252,6 +253,7 @@ function updateProfile(settings = camera.settings) {
     confirmed: false,
   };
   state.devices[key] = state.profile;
+  if (state.profile.mode === "reported") state.profile.mode = "auto";
   state.histWindow = null;
   state.held = null;
   refreshSettings();
@@ -776,11 +778,8 @@ function refreshSettings() {
   $("capture-mode").value = p.mode || "auto";
   $("settings").classList.toggle("capture-reference", p.mode === "reference");
   $("capture-aperture").value = p.aperture || "";
-  $("capture-iso").value = p.iso || "";
-  $("capture-time").value = p.seconds
-    ? timeLabel(p.seconds).replace("″", "")
-    : "";
   $("capture-confirmed").checked = !!p.confirmed;
+  refreshCaptureControls(camera.settings, true);
   $("camera-hfov").value = p.hfov || "";
   $("target-orientation").value = state.orientation;
   $("log-counts").checked = state.log;
@@ -816,15 +815,60 @@ function openSettings() {
   refreshSettings();
   if (!$("settings").open) $("settings").showModal();
 }
+function refreshCaptureControls(settings = camera.settings, reset = false) {
+  const p = state.profile;
+  const automatic = $("capture-mode").value === "auto";
+  const reported = camera.stream ? trackExposure(settings) : null;
+  $("capture-iso").readOnly = automatic;
+  $("capture-time").readOnly = automatic;
+  $("capture-iso-label").textContent = automatic
+    ? "手机 ISO · 自动读取"
+    : "手机 ISO";
+  $("capture-time-label").textContent = automatic
+    ? "快门（秒）· 自动读取"
+    : "快门（秒）";
+  $("capture-fixed-controls").hidden = automatic;
+  $("capture-iso").placeholder = automatic ? "相机未提供" : "例如 100";
+  $("capture-time").placeholder = automatic ? "相机未提供" : "1/100";
+  if (automatic) {
+    $("capture-iso").value = reported ? number(reported.iso) : "";
+    $("capture-time").value = reported
+      ? String(Number(reported.t.toPrecision(9)))
+      : "";
+  } else if (reset) {
+    $("capture-iso").value = p.iso || reported?.iso || "";
+    $("capture-time").value = p.seconds || reported?.t || "";
+  }
+  const capture = camera.stream ? captureExposure(settings, p) : null;
+  $("capture-info").textContent = capture
+    ? `${capture.source} · 相机 f/${capture.a} · ${timeLabel(capture.t)} · ISO ${number(capture.iso)}。用于场景 EV100、直方图与曝光组合，每 0.5 秒刷新参数。${settings.exposureMode !== "manual" ? "自动曝光参数可能滞后于画面。" : ""}${state.frozen ? "冻结测光保留冻结时的参数。" : ""}`
+    : !camera.stream
+      ? "开启相机后自动读取快门与 ISO，只需填写手机光圈。"
+      : automatic && !(Number(p.aperture) >= 0.5 && Number(p.aperture) <= 64)
+        ? reported
+          ? "已读取相机快门与 ISO，请填写手机光圈后开始绝对 EV100 测光。"
+          : "请填写手机光圈；相机暂未提供有效快门与 ISO，先显示相对亮度。"
+        : automatic
+          ? "相机暂未提供有效快门与 ISO，先显示相对亮度；不会沿用上次参数。"
+          : p.mode === "fixed"
+            ? "此模式仅接受浏览器确认已固定的曝光。可切回自动读取，直接使用相机报告的快门与 ISO。"
+            : p.mode === "reference"
+              ? finite(sceneBase(settings).value)
+                ? "已使用当前已知 EV 标定。改变相机采集曝光后需重新标定。"
+                : "请实际固定相机曝光，确认后设置已知 EV 标定。"
+              : "请填写并确认固定采集参数；参数须与相机实际曝光一致。";
+}
 function captureProfileFromInputs() {
-  Object.assign(state.profile, {
-    mode: $("capture-mode").value,
-    aperture: Number($("capture-aperture").value),
-    iso: Number($("capture-iso").value),
-    seconds: parseTime($("capture-time").value),
-    confirmed: $("capture-confirmed").checked,
-  });
+  state.profile.mode = $("capture-mode").value;
+  state.profile.aperture = Number($("capture-aperture").value);
+  if (state.profile.mode !== "auto")
+    Object.assign(state.profile, {
+      iso: Number($("capture-iso").value),
+      seconds: parseTime($("capture-time").value),
+      confirmed: $("capture-confirmed").checked,
+    });
   if (!finite(state.profile.seconds)) state.profile.seconds = null;
+  refreshCaptureControls();
   persist();
   processImage();
 }
@@ -894,10 +938,7 @@ camera.addEventListener("settings", (event) => {
     null,
     2,
   );
-  const capture = captureExposure(event.detail, state.profile);
-  $("capture-info").textContent = capture
-    ? `${capture.source} · f/${capture.a} · ${timeLabel(capture.t)} · ISO ${number(capture.iso)}。相机参数每秒刷新两次，可能滞后于画面。`
-    : "采集参数不完整或尚未固定曝光。实时图像可用，绝对 EV 需要可靠曝光参数或已知 EV 标定。";
+  refreshCaptureControls(event.detail);
 });
 camera.addEventListener("frame", (event) => {
   if (state.frozen) return;
@@ -1363,6 +1404,7 @@ function bindEvents() {
     $("welcome").hidden = false;
     drawSpots();
     refresh();
+    refreshCaptureControls();
   });
   $("format").addEventListener("change", (event) => {
     if (state.frozen) toggleFreeze();
@@ -1414,8 +1456,17 @@ function bindEvents() {
     processImage();
     toast("已选用自定义画幅");
   });
+  $("capture-mode").addEventListener("change", () => {
+    state.profile.mode = $("capture-mode").value;
+    $("settings").classList.toggle(
+      "capture-reference",
+      state.profile.mode === "reference",
+    );
+    refreshCaptureControls(camera.settings, true);
+    persist();
+    processImage();
+  });
   for (const id of [
-    "capture-mode",
     "capture-aperture",
     "capture-iso",
     "capture-time",
@@ -1438,7 +1489,7 @@ function bindEvents() {
     try {
       const actual = await camera.fixedExposure(p.seconds, p.iso);
       Object.assign(p, {
-        mode: "auto",
+        mode: "fixed",
         iso: actual.iso,
         seconds: actual.seconds,
         confirmed: true,

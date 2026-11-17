@@ -178,36 +178,37 @@ export function parseTime(value) {
     : NaN;
 }
 
+// Media Capture exposureTime is measured in 100 µs units, including fractional units.
+// https://w3c.github.io/mediacapture-image/#dfn-exposure-time
+export function trackExposure(settings) {
+  const t = Number(settings.exposureTime) / 10000;
+  const iso = Number(settings.iso);
+  return Number.isFinite(t) && t > 0 && Number.isFinite(iso) && iso > 0
+    ? { t, iso }
+    : null;
+}
+
 export function captureExposure(settings, profile) {
   const a = Number(profile.aperture);
   if (!(a >= 0.5 && a <= 64)) return null;
+  const mode = profile.mode || "auto";
+  const reported = trackExposure(settings);
   if (
-    profile.mode === "auto" &&
-    settings.exposureMode === "manual" &&
-    settings.exposureTime > 0 &&
-    settings.iso > 0
+    reported &&
+    (["auto", "reported"].includes(mode) ||
+      (mode === "fixed" && settings.exposureMode === "manual"))
   ) {
     return {
       a,
-      t: settings.exposureTime / 10000,
-      iso: settings.iso,
-      source: "固定参数 · 预览估测",
+      ...reported,
+      source:
+        settings.exposureMode === "manual"
+          ? "固定参数 · 预览估测"
+          : "浏览器 AE 参数估测 · 可能滞后",
     };
   }
   if (
-    profile.mode === "reported" &&
-    settings.exposureTime > 0 &&
-    settings.iso > 0
-  ) {
-    return {
-      a,
-      t: settings.exposureTime / 10000,
-      iso: settings.iso,
-      source: "浏览器 AE 参数估测 · 可能滞后",
-    };
-  }
-  if (
-    profile.mode === "manual" &&
+    mode === "manual" &&
     profile.confirmed &&
     profile.seconds > 0 &&
     profile.iso > 0 &&

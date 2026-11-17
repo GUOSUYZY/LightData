@@ -1,6 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { captureExposure, parseTime, referenceSignature } from "./camera.js";
+import {
+  captureExposure,
+  parseTime,
+  referenceSignature,
+  trackExposure,
+} from "./camera.js";
 import { exposureEV } from "./core.js";
 
 test("time input accepts seconds and fractions, rejects invalid denominators", () => {
@@ -10,19 +15,70 @@ test("time input accepts seconds and fractions, rejects invalid denominators", (
     assert.ok(Number.isNaN(parseTime(value)));
 });
 
-test("unknown AE remains relative and explicit browser AE choice follows changing settings", () => {
+test("default automatic metering consumes continuous AE and follows shutter and ISO changes", () => {
   const settings = { exposureMode: "continuous", exposureTime: 100, iso: 100 };
   const profile = { mode: "auto", aperture: 2 };
-  assert.equal(captureExposure(settings, profile), null);
-  assert.equal(captureExposure({}, { ...profile, mode: "reported" }), null);
-  const first = captureExposure(settings, { ...profile, mode: "reported" });
-  const second = captureExposure(
-    { ...settings, exposureTime: 200 },
-    { ...profile, mode: "reported" },
-  );
+  assert.equal(captureExposure({}, profile), null);
+  const first = captureExposure(settings, profile);
+  const second = captureExposure({ ...settings, exposureTime: 200 }, profile);
   assert.equal(first.t, 0.01);
   assert.ok(Math.abs(exposureEV(first) - exposureEV(second) - 1) < 1e-12);
+  const higherISO = captureExposure({ ...settings, iso: 200 }, profile);
+  assert.ok(Math.abs(exposureEV(first) - exposureEV(higherISO) - 1) < 1e-12);
+  assert.deepEqual(
+    captureExposure(settings, { ...profile, mode: "reported" }),
+    first,
+  );
+  assert.equal(captureExposure(settings, { ...profile, mode: "fixed" }), null);
+  assert.deepEqual(
+    captureExposure(
+      { ...settings, exposureMode: "manual" },
+      { ...profile, mode: "fixed" },
+    ),
+    { ...first, source: "固定参数 · 预览估测" },
+  );
   assert.equal(captureExposure(settings, { mode: "reported" }), null);
+});
+
+test("phone screenshot metadata uses fractional 100 microsecond units and acquisition ISO", () => {
+  const settings = {
+    exposureMode: "continuous",
+    exposureTime: 299.94234,
+    iso: 250,
+  };
+  const profile = {
+    mode: "auto",
+    aperture: 2.3,
+    seconds: 1 / 1000,
+    iso: 100,
+    confirmed: false,
+  };
+  const capture = captureExposure(settings, profile);
+  assert.ok(Math.abs(capture.t - 0.029994234) < 1e-12);
+  assert.equal(capture.iso, 250);
+  assert.equal(capture.a, 2.3);
+  assert.match(capture.source, /AE/);
+  assert.ok(
+    Math.abs(
+      exposureEV(capture) - Math.log2(((2.3 ** 2 / 0.029994234) * 100) / 250),
+    ) < 1e-12,
+  );
+});
+
+test("missing or nonfinite camera parameters cannot reuse stale manual inputs", () => {
+  const profile = { mode: "auto", aperture: 2.3, seconds: 1 / 125, iso: 100 };
+  for (const settings of [
+    {},
+    { exposureTime: 100 },
+    { iso: 250 },
+    ...[0, -1, NaN, Infinity, undefined].flatMap((value) => [
+      { exposureTime: value, iso: 250 },
+      { exposureTime: 100, iso: value },
+    ]),
+  ]) {
+    assert.equal(trackExposure(settings), null);
+    assert.equal(captureExposure(settings, profile), null);
+  }
 });
 
 test("fixed metadata and confirmed manual camera exposure use acquisition ISO", () => {
