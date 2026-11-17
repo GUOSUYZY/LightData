@@ -14,6 +14,37 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class PreviewRateTest {
+    @Test fun wideTargetStartsSettleCaptureAndShowsPartialCoverage() {
+        val inst = InstrumentationRegistry.getInstrumentation()
+        inst.uiAutomation.grantRuntimePermission(inst.targetContext.packageName,Manifest.permission.CAMERA)
+        ActivityScenario.launch(MainActivity::class.java).use { run ->
+            fun awaitState(predicate: (MainActivity) -> Boolean) {
+                val deadline = SystemClock.elapsedRealtime()+10000
+                do {
+                    var ready = false
+                    run.onActivity { ready = predicate(it) }
+                    if (ready) return
+                    Thread.sleep(80)
+                } while (SystemClock.elapsedRealtime()<deadline)
+                fail("Camera did not reach expected scan state")
+            }
+            awaitState { it.sample != null }
+            run.onActivity { it.focal = 8.0; it.selectCamera() }
+            awaitState { it.sample?.missing == true }
+            run.onActivity { it.toggleScan() }
+            awaitState { (it.sample?.scan?.captures ?: 0) > 0 }
+            run.onActivity { a ->
+                val scan = a.sample!!.scan!!
+                assertTrue(scan.coverage > 0 && scan.coverage < 1)
+                assertTrue(scan.tiles.any { it > 0 })
+                assertTrue(scan.tiles.any { it < 1 })
+                assertNotNull(scan.next)
+                a.toggleScan()
+                assertFalse(a.scanActive)
+            }
+        }
+    }
+
     @Test fun realCameraDrawsNewFramesAcrossPreviewModesAndStopsOnFreeze() {
         val inst=InstrumentationRegistry.getInstrumentation()
         val app=inst.targetContext

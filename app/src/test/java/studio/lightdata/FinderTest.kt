@@ -53,17 +53,26 @@ class FinderTest {
         assertArrayEquals(displayAxes(id, 2), displayAxes(landscape, 1), 0f)
     }
 
+    private var clock = 1000L
+    private fun ScanSession.tick(frame: Frame, field: Field, sensor: FloatArray?): Frame {
+        clock += 100
+        return capture(field,sensor,clock) { frame }
+    }
+    private fun ScanSession.settle(frame: Frame, field: Field, sensor: FloatArray?) {
+        repeat(5) { tick(frame,field,sensor) }
+    }
+
     @Test
     fun overlappingFramesContinueTheScanWithoutAnyRotationSensor() {
         val initial = render(field, 0.0)
         val session = ScanSession(initial, target, null, defaultResponse)
-        session.capture(initial, field, null)
+        session.settle(initial, field, null)
         val center = session.guide(0)
         assertEquals(1, center.captures)
         assertNotNull(center.next)
         // Each exposure overlaps the previous one. No shutter or sensor event is required.
         val angles = (1..12).map { it * 0.04 } + (11 downTo -12).map { it * 0.04 }
-        for (angle in angles) session.capture(render(field, angle), field, null)
+        for (angle in angles) session.settle(render(field, angle), field, null)
         val result = session.guide(0)
         assertTrue("captures " + result.captures, result.captures > 3)
         assertEquals(1.0, result.coverage, 0.0)
@@ -74,9 +83,9 @@ class FinderTest {
     fun texturelessFrameRequestsOverlapAndDoesNotEraseAcquiredCoverage() {
         val initial = render(field, 0.0)
         val session = ScanSession(initial, target, null, defaultResponse)
-        session.capture(initial, field, null)
+        session.settle(initial, field, null)
         val before = session.guide(0)
-        session.capture(
+        session.settle(
             initial.copy(pixels = IntArray(initial.pixels.size) { gray(62) }),
             field,
             null,
@@ -85,7 +94,7 @@ class FinderTest {
         assertTrue(after.needsOverlap)
         assertEquals(before.coverage, after.coverage, 0.0)
         assertEquals(before.next!!.turned(90), after.next)
-        session.capture(render(field, 0.045), field, null)
+        session.settle(render(field, 0.045), field, null)
         assertFalse(session.guide(0).needsOverlap)
     }
 
@@ -93,13 +102,13 @@ class FinderTest {
     fun movingForegroundOnStationaryTripodDoesNotExpandTheAtlas() {
         val initial = render(field, 0.0)
         val session = ScanSession(initial, target, id, defaultResponse)
-        session.capture(initial, field, id)
+        session.settle(initial, field, id)
         val before = session.guide(0)
         for (t in 1..8) {
             val rgb = initial.pixels.copyOf()
             for (y in 0 until initial.h/3) for (x in 0 until initial.w/3)
                 rgb[y*initial.w+x] = gray(if ((x/3 + y/3+t)%2 == 1) 255 else 0)
-            session.capture(initial.copy(pixels = rgb),field,id)
+            session.settle(initial.copy(pixels = rgb),field,id)
         }
         val after = session.guide(0)
         assertEquals(before.coverage,after.coverage,0.0)
@@ -110,27 +119,27 @@ class FinderTest {
     fun resumedSensorWithNewWorldReferenceKeepsRegisteredCoverage() {
         val first = render(field, 0.0)
         val session = ScanSession(first, target, id, defaultResponse)
-        session.capture(first,field,id)
+        session.settle(first,field,id)
         val last = render(field,.16)
-        session.capture(last,field,yaw(.16))
+        session.settle(last,field,yaw(.16))
         val before = session.guide(0)
         session.resumeTracking()
-        session.capture(last,field,yaw(2.0))
+        session.settle(last,field,yaw(2.0))
         val after = session.guide(0)
         assertEquals(before.coverage, after.coverage,0.0)
         assertEquals(before.aim, after.aim)
         assertEquals(before.captures, after.captures)
-        session.capture(render(field,.30),field,yaw(2.14))
+        session.settle(render(field,.30),field,yaw(2.14))
         assertTrue(session.guide(0).coverage > before.coverage)
     }
 
     @Test
-    fun stalePoseAndDisplayRotationPreserveTheSameScan() {
+    fun rotationAndDisplayRotationPreserveTheSameScan() {
         val initial = render(field, 0.0)
         val session = ScanSession(initial, target, id, defaultResponse)
-        session.capture(initial, field, id)
+        session.settle(initial, field, id)
         val first = session.guide(0)
-        for (i in 1..6) session.capture(render(field, i * 0.04), field, id)
+        for (i in 1..6) session.settle(render(field, i * 0.04), field, yaw(i * 0.04))
         val upright = session.guide(0)
         val rotated = session.guide(90)
         assertTrue(upright.captures > first.captures)
@@ -217,14 +226,36 @@ class FinderTest {
                 }
             assertTrue("Mean residual " + differences.average(), differences.average() < 4.0)
         }
-        // Beyond the safety margin the crop settles at the last fully acquired orientation.
         val far = m.view(yaw(0.7))
         val farther = m.view(yaw(1.2))
-        assertFalse(far.pixels.any { it == 0 })
-        assertEquals(
-            luma(far.sample(0.8, 0.4)).toDouble(),
-            luma(farther.sample(0.8, 0.4)).toDouble(),
-            1.0,
-        )
+        assertTrue(far.pixels.any { it == 0 } && far.pixels.any { it != 0 })
+        assertTrue(farther.pixels.count { it == 0 } > far.pixels.count { it == 0 })
+        assertTrue(m.view(yaw(Math.PI)).pixels.all { it == 0 })
+        assertTrue(m.homeDirection(yaw(1.2))!!.x > 0)
+        assertTrue(m.homeDirection(yaw(-1.2))!!.x < 0)
+        assertNull(m.homeDirection(id))
+    }
+
+    @Test fun movingCameraUpdatesAimWithoutDecodingOrWritingUntilSettled() {
+        val first = render(field,0.0)
+        val session = ScanSession(first,target,id,defaultResponse)
+        session.settle(first,field,id)
+        val center = session.guide(0)
+        for (i in 1..8) {
+            clock += 70
+            session.capture(field,yaw(i*.04),clock) { error("decoded a moving frame") }
+        }
+        val moving = session.guide(0)
+        assertNotEquals(center.aim,moving.aim)
+        assertEquals(center.coverage,moving.coverage,0.0)
+        val next = render(field,.32)
+        session.settle(next,field,yaw(.32))
+        val parked = session.guide(0)
+        assertEquals(center.captures+1,parked.captures)
+        assertTrue(parked.coverage>center.coverage)
+        repeat(8) {
+            clock += 100
+            session.capture(field,yaw(.32),clock) { error("duplicate stationary exposure") }
+        }
     }
 }

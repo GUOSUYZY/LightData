@@ -31,6 +31,9 @@ class LiveCapture(val image: Rig.Packet, val ev: Double, val id: String, val tim
         else floor((u-.5)*gateWidth + uprightWidth*.5).toInt()
     private fun yAt(v: Double) = if (covered) (uprightHeight-height)/2 + floor(v*height).toInt()
         else floor((v-.5)*gateHeight + uprightHeight*.5).toInt()
+    fun trackingImage() = TrackingImage(uprightWidth,uprightHeight) { u,v ->
+        pixel((u*uprightWidth).toInt(),(v*uprightHeight).toInt())
+    }
     fun signature() = IntArray(96) { i ->
         luma(pixel(xAt((i%12+.5)/12),yAt((i/12+.5)/8)))
     }

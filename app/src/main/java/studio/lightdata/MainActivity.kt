@@ -329,6 +329,10 @@ class MainActivity : ComponentActivity() {
         } else message = ""
     }
 
+    private var lastScanView: Frame? = null
+    private var lastScanTurn = 0
+    private var lastScanMeasurement: Measurement? = null
+
     private fun process(packet: Rig.Packet, ev: Double, timestamp: Long, l: Lens) {
         val token = epoch
         if (frozen || l.id != current?.id) return
@@ -343,19 +347,30 @@ class MainActivity : ComponentActivity() {
         val now = android.os.SystemClock.elapsedRealtime()
         val displayTurn = Math.floorMod(scanRotation - rot, 4) * 90
         val scan = request?.let {
-            val frame = upright(packet.frame(ev,l.id,timestamp),turn)
+            val frame by lazy(LazyThreadSafetyMode.NONE) { upright(packet.frame(ev,l.id,timestamp),turn) }
             val axes = pose.axes(scanRotation, timestamp)
             val session = it.session ?: ScanSession(frame, goal, axes, response).also { s -> it.session = s }
             if (it.reanchor) { session.resumeTracking(); it.reanchor = false }
-            upright(session.capture(frame, src, axes), displayTurn) to session.guide(displayTurn)
+            session.capture(src, axes, if (timestamp > 0) timestamp / 1_000_000 else now, live::trackingImage) { frame } to session.guide(displayTurn)
         }
         fun measure(): Measurement {
             val full = live.fullFrame()
             return Measurement(token,turn,full,full.distribution())
         }
         val measurement = if (scan != null) {
-            Measurement(token,turn,scan.first,scan.first.distribution())
+            val cached = lastScanMeasurement
+            if (cached != null && lastScanView === scan.first && lastScanTurn == displayTurn) cached
+            else {
+                val displayed = upright(scan.first,displayTurn)
+                Measurement(token,turn,displayed,displayed.distribution()).also {
+                    lastScanView = scan.first
+                    lastScanTurn = displayTurn
+                    lastScanMeasurement = it
+                }
+            }
         } else {
+            lastScanMeasurement = null
+            lastScanView = null
             val cached = lastMeasure?.takeIf { it.epoch == token && it.turn == turn &&
                 it.frame.id == l.id && it.frame.w == live.width && it.frame.h == live.height &&
                 it.frame.encoding == packet.encoding }

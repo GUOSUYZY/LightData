@@ -165,7 +165,7 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
                     }
                     void main(){
                         vec4 src=live!=0 ? cameraPixel() : texture2D(frame,uv).bgra;
-                        if(src.a<0.5){gl_FragColor=vec4(.06,.06,.06,1.);return;}
+                        if(src.a<0.5){gl_FragColor=vec4(0.,0.,0.,1.);return;}
                         vec3 rgb=src.rgb;
                         const vec3 weights=vec3(.2126,.7152,.0722);
                         float y=dot(decodeRGB(rgb),weights);

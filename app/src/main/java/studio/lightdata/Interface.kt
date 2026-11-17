@@ -283,7 +283,7 @@ private fun Finder(a: MainActivity) {
                 when {
                     a.frozen -> "● HOLD"
                     s?.scan?.coverage == 1.0 -> "● 拼接构图"
-                    a.scanActive -> "● 自动采集"
+                    a.scanActive -> "● 停稳采集"
                     s?.missing == true -> "○ 待确认中心"
                     f == null -> "○ WAIT"
                     else -> "● LIVE"
@@ -351,16 +351,39 @@ private fun Finder(a: MainActivity) {
                             drawLine(edge, Offset(x, y), Offset(if (x == 0f) k else w - k, y), 3f)
                             drawLine(edge, Offset(x, y), Offset(x, if (y == 0f) k else h - k), 3f)
                         }
-                        val guide = s.scan?.takeIf { a.scanActive && it.coverage < 1 }
-                        val aim = guide?.aim?.let {
-                            Offset(it.x.toFloat().coerceIn(.02f,.98f)*w, it.y.toFloat().coerceIn(.02f,.98f)*h)
-                        } ?: center
-                        drawLine(edge, aim - Offset(8.dp.toPx(), 0f), aim + Offset(8.dp.toPx(), 0f), 2f)
-                        drawLine(edge, aim - Offset(0f, 8.dp.toPx()), aim + Offset(0f, 8.dp.toPx()), 2f)
-                        guide?.next?.let {
-                            val to = Offset(it.x.toFloat()*w, it.y.toFloat()*h)
-                            drawLine(amber.copy(alpha=.65f), aim, to, 1.dp.toPx())
-                            drawCircle(amber, 6.dp.toPx(), to, style=Stroke(2.dp.toPx()))
+                        val guide = s.scan?.takeIf { a.scanActive && !a.frozen }
+                        drawLine(edge, center - Offset(k,0f), center + Offset(k,0f), 2f)
+                        drawLine(edge, center - Offset(0f,k), center + Offset(0f,k), 2f)
+                        guide?.homeDirection?.let {
+                            val dir = Offset(it.x.toFloat(),it.y.toFloat())
+                            val tip = center + dir * (k*3)
+                            val base = tip - dir*k
+                            val side = Offset(-dir.y,dir.x) * (k*.55f)
+                            drawLine(amber,center + dir*k,tip,3.dp.toPx())
+                            drawLine(amber,tip,base + side,3.dp.toPx())
+                            drawLine(amber,tip,base - side,3.dp.toPx())
+                        }
+                        if (guide != null) {
+                            val rotated = guide.mapTurn % 180 != 0
+                            val cols = if (rotated) GRID_HEIGHT else GRID_WIDTH
+                            val rows = if (rotated) GRID_WIDTH else GRID_HEIGHT
+                            val cell = min(8.dp.toPx(),min(w*.32f/cols,h*.25f/rows))
+                            val origin = Offset(6.dp.toPx(),6.dp.toPx())
+                            val map = Size(cell*cols,cell*rows)
+                            fun at(p: FinderPoint) = origin + Offset(
+                                p.x.toFloat().coerceIn(0f,1f)*map.width,
+                                p.y.toFloat().coerceIn(0f,1f)*map.height)
+                            drawRect(Color.Black.copy(alpha=.85f),origin,map)
+                            for (i in guide.tiles.indices) {
+                                val pos = FinderPoint((i%GRID_WIDTH+.5)/GRID_WIDTH,
+                                    (i/GRID_WIDTH+.5)/GRID_HEIGHT).turned(guide.mapTurn)
+                                drawRect(lerp(Color.DarkGray,green,guide.tiles[i].toFloat()),
+                                    at(pos)-Offset(cell*.44f,cell*.44f),Size(cell*.88f,cell*.88f))
+                            }
+                            guide.next?.let { drawCircle(amber,cell*.56f,at(it),style=Stroke(1.5.dp.toPx())) }
+                            val pos = at(guide.aim)
+                            drawLine(Color.White,pos-Offset(cell,0f),pos+Offset(cell,0f),2f)
+                            drawLine(Color.White,pos-Offset(0f,cell),pos+Offset(0f,cell),2f)
                         }
                         for (pt in a.spots) {
                             val at = Offset((pt.x * w).toFloat(), (pt.y * h).toFloat())
@@ -407,9 +430,11 @@ private fun Finder(a: MainActivity) {
                     when {
                         !a.scanActive -> "目标超出镜头视角，请对准画面中心"
                         guide == null -> "正在采集中心画面"
+                        guide.homeDirection != null && guide.coverage >= 1 -> "按箭头转回拼接中心"
                         guide.needsOverlap -> "请移回已拍区域，保留重叠"
                         guide.coverage >= 1 -> "已完成 · 转动设备二次构图"
-                        else -> "向黄圈缓慢转动 · 自动采集"
+                        guide.settling -> "停稳后自动采集"
+                        else -> "将白十字移向图中黄圈，再停稳"
                     },
                     11, muted, Modifier.weight(1f),
                 )
