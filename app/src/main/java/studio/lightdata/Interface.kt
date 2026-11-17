@@ -271,7 +271,9 @@ private fun Finder(a: MainActivity) {
             Modifier.weight(1f).fillMaxWidth(),
             contentAlignment = Alignment.Center,
         ) {
-            if (f != null) {
+            if (!a.allowed || a.cameraRetry)
+                Action("启用相机 / 重试", true) { a.requestCamera() }
+            else if (f != null) {
                 val aspect = f.w.toFloat() / f.h
                 val fitted =
                     if (maxWidth / maxHeight > aspect) Modifier.fillMaxHeight().aspectRatio(aspect)
@@ -342,9 +344,7 @@ private fun Finder(a: MainActivity) {
                         }
                     }
                 }
-            } else if (!a.allowed || a.message.contains("重试"))
-                Action("启用相机 / 重试", true) { a.requestCamera() }
-            else Label("正在等待相机", 13, muted)
+            } else Label("正在等待相机", 13, muted)
         }
         if (a.frozen) {
             val summary =
@@ -587,11 +587,11 @@ private fun Meter(a: MainActivity) {
             MeterButton("单次", a.single, !a.frozen, Modifier.weight(1.5f)) { a.meterOnce() }
         }
         if (a.mode == "M") {
-            Label(if (a.sample == null) "— EV" else "曝光偏差  " + signed((a.held ?: a.reading ?: e.ev) - e.ev) + " EV",
+            Label(if (a.sample == null) "— EV" else "曝光偏差  " + signed((a.appliedReading ?: e.ev) - e.ev) + " EV",
                 12, amber, Modifier.padding(vertical = 4.dp), monoType = true)
         } else {
             val requested = a.compensationThirds / 3.0
-            val residual = (a.held ?: a.reading)?.let { it - e.ev - requested }
+            val residual = a.appliedReading?.let { it - e.ev - requested }
             ExposureCompensation(a.compensationThirds, residual, !a.frozen, a::adjustCompensation)
         }
         ExposureTable(a, e, Modifier.weight(2.25f))
@@ -673,7 +673,9 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
         val shown = pairs.subList(first, first + count)
         val corrections =
             remember(shown, a.film.name) { shown.map { reciprocity(a.film.name, it.t) } }
-        val showTimes = corrections.any { it.status == ReciprocityStatus.CORRECTED }
+        val showTimes = corrections.any {
+            it.status == ReciprocityStatus.CORRECTED || it.status == ReciprocityStatus.ESTIMATED
+        }
         val compact = maxHeight < 100.dp
         val size = if (maxWidth < 170.dp) 11 else if (maxWidth < 280.dp) 13 else 17
         Column(Modifier.fillMaxSize()) {
@@ -779,8 +781,10 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
                         if (showTimes) {
                             val actual = corrections[idx]
                             Label(
-                                if (actual.status == ReciprocityStatus.CORRECTED)
-                                    "→" + n(round(actual.exposureSeconds!! * 10) / 10) + "″"
+                                if (
+                                    actual.status == ReciprocityStatus.CORRECTED ||
+                                        actual.status == ReciprocityStatus.ESTIMATED
+                                ) "→" + n(round(actual.exposureSeconds!! * 10) / 10) + "″"
                                 else "·",
                                 if (compact) 9 else 11,
                                 amber,

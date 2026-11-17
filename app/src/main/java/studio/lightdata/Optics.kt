@@ -285,7 +285,7 @@ data class Frame(
 
     fun distribution(): IntArray {
         val hist = IntArray(256)
-        for (i in pixels.indices step 4) if (pixels[i] ushr 24 != 0) hist[luma(pixels[i])]++
+        for (pixel in pixels) if (pixel ushr 24 != 0) hist[luma(pixel)]++
         return hist
     }
 

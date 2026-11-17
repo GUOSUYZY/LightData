@@ -5,6 +5,7 @@ import kotlin.math.pow
 
 enum class ReciprocityStatus {
     CORRECTED,
+    ESTIMATED,
     UNCHANGED,
     UNPUBLISHED,
 }
@@ -144,14 +145,14 @@ fun reciprocity(filmName: String, meteredSeconds: Double): ReciprocityResult {
             "无需补偿",
             source,
         )
-    fun corrected(t: Double, extra: String = ""): ReciprocityResult {
+    fun corrected(t: Double, extra: String = "", estimated: Boolean = false): ReciprocityResult {
         if (!t.isFinite()) return unknown("超出可计算范围")
         val label = "%.1f".format(Locale.ROOT, t).removeSuffix(".0")
         return ReciprocityResult(
             meteredSeconds,
             t,
-            ReciprocityStatus.CORRECTED,
-            "补偿后 " + label + " 秒" + extra,
+            if (estimated) ReciprocityStatus.ESTIMATED else ReciprocityStatus.CORRECTED,
+            (if (estimated) "经验估算 " else "补偿后 ") + label + " 秒" + extra,
             source,
         )
     }
@@ -159,7 +160,8 @@ fun reciprocity(filmName: String, meteredSeconds: Double): ReciprocityResult {
     if (source == null) return unknown("无此预设的补偿资料")
     if (power != null) {
         if (meteredSeconds < .0001) return unknown("厂家未给出补偿值")
-        return if (meteredSeconds <= 1.0) normal() else corrected(meteredSeconds.pow(power))
+        return if (meteredSeconds <= 1.0) normal()
+        else corrected(meteredSeconds.pow(power), estimated = filmName == "Phoenix II")
     }
     if (filmName == "ACROS II") {
         if (meteredSeconds < 120.0) return normal()

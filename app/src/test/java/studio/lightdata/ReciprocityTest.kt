@@ -50,4 +50,13 @@ class ReciprocityTest {
             assertNull(reciprocity("HP5 PLUS", t).exposureSeconds)
         }
     }
+
+    @Test
+    fun phoenixLabelsBorrowedExponentAsEstimateInsteadOfManufacturerCorrection() {
+        val result = reciprocity("Phoenix II", 10.0)
+        assertEquals(ReciprocityStatus.ESTIMATED, result.status)
+        assertEquals(20.417, result.exposureSeconds!!, .05)
+        assertTrue(result.label.contains("估算"))
+        assertEquals(ReciprocityStatus.UNCHANGED, reciprocity("Phoenix II", 1.0).status)
+    }
 }

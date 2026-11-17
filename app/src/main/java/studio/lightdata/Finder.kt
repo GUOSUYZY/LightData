@@ -235,10 +235,10 @@ class Mosaic(
     }
 
     // Incoming code values are brought into the center frame's exposure. The inverse
-    // response is calibrated on luminance, so apply its gain to RGB without altering hue.
-    private fun gains(delta: Double): DoubleArray {
-        if (abs(delta) < .002) return DoubleArray(256) { 1.0 }
-        return DoubleArray(256) { y ->
+    // response is calibrated on luminance and supplies a target gray code for every input code.
+    private fun corrections(delta: Double): IntArray? {
+        if (abs(delta) < .002) return null
+        return IntArray(256) { y ->
             val desired = response[y] + delta
             var l = 0
             var r = 255
@@ -246,17 +246,32 @@ class Mosaic(
                 val m = (l + r) / 2
                 if (response[m] < desired) l = m + 1 else r = m
             }
-            val best = if (l > 0 && desired - response[l - 1] < response[l] - desired) l - 1 else l
-            best.toDouble() / max(1, y)
+            if (l > 0 && desired - response[l - 1] < response[l] - desired) l - 1 else l
         }
     }
 
-    private fun color(c: Int, gain: Double): Int {
-        if (gain == 1.0) return c
-        val r = ((c ushr 16 and 255) * gain).roundToInt().coerceIn(0, 255)
-        val g = ((c ushr 8 and 255) * gain).roundToInt().coerceIn(0, 255)
-        val b = ((c and 255) * gain).roundToInt().coerceIn(0, 255)
-        return (c and -0x1000000) or (r shl 16) or (g shl 8) or b
+    // Scale linear RGB, not encoded channel codes. If the requested target would clip a
+    // channel, retain chromaticity at the largest unclipped gain instead of distorting it.
+    private fun color(c: Int, target: Int): Int {
+        if (target == luma(c)) return c
+        val r = srgbToLinear((c ushr 16 and 255) / 255.0)
+        val g = srgbToLinear((c ushr 8 and 255) / 255.0)
+        val b = srgbToLinear((c and 255) / 255.0)
+        val luminance = .2126 * r + .7152 * g + .0722 * b
+        // A black pixel contains no chromaticity or detail to recover. Registration and
+        // atlas output use this same rule so they cannot disagree about its brightness.
+        if (luminance <= 0) return c
+        val desired = srgbToLinear(target / 255.0) / luminance
+        val limit = minOf(
+            if (r > 0) 1 / r else Double.POSITIVE_INFINITY,
+            if (g > 0) 1 / g else Double.POSITIVE_INFINITY,
+            if (b > 0) 1 / b else Double.POSITIVE_INFINITY,
+        )
+        val gain = min(desired, limit)
+        fun encoded(channel: Double) =
+            (255 * linearToSrgb((channel * gain).coerceIn(0.0, 1.0))).roundToInt().coerceIn(0, 255)
+        return (c and -0x1000000) or
+            (encoded(r) shl 16) or (encoded(g) shl 8) or encoded(b)
     }
 
     private class Projection(val r: DoubleArray, source: Field, val width: Int, val height: Int) {
@@ -274,7 +289,7 @@ class Mosaic(
 
     // Refine residual image translation in the overlap. Reject ambiguous texture and
     // small improvements; an inertial-only placement is preferable on a blank wall.
-    private fun register(f: Frame, p: Projection, gain: DoubleArray): Pair<Int, Int> {
+    private fun register(f: Frame, p: Projection, correction: IntArray?): Pair<Int, Int> {
         if (count == 0) return 0 to 0
         val radius = (min(f.w, f.h) / 25).coerceIn(4, 20)
         val locations = ArrayList<Int>()
@@ -296,12 +311,13 @@ class Mosaic(
             expected.add(value)
         }
         if (locations.size < 12) return 0 to 0
-        val normalized = IntArray(256) { (it * gain[it]).roundToInt().coerceIn(0, 255) }
         fun error(dx: Int, dy: Int): Double {
             val offset = dy * f.w + dx
             var loss = 0
             for (i in locations.indices) {
-                val observed = normalized[luma(f.pixels[locations[i] + offset])]
+                val source = f.pixels[locations[i] + offset]
+                val corrected = correction?.let { color(source, it[luma(source)]) } ?: source
+                val observed = luma(corrected)
                 loss += min(36, abs(observed - expected[i]))
             }
             return loss.toDouble() / locations.size + .05 * (abs(dx) + abs(dy))
@@ -329,8 +345,8 @@ class Mosaic(
     fun add(frame: Frame, source: Field, pose: FloatArray) {
         if (ready || frame.id != initial.id) return
         val p = Projection(relative(pose, center), source, frame.w, frame.h)
-        val gain = gains(frame.cameraEv - initial.cameraEv)
-        val (ox, oy) = register(frame, p, gain)
+        val correction = corrections(frame.cameraEv - initial.cameraEv)
+        val (ox, oy) = register(frame, p, correction)
         for (y in ys.indices) for (x in xs.indices) {
             val j = y * w + x
             if (atlas[j] != 0) continue
@@ -341,7 +357,7 @@ class Mosaic(
             if (u < 0 || v < 0 || u >= frame.w || v >= frame.h) continue
             val c = frame.pixels[v.toInt() * frame.w + u.toInt()]
             if (c ushr 24 == 0) continue
-            atlas[j] = color(c, gain[luma(c)])
+            atlas[j] = correction?.let { color(c, it[luma(c)]) } ?: c
             count++
             tileCount[tile(x, y)]++
         }

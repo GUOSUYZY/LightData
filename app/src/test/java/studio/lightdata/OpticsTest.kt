@@ -73,12 +73,28 @@ class OpticsTest {
     }
 
     @Test
+    fun histogramIncludesPeriodicHighlightsAndAllValidPixels() {
+        val pixels = IntArray(16) { i ->
+            if (i % 4 == 1) 0xffffffff.toInt() else 0xff757575.toInt()
+        }
+        val histogram = Frame(4, 4, pixels, 0.0, "test").distribution()
+        val reference = IntArray(256)
+        for (pixel in pixels) reference[luma(pixel)]++
+
+        assertArrayEquals(reference, histogram)
+        assertEquals(16, histogram.sum())
+        assertEquals(12, histogram[117])
+        assertEquals(4, histogram[255])
+        assertEquals(meter(reference, defaultResponse), meter(histogram, defaultResponse), 1e-12)
+    }
+
+    @Test
     fun frozenSpotAndHistogramShareCoordinates() {
         val gray = 0xff757575.toInt()
         val f = Frame(20, 20, IntArray(400) { if (it % 20 < 8) 0 else gray }, 12.0, "ultra")
         val h = f.distribution()
-        assertEquals(60, h.sum())
-        assertEquals(60, h[117])
+        assertEquals(240, h.sum())
+        assertEquals(240, h[117])
         assertEquals(12 + defaultResponse[117], f.spot(.5, .5, defaultResponse), 1e-8)
         assertEquals(defaultResponse[117], meter(h, defaultResponse), 1e-8)
         assertTrue(f.spot(.1, .5, defaultResponse).isNaN())

@@ -214,4 +214,33 @@ class FinderTest {
             1.0,
         )
     }
+
+    @Test
+    fun colorCompensationUsesLinearLightAndDefinesBlackAndClipping() {
+        val blue = 0xff000020.toInt()
+        val reference = Frame(4, 4, IntArray(16) { blue }, 0.0, "rear")
+        val exposed = reference.copy(cameraEv = 3.0)
+        val targetGray = (0..255).minBy {
+            abs(defaultResponse[it] - (defaultResponse[luma(blue)] + 3.0))
+        }
+        val compensated = Mosaic(Field(0.1, 0.1), id, reference)
+        compensated.add(exposed, Field(1.0, 1.0), id)
+        assertEquals(targetGray, luma(compensated.view(id).sample(.5, .5)))
+
+        val black = Mosaic(Field(0.1, 0.1), id, reference.copy(pixels = IntArray(16) { gray(0) }))
+        black.add(reference.copy(pixels = IntArray(16) { gray(0) }, cameraEv = 3.0), Field(1.0, 1.0), id)
+        assertEquals(0, black.view(id).sample(.5, .5) and 0xffffff)
+
+        val nearClip = reference.copy(pixels = IntArray(16) { 0xff800020.toInt() })
+        val clipped = Mosaic(Field(0.1, 0.1), id, nearClip)
+        clipped.add(nearClip.copy(cameraEv = 20.0), Field(1.0, 1.0), id)
+        val output = clipped.view(id).sample(.5, .5)
+        assertEquals(255, output ushr 16 and 255)
+        val expectedGain = 1 / srgbToLinear(128 / 255.0)
+        assertEquals(
+            expectedGain,
+            srgbToLinear((output and 255) / 255.0) / srgbToLinear(32 / 255.0),
+            expectedGain * .01, // Allow rounding to 8-bit channel codes near the clip boundary.
+        )
+    }
 }

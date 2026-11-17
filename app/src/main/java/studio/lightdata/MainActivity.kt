@@ -60,6 +60,8 @@ class MainActivity : ComponentActivity() {
     var message by mutableStateOf("")
     var runningCal by mutableStateOf(false)
     var allowed by mutableStateOf(false)
+    var cameraRetry by mutableStateOf(false)
+        private set
     private class ScanRequest(val rotation: Int) {
         // Owned by the camera thread. Cancelling replaces the request itself.
         var session: ScanSession? = null
@@ -83,10 +85,14 @@ class MainActivity : ComponentActivity() {
                 ?.takeIf { it.hist.any { bin -> bin > 0 } }
                 ?.let { it.frame.cameraEv + meter(it.hist, response) }
 
+    // A held value is meaningful only while its measurement session still exists.
+    val appliedReading
+        get() = if (sample == null) null else held ?: reading
+
     val exposure: Exposure
         get() {
             if (frozen) return frozenExposure ?: manual
-            return solve(mode, manual, held ?: reading ?: manual.ev, compensationThirds)
+            return solve(mode, manual, appliedReading ?: manual.ev, compensationThirds)
         }
 
     fun selectPair(pair: Exposure) {
@@ -105,7 +111,7 @@ class MainActivity : ComponentActivity() {
             if (it) start()
             else {
                 prefs.edit().putBoolean("denied", true).apply()
-                message = "需要相机权限才能取景"
+                invalidateCamera("需要相机权限才能取景")
             }
         }
 
@@ -131,6 +137,10 @@ class MainActivity : ComponentActivity() {
                         message = "已保存镜头 " + l.id + " 校准 · " + n(c.stops) + " EV"
                     }
                 },
+                { msg ->
+                    runOnUiThread { invalidateCamera(msg) }
+                },
+                { frozen },
             )
         focal = saved("focal", 35.0)
         cameraChoice = prefs.getString("camera", "自动")!!
@@ -163,8 +173,10 @@ class MainActivity : ComponentActivity() {
     }
 
     fun requestCamera() {
+        allowed = checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
         if (allowed) {
-            selectCamera(true)
+            cameraRetry = false
+            start() // Re-enumerate after a permission or camera-service failure.
             return
         }
         if (
@@ -187,15 +199,15 @@ class MainActivity : ComponentActivity() {
         active = true
         pose.start()
         if (allowed) start()
+        else invalidateCamera("需要相机权限才能取景")
     }
 
     override fun onPause() {
         active = false
-        epoch++
+        invalidateCamera(retry = false)
         pose.stop()
         rig.stop()
         scanRequest?.reanchor = true
-        runningCal = false
         super.onPause()
     }
 
@@ -204,13 +216,21 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
     }
 
+    fun invalidateCamera(msg: String? = null, retry: Boolean = true) {
+        epoch++
+        sample = null
+        runningCal = false
+        cameraRetry = retry
+        if (msg != null) message = msg
+    }
+
     private fun start() {
         if (!active) return
         runCatching {
                 lenses = cameras(this)
                 selectCamera(true, resumeScan = scanActive)
             }
-            .onFailure { message = "摄像头枚举失败：" + it.localizedMessage }
+            .onFailure { invalidateCamera("摄像头枚举失败：" + it.localizedMessage) }
     }
 
     fun target() = field(format.w, format.h, focal)
@@ -222,7 +242,7 @@ class MainActivity : ComponentActivity() {
                 ?: lenses.filter { it.view.covers(goal) }.minByOrNull { it.view.x }
                 ?: lenses.firstOrNull()
         if (next == null) {
-            message = "未找到可访问的后置摄像头"
+            invalidateCamera("未找到可访问的后置摄像头")
             return
         }
         if (resumeScan && next.id == current?.id) {
@@ -266,7 +286,7 @@ class MainActivity : ComponentActivity() {
         val hist = out.distribution()
         val result = Sample(out, hist, !src.covers(goal), scan?.second)
         runOnUiThread {
-            if (!active || token != epoch || frozen) return@runOnUiThread
+            if (!active || !allowed || token != epoch || frozen) return@runOnUiThread
             if (message.startsWith("正在连接")) {
                 message = ""
                 android.util.Log.i(
@@ -275,6 +295,7 @@ class MainActivity : ComponentActivity() {
                 )
             }
             sample = result
+            cameraRetry = false
             if (single && held == null) held = reading
             if (cal == null && !prefs.getBoolean("warned", false) && !isFinishing) {
                 prefs.edit().putBoolean("warned", true).apply()
@@ -290,6 +311,7 @@ class MainActivity : ComponentActivity() {
     fun cancelScan() {
         if (scanRequest != null) epoch++
         scanRequest = null
+        runningCal = false
     }
 
     fun toggleScan() {

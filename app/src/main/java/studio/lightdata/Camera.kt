@@ -71,6 +71,8 @@ class Rig(
     val onFrame: (Frame, Lens) -> Unit,
     val status: (String) -> Unit,
     val calibrated: (Lens, Calibration) -> Unit,
+    val failed: (String) -> Unit,
+    val frozen: () -> Boolean,
 ) {
     private val thread = HandlerThread("LightData camera").apply { start() }
     private val h = Handler(thread.looper)
@@ -177,7 +179,7 @@ class Rig(
                                 d.close()
                                 if (camera === d || gen == generation) {
                                     release()
-                                    status("摄像头已断开，请重试")
+                                    failed("摄像头已断开，请重试")
                                 }
                             }
 
@@ -185,14 +187,14 @@ class Rig(
                                 d.close()
                                 if (camera === d || gen == generation) {
                                     release()
-                                    status("摄像头不可用（" + e + "），请重试")
+                                    failed("摄像头不可用（" + e + "），请重试")
                                 }
                             }
                         },
                         h,
                     )
             } catch (e: Exception) {
-                status("无法打开镜头：" + e.localizedMessage)
+                failed("无法打开镜头：" + e.localizedMessage)
             }
         }
     }
@@ -282,7 +284,7 @@ class Rig(
                             if (raw != null) configure(false)
                             else {
                                 scan = null
-                                status("该镜头不支持此采集组合，请切换镜头")
+                                failed("该镜头不支持此采集组合，请切换镜头")
                             }
                         }
                     },
@@ -292,7 +294,7 @@ class Rig(
             if (withRaw) configure(false)
             else {
                 scan = null
-                status("无法配置镜头：" + e.localizedMessage)
+                failed("无法配置镜头：" + e.localizedMessage)
             }
         }
     }
@@ -407,7 +409,7 @@ class Rig(
             }
         } catch (e: Exception) {
             if (b != null) abort("曝光请求失败：" + e.localizedMessage)
-            else status("预览请求失败：" + e.localizedMessage)
+            else failed("预览请求失败：" + e.localizedMessage)
         }
     }
 
@@ -440,7 +442,9 @@ class Rig(
         val ev = Exposure(time / 1e9, a, iso * boost).ev
         val sensorTime = if (synced) ts else 0L
         if (b == null) {
-            if (processingPreview) return
+            // HOLD already has its measurement snapshot; avoid full-frame RGB conversion
+            // until live metering resumes. Camera metadata is still allowed to drain normally.
+            if (processingPreview || frozen()) return
             baseTime = time
             baseIso = iso
             val focal = meta[CaptureResult.LENS_FOCAL_LENGTH]?.toDouble()

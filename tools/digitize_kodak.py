@@ -20,6 +20,12 @@ def main():
     parser.add_argument("documents", type=Path)
     args = parser.parse_args()
     target = Path("app/src/main/resources/studio/lightdata")
+    spectral_conditions = {
+        "EKTAR 100": "1/25 s; E-4046/2010; Status M; density 0.2 above D-min; log reciprocal exposure erg/cm2",
+        "PORTRA 800": "1/200 s; E-4040/2016; Status M; density 0.2 above D-min; log reciprocal exposure erg/cm2",
+        "ULTRAMAX 400": "1/100 s; Status M; density 0.2 above D-min; log reciprocal exposure erg/cm2",
+        "PORTRA 160": "1/50 s; E-4051/2016; Status M; density 0.2 above D-min; log reciprocal exposure erg/cm2",
+    }
     # Explicit diagram coordinates verified against the PDF axes, pages are one-based.
     sources = [
         ("EKTAR 100","01d0bf56",5,(74.19,326.06,274.65,477.54),[27,28,29]),
@@ -39,7 +45,7 @@ def main():
                 log=3-(a[:,1]-y0)/(y1-y0)*4
                 for wavelength in range(math.ceil(nm[0]/5)*5,math.floor(nm[-1]/5)*5+1,5):
                     w.writerow([stock,id,page,channel,wavelength,round(float(np.interp(wavelength,nm,log)),5),
-                                "1/50 s; Status M; density 0.2 above D-min; log reciprocal exposure erg/cm2"])
+                                spectral_conditions[stock]])
     # The three R/G/B density traces share the same chart axes and gray reference.
     densities=[
         ("EKTAR 100","01d0bf56",5,(81.19,77.42,265.70,261.91),[11,12,13],-3,2,-.84),

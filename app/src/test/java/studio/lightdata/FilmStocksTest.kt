@@ -6,6 +6,28 @@ import org.junit.Test
 
 class FilmStocksTest {
     @Test
+    fun spectralConditionsRemainSpecificToEachManufacturerDocument() {
+        val expected = mapOf(
+            "EKTAR 100" to "1/25 s; E-4046/2010",
+            "PORTRA 160" to "1/50 s; E-4051/2016",
+            "PORTRA 800" to "1/200 s; E-4040/2016",
+            "ULTRAMAX 400" to "1/100 s; Status M",
+        )
+        val rows = checkNotNull(FilmRecord::class.java.getResourceAsStream("spectral.csv"))
+            .bufferedReader(Charsets.UTF_8).use { it.readLines().drop(1).map { row -> row.split(',') } }
+        val conditions = rows.groupBy { it[0] }.mapValues { (_, samples) ->
+            samples.map { it[6].substringBeforeLast("; density") }.distinct().single()
+        }
+
+        assertEquals(expected.keys, conditions.keys)
+        assertEquals(428, rows.size)
+        for ((stock, prefix) in expected) {
+            assertTrue("$stock has wrong capture conditions: ${conditions[stock]}",
+                conditions.getValue(stock).startsWith(prefix))
+        }
+    }
+
+    @Test
     fun eachSelectableStockHasASourceAndUsableDensityScale() {
         assertEquals(filmRecords.size, films.map { it.name }.distinct().size)
         assertTrue(filmRecords.size >= 100)

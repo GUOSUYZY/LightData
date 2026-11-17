@@ -121,4 +121,20 @@ class CalibrationTest {
         assertNull(estimateRawStops(clean.take(9)))
         assertNull(estimateRawStops(noisy(0.0)))
     }
+
+    @Test
+    fun rawRejectsRepeatedShutterTimesDespiteDarkAndSaturatedPixels() {
+        fun base(i: Int) = if (i < count / 2) .004 else
+            .004 * 2.0.pow(10.0 * (i - count / 2) / (count / 2.0))
+        val samples = DoubleArray(count) { i ->
+            (base(i) + if (i % 2 == 0) .0004 else -.0004).coerceIn(0.0, 1.0)
+        }
+        val repeat = DoubleArray(count) { i ->
+            (base(i) + if (i % 2 == 0) -.0004 else .0004).coerceIn(0.0, 1.0)
+        }
+        val repeated = List(6) { Bracket(.1, samples, repeat) }
+
+        assertNull("Identical actual shutter times provide no exposure-ratio evidence",
+            estimateRawStops(repeated))
+    }
 }

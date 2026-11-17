@@ -32,7 +32,22 @@ Android 单屏取景器与胶片测光表。最低支持 Android 9，使用 Came
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-应用包名为 `studio.lightdata`。调试包输出到 `app/build/outputs/apk/debug/app-debug.apk`。连接 Android 设备后运行 `.\gradlew.bat connectedDebugAndroidTest` 可验证逐镜头校准档案的写入、加载及隔离。
+应用包名为 `studio.lightdata.guosuyzy`，可与原作者的 `studio.lightdata` 安装共存。调试包输出到 `app/build/outputs/apk/debug/app-debug.apk`。连接 Android 设备后运行 `.\gradlew.bat connectedDebugAndroidTest` 可验证逐镜头校准档案的写入、加载及隔离。
+
+正式 Release 保留全部现有功能，关闭调试且不做代码或资源裁剪。签名密钥不得提交 Git：在项目根目录创建已被忽略的 `keystore.properties`，填写下面的本地配置，其中路径可使用正斜杠。
+
+```properties
+storeFile=C:/path/to/lightdata-release.jks
+storePassword=替换为密钥库密码
+keyPassword=替换为密钥密码
+keyAlias=lightdata
+```
+
+配置后运行 `.\gradlew.bat assembleRelease`，得到 `app/build/outputs/apk/release/app-release.apk`。未配置时会生成未签名 Release APK，不能当作正式签名包分发；请用 Android SDK Build Tools 的 `apksigner verify --verbose` 验证。后续升级安装必须保留同一个密钥库，丢失后无法以该签名继续覆盖升级。
+
+Phoenix II 的倒易律使用借用指数的经验估算，界面明确标为“估算”，不应视作厂家公式或补偿保证。其他型号的离散资料也不随快门档位插值；超出厂家给出的适用范围时保留“未公开”状态。
+
+`.github/workflows/android-ci.yml` 会在推送、PR 和手工触发时运行 JVM 单元测试、Android lint、Debug APK 构建及仪器测试源码编译。真机或模拟器上的仪器测试仍需通过 `connectedDebugAndroidTest` 单独执行，源码编译不能代替相机、GL 与实际测量验收。
 
 曝光密度数据已合并去重。彩色图的绿层或注明的三层均值用于亮度测光。额外分层数据覆盖 EKTAR 100、PORTRA 160、PORTRA 800，光谱感光度覆盖上述三款及 ULTRAMAX 400。光谱 CSV 保留 nm、log reciprocal exposure 和测量条件，密度 CSV 保留每层的相对中灰 EV 和密度。可通过 tools/digitize_kodak.py 从原手册重建这些数据。
 

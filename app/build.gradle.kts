@@ -1,17 +1,45 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application") version "9.2.1"
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.10"
 }
+val signingProperties = Properties().apply {
+    val source = rootProject.file("keystore.properties")
+    if (source.isFile) source.inputStream().use(::load)
+}
+
 android {
     namespace = "studio.lightdata"
     compileSdk = 37
     defaultConfig {
-        applicationId = "studio.lightdata"
+        // Keep the maintained package separate from the author's debug installation.
+        applicationId = "studio.lightdata.guosuyzy"
         minSdk = 28
         targetSdk = 35
-        versionCode = 4
-        versionName = "0.1.1-beta"
+        versionCode = 5
+        versionName = "0.2.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        create("release") {
+            if (signingProperties.containsKey("storeFile")) {
+                storeFile = rootProject.file(signingProperties.getProperty("storeFile"))
+                storePassword = signingProperties.getProperty("storePassword")
+                keyAlias = signingProperties.getProperty("keyAlias")
+                keyPassword = signingProperties.getProperty("keyPassword")
+            }
+        }
+    }
+    buildTypes {
+        release {
+            isDebuggable = false
+            isMinifyEnabled = false
+            isShrinkResources = false
+            if (signingProperties.containsKey("storeFile")) {
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
     }
     buildFeatures { compose = true }
 }
