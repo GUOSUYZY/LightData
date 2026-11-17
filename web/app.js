@@ -12,7 +12,6 @@ import {
   spot,
   equivalentExposures,
   loadFilms,
-  renderImage,
   timeLabel,
   reciprocity,
   CustomPresets,
@@ -32,6 +31,7 @@ import { Panorama, cropFrame, orientationMatrix } from "./panorama.js";
 import { sampleGrid, fitResponse } from "./calibration.js";
 import { LensSetup } from "./lens-setup.js";
 import { completeOptics, makeOptics, opticsField } from "./optics.js";
+import { FilmLutLibrary, createFilmLutRenderer } from "./film-lut.js";
 
 const $ = (id) => document.getElementById(id);
 const STORE = "lightdata.web.v1";
@@ -70,6 +70,9 @@ const state = {
   isoLocked: saved.isoLocked !== false,
   style: saved.style || "color",
   preview: saved.preview || false,
+  previewMode: saved.previewMode === "lut" ? "lut" : "luminance",
+  previewScale: [0.25, 0.5, 0.75, 1].includes(saved.previewScale) ? saved.previewScale : 0.5,
+  lutVariants: saved.lutVariants || {},
   log:
     saved.histogramSettingsVersion === HISTOGRAM_SETTINGS_VERSION
       ? (saved.log ?? true)
@@ -153,6 +156,10 @@ const lensSetup = new LensSetup({
   },
 });
 const viewContext = $("view").getContext("2d");
+const lutLibrary = new FilmLutLibrary();
+const viewRenderer = createFilmLutRenderer();
+let lutEntries = [], lutBytes = null, lutGeneration = 0, lutState = "idle";
+let stillFrame = false, frozenDisplay = null;
 const chartContext = $("chart").getContext("2d");
 let lastPairKey = "",
   lastWheelKey = "",
@@ -179,6 +186,9 @@ function persist() {
       "isoLocked",
       "style",
       "preview",
+      "previewMode",
+      "previewScale",
+      "lutVariants",
       "log",
       "devices",
       "lenses",
@@ -406,6 +416,7 @@ function chooseFilm(id) {
   state.isoLocked = true;
   editingPreset = state.presets.find((p) => p.id === id)?.id || null;
   fillPreset();
+  syncLut();
   persist();
   refreshSettings();
   refresh();
@@ -653,10 +664,78 @@ function fitView(image) {
   $("image-frame").style.height = h + "px";
   $("image-frame").style.display = "block";
 }
+function selectedLut() {
+  const file = state.lutVariants[state.filmId];
+  return lutEntries.find((entry) => entry.file === file) ||
+    lutEntries.find((entry) => entry.default && (!entry.iso || entry.iso === film()?.iso)) ||
+    lutEntries.find((entry) => entry.default) || lutEntries[0];
+}
+function updateLutControls() {
+  const enabled = state.previewMode === "lut";
+  const select = $("lut-variant");
+  $("preview-mode").value = state.previewMode;
+  $("preview-scale").value = String(state.previewScale);
+  $("lut-variant-row").hidden = !enabled || !lutEntries.length;
+  select.replaceChildren(...lutEntries.map((entry) => new Option(entry.description, entry.file)));
+  if (selectedLut()) select.value = selectedLut().file;
+  const info = $("lut-info");
+  info.hidden = !enabled;
+  $("lut-credit").hidden = !enabled;
+  info.textContent = ({
+    idle: "", loading: "正在载入胶片 LUT…",
+    error: "LUT 载入失败，当前使用亮度模拟。重新选择 LUT 可重试。",
+    missing: "此胶片没有可用的 LUT，当前使用亮度模拟。",
+    ready: selectedLut()?.kind === "derived" ? "手册派生模拟 · 亮度和曝光预警沿用当前胶片曲线。" : "Spektrafilm · 亮度和曝光预警沿用当前胶片曲线。",
+  }[lutState]);
+  if (lutState === "ready" && selectedLut()?.approximation)
+    info.textContent += " " + selectedLut().approximation;
+}
+async function syncLut() {
+  const generation = ++lutGeneration;
+  const stock = state.films.find(item => item.id === state.filmId)?.name;
+  lutEntries = [];
+  lutBytes = null;
+  lutState = "idle";
+  if (state.previewMode !== "lut" || !stock) {
+    if (state.previewMode === "lut") lutState = "missing";
+    updateLutControls();
+    return;
+  }
+  lutState = "loading";
+  updateLutControls();
+  try {
+    const entries = await lutLibrary.entries();
+    if (generation !== lutGeneration) return;
+    lutEntries = entries.filter((entry) => entry.film === stock);
+    const entry = selectedLut();
+    if (entry) {
+      const bytes = await lutLibrary.load(entry);
+      if (generation !== lutGeneration) return;
+      lutBytes = bytes;
+    }
+    lutState = entry ? "ready" : "missing";
+  } catch {
+    if (generation !== lutGeneration) return;
+    lutState = "error";
+  }
+  updateLutControls();
+  refresh();
+}
+function displayImage(scale, snapshot = false) {
+  if (state.pano) {
+    const offset = state.manualCrop ? state.offset : null;
+    return state.pano.view(state.pose, offset, state.pano.nativeViewEdge * scale).image;
+  }
+  const bounds = state.source ? target() : null;
+  const display = snapshot ? camera.capturePreview(state.source, bounds, scale)
+    : camera.previewCanvas(state.source, bounds, scale);
+  return display || state.image;
+}
 function drawView() {
   if (!state.image || !film()) return;
   const known = absolute();
-  const rendered = renderImage(state.image, {
+  const image = frozenDisplay || displayImage(stillFrame ? 1 : state.previewScale);
+  const rendered = viewRenderer.draw(viewContext, image, {
     film: film(),
     style: state.style,
     preview: state.preview && known,
@@ -665,15 +744,8 @@ function drawView() {
     targetEv: exposureEV(state.exposure || state.manual),
     response: response(),
     stripes: known,
+    lut: state.previewMode === "lut" ? lutBytes : null,
   });
-  const canvas = $("view");
-  canvas.width = rendered.width;
-  canvas.height = rendered.height;
-  viewContext.putImageData(
-    new ImageData(rendered.data, rendered.width, rendered.height),
-    0,
-    0,
-  );
   fitView(rendered);
 }
 function processImage() {
@@ -684,6 +756,7 @@ function processImage() {
     const result = state.pano.view(
       state.pose,
       state.manualCrop ? state.offset : null,
+      640,
     );
     state.image = result.image;
     state.cameraEV = result.cameraEV;
@@ -859,7 +932,9 @@ function refresh() {
     ? "冻结点测光"
     : state.preview
       ? absolute()
-        ? "胶片预览"
+        ? state.previewMode === "lut"
+          ? lutBytes ? "LUT 预览" : lutState === "loading" ? "正在载入 LUT" : "亮度模拟 · 无 LUT"
+          : "胶片预览"
         : "预览待标定"
       : "";
   $("histogram").classList.toggle("uncalibrated", !calibration());
@@ -938,6 +1013,7 @@ function refreshSettings() {
     : "首次使用每个镜头时填写视角和光圈，之后自动恢复。";
   $("target-orientation").value = state.orientation;
   $("log-counts").checked = state.log;
+  updateLutControls();
   if (film()) {
     renderFilmList();
     $("film-info").textContent =
@@ -1034,6 +1110,8 @@ async function startCamera({ throwErrors = false } = {}) {
   $("start-message").textContent = "正在请求相机权限…";
   calibrationToken++;
   state.frozen = false;
+  frozenDisplay = null;
+  stillFrame = false;
   state.frozenResponse = null;
   state.held = null;
   state.spots = [];
@@ -1108,6 +1186,7 @@ camera.addEventListener("settings", (event) => {
 camera.addEventListener("frame", (event) => {
   if (state.frozen) return;
   state.raw = event.detail.image;
+  stillFrame = event.detail.still;
   lastFrameTime = event.detail.time;
   if (state.scan && state.pano && !state.runningCalibration) {
     const result = state.pano.addFrame(
@@ -1140,6 +1219,16 @@ function toggleFreeze() {
   if (!state.image) {
     toast("请先开启相机");
     return;
+  }
+  if (!state.frozen) {
+    const latest = camera.captureAnalysis();
+    if (latest && !state.pano) {
+      state.raw = latest;
+      processImage();
+    }
+    frozenDisplay = displayImage(1, true);
+  } else {
+    frozenDisplay = null;
   }
   state.frozen = !state.frozen;
   if (state.frozen) {
@@ -1763,6 +1852,23 @@ function bindEvents() {
     persist();
     refresh();
   });
+  $("preview-mode").addEventListener("change", (event) => {
+    state.previewMode = event.target.value;
+    persist();
+    syncLut();
+    refresh();
+  });
+  $("lut-variant").addEventListener("change", (event) => {
+    state.lutVariants[state.filmId] = event.target.value;
+    persist();
+    syncLut();
+    refresh();
+  });
+  $("preview-scale").addEventListener("change", (event) => {
+    state.previewScale = Number(event.target.value);
+    persist();
+    drawView();
+  });
   $("spots-toggle").addEventListener("click", toggleFreeze);
   document.querySelectorAll("[data-mode]").forEach((b) =>
     b.addEventListener("click", () => {
@@ -2221,6 +2327,7 @@ async function initialize() {
         state.films.find((f) => f.name === "HP5 PLUS")?.id || state.films[0].id;
     if (state.isoLocked) state.manual.iso = film().iso;
     state.exposure = { ...state.manual };
+    syncLut();
     fillPreset();
     await lensReady;
     if (saved.histogramSettingsVersion !== HISTOGRAM_SETTINGS_VERSION)

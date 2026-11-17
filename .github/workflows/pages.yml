@@ -30,16 +30,19 @@ jobs:
           cache-dependency-path: web/package-lock.json
       - run: npm ci
         working-directory: web
-      - run: npm test
-        working-directory: web
       - run: npx playwright install --with-deps chromium
         working-directory: web
+      - run: npm test
+        working-directory: web
+        env:
+          LIGHTDATA_TEST_GL: '1'
       - run: npm run test:browser
         working-directory: web
       - name: Assemble static site
         run: |
           mkdir -p public/data
-          cp web/index.html web/style.css web/app.js web/core.js web/camera.js web/optics.js web/lens-setup.js web/panorama.js web/calibration.js web/icon.png public/
+          cp web/index.html web/style.css web/*.js web/icon.png public/
+          cp -r web/luts public/luts
           cp web/data/films.json web/data/cameras.json public/data/
           touch public/.nojekyll
       - uses: actions/configure-pages@v5

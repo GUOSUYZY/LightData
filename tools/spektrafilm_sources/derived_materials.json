@@ -1,0 +1,3775 @@
+{
+  "PORTRA 400": {
+    "document": "964171a9",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · Kodak E-4050 · 日光 / C-41 / Status M，绿层近似。"
+  },
+  "HP5 PLUS": {
+    "document": "7c84abb1",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 5 页 · 视觉密度 · ILFORD HP5 PLUS · ILFOTEC HC 1+31，20°C，6 分 30 秒。",
+    "monoSensitivity": {
+      "page": 1,
+      "scale": "log10 of normalized relative wedge height (approximation)",
+      "conditions": "2850 K tungsten wedge spectrogram. The ordinate is treated as a relative response index; its radiometric transfer and lamp correction are unspecified. Visible-RGB approximation only.",
+      "points": [
+        [
+          355,
+          -1.5119
+        ],
+        [
+          360,
+          -0.8886
+        ],
+        [
+          365,
+          -0.6794
+        ],
+        [
+          370,
+          -0.5388
+        ],
+        [
+          375,
+          -0.4255
+        ],
+        [
+          380,
+          -0.3446
+        ],
+        [
+          385,
+          -0.284
+        ],
+        [
+          390,
+          -0.2308
+        ],
+        [
+          395,
+          -0.1855
+        ],
+        [
+          400,
+          -0.1597
+        ],
+        [
+          405,
+          -0.1427
+        ],
+        [
+          410,
+          -0.1263
+        ],
+        [
+          415,
+          -0.1157
+        ],
+        [
+          420,
+          -0.107
+        ],
+        [
+          425,
+          -0.1003
+        ],
+        [
+          430,
+          -0.0936
+        ],
+        [
+          435,
+          -0.0886
+        ],
+        [
+          440,
+          -0.0837
+        ],
+        [
+          445,
+          -0.0789
+        ],
+        [
+          450,
+          -0.0773
+        ],
+        [
+          455,
+          -0.0757
+        ],
+        [
+          460,
+          -0.0757
+        ],
+        [
+          465,
+          -0.0757
+        ],
+        [
+          470,
+          -0.0757
+        ],
+        [
+          475,
+          -0.0789
+        ],
+        [
+          480,
+          -0.0805
+        ],
+        [
+          485,
+          -0.0837
+        ],
+        [
+          490,
+          -0.0903
+        ],
+        [
+          495,
+          -0.0952
+        ],
+        [
+          500,
+          -0.0986
+        ],
+        [
+          505,
+          -0.0986
+        ],
+        [
+          510,
+          -0.0936
+        ],
+        [
+          515,
+          -0.087
+        ],
+        [
+          520,
+          -0.0773
+        ],
+        [
+          525,
+          -0.0678
+        ],
+        [
+          530,
+          -0.0586
+        ],
+        [
+          535,
+          -0.048
+        ],
+        [
+          540,
+          -0.0377
+        ],
+        [
+          545,
+          -0.029
+        ],
+        [
+          550,
+          -0.0205
+        ],
+        [
+          555,
+          -0.0122
+        ],
+        [
+          560,
+          -0.0067
+        ],
+        [
+          565,
+          -0.0027
+        ],
+        [
+          570,
+          -0.0013
+        ],
+        [
+          575,
+          0.0
+        ],
+        [
+          580,
+          -0.0027
+        ],
+        [
+          585,
+          -0.0067
+        ],
+        [
+          590,
+          -0.0163
+        ],
+        [
+          595,
+          -0.0262
+        ],
+        [
+          600,
+          -0.0319
+        ],
+        [
+          605,
+          -0.0333
+        ],
+        [
+          610,
+          -0.0333
+        ],
+        [
+          615,
+          -0.0304
+        ],
+        [
+          620,
+          -0.0233
+        ],
+        [
+          625,
+          -0.0219
+        ],
+        [
+          630,
+          -0.0319
+        ],
+        [
+          635,
+          -0.102
+        ],
+        [
+          640,
+          -0.2286
+        ],
+        [
+          645,
+          -0.4327
+        ],
+        [
+          650,
+          -0.7125
+        ],
+        [
+          655,
+          -1.3358
+        ]
+      ]
+    }
+  },
+  "EKTACHROME E100": {
+    "document": "0e4950dd",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 3 页 · 绿层 · Kodak E-4000 · 日光 / E-6 / Status A，绿层近似。"
+  },
+  "ACROS II": {
+    "document": "dcc529f5",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 3 页 · 视觉密度 · 135 · Microfine，20°C，10 分钟；中灰参考 log H -0.9，边界按图示两端内缩 0.10 D。"
+  },
+  "APS star 200": {
+    "document": "91ad0a56",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 6 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "APS star 400": {
+    "document": "91ad0a56",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 7 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "APX 100": {
+    "document": "46f51895",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 2 页 · visual · Agfapan 原厂密度曲线；图中未指明显影液；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "monoSensitivity": {
+      "page": 2,
+      "scale": "log10 relative sensitivity",
+      "conditions": "Agfapan spectral sensitivity; lg sensitivity versus wavelength",
+      "points": [
+        [
+          385,
+          1.1928
+        ],
+        [
+          390,
+          1.1558
+        ],
+        [
+          395,
+          1.1101
+        ],
+        [
+          400,
+          1.0623
+        ],
+        [
+          405,
+          1.0171
+        ],
+        [
+          410,
+          0.9762
+        ],
+        [
+          415,
+          0.9393
+        ],
+        [
+          420,
+          0.9086
+        ],
+        [
+          425,
+          0.8862
+        ],
+        [
+          430,
+          0.8698
+        ],
+        [
+          435,
+          0.8564
+        ],
+        [
+          440,
+          0.8427
+        ],
+        [
+          445,
+          0.826
+        ],
+        [
+          450,
+          0.8035
+        ],
+        [
+          455,
+          0.7729
+        ],
+        [
+          460,
+          0.7379
+        ],
+        [
+          465,
+          0.6994
+        ],
+        [
+          470,
+          0.6572
+        ],
+        [
+          475,
+          0.61
+        ],
+        [
+          480,
+          0.5642
+        ],
+        [
+          485,
+          0.5237
+        ],
+        [
+          490,
+          0.4914
+        ],
+        [
+          495,
+          0.472
+        ],
+        [
+          500,
+          0.5123
+        ],
+        [
+          505,
+          0.5701
+        ],
+        [
+          510,
+          0.6202
+        ],
+        [
+          515,
+          0.6566
+        ],
+        [
+          520,
+          0.679
+        ],
+        [
+          525,
+          0.6854
+        ],
+        [
+          530,
+          0.6927
+        ],
+        [
+          535,
+          0.7269
+        ],
+        [
+          540,
+          0.7733
+        ],
+        [
+          545,
+          0.8249
+        ],
+        [
+          550,
+          0.88
+        ],
+        [
+          555,
+          0.9394
+        ],
+        [
+          560,
+          0.9984
+        ],
+        [
+          565,
+          1.0304
+        ],
+        [
+          570,
+          0.978
+        ],
+        [
+          575,
+          0.8474
+        ],
+        [
+          580,
+          0.7128
+        ],
+        [
+          585,
+          0.6187
+        ],
+        [
+          590,
+          0.5738
+        ],
+        [
+          595,
+          0.569
+        ],
+        [
+          600,
+          0.5782
+        ],
+        [
+          605,
+          0.5891
+        ],
+        [
+          610,
+          0.5885
+        ],
+        [
+          615,
+          0.5775
+        ],
+        [
+          620,
+          0.5598
+        ],
+        [
+          625,
+          0.5528
+        ],
+        [
+          630,
+          0.5406
+        ],
+        [
+          635,
+          0.5129
+        ],
+        [
+          640,
+          0.443
+        ],
+        [
+          645,
+          0.2509
+        ],
+        [
+          650,
+          -0.0897
+        ],
+        [
+          655,
+          -0.5484
+        ],
+        [
+          660,
+          -0.9075
+        ]
+      ]
+    }
+  },
+  "APX 25": {
+    "document": "74f4e2eb",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 2 页 · visual · Agfapan 原厂密度曲线；图中未指明显影液；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "monoSensitivity": {
+      "page": 2,
+      "scale": "log10 relative sensitivity",
+      "conditions": "Agfapan spectral sensitivity; lg sensitivity versus wavelength",
+      "points": [
+        [
+          385,
+          0.9661
+        ],
+        [
+          390,
+          0.8798
+        ],
+        [
+          395,
+          0.8041
+        ],
+        [
+          400,
+          0.7387
+        ],
+        [
+          405,
+          0.6844
+        ],
+        [
+          410,
+          0.6422
+        ],
+        [
+          415,
+          0.6135
+        ],
+        [
+          420,
+          0.5977
+        ],
+        [
+          425,
+          0.5775
+        ],
+        [
+          430,
+          0.5508
+        ],
+        [
+          435,
+          0.518
+        ],
+        [
+          440,
+          0.4796
+        ],
+        [
+          445,
+          0.4352
+        ],
+        [
+          450,
+          0.3843
+        ],
+        [
+          455,
+          0.3436
+        ],
+        [
+          460,
+          0.3142
+        ],
+        [
+          465,
+          0.2835
+        ],
+        [
+          470,
+          0.2422
+        ],
+        [
+          475,
+          0.1797
+        ],
+        [
+          480,
+          0.1041
+        ],
+        [
+          485,
+          0.0336
+        ],
+        [
+          490,
+          -0.0014
+        ],
+        [
+          495,
+          0.0211
+        ],
+        [
+          500,
+          0.062
+        ],
+        [
+          505,
+          0.1087
+        ],
+        [
+          510,
+          0.1597
+        ],
+        [
+          515,
+          0.2146
+        ],
+        [
+          520,
+          0.2743
+        ],
+        [
+          525,
+          0.3305
+        ],
+        [
+          530,
+          0.3574
+        ],
+        [
+          535,
+          0.3684
+        ],
+        [
+          540,
+          0.3763
+        ],
+        [
+          545,
+          0.3928
+        ],
+        [
+          550,
+          0.4297
+        ],
+        [
+          555,
+          0.5012
+        ],
+        [
+          560,
+          0.6122
+        ],
+        [
+          565,
+          0.7377
+        ],
+        [
+          570,
+          0.8222
+        ],
+        [
+          575,
+          0.8335
+        ],
+        [
+          580,
+          0.7517
+        ],
+        [
+          585,
+          0.6185
+        ],
+        [
+          590,
+          0.4926
+        ],
+        [
+          595,
+          0.4057
+        ],
+        [
+          600,
+          0.3655
+        ],
+        [
+          605,
+          0.3639
+        ],
+        [
+          610,
+          0.3762
+        ],
+        [
+          615,
+          0.3967
+        ],
+        [
+          620,
+          0.4168
+        ],
+        [
+          625,
+          0.4295
+        ],
+        [
+          630,
+          0.4178
+        ],
+        [
+          635,
+          0.3795
+        ],
+        [
+          640,
+          0.3197
+        ],
+        [
+          645,
+          0.2162
+        ],
+        [
+          650,
+          0.0263
+        ],
+        [
+          655,
+          -0.2325
+        ],
+        [
+          660,
+          -0.5707
+        ]
+      ]
+    }
+  },
+  "APX 400": {
+    "document": "84f93091",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 2 页 · visual · Agfapan 原厂密度曲线；图中未指明显影液；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "monoSensitivity": {
+      "page": 2,
+      "scale": "log10 relative sensitivity",
+      "conditions": "Agfapan spectral sensitivity; lg sensitivity versus wavelength",
+      "points": [
+        [
+          380,
+          1.6786
+        ],
+        [
+          385,
+          1.6398
+        ],
+        [
+          390,
+          1.5884
+        ],
+        [
+          395,
+          1.5269
+        ],
+        [
+          400,
+          1.4587
+        ],
+        [
+          405,
+          1.3878
+        ],
+        [
+          410,
+          1.3176
+        ],
+        [
+          415,
+          1.2485
+        ],
+        [
+          420,
+          1.1759
+        ],
+        [
+          425,
+          1.1131
+        ],
+        [
+          430,
+          1.0634
+        ],
+        [
+          435,
+          1.0233
+        ],
+        [
+          440,
+          0.9898
+        ],
+        [
+          445,
+          0.9609
+        ],
+        [
+          450,
+          0.9333
+        ],
+        [
+          455,
+          0.9033
+        ],
+        [
+          460,
+          0.8722
+        ],
+        [
+          465,
+          0.8416
+        ],
+        [
+          470,
+          0.8139
+        ],
+        [
+          475,
+          0.7924
+        ],
+        [
+          480,
+          0.7842
+        ],
+        [
+          485,
+          0.7926
+        ],
+        [
+          490,
+          0.8119
+        ],
+        [
+          495,
+          0.8385
+        ],
+        [
+          500,
+          0.8698
+        ],
+        [
+          505,
+          0.9035
+        ],
+        [
+          510,
+          0.9378
+        ],
+        [
+          515,
+          0.9712
+        ],
+        [
+          520,
+          1.0024
+        ],
+        [
+          525,
+          1.0302
+        ],
+        [
+          530,
+          1.0539
+        ],
+        [
+          535,
+          1.0727
+        ],
+        [
+          540,
+          1.0857
+        ],
+        [
+          545,
+          1.0924
+        ],
+        [
+          550,
+          1.093
+        ],
+        [
+          555,
+          1.0907
+        ],
+        [
+          560,
+          1.086
+        ],
+        [
+          565,
+          1.0783
+        ],
+        [
+          570,
+          1.0671
+        ],
+        [
+          575,
+          1.0519
+        ],
+        [
+          580,
+          1.033
+        ],
+        [
+          585,
+          1.0124
+        ],
+        [
+          590,
+          0.9936
+        ],
+        [
+          595,
+          0.9797
+        ],
+        [
+          600,
+          0.9727
+        ],
+        [
+          605,
+          0.9718
+        ],
+        [
+          610,
+          0.9654
+        ],
+        [
+          615,
+          0.9249
+        ],
+        [
+          620,
+          0.8361
+        ],
+        [
+          625,
+          0.7172
+        ],
+        [
+          630,
+          0.5797
+        ],
+        [
+          635,
+          0.4237
+        ],
+        [
+          640,
+          0.2487
+        ],
+        [
+          645,
+          0.0521
+        ],
+        [
+          650,
+          -0.2117
+        ],
+        [
+          655,
+          -0.5064
+        ],
+        [
+          660,
+          -0.7835
+        ],
+        [
+          665,
+          -0.993
+        ]
+      ]
+    }
+  },
+  "ASTIA 100": {
+    "document": "c3f8288a",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 7 页 · 绿层 · 日光，E-6，Status A 绿层；中灰参考 log H -0.48，边界按图示两端内缩 0.10 D。"
+  },
+  "ASTIA 100F": {
+    "document": "b78cf8fe",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 8 页 · 绿层 · 日光，E-6，Status A 绿层；中灰参考 log H -1.0，边界按图示两端内缩 0.10 D。"
+  },
+  "CTprecisa 100": {
+    "document": "91ad0a56",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 7 页 · RGB均值 · AP 44 / E-6；中灰参考D=1.0；界限取图内两端各收0.10D"
+  },
+  "CTprecisa 200": {
+    "document": "91ad0a56",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 7 页 · RGB均值 · AP 44 / E-6；中灰参考D=1.0；界限取图内两端各收0.10D"
+  },
+  "DELTA 100": {
+    "document": "0fbb7b1e",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · 视觉密度 · ID-11 原液，20°C，8 分 30 秒；中灰参考 log H 2.5，边界按图示两端内缩 0.10 D。"
+  },
+  "DELTA 3200": {
+    "document": "037b1287",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 5 页 · 视觉密度 · DD-X 1+4，20°C，9 分钟；EI 3200；中灰参考 log H 2.0，边界按图示两端内缩 0.10 D。"
+  },
+  "DELTA 400": {
+    "document": "b36638f6",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 6 页 · 视觉密度 · ID-11 原液，24°C，8 分钟；中灰参考 log H 2.2，边界按图示两端内缩 0.10 D。"
+  },
+  "EKTACHROME 160T": {
+    "document": "a7aa9485",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · E-6，灯光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "EKTACHROME 320T": {
+    "document": "99049c70",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 3 页 · 绿层 · E-6，灯光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "EKTACHROME 400X": {
+    "document": "a045716b",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "EKTACHROME 64": {
+    "document": "8894f5a9",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "EKTACHROME 64T": {
+    "document": "0a3bf258",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · E-6，灯光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "EKTACHROME E100G": {
+    "document": "4934edd0",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "EKTACHROME E100S": {
+    "document": "1aac3e12",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "EKTACHROME E100SW": {
+    "document": "1aac3e12",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "EKTACHROME E100VS": {
+    "document": "c3bf365e",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "EKTACHROME E200": {
+    "document": "c5ca5e0f",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "EKTAR 100": {
+    "document": "01d0bf56",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第5页。"
+  },
+  "ELITE Chrome 200": {
+    "document": "071df9bf",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "ELITE Chrome Extra Color 100": {
+    "document": "a6ea3784",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "FOMA Cine ORTHO 400": {
+    "document": "4fe694c8",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，Microphen 20°C，9 分钟；原图为相对曝光，中灰以密度 0.85 近似对齐，预警为端点内缩 0.10 D。"
+  },
+  "FOMA ORTHO 400": {
+    "document": "d895f8df",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，Microphen 20°C，9 分钟；原图为相对曝光，中灰以密度 0.85 近似对齐，预警为端点内缩 0.10 D。"
+  },
+  "FOMAPAN 100 Classic": {
+    "document": "3e3cf3a4",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 1 页 · 视觉密度 · 5500 K，1/20 秒，Microphen 20°C 7 分钟（曲线 2）。三份原图的中线形状近同，各自采样；相对曝光轴 −2.45 作中灰参照，预警为采样两端内缩 0.10 D。"
+  },
+  "FOMAPAN 200 Creative": {
+    "document": "bc0e7dc0",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 1 页 · 视觉密度 · 5500 K，1/20 秒，Microphen 20°C 6 分钟（曲线 2）。三份原图的中线形状近同，各自采样；相对曝光轴 −2.45 作中灰参照，预警为采样两端内缩 0.10 D。"
+  },
+  "FOMAPAN 400 Action": {
+    "document": "0969a427",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 1 页 · 视觉密度 · 5500 K，1/20 秒，Microphen 20°C 9 分钟（曲线 2）。三份原图的中线形状近同，各自采样；相对曝光轴 −2.45 作中灰参照，预警为采样两端内缩 0.10 D。"
+  },
+  "FOMAPAN Cine 100": {
+    "document": "553b1e0b",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，Microphen 20°C，7 分钟；原图为相对曝光，中灰以密度 0.85 近似对齐，预警为端点内缩 0.10 D。"
+  },
+  "FOMAPAN Cine 400": {
+    "document": "fdb3100d",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，Microphen 20°C，9 分钟；原图为相对曝光，中灰以密度 0.85 近似对齐，预警为端点内缩 0.10 D。"
+  },
+  "FOMAPAN R 100": {
+    "document": "f5c74d3d",
+    "bw": true,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，R-100 黑白反转工艺；原图为相对曝光，中灰以密度 1.0 近似对齐，预警为端点内缩 0.10 D。"
+  },
+  "FP4 PLUS": {
+    "document": "b432f743",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 5 页 · 视觉密度 · ILFOTEC HC 1+31，20°C，8 分钟；中灰参考 log H 2.25，边界按图示两端内缩 0.10 D。",
+    "monoSensitivity": {
+      "page": 1,
+      "scale": "log10 of normalized relative wedge height (approximation)",
+      "conditions": "2850 K tungsten wedge spectrogram. The ordinate is treated as a relative response index; its radiometric transfer and lamp correction are unspecified. Visible-RGB approximation only.",
+      "points": [
+        [
+          370,
+          -0.776
+        ],
+        [
+          375,
+          -0.6106
+        ],
+        [
+          380,
+          -0.5357
+        ],
+        [
+          385,
+          -0.4814
+        ],
+        [
+          390,
+          -0.4246
+        ],
+        [
+          395,
+          -0.3645
+        ],
+        [
+          400,
+          -0.3271
+        ],
+        [
+          405,
+          -0.3031
+        ],
+        [
+          410,
+          -0.2886
+        ],
+        [
+          415,
+          -0.2804
+        ],
+        [
+          420,
+          -0.2705
+        ],
+        [
+          425,
+          -0.2551
+        ],
+        [
+          430,
+          -0.2365
+        ],
+        [
+          435,
+          -0.2152
+        ],
+        [
+          440,
+          -0.1933
+        ],
+        [
+          445,
+          -0.1693
+        ],
+        [
+          450,
+          -0.157
+        ],
+        [
+          455,
+          -0.1465
+        ],
+        [
+          460,
+          -0.1407
+        ],
+        [
+          465,
+          -0.1378
+        ],
+        [
+          470,
+          -0.1335
+        ],
+        [
+          475,
+          -0.1335
+        ],
+        [
+          480,
+          -0.1349
+        ],
+        [
+          485,
+          -0.1378
+        ],
+        [
+          490,
+          -0.1378
+        ],
+        [
+          495,
+          -0.1451
+        ],
+        [
+          500,
+          -0.151
+        ],
+        [
+          505,
+          -0.1525
+        ],
+        [
+          510,
+          -0.1525
+        ],
+        [
+          515,
+          -0.1421
+        ],
+        [
+          520,
+          -0.1249
+        ],
+        [
+          525,
+          -0.1111
+        ],
+        [
+          530,
+          -0.103
+        ],
+        [
+          535,
+          -0.099
+        ],
+        [
+          540,
+          -0.099
+        ],
+        [
+          545,
+          -0.1017
+        ],
+        [
+          550,
+          -0.0977
+        ],
+        [
+          555,
+          -0.0873
+        ],
+        [
+          560,
+          -0.0746
+        ],
+        [
+          565,
+          -0.0622
+        ],
+        [
+          570,
+          -0.0514
+        ],
+        [
+          575,
+          -0.0374
+        ],
+        [
+          580,
+          -0.0249
+        ],
+        [
+          585,
+          -0.0161
+        ],
+        [
+          590,
+          -0.0085
+        ],
+        [
+          595,
+          -0.0021
+        ],
+        [
+          600,
+          0.0
+        ],
+        [
+          605,
+          0.0
+        ],
+        [
+          610,
+          -0.0021
+        ],
+        [
+          615,
+          -0.0096
+        ],
+        [
+          620,
+          -0.015
+        ],
+        [
+          625,
+          -0.0139
+        ],
+        [
+          630,
+          -0.0172
+        ],
+        [
+          635,
+          -0.0538
+        ],
+        [
+          640,
+          -0.1111
+        ],
+        [
+          645,
+          -0.1949
+        ],
+        [
+          650,
+          -0.2989
+        ],
+        [
+          655,
+          -0.4476
+        ],
+        [
+          660,
+          -0.7341
+        ],
+        [
+          665,
+          -1.4688
+        ]
+      ]
+    }
+  },
+  "FUJICHROME 64T TYPE II": {
+    "document": "075e477c",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 6 页 · Status A green; gray H=10/ISO · E-6 / CR-56"
+  },
+  "FUJICHROME T64": {
+    "document": "4a88c645",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 7 页 · Status A green; gray at D=1.0 · CR-56"
+  },
+  "FUJICOLOR 100": {
+    "document": "3131046d",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 5 页 · Status M green; gray H=10/ISO · CN-16"
+  },
+  "FUJICOLOR C200": {
+    "document": "d16c838f",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 6 页 · 绿层 · 日光，1/125 秒，CN-16，Status M 绿层；中灰参考 log H -1.1，边界按图示两端内缩 0.10 D。"
+  },
+  "FUJICOLOR NPS 160 NPC": {
+    "document": "4f06ccc8",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X"
+  },
+  "FUJICOLOR PRO 800": {
+    "document": "85c991fa",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_pro_400h",
+    "evidence": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X"
+  },
+  "FUJIFILM 200": {
+    "document": "9e3a5c63",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 5 页 · Status M green; gray H=10/ISO · CN-16"
+  },
+  "FUJIFILM 400": {
+    "document": "d90a217e",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16"
+  },
+  "GOLD 200": {
+    "document": "d750ec61",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第4页。"
+  },
+  "KODACHROME 200": {
+    "document": "9e2b768f",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_kodachrome_64",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · K-14，日光，Status A；E-88 与 E-55 在此感光度刊载相同形状的图线，分别按各自页图采样。以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "KODACHROME 200 Professional": {
+    "document": "8a815173",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_kodachrome_64",
+    "evidence": "厂家图采样 · 第 5 页 · 绿层 · K-14，日光，Status A；E-88 与 E-55 在此感光度刊载相同形状的图线，分别按各自页图采样。以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "KODACHROME 25 Professional": {
+    "document": "8a815173",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_kodachrome_64",
+    "evidence": "厂家图采样 · 第 3 页 · 绿层 · K-14，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "KODACHROME 64": {
+    "document": "9e2b768f",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_kodachrome_64",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · K-14，日光，Status A；E-88 与 E-55 在此感光度刊载相同形状的图线，分别按各自页图采样。以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "KODACHROME 64 Professional": {
+    "document": "8a815173",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_kodachrome_64",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · K-14，日光，Status A；E-88 与 E-55 在此感光度刊载相同形状的图线，分别按各自页图采样。以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。"
+  },
+  "NATURA 1600": {
+    "document": "d643055b",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16"
+  },
+  "NC400": {
+    "document": "f1a4ae25",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 2 页 · green · 日光 / C-41 / Status M；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "NC500": {
+    "document": "7a108af7",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 2 页 · green · 日光 / C-41 / Status M；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "NEOPAN 100 ACROS": {
+    "document": "8ab17781",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · BW neutral; gray H=10/ISO · Microfine 20°C 10 min"
+  },
+  "NEOPAN 400 PRESTO": {
+    "document": "0e1fb4e3",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · BW neutral; gray H=10/ISO · Super Prodol 20°C 5 min 45 s"
+  },
+  "NEXIA 400": {
+    "document": "e8fff907",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X"
+  },
+  "NEXIA 800": {
+    "document": "ccf3f452",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X"
+  },
+  "NP100": {
+    "document": "5f5bf626",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 2 页 · visual · D96；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "New PRO 400": {
+    "document": "96d379bd",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_pro_400h",
+    "evidence": "厂家图采样 · 第 7 页 · Status M green; gray H=10/ISO · CN-16X"
+  },
+  "ORTHO PLUS": {
+    "document": "8167f227",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 3 页 · 视觉密度 · 日光 · ID-11 原液，20°C，8 分钟，G 0.62；中灰参考 log H 2.6，边界按图示两端内缩 0.10 D。",
+    "monoSensitivity": {
+      "page": 1,
+      "scale": "log10 of normalized relative wedge height (approximation)",
+      "conditions": "2850 K tungsten wedge spectrogram. The ordinate is treated as a relative response index; its radiometric transfer and lamp correction are unspecified. Visible-RGB approximation only.",
+      "points": [
+        [
+          360,
+          -0.8234
+        ],
+        [
+          365,
+          -0.5133
+        ],
+        [
+          370,
+          -0.3463
+        ],
+        [
+          375,
+          -0.2403
+        ],
+        [
+          380,
+          -0.1733
+        ],
+        [
+          385,
+          -0.1171
+        ],
+        [
+          390,
+          -0.0789
+        ],
+        [
+          395,
+          -0.0531
+        ],
+        [
+          400,
+          -0.0331
+        ],
+        [
+          405,
+          -0.0184
+        ],
+        [
+          410,
+          -0.0098
+        ],
+        [
+          415,
+          -0.0042
+        ],
+        [
+          420,
+          0.0
+        ],
+        [
+          425,
+          0.0
+        ],
+        [
+          430,
+          0.0
+        ],
+        [
+          435,
+          -0.0014
+        ],
+        [
+          440,
+          -0.0028
+        ],
+        [
+          445,
+          -0.0028
+        ],
+        [
+          450,
+          -0.0028
+        ],
+        [
+          455,
+          -0.0028
+        ],
+        [
+          460,
+          -0.0056
+        ],
+        [
+          465,
+          -0.0084
+        ],
+        [
+          470,
+          -0.0112
+        ],
+        [
+          475,
+          -0.017
+        ],
+        [
+          480,
+          -0.0228
+        ],
+        [
+          485,
+          -0.0331
+        ],
+        [
+          490,
+          -0.0453
+        ],
+        [
+          495,
+          -0.0578
+        ],
+        [
+          500,
+          -0.0739
+        ],
+        [
+          505,
+          -0.0856
+        ],
+        [
+          510,
+          -0.089
+        ],
+        [
+          515,
+          -0.0806
+        ],
+        [
+          520,
+          -0.0626
+        ],
+        [
+          525,
+          -0.0438
+        ],
+        [
+          530,
+          -0.0228
+        ],
+        [
+          535,
+          -0.007
+        ],
+        [
+          540,
+          0.0
+        ],
+        [
+          545,
+          -0.0014
+        ],
+        [
+          550,
+          -0.017
+        ],
+        [
+          555,
+          -0.0674
+        ],
+        [
+          560,
+          -0.1733
+        ]
+      ]
+    }
+  },
+  "Optima 100": {
+    "document": "2bd243b1",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 7 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "Optima 200": {
+    "document": "2bd243b1",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 7 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "Optima 400": {
+    "document": "2bd243b1",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 7 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "PANCRO 400": {
+    "document": "ae1825cf",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 2 页 · visual · D-76 原液 / γ 0.7；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "PORTRA 160": {
+    "document": "482706f9",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第4页。"
+  },
+  "PORTRA 160NC": {
+    "document": "f6ce1935",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 8 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第8页。"
+  },
+  "PORTRA 160VC": {
+    "document": "f6ce1935",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 9 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第9页。"
+  },
+  "PORTRA 400NC": {
+    "document": "f6ce1935",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 10 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第10页。"
+  },
+  "PORTRA 400VC": {
+    "document": "f6ce1935",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 11 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第11页。"
+  },
+  "PORTRA 800": {
+    "document": "287b9a0f",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第4页。"
+  },
+  "PRO 160C": {
+    "document": "41634e36",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_pro_400h",
+    "evidence": "厂家图采样 · 第 8 页 · Status M green; gray H=10/ISO · C-41"
+  },
+  "PRO 160NC": {
+    "document": "e84f1d30",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_pro_400h",
+    "evidence": "厂家图采样 · 第 6 页 · Status M green; gray H=10/ISO · CN-16"
+  },
+  "PRO 160NH": {
+    "document": "c22b07f9",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_pro_400h",
+    "evidence": "厂家图采样 · 第 6 页 · Status M green; gray H=10/ISO · CN-16"
+  },
+  "PRO 160NS": {
+    "document": "cfc5de8e",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_pro_400h",
+    "evidence": "厂家图采样 · 第 8 页 · Status M green; gray H=10/ISO · CN-16"
+  },
+  "PRO 160S": {
+    "document": "541caff9",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_pro_400h",
+    "evidence": "厂家图采样 · 第 8 页 · 绿层 · 日光，1/125 秒，C-41，Status M 绿层；中灰参考 log H -1.1，边界按图示两端内缩 0.10 D。",
+    "densitySourceFile": "pro160s.json"
+  },
+  "PRO 400H": {
+    "document": "87c43e4b",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_pro_400h",
+    "evidence": "厂家图采样 · 第 8 页 · 绿层 · 日光，1/125 秒，C-41，Status M 绿层；中灰参考 log H -1.35，边界按图示两端内缩 0.10 D。"
+  },
+  "PROVIA 100 RDP II": {
+    "document": "b99a6665",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 6 页 · Status A green; gray H=10/ISO · CR-56"
+  },
+  "PROVIA 100F": {
+    "document": "c2377c94",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 6 页 · 绿层 · 日光，E-6，Status A 绿层；中灰参考 log H -1.0，边界按图示两端内缩 0.10 D。"
+  },
+  "PROVIA 400F": {
+    "document": "5f37e545",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 5 页 · Status A green; gray H=10/ISO · CR-56"
+  },
+  "PROVIA 400X": {
+    "document": "ff8423e1",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 7 页 · Status A green; gray H=10/ISO · E-6 / CR-56"
+  },
+  "Portrait 160": {
+    "document": "2bd243b1",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 6 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "REALA ACE": {
+    "document": "760bd441",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X"
+  },
+  "RETROPAN 320 soft": {
+    "document": "fd9bdddd",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，Retro Special Developer 20°C，5 分钟；原图为相对曝光，中灰以密度 0.85 近似对齐，预警为端点内缩 0.10 D。"
+  },
+  "RSX II 100": {
+    "document": "2bd243b1",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 8 页 · RGB均值 · AP 44 / E-6；中灰参考D=1.0；界限取图内两端各收0.10D"
+  },
+  "RSX II 200": {
+    "document": "2bd243b1",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 8 页 · RGB均值 · AP 44 / E-6；中灰参考D=1.0；界限取图内两端各收0.10D"
+  },
+  "RSX II 50": {
+    "document": "2bd243b1",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "kodak_ektachrome_100",
+    "evidence": "厂家图采样 · 第 8 页 · RGB均值 · AP 44 / E-6；中灰参考D=1.0；界限取图内两端各收0.10D"
+  },
+  "SENSIA III 100": {
+    "document": "1ac0d686",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 6 页 · Status A green; gray at D=1.0 · CR-56"
+  },
+  "SFX 200": {
+    "document": "6e5021ce",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 2 页 · 视觉密度 · ID-11 原液，20°C，10 分钟；中灰参考 log H 2.2，边界按图示两端内缩 0.10 D。",
+    "monoSensitivity": {
+      "page": 1,
+      "scale": "log10 of normalized relative wedge height (approximation)",
+      "conditions": "2850 K tungsten wedge spectrogram. The ordinate is treated as a relative response index; its radiometric transfer and lamp correction are unspecified. Visible-RGB approximation only.",
+      "points": [
+        [
+          355,
+          -1.3437
+        ],
+        [
+          360,
+          -0.885
+        ],
+        [
+          365,
+          -0.6287
+        ],
+        [
+          370,
+          -0.4909
+        ],
+        [
+          375,
+          -0.3924
+        ],
+        [
+          380,
+          -0.3199
+        ],
+        [
+          385,
+          -0.2667
+        ],
+        [
+          390,
+          -0.2174
+        ],
+        [
+          395,
+          -0.1786
+        ],
+        [
+          400,
+          -0.1498
+        ],
+        [
+          405,
+          -0.1245
+        ],
+        [
+          410,
+          -0.1069
+        ],
+        [
+          415,
+          -0.0914
+        ],
+        [
+          420,
+          -0.0794
+        ],
+        [
+          425,
+          -0.0663
+        ],
+        [
+          430,
+          -0.0536
+        ],
+        [
+          435,
+          -0.0453
+        ],
+        [
+          440,
+          -0.044
+        ],
+        [
+          445,
+          -0.0413
+        ],
+        [
+          450,
+          -0.0386
+        ],
+        [
+          455,
+          -0.0359
+        ],
+        [
+          460,
+          -0.0332
+        ],
+        [
+          465,
+          -0.0346
+        ],
+        [
+          470,
+          -0.0332
+        ],
+        [
+          475,
+          -0.0386
+        ],
+        [
+          480,
+          -0.044
+        ],
+        [
+          485,
+          -0.0508
+        ],
+        [
+          490,
+          -0.0621
+        ],
+        [
+          495,
+          -0.075
+        ],
+        [
+          500,
+          -0.0884
+        ],
+        [
+          505,
+          -0.1022
+        ],
+        [
+          510,
+          -0.1084
+        ],
+        [
+          515,
+          -0.1116
+        ],
+        [
+          520,
+          -0.1116
+        ],
+        [
+          525,
+          -0.1116
+        ],
+        [
+          530,
+          -0.1116
+        ],
+        [
+          535,
+          -0.1084
+        ],
+        [
+          540,
+          -0.1069
+        ],
+        [
+          545,
+          -0.1037
+        ],
+        [
+          550,
+          -0.1022
+        ],
+        [
+          555,
+          -0.0991
+        ],
+        [
+          560,
+          -0.096
+        ],
+        [
+          565,
+          -0.0929
+        ],
+        [
+          570,
+          -0.0899
+        ],
+        [
+          575,
+          -0.0869
+        ],
+        [
+          580,
+          -0.0794
+        ],
+        [
+          585,
+          -0.0678
+        ],
+        [
+          590,
+          -0.0606
+        ],
+        [
+          595,
+          -0.0578
+        ],
+        [
+          600,
+          -0.0578
+        ],
+        [
+          605,
+          -0.0578
+        ],
+        [
+          610,
+          -0.0621
+        ],
+        [
+          615,
+          -0.0678
+        ],
+        [
+          620,
+          -0.0707
+        ],
+        [
+          625,
+          -0.0721
+        ],
+        [
+          630,
+          -0.075
+        ],
+        [
+          635,
+          -0.0707
+        ],
+        [
+          640,
+          -0.078
+        ],
+        [
+          645,
+          -0.0736
+        ],
+        [
+          650,
+          -0.0707
+        ],
+        [
+          655,
+          -0.0692
+        ],
+        [
+          660,
+          -0.0663
+        ],
+        [
+          665,
+          -0.0621
+        ],
+        [
+          670,
+          -0.0578
+        ],
+        [
+          675,
+          -0.0522
+        ],
+        [
+          680,
+          -0.0453
+        ],
+        [
+          685,
+          -0.0386
+        ],
+        [
+          690,
+          -0.0306
+        ],
+        [
+          695,
+          -0.024
+        ],
+        [
+          700,
+          -0.0176
+        ],
+        [
+          705,
+          -0.0125
+        ],
+        [
+          710,
+          -0.0074
+        ],
+        [
+          715,
+          -0.0012
+        ],
+        [
+          720,
+          0.0
+        ],
+        [
+          725,
+          -0.01
+        ],
+        [
+          730,
+          -0.0635
+        ],
+        [
+          735,
+          -0.1464
+        ],
+        [
+          740,
+          -0.2736
+        ],
+        [
+          745,
+          -0.4338
+        ],
+        [
+          750,
+          -0.5887
+        ],
+        [
+          755,
+          -0.7996
+        ],
+        [
+          760,
+          -1.0293
+        ],
+        [
+          765,
+          -1.3437
+        ],
+        [
+          770,
+          -1.7696
+        ]
+      ]
+    }
+  },
+  "SUPERIA 1600": {
+    "document": "660c1e49",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 6 页 · 绿层 · 日光，1/125 秒，CN-16，Status M 绿层；中灰参考 log H -1.7，边界按图示两端内缩 0.10 D。"
+  },
+  "SUPERIA PREMIUM 400": {
+    "document": "175fb820",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 5 页 · Status M green; gray H=10/ISO · CN-16"
+  },
+  "SUPERIA REALA 100": {
+    "document": "5e3afe99",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · 日光，1/125 秒，CN-16，Status M 绿层；中灰参考 log H -1.0，边界按图示两端内缩 0.10 D。"
+  },
+  "SUPERIA Venus 400": {
+    "document": "d37a8712",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X"
+  },
+  "SUPERIA Venus 800": {
+    "document": "94958d56",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X"
+  },
+  "SUPERIA X-TRA 400": {
+    "document": "5f2ff5bc",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 6 页 · 绿层 · 日光，1/125 秒，CN-16，Status M 绿层；中灰参考 log H -1.4，边界按图示两端内缩 0.10 D。"
+  },
+  "T-MAX 100": {
+    "document": "0cc2db5c",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 8 页 · 视觉密度 · D-76，小罐 20°C 7.5 分钟，漫射视觉密度，中灰近似取 H=14/EI lx·s，第8页。",
+    "monoSensitivity": {
+      "page": 8,
+      "scale": "log10 relative sensitivity",
+      "conditions": "F-4016; 0.3 above D-min; 1.4 s; D-76 20 °C; diffuse visual",
+      "points": [
+        [
+          400,
+          1.5
+        ],
+        [
+          405,
+          1.474
+        ],
+        [
+          410,
+          1.4458
+        ],
+        [
+          415,
+          1.4138
+        ],
+        [
+          420,
+          1.3816
+        ],
+        [
+          425,
+          1.3511
+        ],
+        [
+          430,
+          1.3222
+        ],
+        [
+          435,
+          1.295
+        ],
+        [
+          440,
+          1.2692
+        ],
+        [
+          445,
+          1.2447
+        ],
+        [
+          450,
+          1.2151
+        ],
+        [
+          455,
+          1.1845
+        ],
+        [
+          460,
+          1.1548
+        ],
+        [
+          465,
+          1.1249
+        ],
+        [
+          470,
+          1.0939
+        ],
+        [
+          475,
+          1.0606
+        ],
+        [
+          480,
+          1.0268
+        ],
+        [
+          485,
+          1.0014
+        ],
+        [
+          490,
+          0.9869
+        ],
+        [
+          495,
+          0.9814
+        ],
+        [
+          500,
+          0.983
+        ],
+        [
+          505,
+          0.9911
+        ],
+        [
+          510,
+          1.0052
+        ],
+        [
+          515,
+          1.0256
+        ],
+        [
+          520,
+          1.0505
+        ],
+        [
+          525,
+          1.0739
+        ],
+        [
+          530,
+          1.0912
+        ],
+        [
+          535,
+          1.0989
+        ],
+        [
+          540,
+          1.1005
+        ],
+        [
+          545,
+          1.1001
+        ],
+        [
+          550,
+          1.1
+        ],
+        [
+          555,
+          1.1009
+        ],
+        [
+          560,
+          1.1087
+        ],
+        [
+          565,
+          1.125
+        ],
+        [
+          570,
+          1.143
+        ],
+        [
+          575,
+          1.1534
+        ],
+        [
+          580,
+          1.1517
+        ],
+        [
+          585,
+          1.1386
+        ],
+        [
+          590,
+          1.1167
+        ],
+        [
+          595,
+          1.0898
+        ],
+        [
+          600,
+          1.06
+        ],
+        [
+          605,
+          1.0299
+        ],
+        [
+          610,
+          1.0018
+        ],
+        [
+          615,
+          0.978
+        ],
+        [
+          620,
+          0.9666
+        ],
+        [
+          625,
+          0.9759
+        ],
+        [
+          630,
+          0.9917
+        ],
+        [
+          635,
+          0.9876
+        ],
+        [
+          640,
+          0.9048
+        ],
+        [
+          645,
+          0.7156
+        ],
+        [
+          650,
+          0.4334
+        ],
+        [
+          655,
+          0.1211
+        ],
+        [
+          660,
+          -0.1562
+        ],
+        [
+          665,
+          -0.3896
+        ],
+        [
+          670,
+          -0.6028
+        ],
+        [
+          675,
+          -0.8066
+        ],
+        [
+          680,
+          -1.0082
+        ],
+        [
+          685,
+          -1.214
+        ],
+        [
+          690,
+          -1.4186
+        ],
+        [
+          695,
+          -1.5924
+        ],
+        [
+          700,
+          -1.7499
+        ]
+      ]
+    }
+  },
+  "T-MAX 400": {
+    "document": "97adf51f",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 8 页 · 视觉密度 · D-76，小罐 20°C 8 分钟，漫射视觉密度，中灰近似取 H=14/EI lx·s，第8页。",
+    "monoSensitivity": {
+      "page": 7,
+      "scale": "log10 relative sensitivity",
+      "conditions": "F-4043; 0.3 above D-min; D-76 20 °C; diffuse visual",
+      "points": [
+        [
+          365,
+          2.822
+        ],
+        [
+          370,
+          2.8386
+        ],
+        [
+          375,
+          2.8763
+        ],
+        [
+          380,
+          2.9088
+        ],
+        [
+          385,
+          2.9081
+        ],
+        [
+          390,
+          2.8994
+        ],
+        [
+          395,
+          2.8955
+        ],
+        [
+          400,
+          2.889
+        ],
+        [
+          405,
+          2.8736
+        ],
+        [
+          410,
+          2.8584
+        ],
+        [
+          415,
+          2.8518
+        ],
+        [
+          420,
+          2.8487
+        ],
+        [
+          425,
+          2.8452
+        ],
+        [
+          430,
+          2.8381
+        ],
+        [
+          435,
+          2.8245
+        ],
+        [
+          440,
+          2.8105
+        ],
+        [
+          445,
+          2.8034
+        ],
+        [
+          450,
+          2.7985
+        ],
+        [
+          455,
+          2.7915
+        ],
+        [
+          460,
+          2.7788
+        ],
+        [
+          465,
+          2.7597
+        ],
+        [
+          470,
+          2.7389
+        ],
+        [
+          475,
+          2.7105
+        ],
+        [
+          480,
+          2.6886
+        ],
+        [
+          485,
+          2.6832
+        ],
+        [
+          490,
+          2.6887
+        ],
+        [
+          495,
+          2.7058
+        ],
+        [
+          500,
+          2.7294
+        ],
+        [
+          505,
+          2.7508
+        ],
+        [
+          510,
+          2.7786
+        ],
+        [
+          515,
+          2.8254
+        ],
+        [
+          520,
+          2.8698
+        ],
+        [
+          525,
+          2.9038
+        ],
+        [
+          530,
+          2.9186
+        ],
+        [
+          535,
+          2.8871
+        ],
+        [
+          540,
+          2.8583
+        ],
+        [
+          545,
+          2.8845
+        ],
+        [
+          550,
+          2.9188
+        ],
+        [
+          555,
+          2.9185
+        ],
+        [
+          560,
+          2.9288
+        ],
+        [
+          565,
+          2.9979
+        ],
+        [
+          570,
+          3.0593
+        ],
+        [
+          575,
+          3.0584
+        ],
+        [
+          580,
+          3.028
+        ],
+        [
+          585,
+          2.9811
+        ],
+        [
+          590,
+          2.9181
+        ],
+        [
+          595,
+          2.8452
+        ],
+        [
+          600,
+          2.7768
+        ],
+        [
+          605,
+          2.7229
+        ],
+        [
+          610,
+          2.6883
+        ],
+        [
+          615,
+          2.6835
+        ],
+        [
+          620,
+          2.6992
+        ],
+        [
+          625,
+          2.7571
+        ],
+        [
+          630,
+          2.7668
+        ],
+        [
+          635,
+          2.6474
+        ],
+        [
+          640,
+          2.4305
+        ],
+        [
+          645,
+          2.0125
+        ]
+      ]
+    }
+  },
+  "TREBI 100C": {
+    "document": "0199093f",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 5 页 · Status A green; gray at D=1.0 · CR-56"
+  },
+  "TREBI 400": {
+    "document": "11126495",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_provia_100f",
+    "evidence": "厂家图采样 · 第 5 页 · Status A green; gray H=10/ISO · CR-56"
+  },
+  "TRI-X 320": {
+    "document": "d551bee1",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 9 页 · 视觉密度 · 页片，D-76，大罐 20°C 8 分钟，漫射视觉密度，中灰近似取 H=14/EI lx·s，第9页。"
+  },
+  "TRI-X 400": {
+    "document": "d551bee1",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 7 页 · 视觉密度 · 135，T-MAX 显影液，小罐 20°C 7 分钟，漫射视觉密度，中灰近似取 H=14/EI lx·s，第7页。"
+  },
+  "TRUE DEFINITION 400": {
+    "document": "c5ab2c1a",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 6 页 · Status M green; gray H=10/ISO · CN-16"
+  },
+  "ULTRA MAX 800": {
+    "document": "86c28dfd",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 3 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第3页。"
+  },
+  "ULTRAMAX 400": {
+    "document": "efa4e393",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第4页。"
+  },
+  "Ultra 100": {
+    "document": "91ad0a56",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 6 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "VELVIA 100": {
+    "document": "73a5b748",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_velvia_100",
+    "evidence": "厂家图采样 · 第 8 页 · Status A green; gray H=10/ISO · E-6 / CR-56"
+  },
+  "VELVIA 100F": {
+    "document": "a3b5b21b",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_velvia_100",
+    "evidence": "厂家图采样 · 第 8 页 · Status A green; gray H=10/ISO · CR-56"
+  },
+  "VELVIA 50": {
+    "document": "640c3107",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_velvia_100",
+    "evidence": "厂家图采样 · 第 8 页 · 绿层 · 日光，E-6，Status A 绿层；中灰参考 log H -0.65，边界按图示两端内缩 0.10 D。"
+  },
+  "VELVIA RVP (original)": {
+    "document": "488c1f64",
+    "bw": false,
+    "polarity": "positive",
+    "measuredDensity": true,
+    "donor": "fujifilm_velvia_100",
+    "evidence": "厂家图采样 · 第 6 页 · Status A green; gray at D=1.0 · CR-56"
+  },
+  "VISION3 200T": {
+    "document": "686f4037",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · ECN-2，3200K，Status M 绿层，使用图上 Camera Stops，第4页。"
+  },
+  "VISION3 250D": {
+    "document": "7776e0b5",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 3 页 · 绿层 · ECN-2，5500K，Status M 绿层，使用图上 Camera Stops，第3页。"
+  },
+  "VISION3 500T": {
+    "document": "4276fc6d",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 3 页 · 绿层 · ECN-2，3200K，Status M 绿层，使用图上 Camera Stops，第3页。"
+  },
+  "VISION3 50D": {
+    "document": "d673bf49",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 3 页 · 绿层 · ECN-2，5500K，Status M 绿层，使用图上 Camera Stops，第3页。"
+  },
+  "Vista 100": {
+    "document": "91ad0a56",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 5 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "Vista 200": {
+    "document": "91ad0a56",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 5 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "Vista 400": {
+    "document": "91ad0a56",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 5 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "Vista 800": {
+    "document": "91ad0a56",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 6 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D"
+  },
+  "XP2 SUPER": {
+    "document": "bc584212",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 3 页 · 视觉密度 · 黑白染料型负片，C-41；中灰参考 log H 2.0，边界按图示两端内缩 0.10 D。"
+  },
+  "VERITA 200D": {
+    "document": "h1-5206",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · 绿层 · H-1-5206 · 5500 K / 1⁄50 s / ECN-2 / Status M。图示 Camera Stops 中灰；预警取图内绿层两端各内收 0.10 D。"
+  },
+  "PAN F PLUS": {
+    "document": "11731318",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "kodak_portra_400",
+    "evidence": "厂家图采样 · 第 4 页 · visual · ILFOTEC HC (1+31), 4 min at 20 C, intermittent agitation；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D，亮端非实测饱和",
+    "densitySourceFile": "panf-plus.json",
+    "monoSensitivity": {
+      "page": 1,
+      "scale": "log10 of normalized relative wedge height (approximation)",
+      "conditions": "2850 K tungsten wedge spectrogram. The ordinate is treated as a relative response index; its radiometric transfer and lamp correction are unspecified. Visible-RGB approximation only.",
+      "points": [
+        [
+          380,
+          -1.1809
+        ],
+        [
+          385,
+          -0.7038
+        ],
+        [
+          390,
+          -0.5728
+        ],
+        [
+          395,
+          -0.4724
+        ],
+        [
+          400,
+          -0.3908
+        ],
+        [
+          405,
+          -0.2994
+        ],
+        [
+          410,
+          -0.2083
+        ],
+        [
+          415,
+          -0.1597
+        ],
+        [
+          420,
+          -0.1265
+        ],
+        [
+          425,
+          -0.1057
+        ],
+        [
+          430,
+          -0.0859
+        ],
+        [
+          435,
+          -0.0669
+        ],
+        [
+          440,
+          -0.0614
+        ],
+        [
+          445,
+          -0.084
+        ],
+        [
+          450,
+          -0.1017
+        ],
+        [
+          455,
+          -0.0997
+        ],
+        [
+          460,
+          -0.0821
+        ],
+        [
+          465,
+          -0.0669
+        ],
+        [
+          470,
+          -0.056
+        ],
+        [
+          475,
+          -0.0651
+        ],
+        [
+          480,
+          -0.0957
+        ],
+        [
+          485,
+          -0.1308
+        ],
+        [
+          490,
+          -0.1506
+        ],
+        [
+          495,
+          -0.1597
+        ],
+        [
+          500,
+          -0.1597
+        ],
+        [
+          505,
+          -0.1484
+        ],
+        [
+          510,
+          -0.116
+        ],
+        [
+          515,
+          -0.0898
+        ],
+        [
+          520,
+          -0.0651
+        ],
+        [
+          525,
+          -0.0578
+        ],
+        [
+          530,
+          -0.0596
+        ],
+        [
+          535,
+          -0.0614
+        ],
+        [
+          540,
+          -0.0614
+        ],
+        [
+          545,
+          -0.056
+        ],
+        [
+          550,
+          -0.047
+        ],
+        [
+          555,
+          -0.0382
+        ],
+        [
+          560,
+          -0.033
+        ],
+        [
+          565,
+          -0.0296
+        ],
+        [
+          570,
+          -0.0262
+        ],
+        [
+          575,
+          -0.0212
+        ],
+        [
+          580,
+          -0.0162
+        ],
+        [
+          585,
+          -0.0129
+        ],
+        [
+          590,
+          -0.0032
+        ],
+        [
+          595,
+          0.0
+        ],
+        [
+          600,
+          -0.008
+        ],
+        [
+          605,
+          -0.0262
+        ],
+        [
+          610,
+          -0.0633
+        ],
+        [
+          615,
+          -0.1119
+        ],
+        [
+          620,
+          -0.116
+        ],
+        [
+          625,
+          -0.1078
+        ],
+        [
+          630,
+          -0.1098
+        ],
+        [
+          635,
+          -0.1417
+        ],
+        [
+          640,
+          -0.2213
+        ],
+        [
+          645,
+          -0.4318
+        ],
+        [
+          650,
+          -1.29
+        ]
+      ]
+    }
+  },
+  "SUPERIA X-TRA 800": {
+    "document": "0395e7b5",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": true,
+    "donor": "fujifilm_c200",
+    "evidence": "厂家图采样 · 第 4 页 · green · CN-16 / C-41；中灰假设 H=10/ISO lx·s；界限取图内两端各收0.10D，亮端非实测饱和",
+    "densitySourceFile": "superia-xtra800.json"
+  },
+  "PAN 100": {
+    "document": "03033b27",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影，按原资料选择显影液 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "PAN 400": {
+    "document": "03033b27",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影，按原资料选择显影液 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "PAN 100 · Kentmere": {
+    "document": "8a1e74e8",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "PAN 200 · Kentmere": {
+    "document": "b0b699da",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "PAN 400 · Kentmere": {
+    "document": "ffe3f433",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Phoenix II": {
+    "document": "c1be7692",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "CHS 100 II": {
+    "document": "9228a1f0",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影，按原资料选择显影液 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "CMS 20 II PRO": {
+    "document": "42ab5b1d",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影，按原资料选择显影液 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "HR-50": {
+    "document": "888806de",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影，按原资料选择显影液 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "P30 ALPHA": {
+    "document": "e1877769",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "P33": {
+    "document": "3258949e",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Color Negative 100": {
+    "document": "9147381f",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Color Negative 400": {
+    "document": "54632ba1",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Color Negative 800": {
+    "document": "e936ea9a",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "LomoChrome Purple · EI 100–400": {
+    "document": "288ca5c6",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "LomoChrome Metropolis · EI 100–400": {
+    "document": "54630fb1",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Lobster Redscale 110": {
+    "document": "ae0bf32e",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "REDSCALE XR · EI 50–200": {
+    "document": "94fee373",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Tiger 200 110": {
+    "document": "9d2e8cd1",
+    "bw": false,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Babylon Kino 13": {
+    "document": "3beb7947",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Berlin Kino 400": {
+    "document": "1d574f6a",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Earl Grey 100": {
+    "document": "a429411d",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Fantôme Kino 8": {
+    "document": "b01f746f",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Lady Grey 400": {
+    "document": "fdab01b0",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Orca B&W 110": {
+    "document": "18a8dba4",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Potsdam Kino 100": {
+    "document": "76934dab",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "INFRARED 400": {
+    "document": "c58dfa2c",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "ORTHO 25 plus": {
+    "document": "b0db43fb",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "RETRO 400S": {
+    "document": "078695eb",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "RETRO 80S": {
+    "document": "e81fad3e",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "RPX 100": {
+    "document": "b26905a3",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "RPX 25": {
+    "document": "e7c703af",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "RPX 400": {
+    "document": "c3600619",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "SUPERPAN 200": {
+    "document": "d4804249",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi A": {
+    "document": "d7637ad7",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi D": {
+    "document": "47cdb51f",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi E": {
+    "document": "81ded9be",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi F": {
+    "document": "eb91dbcf",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi I": {
+    "document": "a00c882c",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi K": {
+    "document": "1db2b4ae",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi S": {
+    "document": "0220728e",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi V": {
+    "document": "143bb964",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi W": {
+    "document": "bce258d1",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi Y": {
+    "document": "0cd6e970",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "Washi Z": {
+    "document": "4105ff00",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  },
+  "NEW SHD100": {
+    "document": "43bc9677",
+    "bw": true,
+    "polarity": "negative",
+    "measuredDensity": false,
+    "donor": null,
+    "evidence": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。"
+  }
+}

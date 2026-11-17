@@ -9,11 +9,12 @@ android {
         applicationId = "studio.lightdata"
         minSdk = 28
         targetSdk = 35
-        versionCode = 6
-        versionName = "0.1.3-beta"
+        versionCode = 7
+        versionName = "0.1.4-beta"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures { compose = true }
+    sourceSets.getByName("main").assets.directories.add("../web/luts")
 }
 dependencies {
     implementation("androidx.compose.foundation:foundation:1.8.3")

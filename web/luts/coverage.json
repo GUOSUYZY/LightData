@@ -1,0 +1,1970 @@
+[
+  {
+    "profile": "fujifilm_c200",
+    "film": "FUJICOLOR C200",
+    "iso": 200,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "fujifilm_crystal_archive_typeii",
+    "status": "print-only",
+    "use": {
+      "stock": "fujifilm_crystal_archive_typeii",
+      "name": "Fujifilm Crystal Archive Type II",
+      "type": "negative",
+      "support": "paper",
+      "stage": "printing",
+      "use": "still",
+      "antihalation": "strong",
+      "target_print": null,
+      "channel_model": "color",
+      "densitometer": "status_A",
+      "log_sensitivity_density_over_min": 1.0,
+      "reference_illuminant": "TH-KG3",
+      "viewing_illuminant": "D50"
+    },
+    "reason": "作为输出介质组合；不作为拍摄胶片"
+  },
+  {
+    "profile": "fujifilm_provia_100f",
+    "film": "PROVIA 100F",
+    "iso": 100,
+    "status": "upstream",
+    "outputs": [
+      null
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "fujifilm_pro_400h",
+    "film": "PRO 400H",
+    "iso": 400,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "fujifilm_velvia_100",
+    "film": "VELVIA 100",
+    "iso": 100,
+    "status": "upstream",
+    "outputs": [
+      null
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "fujifilm_xtra_400",
+    "film": "SUPERIA X-TRA 400",
+    "iso": 400,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_2383",
+    "status": "print-only",
+    "use": {
+      "stock": "kodak_2383",
+      "name": "Kodak Vision 2383",
+      "type": "negative",
+      "support": "film",
+      "stage": "printing",
+      "use": "cine",
+      "antihalation": "strong",
+      "target_print": null,
+      "channel_model": "color",
+      "densitometer": "status_A",
+      "log_sensitivity_density_over_min": 1.0,
+      "reference_illuminant": "TH-KG3",
+      "viewing_illuminant": "K75P"
+    },
+    "reason": "作为输出介质组合；不作为拍摄胶片"
+  },
+  {
+    "profile": "kodak_2393",
+    "status": "print-only",
+    "use": {
+      "stock": "kodak_2393",
+      "name": "Kodak Vision Premier 2393",
+      "type": "negative",
+      "support": "film",
+      "stage": "printing",
+      "use": "cine",
+      "antihalation": "strong",
+      "target_print": null,
+      "channel_model": "color",
+      "densitometer": "status_A",
+      "log_sensitivity_density_over_min": 1.0,
+      "reference_illuminant": "TH-KG3",
+      "viewing_illuminant": "K75P"
+    },
+    "reason": "作为输出介质组合；不作为拍摄胶片"
+  },
+  {
+    "profile": "kodak_ektachrome_100",
+    "film": "EKTACHROME E100",
+    "iso": 100,
+    "status": "upstream",
+    "outputs": [
+      null
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_ektacolor_edge",
+    "status": "print-only",
+    "use": {
+      "stock": "kodak_ektacolor_edge",
+      "name": "Kodak Ektacolor Edge",
+      "type": "negative",
+      "support": "paper",
+      "stage": "printing",
+      "use": "still",
+      "antihalation": "strong",
+      "target_print": null,
+      "channel_model": "color",
+      "densitometer": "status_A",
+      "log_sensitivity_density_over_min": 1.0,
+      "reference_illuminant": "TH-KG3",
+      "viewing_illuminant": "D50"
+    },
+    "reason": "作为输出介质组合；不作为拍摄胶片"
+  },
+  {
+    "profile": "kodak_ektar_100",
+    "film": "EKTAR 100",
+    "iso": 100,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_endura_premier",
+    "status": "print-only",
+    "use": {
+      "stock": "kodak_endura_premier",
+      "name": "Kodak Professional Endura Premier",
+      "type": "negative",
+      "support": "paper",
+      "stage": "printing",
+      "use": "still",
+      "antihalation": "strong",
+      "target_print": null,
+      "channel_model": "color",
+      "densitometer": "status_A",
+      "log_sensitivity_density_over_min": 1.0,
+      "reference_illuminant": "TH-KG3",
+      "viewing_illuminant": "D50"
+    },
+    "reason": "作为输出介质组合；不作为拍摄胶片"
+  },
+  {
+    "profile": "kodak_gold_200",
+    "film": "GOLD 200",
+    "iso": 200,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_kodachrome_64",
+    "film": "KODACHROME 64",
+    "iso": 64,
+    "status": "upstream",
+    "outputs": [
+      null
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_portra_160",
+    "film": "PORTRA 160",
+    "iso": 160,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_portra_400",
+    "film": "PORTRA 400",
+    "iso": 400,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_portra_800",
+    "film": "PORTRA 800",
+    "iso": 800,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_portra_800_push1",
+    "film": "PORTRA 800",
+    "iso": 1600,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_portra_800_push2",
+    "film": "PORTRA 800",
+    "iso": 3200,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_portra_endura",
+    "status": "print-only",
+    "use": {
+      "stock": "kodak_portra_endura",
+      "name": "Kodak Professional Portra Endura",
+      "type": "negative",
+      "support": "paper",
+      "stage": "printing",
+      "use": "still",
+      "antihalation": "strong",
+      "target_print": null,
+      "channel_model": "color",
+      "densitometer": "status_A",
+      "log_sensitivity_density_over_min": 1.0,
+      "reference_illuminant": "TH-KG3",
+      "viewing_illuminant": "D50"
+    },
+    "reason": "作为输出介质组合；不作为拍摄胶片"
+  },
+  {
+    "profile": "kodak_supra_endura",
+    "status": "print-only",
+    "use": {
+      "stock": "kodak_supra_endura",
+      "name": "Kodak Professional Supra Endura",
+      "type": "negative",
+      "support": "paper",
+      "stage": "printing",
+      "use": "still",
+      "antihalation": "strong",
+      "target_print": null,
+      "channel_model": "color",
+      "densitometer": "status_A",
+      "log_sensitivity_density_over_min": 1.0,
+      "reference_illuminant": "TH-KG3",
+      "viewing_illuminant": "D50"
+    },
+    "reason": "作为输出介质组合；不作为拍摄胶片"
+  },
+  {
+    "profile": "kodak_ultramax_400",
+    "film": "ULTRAMAX 400",
+    "iso": 400,
+    "status": "upstream",
+    "outputs": [
+      "fujifilm_crystal_archive_typeii",
+      "kodak_ektacolor_edge",
+      "kodak_endura_premier",
+      "kodak_portra_endura",
+      "kodak_supra_endura",
+      "kodak_ultra_endura"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_ultra_endura",
+    "status": "print-only",
+    "use": {
+      "stock": "kodak_ultra_endura",
+      "name": "Kodak Professional Ultra Endura",
+      "type": "negative",
+      "support": "paper",
+      "stage": "printing",
+      "use": "still",
+      "antihalation": "strong",
+      "target_print": null,
+      "channel_model": "color",
+      "densitometer": "status_A",
+      "log_sensitivity_density_over_min": 1.0,
+      "reference_illuminant": "TH-KG3",
+      "viewing_illuminant": "D50"
+    },
+    "reason": "作为输出介质组合；不作为拍摄胶片"
+  },
+  {
+    "profile": "kodak_verita_200d",
+    "film": "VERITA 200D",
+    "iso": 200,
+    "status": "upstream",
+    "outputs": [
+      "kodak_2383",
+      "kodak_2393"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_vision3_200t",
+    "film": "VISION3 200T",
+    "iso": 200,
+    "status": "upstream",
+    "outputs": [
+      "kodak_2383",
+      "kodak_2393"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_vision3_250d",
+    "film": "VISION3 250D",
+    "iso": 250,
+    "status": "upstream",
+    "outputs": [
+      "kodak_2383",
+      "kodak_2393"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_vision3_500t",
+    "film": "VISION3 500T",
+    "iso": 500,
+    "status": "upstream",
+    "outputs": [
+      "kodak_2383",
+      "kodak_2393"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "profile": "kodak_vision3_50d",
+    "film": "VISION3 50D",
+    "iso": 50,
+    "status": "upstream",
+    "outputs": [
+      "kodak_2383",
+      "kodak_2393"
+    ],
+    "metadata": {
+      "version": "0.3.2",
+      "copyright": "Copyright (c) 2026 Andrea Volpato. Licensed under CC BY-SA 4.0.",
+      "created": "2026-05-28",
+      "license": "spektrafilm profile by Andrea Volpato, licensed under CC BY-SA 4.0. Redistribution and derivatives must credit the author, link the project (https://github.com/andreavolpato/spektrafilm),preserve this license, and remain CC BY-SA 4.0.Modifications must be noted. Full text of the license and attribution requirements: https://github.com/andreavolpato/spektrafilm/blob/main/SPEKTRAFILM_LICENSE.txt.",
+      "citation": "If you use this profile in your work, please cite the spektrafilm project: https://github.com/andreavolpato/spektrafilm, see CITATION.cff for details.",
+      "datasource": "This profile was created by processing raw measurement data from data-sheets and/or scientific papers. Original data are property of the respective holders.\n    Film/photo-paper: Kodak and Fujifilm data-sheets, scientific publications, and technical material.\n    Reflectance: Otsu (https://github.com/enneract/otsu2018), Munsell (https://zenodo.org/records/3269912), human skin (https://www.nist.gov/programs-projects/reflectance-measurements-human-skin), forest colors (https://zenodo.org/records/3269920), Japan colors (https://zenodo.org/records/5217752).\n    All data publicly available."
+    }
+  },
+  {
+    "film": "HP5 PLUS",
+    "source": "https://www.ilfordphoto.com/amfile/file/download/file/1903/product/695/",
+    "document": "7c84abb1",
+    "densitySource": "厂家图采样 · 第 5 页 · 视觉密度 · ILFORD HP5 PLUS · ILFOTEC HC 1+31，20°C，6 分 30 秒。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；本型号手册单色感光响应（log10 of normalized relative wedge height (approximation)）；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "ACROS II",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L498",
+    "document": "dcc529f5",
+    "densitySource": "厂家图采样 · 第 3 页 · 视觉密度 · 135 · Microfine，20°C，10 分钟；中灰参考 log H -0.9，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "APS star 200",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L762",
+    "document": "91ad0a56",
+    "densitySource": "厂家图采样 · 第 6 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "APS star 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L762",
+    "document": "91ad0a56",
+    "densitySource": "厂家图采样 · 第 7 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "APX 100",
+    "source": "https://125px.com/docs/film/agfa/apx100.pdf",
+    "document": "46f51895",
+    "densitySource": "厂家图采样 · 第 2 页 · visual · Agfapan 原厂密度曲线；图中未指明显影液；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；本型号手册单色感光响应（log10 relative sensitivity）；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "APX 25",
+    "source": "https://125px.com/docs/film/agfa/agfapanapx25.pdf",
+    "document": "74f4e2eb",
+    "densitySource": "厂家图采样 · 第 2 页 · visual · Agfapan 原厂密度曲线；图中未指明显影液；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；本型号手册单色感光响应（log10 relative sensitivity）；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "APX 400",
+    "source": "https://125px.com/docs/film/agfa/apx400.pdf",
+    "document": "84f93091",
+    "densitySource": "厂家图采样 · 第 2 页 · visual · Agfapan 原厂密度曲线；图中未指明显影液；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；本型号手册单色感光响应（log10 relative sensitivity）；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "ASTIA 100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1158",
+    "document": "c3f8288a",
+    "densitySource": "厂家图采样 · 第 7 页 · 绿层 · 日光，E-6，Status A 绿层；中灰参考 log H -0.48，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "fujifilm_provia_100f",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_provia_100f；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "ASTIA 100F",
+    "source": "https://125px.com/docs/film/fuji/astia_100f_datasheet.pdf",
+    "document": "b78cf8fe",
+    "densitySource": "厂家图采样 · 第 8 页 · 绿层 · 日光，E-6，Status A 绿层；中灰参考 log H -1.0，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "fujifilm_provia_100f",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_provia_100f；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "CTprecisa 100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L762",
+    "document": "91ad0a56",
+    "densitySource": "厂家图采样 · 第 7 页 · RGB均值 · AP 44 / E-6；中灰参考D=1.0；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "CTprecisa 200",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L762",
+    "document": "91ad0a56",
+    "densitySource": "厂家图采样 · 第 7 页 · RGB均值 · AP 44 / E-6；中灰参考D=1.0；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "DELTA 100",
+    "source": "https://www.ilfordphoto.com/amfile/file/download/file/3/product/681/",
+    "document": "0fbb7b1e",
+    "densitySource": "厂家图采样 · 第 4 页 · 视觉密度 · ID-11 原液，20°C，8 分 30 秒；中灰参考 log H 2.5，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "DELTA 3200",
+    "source": "https://www.ilfordphoto.com/wp/wp-content/uploads/2025/07/DP3200_F25.pdf",
+    "document": "037b1287",
+    "densitySource": "厂家图采样 · 第 5 页 · 视觉密度 · DD-X 1+4，20°C，9 分钟；EI 3200；中灰参考 log H 2.0，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "DELTA 400",
+    "source": "https://www.ilfordphoto.com/amfile/file/download/file/1915/product/685/",
+    "document": "b36638f6",
+    "densitySource": "厂家图采样 · 第 6 页 · 视觉密度 · ID-11 原液，24°C，8 分钟；中灰参考 log H 2.2，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "EKTACHROME 160T",
+    "source": "https://125px.com/docs/film/kodak/e144-Ektachrome_160T_EPT.pdf",
+    "document": "a7aa9485",
+    "densitySource": "厂家图采样 · 第 4 页 · 绿层 · E-6，灯光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "EKTACHROME 320T",
+    "source": "https://125px.com/docs/film/kodak/e145-Ektachrome_320T_EPJ.pdf",
+    "document": "99049c70",
+    "densitySource": "厂家图采样 · 第 3 页 · 绿层 · E-6，灯光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "EKTACHROME 400X",
+    "source": "https://125px.com/docs/film/kodak/e161-Ektachrome_400X_EPL.pdf",
+    "document": "a045716b",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "EKTACHROME 64",
+    "source": "https://125px.com/docs/film/kodak/e8-Ektachrome_64_EPR.pdf",
+    "document": "8894f5a9",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "EKTACHROME 64T",
+    "source": "https://125px.com/docs/film/kodak/e130-Ektachrome_64T_EPY.pdf",
+    "document": "0a3bf258",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · E-6，灯光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "EKTACHROME E100G",
+    "source": "https://125px.com/docs/film/kodak/e4024-2009.pdf",
+    "document": "4934edd0",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "EKTACHROME E100S",
+    "source": "https://125px.com/docs/unsorted/kodak/e164.pdf",
+    "document": "1aac3e12",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "EKTACHROME E100SW",
+    "source": "https://125px.com/docs/unsorted/kodak/e164.pdf",
+    "document": "1aac3e12",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "EKTACHROME E100VS",
+    "source": "https://125px.com/docs/film/kodak/e163-Ektachrome_E100VS.pdf",
+    "document": "c3bf365e",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "EKTACHROME E200",
+    "source": "https://125px.com/docs/film/kodak/e28-Ektachrome_E200.pdf",
+    "document": "c5ca5e0f",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "ELITE Chrome 200",
+    "source": "https://125px.com/docs/film/kodak/e148e-Elite_chrome_200.pdf",
+    "document": "071df9bf",
+    "densitySource": "厂家图采样 · 第 4 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "ELITE Chrome Extra Color 100",
+    "source": "https://125px.com/docs/film/kodak/e126e-Elitechrome_100ec.pdf",
+    "document": "a6ea3784",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · E-6，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "FOMA Cine ORTHO 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1342",
+    "document": "4fe694c8",
+    "densitySource": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，Microphen 20°C，9 分钟；原图为相对曝光，中灰以密度 0.85 近似对齐，预警为端点内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "FOMA ORTHO 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L466",
+    "document": "d895f8df",
+    "densitySource": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，Microphen 20°C，9 分钟；原图为相对曝光，中灰以密度 0.85 近似对齐，预警为端点内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "FOMAPAN 100 Classic",
+    "source": "https://www.foma.cz/en/fomapan-100",
+    "document": "3e3cf3a4",
+    "densitySource": "厂家图采样 · 第 1 页 · 视觉密度 · 5500 K，1/20 秒，Microphen 20°C 7 分钟（曲线 2）。三份原图的中线形状近同，各自采样；相对曝光轴 −2.45 作中灰参照，预警为采样两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "FOMAPAN 200 Creative",
+    "source": "https://www.foma.cz/en/fomapan-200",
+    "document": "bc0e7dc0",
+    "densitySource": "厂家图采样 · 第 1 页 · 视觉密度 · 5500 K，1/20 秒，Microphen 20°C 6 分钟（曲线 2）。三份原图的中线形状近同，各自采样；相对曝光轴 −2.45 作中灰参照，预警为采样两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "FOMAPAN 400 Action",
+    "source": "https://www.foma.cz/en/fomapan-400",
+    "document": "0969a427",
+    "densitySource": "厂家图采样 · 第 1 页 · 视觉密度 · 5500 K，1/20 秒，Microphen 20°C 9 分钟（曲线 2）。三份原图的中线形状近同，各自采样；相对曝光轴 −2.45 作中灰参照，预警为采样两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "FOMAPAN Cine 100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1334",
+    "document": "553b1e0b",
+    "densitySource": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，Microphen 20°C，7 分钟；原图为相对曝光，中灰以密度 0.85 近似对齐，预警为端点内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "FOMAPAN Cine 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1338",
+    "document": "fdb3100d",
+    "densitySource": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，Microphen 20°C，9 分钟；原图为相对曝光，中灰以密度 0.85 近似对齐，预警为端点内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "FOMAPAN R 100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L710",
+    "document": "f5c74d3d",
+    "densitySource": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，R-100 黑白反转工艺；原图为相对曝光，中灰以密度 1.0 近似对齐，预警为端点内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "FP4 PLUS",
+    "source": "https://www.ilfordphoto.com/amfile/file/download/file/1919/product/690/",
+    "document": "b432f743",
+    "densitySource": "厂家图采样 · 第 5 页 · 视觉密度 · ILFOTEC HC 1+31，20°C，8 分钟；中灰参考 log H 2.25，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；本型号手册单色感光响应（log10 of normalized relative wedge height (approximation)）；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "FUJICHROME 64T TYPE II",
+    "source": "https://125px.com/docs/film/fuji/RTPIIAF3-024E_1.pdf",
+    "document": "075e477c",
+    "densitySource": "厂家图采样 · 第 6 页 · Status A green; gray H=10/ISO · E-6 / CR-56",
+    "status": "derived",
+    "donor": "fujifilm_provia_100f",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_provia_100f；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "FUJICHROME T64",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/084449505a12147f2cce415fdfa87b96/datasheet_t64_01.pdf",
+    "document": "4a88c645",
+    "densitySource": "厂家图采样 · 第 7 页 · Status A green; gray at D=1.0 · CR-56",
+    "status": "derived",
+    "donor": "fujifilm_provia_100f",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_provia_100f；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "FUJICOLOR 100",
+    "source": "https://asset.fujifilm.com/www/jp/files/2019-12/05b4b671ff6c0e53b8f7df233d57dfd7/datasheet_fujicolor100_01.pdf",
+    "document": "3131046d",
+    "densitySource": "厂家图采样 · 第 5 页 · Status M green; gray H=10/ISO · CN-16",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "FUJICOLOR NPS 160 NPC",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/6cc43e223cf542ef0ecc6eed551459ee/datasheet_160npc_01.pdf",
+    "document": "4f06ccc8",
+    "densitySource": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "FUJICOLOR PRO 800",
+    "source": "https://asset.fujifilm.com/www/jp/files/2019-12/9b41c4aaa31d1d293a858b0b0ffdd8e6/datasheet_pro800_01.pdf",
+    "document": "85c991fa",
+    "densitySource": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X",
+    "status": "derived",
+    "donor": "fujifilm_pro_400h",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_pro_400h；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "FUJIFILM 200",
+    "source": "https://asset.fujifilm.com/www/us/files/2022-02/f4606a5c43dacb389a1d9eb35e0b18db/fujifilm-200-speed-film_data-sheet.pdf",
+    "document": "9e3a5c63",
+    "densitySource": "厂家图采样 · 第 5 页 · Status M green; gray H=10/ISO · CN-16",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "FUJIFILM 400",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/a97a9256fa03c083a1c735495be1bd60/datasheet_fujifilm400_01.pdf",
+    "document": "d90a217e",
+    "densitySource": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "KODACHROME 200",
+    "source": "https://125px.com/docs/film/kodak/e88-2009_06.pdf",
+    "document": "9e2b768f",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · K-14，日光，Status A；E-88 与 E-55 在此感光度刊载相同形状的图线，分别按各自页图采样。以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_kodachrome_64",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_kodachrome_64；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "KODACHROME 200 Professional",
+    "source": "https://125px.com/docs/film/kodak/e55-2009_06.pdf",
+    "document": "8a815173",
+    "densitySource": "厂家图采样 · 第 5 页 · 绿层 · K-14，日光，Status A；E-88 与 E-55 在此感光度刊载相同形状的图线，分别按各自页图采样。以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_kodachrome_64",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_kodachrome_64；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "KODACHROME 25 Professional",
+    "source": "https://125px.com/docs/film/kodak/e55-2009_06.pdf",
+    "document": "8a815173",
+    "densitySource": "厂家图采样 · 第 3 页 · 绿层 · K-14，日光，Status A；以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_kodachrome_64",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_kodachrome_64；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "KODACHROME 64 Professional",
+    "source": "https://125px.com/docs/film/kodak/e55-2009_06.pdf",
+    "document": "8a815173",
+    "densitySource": "厂家图采样 · 第 4 页 · 绿层 · K-14，日光，Status A；E-88 与 E-55 在此感光度刊载相同形状的图线，分别按各自页图采样。以绿层密度 1.0 作为中灰近似，预警取曲线两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_kodachrome_64",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_kodachrome_64；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "NATURA 1600",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/96b634a89ec6a5abda6b70437f4d75a4/datasheet_natura1600_01.pdf",
+    "document": "d643055b",
+    "densitySource": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "NC400",
+    "source": "https://filmotec.de/wp-content/uploads/2023/08/Datenblatt-Wolfen-NC400.pdf",
+    "document": "f1a4ae25",
+    "densitySource": "厂家图采样 · 第 2 页 · green · 日光 / C-41 / Status M；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "NC500",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1094",
+    "document": "7a108af7",
+    "densitySource": "厂家图采样 · 第 2 页 · green · 日光 / C-41 / Status M；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "NEOPAN 100 ACROS",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L506",
+    "document": "8ab17781",
+    "densitySource": "厂家图采样 · 第 4 页 · BW neutral; gray H=10/ISO · Microfine 20°C 10 min",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "NEOPAN 400 PRESTO",
+    "source": "https://asset.fujifilm.com/www/jp/files/2019-12/34aac580ca2ba80532d72269e84aa9ce/datasheet_neopan400presto135_01.pdf",
+    "document": "0e1fb4e3",
+    "densitySource": "厂家图采样 · 第 4 页 · BW neutral; gray H=10/ISO · Super Prodol 20°C 5 min 45 s",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "NEXIA 400",
+    "source": "https://asset.fujifilm.com/www/jp/files/2019-12/b71c82d2ee200a440344c92e78630473/datasheet_nexia400_01.pdf",
+    "document": "e8fff907",
+    "densitySource": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "NEXIA 800",
+    "source": "https://asset.fujifilm.com/www/jp/files/2019-12/e83cba09d325b173158e890279d7b919/datasheet_nexiazoommaster800_01.pdf",
+    "document": "ccf3f452",
+    "densitySource": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "NP100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1098",
+    "document": "5f5bf626",
+    "densitySource": "厂家图采样 · 第 2 页 · visual · D96；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "New PRO 400",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/9aa1f2e4488cd7d13abefed690cf289c/datasheet_newpro400_01.pdf",
+    "document": "96d379bd",
+    "densitySource": "厂家图采样 · 第 7 页 · Status M green; gray H=10/ISO · CN-16X",
+    "status": "derived",
+    "donor": "fujifilm_pro_400h",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_pro_400h；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "ORTHO PLUS",
+    "source": "https://www.ilfordphoto.com/amfile/file/download/file/1948/product/698/",
+    "document": "8167f227",
+    "densitySource": "厂家图采样 · 第 3 页 · 视觉密度 · 日光 · ID-11 原液，20°C，8 分钟，G 0.62；中灰参考 log H 2.6，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；本型号手册单色感光响应（log10 of normalized relative wedge height (approximation)）；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "Optima 100",
+    "source": "https://125px.com/docs/film/agfa/Datasheet_F_PF_E4.pdf",
+    "document": "2bd243b1",
+    "densitySource": "厂家图采样 · 第 7 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "Optima 200",
+    "source": "https://125px.com/docs/film/agfa/Datasheet_F_PF_E4.pdf",
+    "document": "2bd243b1",
+    "densitySource": "厂家图采样 · 第 7 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "Optima 400",
+    "source": "https://125px.com/docs/film/agfa/Datasheet_F_PF_E4.pdf",
+    "document": "2bd243b1",
+    "densitySource": "厂家图采样 · 第 7 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PANCRO 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L786",
+    "document": "ae1825cf",
+    "densitySource": "厂家图采样 · 第 2 页 · visual · D-76 原液 / γ 0.7；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "PORTRA 160NC",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L394",
+    "document": "f6ce1935",
+    "densitySource": "厂家图采样 · 第 8 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第8页。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PORTRA 160VC",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L394",
+    "document": "f6ce1935",
+    "densitySource": "厂家图采样 · 第 9 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第9页。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PORTRA 400NC",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L394",
+    "document": "f6ce1935",
+    "densitySource": "厂家图采样 · 第 10 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第10页。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PORTRA 400VC",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L394",
+    "document": "f6ce1935",
+    "densitySource": "厂家图采样 · 第 11 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第11页。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PRO 160C",
+    "source": "https://125px.com/docs/film/fuji/pro_160c_datasheet.pdf",
+    "document": "41634e36",
+    "densitySource": "厂家图采样 · 第 8 页 · Status M green; gray H=10/ISO · C-41",
+    "status": "derived",
+    "donor": "fujifilm_pro_400h",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_pro_400h；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PRO 160NC",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/580aa23b1083768640aa3885942918dc/datasheet_pro160nc_01.pdf",
+    "document": "e84f1d30",
+    "densitySource": "厂家图采样 · 第 6 页 · Status M green; gray H=10/ISO · CN-16",
+    "status": "derived",
+    "donor": "fujifilm_pro_400h",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_pro_400h；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PRO 160NH",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/bae096c3cfae4c41066de30038ea6ddf/datasheet_pro160nh_01.pdf",
+    "document": "c22b07f9",
+    "densitySource": "厂家图采样 · 第 6 页 · Status M green; gray H=10/ISO · CN-16",
+    "status": "derived",
+    "donor": "fujifilm_pro_400h",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_pro_400h；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PRO 160NS",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/6b75b1c1cb4253623fb2cd7a56ff7443/datasheet_pro160ns_01.pdf",
+    "document": "cfc5de8e",
+    "densitySource": "厂家图采样 · 第 8 页 · Status M green; gray H=10/ISO · CN-16",
+    "status": "derived",
+    "donor": "fujifilm_pro_400h",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_pro_400h；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PRO 160S",
+    "source": "https://125px.com/docs/film/fuji/AF3-203U_Pro160S_Product_Information_Bulletin.pdf",
+    "document": "541caff9",
+    "densitySource": "厂家图采样 · 第 8 页 · 绿层 · 日光，1/125 秒，C-41，Status M 绿层；中灰参考 log H -1.1，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "fujifilm_pro_400h",
+    "reason": "PRO 160S 原厂 RGB 感光谱与分层密度，印刷图采样的中性染料总谱与 D-min；各染料分谱借用 fujifilm_pro_400h 并按中性谱约束；三通道模型未独立模拟青敏层；中灰近似，未测谱尾留空或沿用底材",
+    "bw": false
+  },
+  {
+    "film": "PROVIA 100 RDP II",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1170",
+    "document": "b99a6665",
+    "densitySource": "厂家图采样 · 第 6 页 · Status A green; gray H=10/ISO · CR-56",
+    "status": "derived",
+    "donor": "fujifilm_provia_100f",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_provia_100f；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PROVIA 400F",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/13bf604980eadaeec94e72018d04a8d8/datasheet_provia400f_01.pdf",
+    "document": "5f37e545",
+    "densitySource": "厂家图采样 · 第 5 页 · Status A green; gray H=10/ISO · CR-56",
+    "status": "derived",
+    "donor": "fujifilm_provia_100f",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_provia_100f；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "PROVIA 400X",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L602",
+    "document": "ff8423e1",
+    "densitySource": "厂家图采样 · 第 7 页 · Status A green; gray H=10/ISO · E-6 / CR-56",
+    "status": "derived",
+    "donor": "fujifilm_provia_100f",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_provia_100f；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "Portrait 160",
+    "source": "https://125px.com/docs/film/agfa/Datasheet_F_PF_E4.pdf",
+    "document": "2bd243b1",
+    "densitySource": "厂家图采样 · 第 6 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "REALA ACE",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/2dca996da7fa6b3e34edda4c943870c2/datasheet_realaace_01.pdf",
+    "document": "760bd441",
+    "densitySource": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "RETROPAN 320 soft",
+    "source": "https://www.foma.cz/en/retropan320",
+    "document": "fd9bdddd",
+    "densitySource": "厂家图采样 · 第 1 页 · 视觉密度 · 日光 5500K，Retro Special Developer 20°C，5 分钟；原图为相对曝光，中灰以密度 0.85 近似对齐，预警为端点内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "RSX II 100",
+    "source": "https://125px.com/docs/film/agfa/Datasheet_F_PF_E4.pdf",
+    "document": "2bd243b1",
+    "densitySource": "厂家图采样 · 第 8 页 · RGB均值 · AP 44 / E-6；中灰参考D=1.0；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "RSX II 200",
+    "source": "https://125px.com/docs/film/agfa/Datasheet_F_PF_E4.pdf",
+    "document": "2bd243b1",
+    "densitySource": "厂家图采样 · 第 8 页 · RGB均值 · AP 44 / E-6；中灰参考D=1.0；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "RSX II 50",
+    "source": "https://125px.com/docs/film/agfa/Datasheet_F_PF_E4.pdf",
+    "document": "2bd243b1",
+    "densitySource": "厂家图采样 · 第 8 页 · RGB均值 · AP 44 / E-6；中灰参考D=1.0；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_ektachrome_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_ektachrome_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "SENSIA III 100",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/78ba80660bc6e6af978b56efe045915a/datasheet_sensiaiii100_01.pdf",
+    "document": "1ac0d686",
+    "densitySource": "厂家图采样 · 第 6 页 · Status A green; gray at D=1.0 · CR-56",
+    "status": "derived",
+    "donor": "fujifilm_provia_100f",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_provia_100f；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "SFX 200",
+    "source": "https://www.ilfordphoto.com/amfile/file/download/file/1907/product/702/",
+    "document": "6e5021ce",
+    "densitySource": "厂家图采样 · 第 2 页 · 视觉密度 · ID-11 原液，20°C，10 分钟；中灰参考 log H 2.2，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；本型号手册单色感光响应（log10 of normalized relative wedge height (approximation)）；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "SUPERIA 1600",
+    "source": "https://125px.com/docs/film/fuji/superia_1600_datasheet.pdf",
+    "document": "660c1e49",
+    "densitySource": "厂家图采样 · 第 6 页 · 绿层 · 日光，1/125 秒，CN-16，Status M 绿层；中灰参考 log H -1.7，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "SUPERIA PREMIUM 400",
+    "source": "https://asset.fujifilm.com/www/jp/files/2019-12/3723e0912cf7e939bb07fd982b0ff9fa/datasheet_superiapremium400_01.pdf",
+    "document": "175fb820",
+    "densitySource": "厂家图采样 · 第 5 页 · Status M green; gray H=10/ISO · CN-16",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "SUPERIA REALA 100",
+    "source": "https://125px.com/docs/film/fuji/superia_reala_datasheet.pdf",
+    "document": "5e3afe99",
+    "densitySource": "厂家图采样 · 第 4 页 · 绿层 · 日光，1/125 秒，CN-16，Status M 绿层；中灰参考 log H -1.0，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "SUPERIA Venus 400",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/ec34b04900f0718db637a1bb5a9f019b/datasheet_superiavenus400_01.pdf",
+    "document": "d37a8712",
+    "densitySource": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "SUPERIA Venus 800",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/e19e7b4cc0678c711c9be30803f3f252/datasheet_superiavenus800_01.pdf",
+    "document": "94958d56",
+    "densitySource": "厂家图采样 · 第 4 页 · Status M green; gray H=10/ISO · CN-16X",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "T-MAX 100",
+    "source": "https://125px.com/docs/film/kodak/f4016_tmax_100-2018.pdf",
+    "document": "0cc2db5c",
+    "densitySource": "厂家图采样 · 第 8 页 · 视觉密度 · D-76，小罐 20°C 7.5 分钟，漫射视觉密度，中灰近似取 H=14/EI lx·s，第8页。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；本型号手册单色感光响应（log10 relative sensitivity）；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "T-MAX 400",
+    "source": "https://125px.com/docs/film/kodak/f4043_TMax_400-2016.pdf",
+    "document": "97adf51f",
+    "densitySource": "厂家图采样 · 第 8 页 · 视觉密度 · D-76，小罐 20°C 8 分钟，漫射视觉密度，中灰近似取 H=14/EI lx·s，第8页。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；本型号手册单色感光响应（log10 relative sensitivity）；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "TREBI 100C",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/ae5aef947b043303bc18c218d7947f22/datasheet_trebi100c_01.pdf",
+    "document": "0199093f",
+    "densitySource": "厂家图采样 · 第 5 页 · Status A green; gray at D=1.0 · CR-56",
+    "status": "derived",
+    "donor": "fujifilm_provia_100f",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_provia_100f；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "TREBI 400",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/723037fb14c03cfc40bf55ac9719c8cd/datasheet_trebi400_01.pdf",
+    "document": "11126495",
+    "densitySource": "厂家图采样 · 第 5 页 · Status A green; gray H=10/ISO · CR-56",
+    "status": "derived",
+    "donor": "fujifilm_provia_100f",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_provia_100f；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "TRI-X 320",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L626",
+    "document": "d551bee1",
+    "densitySource": "厂家图采样 · 第 9 页 · 视觉密度 · 页片，D-76，大罐 20°C 8 分钟，漫射视觉密度，中灰近似取 H=14/EI lx·s，第9页。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "TRI-X 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L626",
+    "document": "d551bee1",
+    "densitySource": "厂家图采样 · 第 7 页 · 视觉密度 · 135，T-MAX 显影液，小罐 20°C 7 分钟，漫射视觉密度，中灰近似取 H=14/EI lx·s，第7页。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "TRUE DEFINITION 400",
+    "source": "https://125px.com/docs/film/fuji/True_Definition_DataSheet.pdf",
+    "document": "c5ab2c1a",
+    "densitySource": "厂家图采样 · 第 6 页 · Status M green; gray H=10/ISO · CN-16",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_c200；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "ULTRA MAX 800",
+    "source": "https://125px.com/docs/film/kodak/E7024-Ultra_Max_800.pdf",
+    "document": "86c28dfd",
+    "densitySource": "厂家图采样 · 第 3 页 · 绿层 · C-41，日光，Status M 绿层，按图示 Log H Ref 对齐中灰，第3页。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "Ultra 100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L762",
+    "document": "91ad0a56",
+    "densitySource": "厂家图采样 · 第 6 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "VELVIA 100F",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L586",
+    "document": "a3b5b21b",
+    "densitySource": "厂家图采样 · 第 8 页 · Status A green; gray H=10/ISO · CR-56",
+    "status": "derived",
+    "donor": "fujifilm_velvia_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_velvia_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "VELVIA 50",
+    "source": "https://125px.com/docs/film/fuji/velvia_50_datasheet.pdf",
+    "document": "640c3107",
+    "densitySource": "厂家图采样 · 第 8 页 · 绿层 · 日光，E-6，Status A 绿层；中灰参考 log H -0.65，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "fujifilm_velvia_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_velvia_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "VELVIA RVP (original)",
+    "source": "https://asset.fujifilm.com/www/jp/files/2024-04/f1d4dc94f56605cbc32151a1fa60e4f0/datasheet_velvia_01.pdf",
+    "document": "488c1f64",
+    "densitySource": "厂家图采样 · 第 6 页 · Status A green; gray at D=1.0 · CR-56",
+    "status": "derived",
+    "donor": "fujifilm_velvia_100",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 fujifilm_velvia_100；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "Vista 100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L762",
+    "document": "91ad0a56",
+    "densitySource": "厂家图采样 · 第 5 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "Vista 200",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L762",
+    "document": "91ad0a56",
+    "densitySource": "厂家图采样 · 第 5 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "Vista 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L762",
+    "document": "91ad0a56",
+    "densitySource": "厂家图采样 · 第 5 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "Vista 800",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L762",
+    "document": "91ad0a56",
+    "densitySource": "厂家图采样 · 第 6 页 · RGB均值 · AP 70 / C-41；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册单通道或平均密度；感光谱与染料分谱借用 kodak_portra_400；中灰及层间响应近似",
+    "bw": false
+  },
+  {
+    "film": "XP2 SUPER",
+    "source": "https://www.ilfordphoto.com/amfile/file/download/file/1909/product/704/",
+    "document": "bc584212",
+    "densitySource": "厂家图采样 · 第 3 页 · 视觉密度 · 黑白染料型负片，C-41；中灰参考 log H 2.0，边界按图示两端内缩 0.10 D。",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；CIE 明视觉亮度作为感光响应近似；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "PAN F PLUS",
+    "source": "https://www.ilfordphoto.com/amfile/file/download/file/1905/product/700/",
+    "document": "11731318",
+    "densitySource": "厂家图采样 · 第 4 页 · visual · ILFOTEC HC (1+31), 4 min at 20 C, intermittent agitation；中灰估算：趾部+0.10D处上移3⅓档；界限取图内两端各收0.10D，亮端非实测饱和",
+    "status": "derived",
+    "donor": "kodak_portra_400",
+    "reason": "手册密度曲线；本型号手册单色感光响应（log10 of normalized relative wedge height (approximation)）；中性银影正像与中灰近似",
+    "bw": true
+  },
+  {
+    "film": "SUPERIA X-TRA 800",
+    "source": "https://125px.com/docs/film/fuji/superia_xtra800_datasheet.pdf",
+    "document": "0395e7b5",
+    "densitySource": "厂家图采样 · 第 4 页 · green · CN-16 / C-41；中灰假设 H=10/ISO lx·s；界限取图内两端各收0.10D，亮端非实测饱和",
+    "status": "derived",
+    "donor": "fujifilm_c200",
+    "reason": "SUPERIA X-TRA 800 原厂 RGB 感光谱与分层密度，印刷图采样的中性染料总谱与 D-min；各染料分谱借用 fujifilm_c200 并按中性谱约束；三通道模型未独立模拟青敏层；中灰近似，未测谱尾留空或沿用底材",
+    "bw": false
+  },
+  {
+    "film": "PAN 100",
+    "source": "https://www.troeszter.net/Download/Duka/Data/Ilford_PAN_100_400_Data.pdf",
+    "document": "03033b27",
+    "densitySource": "黑白显影，按原资料选择显影液 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "PAN 400",
+    "source": "https://www.troeszter.net/Download/Duka/Data/Ilford_PAN_100_400_Data.pdf",
+    "document": "03033b27",
+    "densitySource": "黑白显影，按原资料选择显影液 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "PAN 100 · Kentmere",
+    "source": "https://www.ilfordphoto.com/wp/wp-content/uploads/2022/12/KENTMERE-PAN-100_04_07_22.pdf",
+    "document": "8a1e74e8",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "PAN 200 · Kentmere",
+    "source": "https://www.ilfordphoto.com/wp/wp-content/uploads/2025/05/KENTMERE-PAN-200-260325.pdf",
+    "document": "b0b699da",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "PAN 400 · Kentmere",
+    "source": "https://www.ilfordphoto.com/wp/wp-content/uploads/2022/12/KENTMERE-PAN-400_04_07_22.pdf",
+    "document": "ffe3f433",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Phoenix II",
+    "source": "https://www.harmanphoto.co.uk/amfile/file/download/file/1968/product/2208/",
+    "document": "c1be7692",
+    "densitySource": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "CHS 100 II",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L746",
+    "document": "9228a1f0",
+    "densitySource": "黑白显影，按原资料选择显影液 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "CMS 20 II PRO",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L750",
+    "document": "42ab5b1d",
+    "densitySource": "黑白显影，按原资料选择显影液 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "HR-50",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L754",
+    "document": "888806de",
+    "densitySource": "黑白显影，按原资料选择显影液 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "P30 ALPHA",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L830",
+    "document": "e1877769",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "P33",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L834",
+    "document": "3258949e",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Color Negative 100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L934",
+    "document": "9147381f",
+    "densitySource": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Color Negative 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L938",
+    "document": "54632ba1",
+    "densitySource": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Color Negative 800",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L942",
+    "document": "e936ea9a",
+    "densitySource": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "LomoChrome Purple · EI 100–400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L982",
+    "document": "288ca5c6",
+    "densitySource": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "LomoChrome Metropolis · EI 100–400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L922",
+    "document": "54630fb1",
+    "densitySource": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Lobster Redscale 110",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L962",
+    "document": "ae0bf32e",
+    "densitySource": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "REDSCALE XR · EI 50–200",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L970",
+    "document": "94fee373",
+    "densitySource": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Tiger 200 110",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L974",
+    "document": "9d2e8cd1",
+    "densitySource": "C-41 · 彩色负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Babylon Kino 13",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L930",
+    "document": "3beb7947",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Berlin Kino 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L918",
+    "document": "1d574f6a",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Earl Grey 100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L946",
+    "document": "a429411d",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Fantôme Kino 8",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L954",
+    "document": "b01f746f",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Lady Grey 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L958",
+    "document": "fdab01b0",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Orca B&W 110",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L966",
+    "document": "18a8dba4",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Potsdam Kino 100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L978",
+    "document": "76934dab",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "INFRARED 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1006",
+    "document": "c58dfa2c",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "ORTHO 25 plus",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1010",
+    "document": "b0db43fb",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "RETRO 400S",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1014",
+    "document": "078695eb",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "RETRO 80S",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1018",
+    "document": "e81fad3e",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "RPX 100",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1022",
+    "document": "b26905a3",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "RPX 25",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1026",
+    "document": "e7c703af",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "RPX 400",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1030",
+    "document": "c3600619",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "SUPERPAN 200",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1034",
+    "document": "d4804249",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi A",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L862",
+    "document": "d7637ad7",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi D",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L866",
+    "document": "47cdb51f",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi E",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L870",
+    "document": "81ded9be",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi F",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L874",
+    "document": "eb91dbcf",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi I",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L878",
+    "document": "a00c882c",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi K",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L882",
+    "document": "1db2b4ae",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi S",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L890",
+    "document": "0220728e",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi V",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L894",
+    "document": "143bb964",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi W",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L898",
+    "document": "bce258d1",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi Y",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L902",
+    "document": "0cd6e970",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "Washi Z",
+    "source": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L906",
+    "document": "4105ff00",
+    "densitySource": "按片基与乳剂选择原资料所列显影工艺 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  },
+  {
+    "film": "NEW SHD100",
+    "source": "https://qx-files.yaozh.com/qybzfj_path/911306056012997149_528788.pdf",
+    "document": "43bc9677",
+    "densitySource": "黑白显影 · 黑白负片通用近似曲线和预警范围。原资料用于型号、曝光指数和工艺。",
+    "status": "insufficient",
+    "reason": "仅有类别曲线或型号参数，缺少可追溯的本型号曝光密度曲线"
+  }
+]

@@ -29,7 +29,7 @@
           </button>
           <a
             class="tool"
-            href="https://github.com/RayforLoy/LightData/releases/tag/0.1.2-beta"
+            href="https://github.com/RayforLoy/LightData/releases/tag/0.1.4-beta"
             target="_blank"
             rel="noopener"
             aria-label="下载 Android 应用"
@@ -364,6 +364,20 @@
             </select></label
           >
           <p id="style-info" class="subtle"></p>
+          <label>预览按钮行为<select id="preview-mode">
+            <option value="luminance">亮度模拟</option>
+            <option value="lut">胶片 LUT</option>
+          </select></label>
+          <label id="lut-variant-row" hidden>冲印或观看条件<select id="lut-variant"></select></label>
+          <p id="lut-info" class="subtle" aria-live="polite" hidden></p>
+          <p id="lut-credit" class="subtle" hidden>spektrafilm · Andrea Volpato ·
+            <a href="https://github.com/andreavolpato/spektrafilm/blob/3bb2c2d2801ff68b92019cf1dbcbb133d60832bc/SPEKTRAFILM_LICENSE.txt" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+          </p>
+          <label>实时预览渲染倍率<select id="preview-scale">
+            <option value="1">100%</option><option value="0.75">75%</option>
+            <option value="0.5">50%</option><option value="0.25">25%</option>
+          </select></label>
+          <p class="subtle">画面稳定或冻结时恢复当前取景的全分辨率。倍率只影响显示。</p>
           <div class="form-row">
             <label
               >目标胶片 ISO<input
@@ -519,7 +533,7 @@
           </p>
         </fieldset>
         <p class="about">
-          LightData Web · 0.1.2-beta<br /><a
+          LightData Web · 0.1.4-beta<br /><a
             href="https://github.com/RayforLoy/LightData"
             target="_blank"
             rel="noopener"

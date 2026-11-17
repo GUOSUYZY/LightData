@@ -1,0 +1,11 @@
+2026-11-17 — LightData 0.1.4-beta
+Original film and print profiles: Andrea Volpato and the spektrafilm contributors.
+https://github.com/andreavolpato/spektrafilm/tree/3bb2c2d2801ff68b92019cf1dbcbb133d60832bc
+The LUTs, including profile-derived approximations, are distributed under CC BY-SA 4.0.
+The upstream license and attribution notice is included unchanged in SPEKTRAFILM_LICENSE.txt.
+
+LightData sampled the pinned simulation on a 33 x 33 x 33 logarithmically shaped linear sRGB grid, with sRGB display output, fixed exposure, and no spatial or stochastic effects. Reversal stocks use direct D50 viewing. Negative profiles are paired with compatible print materials. The display transformation is baked for the named viewing condition and output medium.
+
+Additional entries use the named film's datasheet density samples. Where available, those entries incorporate digitized spectral sensitivities, layer densities and neutral dye density. Missing parameters, donor materials and sources are recorded per entry. Derived monochrome profiles use a neutral silver positive display transform. A derived entry is a LightData approximation.
+
+At display time LightData anchors the LUT's neutral luminance to the selected metering curve and limits color-dependent luminance to the applicable exposure zone. The app preserves the ungraded exposure data for readings, clipping warnings, histogram and spots. The shipped LUT files themselves contain the baked color transformation before this display adjustment.

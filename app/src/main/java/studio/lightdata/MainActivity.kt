@@ -20,6 +20,9 @@ data class Sample(
     val hist: IntArray,
     val missing: Boolean,
     val scan: ScanGuide?,
+    val still: Boolean = false,
+    val captureWidth: Int = frame.w,
+    val captureHeight: Int = frame.h,
 )
 
 data class Spot(val id: Int, val x: Double, val y: Double, val ev: Double)
@@ -56,6 +59,30 @@ class MainActivity : ComponentActivity() {
     var compensationThirds by mutableIntStateOf(0)
         private set
     var preview by mutableStateOf(false)
+    var useLut by mutableStateOf(false)
+    var previewScale by mutableDoubleStateOf(.5)
+    internal val lutAssets by lazy { LutAssets(assets) }
+    var lutEntries by mutableStateOf(emptyList<LutEntry>())
+    var lutCatalogStatus by mutableStateOf("正在读取 LUT 目录")
+    val chosenLuts = mutableStateMapOf<String, String>()
+    val variants get() = if (selectedPresetId == null) lutEntries.filter { it.film == film.name } else emptyList()
+    val variant: LutEntry? get() {
+        val options = variants
+        val file = chosenLuts[film.name] ?: prefs.getString("lutVariant:" + film.name, null)
+        return options.find { it.file == file }
+            ?: options.find { it.preferred && it.iso.toDouble() == filmIso }
+            ?: options.find { it.preferred } ?: options.firstOrNull()
+    }
+    var activeAtlas by mutableStateOf<LutAtlas?>(null)
+    var failedLut by mutableStateOf<String?>(null)
+    val lutStatus get() = when {
+        lutCatalogStatus.isNotEmpty() -> lutCatalogStatus
+        variant == null -> "无对应 LUT · 使用亮度模拟"
+        variant?.file == failedLut -> "LUT 加载失败 · 使用亮度模拟"
+        activeAtlas?.entry?.file != variant?.file -> "正在加载 LUT · 使用亮度模拟"
+        else -> "LUT 预览"
+    }
+    private val stillDetector = StillDetector()
     var frozen by mutableStateOf(false)
     var single by mutableStateOf(false)
     var held by mutableStateOf<Double?>(null)
@@ -153,6 +180,8 @@ class MainActivity : ComponentActivity() {
         compensationThirds = prefs.getInt("compensationThirds", 0).coerceIn(-15, 15)
         manual = Exposure(saved("t", 1.0 / 125), saved("a", 8.0), saved("iso", 400.0))
         style = saved("style", 0.0).toInt()
+        useLut = prefs.getBoolean("useLut", false)
+        previewScale = saved("previewScale", .5).coerceIn(.25, 1.0)
         restoreFilm()
         logCounts = prefs.getBoolean("logCounts", true)
         for (prefix in listOf("p", "l", "squarep", "squarel")) {
@@ -202,6 +231,21 @@ class MainActivity : ComponentActivity() {
         scanRequest?.reanchor = true
         runningCal = false
         super.onPause()
+    }
+
+    override fun onConfigurationChanged(config: android.content.res.Configuration) {
+        super.onConfigurationChanged(config)
+        if (!active || !allowed || runningCal) return
+        val prior = current ?: return
+        val available = runCatching { cameras(this) }.getOrNull() ?: return
+        val next = available.find { it.id == prior.id } ?: return
+        if (next.size != prior.size) {
+            epoch++
+            lenses = available
+            current = next
+            scanRequest?.reanchor = true
+            rig.open(next)
+        }
     }
 
     override fun onDestroy() {
@@ -269,7 +313,8 @@ class MainActivity : ComponentActivity() {
         }
         val out = scan?.first ?: crop(frame, src, goal)
         val hist = out.distribution()
-        val result = Sample(out, hist, !src.covers(goal), scan?.second)
+        val result = Sample(out, hist, !src.covers(goal), scan?.second,
+            stillDetector.observe(out, pose.matrix, android.os.SystemClock.elapsedRealtime()), f.w, f.h)
         runOnUiThread {
             if (!active || token != epoch || frozen) return@runOnUiThread
             if (message.startsWith("正在连接")) {

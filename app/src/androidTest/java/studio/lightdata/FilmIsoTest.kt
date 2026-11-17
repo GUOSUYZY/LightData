@@ -11,7 +11,9 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FilmIsoTest {
     @Test fun choosingAStockRelocksIsoAndRestoresCustomAndManualSelections() {
-        val app = InstrumentationRegistry.getInstrumentation().targetContext
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val app = instrumentation.targetContext
+        instrumentation.uiAutomation.grantRuntimePermission(app.packageName, android.Manifest.permission.CAMERA)
         val prefs = app.getSharedPreferences("meter", Context.MODE_PRIVATE)
         val keys = listOf("t", "a", "iso", "film", "filmIsoLocked", "customPresets", "customPresetId")
         val original = prefs.all.filterKeys { it in keys }

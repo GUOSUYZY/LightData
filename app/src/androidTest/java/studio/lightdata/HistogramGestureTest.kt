@@ -77,7 +77,7 @@ class HistogramGestureTest {
         error("直方图未达到预期状态。最后一次读到「$observed」")
     }
 
-    private fun touch(downTime: Long, action: Int, vararg points: Pair<Float, Float>) {
+    private fun touch(downTime: Long, action: Int, vararg points: Pair<Float, Float>, synchronous: Boolean = true) {
         val ids =
             Array(points.size) { id ->
                 MotionEvent.PointerProperties().apply {
@@ -112,7 +112,7 @@ class HistogramGestureTest {
                 0,
             )
         try {
-            assertTrue("触摸事件未注入", device.injectInputEvent(event, true))
+            assertTrue("触摸事件未注入", device.injectInputEvent(event, synchronous))
         } finally {
             event.recycle()
         }
@@ -180,8 +180,9 @@ class HistogramGestureTest {
             val point = zoomed.bounds.exactCenterX() to zoomed.bounds.exactCenterY()
             repeat(2) {
                 val t = SystemClock.uptimeMillis()
-                touch(t, MotionEvent.ACTION_DOWN, point)
-                touch(t, MotionEvent.ACTION_UP, point)
+                // Keep physical tap timing independent of emulator rendering time.
+                touch(t, MotionEvent.ACTION_DOWN, point, synchronous = false)
+                touch(t, MotionEvent.ACTION_UP, point, synchronous = false)
                 if (it == 0) SystemClock.sleep(65)
             }
             val reset = axes {

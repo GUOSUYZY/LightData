@@ -11,6 +11,17 @@ import {
 const source = { x: 0.7, y: 0.6 };
 const target = { x: 1, y: 0.4 };
 const identity = yawPitch(0);
+test("pano analysis can downsample while the native crop never exceeds its atlas", () => {
+  const p = new Panorama({ target, source, width: 115, height: 115 });
+  p.pixels.fill(255);
+  const full = p.view(null, { x: 0, y: 0 });
+  const mini = p.view(null, { x: 0, y: 0 }, 40);
+  const oversized = p.view(null, { x: 0, y: 0 }, 800);
+  assert.deepEqual([full.image.width, full.image.height], [100, 40]);
+  assert.deepEqual([mini.image.width, mini.image.height], [40, 16]);
+  assert.deepEqual([oversized.image.width, oversized.image.height], [100, 40]);
+  assert.equal(mini.missing, false);
+});
 function render(field, yaw, ev = 0, bias = 0) {
   const width = 224,
     height = Math.round((width * field.y) / field.x);

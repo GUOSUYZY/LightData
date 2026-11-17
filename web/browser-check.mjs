@@ -96,12 +96,12 @@ try {
     };
   });
   await page.goto(base);
-  await expect(page.locator("#film-select option")).toHaveCount(167);
+  await expect(page.locator("#film-select option")).toHaveCount(168);
   await expect(page.locator("#format option")).toHaveCount(17);
   await expect(page.locator("#pixel-label")).toHaveText("像素 log");
   await expect(page.locator(".toolbar a[href*=releases]")).toHaveAttribute(
     "href",
-    /0\.1\.2-beta/,
+    /releases\/tag\/0\.1\.4-beta$/,
   );
   await expect(page.locator("#camera-setup")).toBeVisible();
   await expect(page.locator("#setup-lens")).toBeDisabled();
@@ -274,6 +274,24 @@ try {
     .locator("#spots .spot")
     .evaluateAll((nodes) => nodes.map((n) => n.style.color));
   expect(colors[0]).not.toBe(colors[1]);
+  await settings();
+  await page.locator("#film-select").selectOption({ label: "PORTRA 160 · ISO 160" });
+  const frozenValues = () => page.evaluate(() =>
+    ["meter-reading", "thresholds", "spot-list", "exposure-table"].map(id => document.getElementById(id).textContent));
+  const frozenPixels = () => page.locator("#view").evaluate(canvas => canvas.toDataURL());
+  const beforePixels = await frozenPixels();
+  const beforeLut = await frozenValues();
+  const frozenWidth = await page.locator("#view").getAttribute("width");
+  await page.locator("#preview-mode").selectOption("lut");
+  await expect(page.locator("#lut-info")).toContainText("Spektrafilm");
+  await expect.poll(frozenPixels).not.toBe(beforePixels);
+  await page.locator("#preview-scale").selectOption("0.25");
+  expect(await frozenValues()).toEqual(beforeLut);
+  expect(await page.locator("#view").getAttribute("width")).toBe(frozenWidth);
+  await page.locator("#preview-mode").selectOption("luminance");
+  await page.locator("#preview-scale").selectOption("0.5");
+  await page.locator("#film-select").selectOption({ label: "HP5 PLUS · ISO 400" });
+  await close();
   const axisBefore = await page.locator("#chart").getAttribute("aria-label");
   const chart = await page.locator("#chart").boundingBox();
   const cdp = await context.newCDPSession(page);

@@ -700,8 +700,12 @@ export class Panorama {
     return rotate(low);
   }
 
+  get nativeViewEdge() {
+    return Math.max(1, Math.round(Math.max(this.width, this.height) / MARGIN));
+  }
+
   /** Reframe only within the acquired 15% margin. Offset x/y are normalized -1…1. */
-  view(pose = null, offset = null) {
+  view(pose = null, offset = null, maxEdge = Infinity) {
     let orientation = this.orientation;
     if (validPose(pose) && this.previousSensor)
       orientation = multiply(
@@ -716,8 +720,11 @@ export class Panorama {
         -Math.atan(this.target.y * (MARGIN - 1)) * oy,
       );
     const matrix = this.limitedPose(orientation);
-    const width = Math.max(1, Math.round(this.width / MARGIN)),
-      height = Math.max(1, Math.round(this.height / MARGIN));
+    const nativeWidth = Math.max(1, Math.round(this.width / MARGIN)),
+      nativeHeight = Math.max(1, Math.round(this.height / MARGIN));
+    const scale = Math.min(1, maxEdge / Math.max(nativeWidth, nativeHeight));
+    const width = Math.max(1, Math.round(nativeWidth * scale)),
+      height = Math.max(1, Math.round(nativeHeight * scale));
     const projection = new Projection(
       matrix,
       this.bounds,

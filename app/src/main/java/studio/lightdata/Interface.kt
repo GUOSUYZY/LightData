@@ -23,6 +23,8 @@ import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.viewinterop.AndroidView
 import kotlin.math.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 private val ink = Color(0xff101112)
 private val panel = Color(0xff191a1c)
@@ -76,6 +78,23 @@ private fun Action(s: String, on: Boolean = false, doIt: () -> Unit) {
 
 @Composable
 fun Instrument(a: MainActivity) {
+    LaunchedEffect(a.useLut) {
+        if (a.useLut && a.lutEntries.isEmpty()) {
+            val result = withContext(Dispatchers.IO) { runCatching { a.lutAssets.entries() } }
+            a.lutEntries = result.getOrDefault(emptyList())
+            a.lutCatalogStatus = if (result.isFailure) "LUT 目录读取失败 · 使用亮度模拟" else ""
+        }
+    }
+    val variant = if (a.useLut && a.preview) a.variant else null
+    LaunchedEffect(variant) {
+        a.activeAtlas = null
+        a.failedLut = null
+        if (variant != null) {
+            val atlas = withContext(Dispatchers.IO) { runCatching { a.lutAssets.load(variant) }.getOrNull() }
+            a.activeAtlas = atlas
+            if (atlas == null) a.failedLut = variant.file
+        }
+    }
     BackHandler(a.settings || a.resizing || a.frozen || a.scanActive) {
         when {
             a.settings -> a.settings = false
@@ -286,13 +305,20 @@ private fun Finder(a: MainActivity) {
                             a.preview,
                             a.mode == "M",
                             a.style,
+                            if (a.useLut && a.preview) a.activeAtlas?.takeIf { it.entry.file == a.variant?.file } else null,
                         )
                     AndroidView(
-                        factory = { Preview(it) },
+                        factory = { ctx -> Preview(ctx).apply {
+                            onCubeUnavailable = { file ->
+                                if (a.variant?.file == file) {
+                                    a.failedLut = file
+                                    a.activeAtlas = null
+                                }
+                            }
+                        } },
                         modifier = Modifier.fillMaxSize(),
                         update = {
-                            it.look = look
-                            it.requestRender()
+                            it.show(look, if (a.frozen || s.still) 1.0 else a.previewScale)
                         },
                     )
                     Canvas(
@@ -390,7 +416,7 @@ private fun Finder(a: MainActivity) {
                 if (a.message.isNotEmpty()) amber else muted,
                 Modifier.weight(1f),
             )
-            Label(if (a.preview) "胶片预览" else "取景", 10, if (a.preview) amber else muted)
+            Label(if (!a.preview) "取景" else if (a.useLut) a.lutStatus else "亮度模拟", 10, if (a.preview) amber else muted)
         }
     }
 }
@@ -432,14 +458,37 @@ private fun Histogram(a: MainActivity) {
                         java.util.Locale.US, chart.left, chart.right, chart.gain
                     )
                 }
-                .pointerInput(Unit) { detectTapGestures(onDoubleTap = { window = null }) }
                 .pointerInput(Unit) {
+                    var lastTapUp: Long? = null
+                    var lastTapPosition = Offset.Zero
                     awaitEachGesture {
-                        awaitFirstDown(requireUnconsumed = false)
+                        val down = awaitFirstDown()
+                        var tap = true
                         var moved = false
                         var travel = 0f
                         do {
                             val event = awaitPointerEvent()
+                            val first = event.changes.first()
+                            if (event.changes.size > 1 || first.isConsumed ||
+                                (first.position - down.position).getDistance() > viewConfiguration.touchSlop) tap = false
+                            if (!event.changes.any { it.pressed }) {
+                                if (tap && !moved && first.uptimeMillis - down.uptimeMillis < viewConfiguration.longPressTimeoutMillis) {
+                                    // Input timestamps remain accurate when a busy GL or main thread
+                                    // delivers both taps together. A pinch cannot start a tap pair.
+                                    val interval = lastTapUp?.let { down.uptimeMillis - it }
+                                    if (interval != null &&
+                                        interval in viewConfiguration.doubleTapMinTimeMillis..viewConfiguration.doubleTapTimeoutMillis &&
+                                        (down.position - lastTapPosition).getDistance() <= 40.dp.toPx()) {
+                                        window = null
+                                        lastTapUp = null
+                                    } else {
+                                        lastTapUp = first.uptimeMillis
+                                        lastTapPosition = first.position
+                                    }
+                                    first.consume()
+                                } else lastTapUp = null
+                                break
+                            }
                             val fingers = event.changes.filter { it.pressed && it.previousPressed }
                             if (fingers.isEmpty()) continue
                             val panX = fingers.map { it.position.x - it.previousPosition.x }.average()
@@ -958,6 +1007,39 @@ private fun Settings(a: MainActivity, m: Modifier) {
         Setting("组件比例", "拖动分界线") {
             a.settings = false
             a.resizing = true
+        }
+        Setting("预览按钮", if (a.useLut) "LUT 色彩模拟" else "亮度模拟") {
+            a.choose("拍摄预览", listOf("亮度模拟", "LUT 色彩模拟")) { i ->
+                a.useLut = i == 1
+                a.prefs.edit().putBoolean("useLut", a.useLut).apply()
+            }
+        }
+        Setting("实时预览分辨率", n(a.previewScale) + "×") {
+            val scales = listOf(.25, .5, .75, 1.0)
+            a.choose("实时预览分辨率", scales.map { "${it}×" }) { i ->
+                a.previewScale = scales[i]
+                a.put("previewScale", scales[i])
+            }
+        }
+        Label("画面静止或冻结时恢复完整取景分辨率。", 11, muted)
+        a.sample?.let { Label("镜头输入 ${it.captureWidth}×${it.captureHeight} · 取景裁框 ${it.frame.w}×${it.frame.h}", 11, muted) }
+        if (a.useLut) {
+            Label("Andrea Volpato / spektrafilm", 11, muted)
+            Action("CC BY-SA 4.0 ↗") { open("https://creativecommons.org/licenses/by-sa/4.0/") }
+            val variants = a.variants
+            val entry = a.variant
+            if (entry == null) Label(a.lutStatus, 11, amber) else {
+                Setting("LUT 版本", "${variants.indexOf(entry) + 1} / ${variants.size}") {
+                    a.choose("选择 LUT 烘焙版本", variants.map { it.label }) { i ->
+                        a.chosenLuts[a.film.name] = variants[i].file
+                        a.put("lutVariant:" + a.film.name, variants[i].file)
+                    }
+                }
+                Label(entry.label, 11, muted)
+                if (entry.approximation.isNotBlank()) Label(entry.approximation, 11, muted)
+                if (entry.source.startsWith("https://")) Action("原始配置 ↗") { open(entry.source) }
+                if (a.failedLut == entry.file) Label(a.lutStatus, 11, amber)
+            }
         }
         Setting(
             "手机镜头",

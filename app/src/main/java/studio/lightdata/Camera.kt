@@ -21,9 +21,24 @@ data class Lens(
     val size: Size,
     val view: Field,
     val angle: Int,
+    val compactSize: Size = size,
 ) {
     val label
         get() = "镜头 " + id + " · " + (2 * Math.toDegrees(atan(view.x))).roundToInt() + "°"
+}
+
+// Prefer a stream close to the display's longest edge and the sensor's native aspect.
+// Reserve room for synchronized YUV packets, rotation, crop, GL upload and the mosaic.
+internal fun previewDimensions(
+    sizes: List<Pair<Int, Int>>, edge: Int, sensorAspect: Double, heapBytes: Long,
+): Pair<Int, Int> {
+    val budget = max(640L * 480, heapBytes / 80)
+    val usable = sizes.filter { (w,h) -> w.toLong()*h <= budget }
+    if (usable.isEmpty()) return sizes.minBy { (w,h) -> w.toLong()*h }
+    return usable.minBy { (w,h) ->
+        abs(log2(max(w,h).toDouble()/edge.coerceAtLeast(640))) +
+            1.5*abs(log2(w.toDouble()/h/sensorAspect))
+    }
 }
 
 // A capture result's crop is in active-array coordinates. The output stream
@@ -53,13 +68,20 @@ fun cameras(ctx: Context): List<Lens> {
                 c[CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP]?.getOutputSizes(
                     ImageFormat.YUV_420_888
                 ) ?: continue
-            val size = sizes.minBy { abs(it.width - 640) + abs(it.height - 480) * 2 }
+            if (sizes.isEmpty()) continue
+            val compact = sizes.minBy { abs(it.width - 640) + abs(it.height - 480) * 2 }
+            val active = c[CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE]
+            val aspect = active?.let { it.width().toDouble()/it.height() } ?: 4.0 / 3
+            val metrics = ctx.resources.displayMetrics
+            val (w,h) = previewDimensions(sizes.map { it.width to it.height },
+                max(metrics.widthPixels,metrics.heightPixels), aspect, Runtime.getRuntime().maxMemory())
+            val size = Size(w,h)
             val f =
                 c[CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS]?.firstOrNull()
                     ?: continue
             val view = cameraField(c, size, f.toDouble(), null) ?: continue
             val lens =
-                Lens(owner, id, c, size, view, c[CameraCharacteristics.SENSOR_ORIENTATION] ?: 90)
+                Lens(owner, id, c, size, view, c[CameraCharacteristics.SENSOR_ORIENTATION] ?: 90, compact)
             if (owner == id || id !in result) result[id] = lens
         }
     }
@@ -99,6 +121,19 @@ class Rig(
 
     private data class Plane(val data: ByteArray, val rowStride: Int, val pixelStride: Int)
     private data class Packet(val w: Int, val h: Int, val planes: List<Plane>, val encoding: YuvEncoding) {
+        fun grid(): DoubleArray {
+            val (y,u,v) = planes
+            return DoubleArray(32*24) { i ->
+                val col = ((.1 + .8*((i%32+.5)/32))*w).toInt()
+                val row = ((.1 + .8*((i/32+.5)/24))*h).toInt()
+                val rgb = encoding.rgb(
+                    y.data[row*y.rowStride + col*y.pixelStride].toInt() and 255,
+                    u.data[row/2*u.rowStride + col/2*u.pixelStride].toInt() and 255,
+                    v.data[row/2*v.rowStride + col/2*v.pixelStride].toInt() and 255,
+                )
+                luma(rgb)/255.0
+            }
+        }
         fun frame(ev: Double, id: String, timestamp: Long): Frame {
             val (y,u,v) = planes
             val rgb = IntArray(w * h)
@@ -197,9 +232,10 @@ class Rig(
         }
     }
 
-    private fun configure(withRaw: Boolean) {
+    private fun configure(withRaw: Boolean, compact: Boolean = false) {
         val d = camera ?: return
         val l = lens ?: return
+        val size = if (compact) l.compactSize else l.size
         val gen = ++generation
         session?.close()
         session = null
@@ -208,14 +244,15 @@ class Rig(
         raw = null
         clear()
         try {
-            val y = ImageReader.newInstance(l.size.width, l.size.height, ImageFormat.YUV_420_888, 4)
+            val y = ImageReader.newInstance(size.width, size.height, ImageFormat.YUV_420_888, 4)
+            val intervalNs = max(65_000_000L, size.width.toLong()*size.height*65L)
             yuv = y
             y.setOnImageAvailableListener(
                 { r ->
                     runCatching {
                         r.acquireLatestImage()?.use { im ->
                             val now = SystemClock.elapsedRealtimeNanos()
-                            if (gen == generation && (scan != null || !processingPreview && now - lastPreviewAt >= 65_000_000)) {
+                            if (gen == generation && (scan != null || !processingPreview && now - lastPreviewAt >= intervalNs)) {
                                 if (scan == null) lastPreviewAt = now
                                 images[im.timestamp] = snapshot(im)
                                 match(im.timestamp)
@@ -279,7 +316,9 @@ class Rig(
                         override fun onConfigureFailed(s: CameraCaptureSession) {
                             s.close()
                             if (gen != generation) return
-                            if (raw != null) configure(false)
+                            if (raw != null && !compact && size != l.compactSize) configure(true, true)
+                            else if (raw != null) configure(false)
+                            else if (!compact && size != l.compactSize) configure(false, true)
                             else {
                                 scan = null
                                 status("该镜头不支持此采集组合，请切换镜头")
@@ -289,7 +328,9 @@ class Rig(
                 )
             )
         } catch (e: Exception) {
-            if (withRaw) configure(false)
+            if (withRaw && !compact && size != l.compactSize) configure(true, true)
+            else if (withRaw) configure(false)
+            else if (!compact && size != l.compactSize) configure(false, true)
             else {
                 scan = null
                 status("无法配置镜头：" + e.localizedMessage)
@@ -298,7 +339,13 @@ class Rig(
     }
 
     private fun trim() {
-        for (m in listOf(images, results, rawGrid)) while (m.size > 12) m.remove(m.keys.first())
+        val packet = images.values.firstOrNull()
+        if (packet != null) {
+            val bytes = packet.planes.sumOf { it.data.size }.coerceAtLeast(1)
+            val limit = (Runtime.getRuntime().maxMemory() / 8 / bytes).coerceIn(3,12)
+            while (images.size > limit) images.remove(images.keys.first())
+        }
+        for (m in listOf(results, rawGrid)) while (m.size > 12) m.remove(m.keys.first())
     }
 
     fun calibrate(method: String, step: Double) {
@@ -337,7 +384,7 @@ class Rig(
                         longest)
                     .distinct()
             scan = Scan(method, step, times, iso)
-            configure(true)
+            configure(true, yuv?.width == l.compactSize.width && yuv?.height == l.compactSize.height)
         }
     }
 
@@ -443,9 +490,10 @@ class Rig(
             if (processingPreview) return
             baseTime = time
             baseIso = iso
-            val focal = meta[CaptureResult.LENS_FOCAL_LENGTH]?.toDouble()
+            val focal = (meta[CaptureResult.LENS_FOCAL_LENGTH]
+                ?: l.c[CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS]?.firstOrNull())?.toDouble()
             val view =
-                focal?.let { cameraField(l.c, l.size, it, meta[CaptureResult.SCALER_CROP_REGION]) }
+                focal?.let { cameraField(l.c, Size(image.w,image.h), it, meta[CaptureResult.SCALER_CROP_REGION]) }
                     ?: l.view
             // Keep Camera2 callbacks responsive even if conversion or panorama registration takes
             // longer than the frame interval. Only hand a timestamp-matched packet to the worker.
@@ -461,7 +509,6 @@ class Rig(
             }
             return
         }
-        val frame = image.frame(ev,l.id,sensorTime)
         if (index != b.index) return
         if (
             abs(log2(time.toDouble() / b.times[index])) > .35 ||
@@ -470,11 +517,7 @@ class Rig(
             abort("镜头未执行指定的曝光参数")
             return
         }
-        val grid =
-            DoubleArray(32 * 24) { i ->
-                luma(frame.sample(.1 + .8 * ((i % 32 + .5) / 32), .1 + .8 * ((i / 32 + .5) / 24))) /
-                    255.0
-            }
+        val grid = image.grid()
         val rg = rawGrid.remove(ts)
         if (b.first == null) {
             b.first = grid
@@ -499,7 +542,7 @@ class Rig(
                 stops = it
                 channel = "RAW+YUV"
             }
-            calibrated(l, Calibration(lut, stops, channel, b.iso))
+            calibrated(l, Calibration(lut, stops, "$channel ${image.w}×${image.h}", b.iso))
         } catch (e: CalibrationIssue) {
             status(e.message ?: "校准失败")
         }

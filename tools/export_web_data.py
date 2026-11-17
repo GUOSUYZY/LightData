@@ -64,8 +64,8 @@ def export():
         color = film.setdefault("color", {"density": {}, "spectral": {}})
         color["spectral"].setdefault(row["channel"], []).append([float(row["wavelength_nm"]), float(row["log_sensitivity"])])
         color.setdefault("conditions", {})[row["channel"]] = row["conditions"]
-    assert measured_count == 119, measured_count
-    assert len(films) == 167, len(films)
+    assert measured_count == 122, measured_count
+    assert len(films) == 168, len(films)
     assert sum(len(points) for film in films.values() for points in film.get("color", {}).get("spectral", {}).values()) == 428
     assert sum(len(points) for film in films.values() for points in film.get("color", {}).get("density", {}).values()) == 477
     target = ROOT / "web/data/films.json"

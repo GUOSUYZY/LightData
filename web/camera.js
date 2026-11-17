@@ -1,3 +1,71 @@
+// Use a small, fixed sampling grid on the existing analysis frame. The four
+// samples per cell damp sensor noise while keeping local subject motion visible.
+export class FrameMotion {
+  reset() {
+    this.previous = this.anchor = null;
+    this.still = false;
+  }
+
+  observe(image, time) {
+    const cols = Math.min(image.width, 40), rows = Math.min(image.height, 30);
+    const grid = new Uint8Array(cols * rows);
+    const { width, height, data } = image;
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        let total = 0;
+        for (let q = 0; q < 4; q++) {
+          const x = Math.floor((col + ((q & 1) ? .75 : .25)) * width / cols);
+          const y = Math.floor((row + ((q & 2) ? .75 : .25)) * height / rows);
+          const i = 4 * (y * width + x);
+          total += 54 * data[i] + 183 * data[i + 1] + 19 * data[i + 2];
+        }
+        grid[row * cols + col] = Math.round(total / 1024);
+      }
+    }
+    if (!this.previous || time <= this.lastTime || time - this.lastTime > 1000 ||
+        this.width !== width || this.height !== height) {
+      this.still = false;
+      this.quietSince = time;
+      this.anchor = grid;
+    } else {
+      // Compare against the start of the quiet period too, so a slow pan cannot
+      // qualify as stationary by moving only slightly between adjacent frames.
+      let total = 0, changed = 0;
+      for (let i = 0; i < grid.length; i++) {
+        const difference = Math.max(Math.abs(grid[i] - this.previous[i]),
+          Math.abs(grid[i] - this.anchor[i]));
+        total += difference;
+        if (difference > 10) changed++;
+      }
+      if (total / grid.length > (this.still ? 4 : 2.5) ||
+          changed / grid.length > (this.still ? .035 : .02)) {
+        this.still = false;
+        this.quietSince = time;
+        this.anchor = grid;
+      } else if (time - this.quietSince >= 800) this.still = true;
+    }
+    this.width = width;
+    this.height = height;
+    this.lastTime = time;
+    this.previous = grid;
+    return this.still;
+  }
+}
+
+// Fractional source rectangle and destination inset preserve transparent areas
+// beyond the captured field. Resolution never exceeds available source density.
+export function captureGeometry(width, height, source, target, scale = 1) {
+  const wide = source && target ? width * target.x / source.x : width;
+  const high = source && target ? height * target.y / source.y : height;
+  if (![wide, high, scale].every(v => Number.isFinite(v) && v > 0)) return null;
+  const ratio = Math.min(1, Math.max(width, height) / Math.max(wide, high)) * Math.min(1, scale);
+  const w = Math.max(1, Math.round(wide * ratio)), h = Math.max(1, Math.round(high * ratio));
+  const sw = Math.min(width, wide), sh = Math.min(height, high);
+  const dw = sw * w / wide, dh = sh * h / high;
+  return { w, h, args: [(width - sw) / 2, (height - sh) / 2, sw, sh,
+    (w - dw) / 2, (h - dh) / 2, dw, dh] };
+}
+
 /** Browser capture owns one stream. Sampling and metadata polling never restart it. */
 export class Camera extends EventTarget {
   constructor(video) {
@@ -12,6 +80,7 @@ export class Camera extends EventTarget {
     this.settings = {};
     this.capabilities = {};
     this.paused = false;
+    this.motion = new FrameMotion();
   }
 
   emit(type, detail) {
@@ -94,24 +163,73 @@ export class Camera extends EventTarget {
       this.video.readyState >= 2
     ) {
       this.lastFrame = time;
-      const scale = Math.min(
-        1,
-        640 / Math.max(this.video.videoWidth, this.video.videoHeight),
-      );
-      const w = Math.max(1, Math.round(this.video.videoWidth * scale));
-      const h = Math.max(1, Math.round(this.video.videoHeight * scale));
-      if (this.canvas.width !== w || this.canvas.height !== h) {
-        this.canvas.width = w;
-        this.canvas.height = h;
+      const image = this.captureAnalysis();
+      if (image) {
+        this.inFrame = true;
+        this.previewKey = null;
+        this.previewPixels = null;
+        try {
+          this.emit("frame", {
+            image, still: this.motion.observe(image, time),
+            settings: { ...this.settings }, time,
+          });
+        } finally {
+          this.inFrame = false;
+          this.previewKey = null;
+          this.previewPixels = null;
+        }
       }
-      this.context.drawImage(this.video, 0, 0, w, h);
-      this.emit("frame", {
-        image: this.context.getImageData(0, 0, w, h),
-        settings: { ...this.settings },
-        time,
-      });
     }
     this.schedule();
+  }
+
+  captureAnalysis() {
+    const { videoWidth: width, videoHeight: height } = this.video;
+    if (!this.stream || this.video.readyState < 2 || !width || !height) return null;
+    const scale = Math.min(1, 640 / Math.max(width, height));
+    const w = Math.max(1, Math.round(width * scale));
+    const h = Math.max(1, Math.round(height * scale));
+    if (this.canvas.width !== w || this.canvas.height !== h) {
+      this.canvas.width = w;
+      this.canvas.height = h;
+    }
+    this.context.drawImage(this.video, 0, 0, w, h);
+    return this.context.getImageData(0, 0, w, h);
+  }
+
+  // Reused canvas: consume synchronously. Request capturePreview for an owned
+  // pixel snapshot, e.g. when freezing the view or using a CPU renderer.
+  previewCanvas(source = null, target = null, scale = 1) {
+    const { videoWidth: width, videoHeight: height } = this.video;
+    if (!this.stream || this.video.readyState < 2 || !width || !height) return null;
+    const rect = captureGeometry(width, height, source, target, scale);
+    if (!rect) return null;
+    const key = [rect.w, rect.h, ...rect.args].join(",");
+    if (this.inFrame && this.previewKey === key) return this.previewSurface;
+    if (!this.previewSurface) {
+      this.previewSurface = document.createElement("canvas");
+      this.previewContext = this.previewSurface.getContext("2d", { colorSpace: "srgb" });
+    }
+    const canvas = this.previewSurface;
+    if (canvas.width !== rect.w || canvas.height !== rect.h) {
+      canvas.width = rect.w;
+      canvas.height = rect.h;
+    } else if (rect.args[4] > 0 || rect.args[5] > 0) {
+      this.previewContext.clearRect(0, 0, rect.w, rect.h);
+    }
+    this.previewContext.drawImage(this.video, ...rect.args);
+    this.previewKey = key;
+    this.previewPixels = null;
+    return canvas;
+  }
+
+  capturePreview(source = null, target = null, scale = 1) {
+    const canvas = this.previewCanvas(source, target, scale);
+    if (!canvas) return null;
+    if (this.inFrame && this.previewPixels) return this.previewPixels;
+    const image = this.previewContext.getImageData(0, 0, canvas.width, canvas.height);
+    if (this.inFrame) this.previewPixels = image;
+    return image;
   }
 
   pause(paused) {
@@ -161,6 +279,8 @@ export class Camera extends EventTarget {
     this.stream = null;
     this.track = null;
     this.lastFrame = null;
+    this.motion.reset();
+    this.previewContext = this.previewSurface = this.previewPixels = null;
     this.emit("stopped");
   }
 }

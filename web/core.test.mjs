@@ -168,12 +168,12 @@ test("linear primary luminance and exposure gain preserve dark blue", () => {
     approx(linearToSrgb(srgbToLinear(i / 255)), i / 255);
 });
 
-test("167 catalogue records retain 119 measured curves, 428 spectra and 477 layer samples", () => {
-  assert.equal(films.length, 167);
-  assert.equal(new Set(films.map((f) => f.id)).size, 167);
+test("168 catalogue records retain 122 measured curves, 428 spectra and 477 layer samples", () => {
+  assert.equal(films.length, 168);
+  assert.equal(new Set(films.map((f) => f.id)).size, 168);
   assert.equal(
     films.filter((f) => f.info.startsWith("厂家图采样")).length,
-    119,
+    122,
   );
   assert.equal(
     films.reduce(

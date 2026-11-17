@@ -1,12 +1,76 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  Camera,
+  FrameMotion,
+  captureGeometry,
   captureExposure,
   parseTime,
   referenceSignature,
   trackExposure,
 } from "./camera.js";
 import { exposureEV } from "./core.js";
+
+test("motion falls back immediately and waits for a new quiet interval", () => {
+  const motion = new FrameMotion();
+  function observe(time, value, region = false, width = 160) {
+    const height = 90;
+    const data = new Uint8Array(width * height * 4).fill(100);
+    for (let y = 0; y < (region ? 30 : height); y++)
+      for (let x = 0; x < (region ? 45 : width); x++)
+        data.fill(value, 4 * (y * width + x), 4 * (y * width + x) + 3);
+    return motion.observe({ width, height, data }, time);
+  }
+  assert.equal(observe(0, 100), false);
+  for (let t = 150; t <= 750; t += 150) assert.equal(observe(t, 101), false);
+  assert.equal(observe(900, 100), true);
+  assert.equal(observe(1050, 160, true), false);
+  for (let t = 1200; t < 2000; t += 150) observe(t, 160, true);
+  assert.equal(observe(2100, 160, true), true);
+  assert.equal(observe(3200, 160, true), false); // resumed after a capture gap
+  assert.equal(observe(3350, 160, true, 90), false); // rotated stream
+});
+
+test("crop dimensions follow native pixels, partial fields and low-resolution video", () => {
+  const source = { x: 1, y: .75 };
+  const half = captureGeometry(1920, 1080, source, { x: .5, y: .375 }, .5);
+  assert.deepEqual(half, { w: 480, h: 270, args: [480, 270, 960, 540, 0, 0, 480, 270] });
+  const wide = captureGeometry(1920, 1080, source, { x: 2, y: .75 });
+  assert.deepEqual(wide, { w: 1920, h: 540, args: [0, 0, 1920, 1080, 480, 0, 960, 540] });
+  const low = captureGeometry(320, 240, null, null, 2);
+  assert.deepEqual([low.w, low.h], [320, 240]);
+});
+
+test("video analysis stays small and native readbacks are on demand and reused", () => {
+  const reads = [];
+  const original = globalThis.document;
+  globalThis.document = { createElement: () => ({ getContext: () => ({
+    drawImage() {}, clearRect() {},
+    getImageData(_x, _y, width, height) {
+      reads.push([width, height]);
+      return { width, height, data: new Uint8Array(width * height * 4) };
+    },
+  }) }) };
+  try {
+    const camera = new Camera({ videoWidth: 1920, videoHeight: 1080, readyState: 2 });
+    camera.stream = {};
+    camera.schedule = () => {};
+    camera.frame(1);
+    assert.deepEqual(reads, [[640, 360]]);
+    camera.addEventListener("frame", () => {
+      const a = camera.capturePreview();
+      assert.equal(camera.capturePreview(), a);
+      assert.equal(camera.capturePreview(null, null, .5).width, 960);
+    }, { once: true });
+    camera.frame(151);
+    assert.deepEqual(reads.slice(1), [[640, 360], [1920, 1080], [960, 540]]);
+    camera.previewCanvas(); // GPU source does not read pixels
+    assert.equal(reads.length, 4);
+  } finally {
+    if (original === undefined) delete globalThis.document;
+    else globalThis.document = original;
+  }
+});
 
 test("time input accepts seconds and fractions, rejects invalid denominators", () => {
   assert.equal(parseTime("1/125"), 1 / 125);
