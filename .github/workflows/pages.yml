@@ -38,6 +38,10 @@ jobs:
           LIGHTDATA_TEST_GL: '1'
       - run: npm run test:browser
         working-directory: web
+      - run: npm run test:opencv
+        working-directory: web
+      - run: npm run test:panorama-engine
+        working-directory: web
       - run: npm run test:panorama-browser
         working-directory: web
       - name: Assemble static site
@@ -45,6 +49,7 @@ jobs:
           mkdir -p public/data
           cp web/index.html web/style.css web/*.js web/icon.png public/
           cp -r web/luts public/luts
+          cp -r web/vendor public/vendor
           cp web/data/films.json web/data/cameras.json public/data/
           touch public/.nojekyll
       - uses: actions/configure-pages@v5

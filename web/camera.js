@@ -67,6 +67,44 @@ export function captureGeometry(width, height, source, target, scale = 1) {
     (w - dw) / 2, (h - dh) / 2, dw, dh] };
 }
 
+const scanControls = [
+  { key: "exposure", mode: "exposureMode", values: ["exposureTime", "iso"] },
+  { key: "whiteBalance", mode: "whiteBalanceMode", values: ["colorTemperature"] },
+];
+const controlSettings = (settings, control) => Object.fromEntries(
+  [control.mode, ...control.values].map((key) => [key, settings[key]]),
+);
+const sameControl = (settings, expected) => Object.entries(expected).every(
+  ([key, value]) => Object.is(settings[key], value),
+);
+const reportedValue = (value, range) => Number.isFinite(value) && value > 0 &&
+  Number.isFinite(range?.min) && Number.isFinite(range?.max) &&
+  range.min <= range.max && value >= range.min && value <= range.max;
+
+// applyConstraints replaces the track's constraints. Retain unrelated video and
+// camera controls, replacing only this channel in basic and advanced sets.
+function scanConstraints(track, patch, settings, capabilities) {
+  // A device can expose a manual setting without retaining an equivalent
+  // constraint. Preserve its actual manual values when changing the other side.
+  const changes = {};
+  for (const control of scanControls) {
+    if (!Object.hasOwn(patch, control.mode) && settings[control.mode] === "manual" &&
+        capabilities[control.mode]?.includes("manual") &&
+        control.values.every((key) => reportedValue(settings[key], capabilities[key])))
+      Object.assign(changes, controlSettings(settings, control));
+  }
+  Object.assign(changes, patch);
+  const current = track.getConstraints?.() || {};
+  const next = { ...current };
+  const advanced = (current.advanced || []).map((entry) => ({ ...entry }));
+  for (const key of Object.keys(changes)) {
+    delete next[key];
+    for (const entry of advanced) delete entry[key];
+  }
+  next.advanced = [...advanced.filter((entry) => Object.keys(entry).length), changes];
+  return next;
+}
+
 /** Browser capture owns one stream. Sampling and metadata polling never restart it. */
 export class Camera extends EventTarget {
   constructor(video) {
@@ -84,6 +122,7 @@ export class Camera extends EventTarget {
     // Pose-driven capture can keep preview events without CPU pixel readbacks.
     // Explicit captureAnalysis() remains available for visual tracking on demand.
     this.analysisEnabled = true;
+    this.exposureRevision = 0;
     this.motion = new FrameMotion();
   }
 
@@ -148,7 +187,9 @@ export class Camera extends EventTarget {
   readSettings() {
     if (!this.track) return;
     this.settings = this.track.getSettings();
+    this.panoramaLock?.observe(this.settings);
     this.emit("settings", this.settings);
+    return this.settings;
   }
 
   schedule() {
@@ -263,6 +304,8 @@ export class Camera extends EventTarget {
       throw new Error(
         t("浏览器未开放手动曝光。请在相机已固定曝光时填写并确认采集参数。"),
       );
+    // A later user command owns this channel, even if it selects the same values.
+    this.exposureRevision++;
     await this.track.applyConstraints({
       advanced: [
         { exposureMode: "manual", exposureTime: seconds * 10000, iso },
@@ -277,6 +320,155 @@ export class Camera extends EventTarget {
     )
       throw new Error(t("浏览器未确认固定曝光参数，仍按未知曝光处理。"));
     return { seconds: actual.exposureTime / 10000, iso: actual.iso };
+  }
+
+  /** Best-effort AE/AWB hold, using reported values in Image Capture API units.
+   * Unsupported / incomplete channels remain automatic. Never invent metadata.
+   * release() is idempotent and returns independent per-channel restore states. */
+  async lockForPanorama() {
+    const previous = this.panoramaLock;
+    if (previous?.sameSession() && !previous.released) {
+      if (previous.releasePromise) {
+        await previous.releasePromise;
+        return this.lockForPanorama();
+      }
+      return previous.promise;
+    }
+    const track = this.track, stream = this.stream, generation = this.generation;
+    const result = {
+      exposureLocked: false, whiteBalanceLocked: false,
+      exposureStatus: "unavailable", whiteBalanceStatus: "unavailable",
+      errors: {},
+    };
+    const channels = scanControls.map((control) => ({ ...control }));
+    const lease = {
+      released: false,
+      sameSession: () => !!track && !!stream && this.track === track &&
+        this.stream === stream && this.generation === generation && track.readyState !== "ended",
+      observe: (settings) => {
+        if (!active() || lease.releasePromise) return;
+        for (const control of channels) {
+          if (control.expected && (!sameControl(settings, control.expected) ||
+              (control.key === "exposure" && control.revision !== this.exposureRevision))) {
+            control.changed = true;
+            result[control.key + "Locked"] = false;
+            result[control.key + "Status"] = "changed";
+          }
+        }
+      },
+    };
+    const active = () => lease.sameSession() && this.panoramaLock === lease && !lease.released;
+    const read = () => {
+      if (!active()) return null;
+      this.readSettings();
+      return active() ? { ...this.settings } : null;
+    };
+    const errorText = (error) => String(error?.message || error?.name || error);
+    let capabilities;
+    this.panoramaLock = lease;
+    lease.promise = (async () => {
+      try {
+        capabilities = track?.getCapabilities?.() || {};
+      } catch (error) {
+        result.errors.capabilities = errorText(error);
+      }
+      for (const control of channels) {
+        const status = control.key + "Status", flag = control.key + "Locked";
+        if (!active() || !capabilities || typeof track.applyConstraints !== "function") continue;
+        const modes = capabilities[control.mode];
+        if (!Array.isArray(modes) || !modes.includes("manual") ||
+            control.values.some((key) => !Number.isFinite(capabilities[key]?.min) ||
+              !Number.isFinite(capabilities[key]?.max))) {
+          result[status] = "unsupported";
+          continue;
+        }
+        try {
+          const before = read();
+          if (!before) { result[status] = "superseded"; continue; }
+          if (!modes.includes(before[control.mode]) ||
+              !control.values.every((key) => reportedValue(before[key], capabilities[key]))) {
+            result[status] = "incomplete-settings";
+            continue;
+          }
+          control.original = controlSettings(before, control);
+          control.revision = this.exposureRevision;
+          if (before[control.mode] === "manual") {
+            control.expected = control.original;
+            result[flag] = true;
+            result[status] = "already-manual";
+            continue;
+          }
+          const patch = { ...control.original, [control.mode]: "manual" };
+          let rejected = false;
+          try {
+            await track.applyConstraints(scanConstraints(track, patch, before, capabilities));
+          } catch (error) {
+            rejected = true;
+            result.errors[control.key] = errorText(error);
+          }
+          const actual = read();
+          if (!actual) { result[status] = "superseded"; continue; }
+          if (control.key === "exposure" && control.revision !== this.exposureRevision) {
+            control.changed = true;
+            result[status] = "changed";
+            continue;
+          }
+          // Retain enough ownership to undo a partially reported manual change,
+          // but never claim a lock when the required actual values are absent.
+          if (actual[control.mode] === "manual") {
+            control.expected = controlSettings(actual, control);
+            control.owned = true;
+          }
+          const confirmed = actual[control.mode] === "manual" &&
+            control.values.every((key) => reportedValue(actual[key], capabilities[key]));
+          result[flag] = !rejected && confirmed;
+          result[status] = rejected ? "rejected" : confirmed ? "locked" : "unconfirmed";
+        } catch (error) {
+          result[status] = "failed";
+          result.errors[control.key] = errorText(error);
+        }
+      }
+      try { read(); } catch (error) { result.errors.settings = errorText(error); }
+      if (!active()) for (const control of channels) {
+        result[control.key + "Locked"] = false;
+        result[control.key + "Status"] = "superseded";
+      }
+      return result;
+    })();
+    result.release = () => {
+      if (lease.releasePromise) return lease.releasePromise;
+      lease.releasePromise = (async () => {
+        const restored = {};
+        for (const control of channels) {
+          if (!control.owned) { restored[control.key] = "unchanged"; continue; }
+          if (!active()) { restored[control.key] = "skipped-session"; continue; }
+          try {
+            const current = read();
+            if (!current) { restored[control.key] = "skipped-session"; continue; }
+            if (control.changed || !sameControl(current, control.expected) ||
+                (control.key === "exposure" && control.revision !== this.exposureRevision)) {
+              restored[control.key] = "skipped-changed";
+              continue;
+            }
+            await track.applyConstraints(scanConstraints(track, control.original, current, capabilities));
+            const actual = read();
+            if (!actual) { restored[control.key] = "skipped-session"; continue; }
+            // Automatic exposure / WB may already adapt after restoration. Its
+            // mode, rather than a stale auto value, confirms that release worked.
+            restored[control.key] = actual[control.mode] === control.original[control.mode]
+              ? "restored" : "unconfirmed";
+          } catch (error) {
+            restored[control.key] = "failed";
+            result.errors[control.key + "Release"] = errorText(error);
+          }
+        }
+        lease.released = true;
+        if (this.panoramaLock === lease) this.panoramaLock = null;
+        return restored;
+      })();
+      return lease.releasePromise;
+    };
+    return lease.promise;
   }
 
   stop() {

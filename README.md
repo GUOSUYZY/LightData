@@ -10,7 +10,7 @@ Android 和网页版单屏取景器与胶片测光表。安卓版最低支持 An
 
 [打开 LightData Web](https://rayforloy.github.io/LightData/) · [Android 安装包](https://github.com/RayforLoy/LightData/releases/tag/0.1.10-beta)
 
-网页版使用原生 JavaScript 和 Canvas，静态文件位于 `web/`，无需服务器处理相机画面。沿用安卓版的单屏布局、横竖屏及近方形折叠屏排布，支持拖动分界线、A/S/M、±5 EV 补偿、多列等效曝光和倒易律时间、168 款胶片、ISO 锁定、JSON 预设、胶片预览、不同颜色的冻结测光点及直方图平移缩放。手机图像和设置均在本地处理、保存，不上传相机画面。手册仍为外部链接，页面仅加载提取后的曲线和来源。
+网页版使用原生 JavaScript、Canvas 和按需加载的 OpenCV.js，静态文件位于 `web/`，无需服务器处理相机画面。沿用安卓版的单屏布局、横竖屏及近方形折叠屏排布，支持拖动分界线、A/S/M、±5 EV 补偿、多列等效曝光和倒易律时间、168 款胶片、ISO 锁定、JSON 预设、胶片预览、不同颜色的冻结测光点及直方图平移缩放。手机图像和设置均在本地处理、保存，不上传相机画面。手册仍为外部链接，页面仅加载提取后的曲线和来源。
 
 首次访问或切换到未配置过的相机时弹出镜头设置。可在弹窗里开启预览、选择浏览器相机，再输入手机采集光圈与水平视角，或用厂家给出的 35 mm 等效焦距估算视角。切回已配置的镜头会恢复参数；设置中可随时重新配置。目标镜头光圈在测光表中另行设置。取景随视频帧更新，测光单独采样。同一视频轨道的 `getSettings()` 每 500 ms 重新读取一次，无需反复申请相机。
 
@@ -26,6 +26,8 @@ Android 和网页版单屏取景器与胶片测光表。安卓版最低支持 An
 
 请从 HTTPS 页面访问，允许相机；支持姿态的设备还需允许运动传感器。可访问的镜头、手动曝光与运动传感器由设备和浏览器决定。尚未进行网页真机精度验收，验证范围见 [网页版测试记录](WEB-TEST.md)。
 
+网页拼接会在后台线程用 OpenCV 角点、双向光流和 RANSAC 配准清晰的移动关键帧，保留测光基准，使用局部残差网格及分区线性 RGB 增益修正接缝。支持时尝试锁定曝光与白平衡，退出时恢复原模式。快门未知、转动过快或匹配困难时提示放慢或短暂停住；后台处理失败时也可继续停稳补拍。覆盖超过 90% 后提高小角度补拍频率，覆盖图按新增范围和重叠推荐方向。OpenCV 仅在开始拼接时从本站加载，发行文件、许可证与 SHA256 见 [vendor 记录](web/vendor/README.md)。
+
 本地开发及验证：
 
 ```powershell
@@ -35,6 +37,9 @@ npm ci
 npm test
 npx playwright install chromium
 npm run test:browser
+npm run test:opencv
+npm run test:panorama-engine
+npm run test:panorama-browser
 python -m http.server 8080
 ```
 

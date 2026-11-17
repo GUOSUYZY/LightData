@@ -92,7 +92,8 @@ async function instrument(page) {
       poseCaptures: 0, fallbackCaptures: 0, collecting: 0,
       analysisEdges: [],
     };
-    for (const method of ["capture", "writeFrame", "register", "view"]) {
+    qa.processing = [];
+    for (const method of ["capture", "writeFrame", "register", "view", "applySnapshot"]) {
       const original = Panorama.prototype[method];
       Panorama.prototype[method] = function (...args) {
         if (method === "capture") {
@@ -107,13 +108,19 @@ async function instrument(page) {
             }
           }
           args[0] = options;
+        } else if (method === "applySnapshot") {
+          qa.write++;
+          qa.accepted = args[0].captures;
+          if (args[0].registration) qa.register++;
+          qa.processing.push(args[0].processingMs);
         } else if (method === "writeFrame") qa.write++;
         else qa[method]++;
         const result = original.apply(this, args);
         if (method === "writeFrame" && result) qa.accepted++;
         if (method === "capture")
           qa.lastCapture = { accepted: result.accepted, settling: result.settling,
-            captures: result.captures, coverage: result.coverage, collect: args[0].collect !== false };
+            captures: result.captures, coverage: result.coverage, collect: args[0].collect !== false,
+            orientation: [...this.orientation] };
         if (method === "view")
           qa.lastView = { coverage: result.coverage, missing: result.missing,
             width: result.image.width, height: result.image.height };
@@ -203,6 +210,7 @@ async function poseScan() {
     await page.locator("#scan-start").click();
     await check(page.locator("#scan-panel")).toBeVisible();
     await check.poll(async () => (await counts(page)).accepted).toBe(1);
+    await check.poll(async () => (await pixels(page)).lit).toBeGreaterThan(.02);
     const center = await pixels(page);
     expect(center.lit).toBeGreaterThan(.02);
     expect(center.empty).toBeGreaterThan(.1);
@@ -252,6 +260,7 @@ async function poseScan() {
 
     // Keep the same raw sensor pose while rotating the screen's coordinate
     // system. The fixed Y4M raster is not a claim about real device video quality.
+    await page.waitForTimeout(450); // Let motion preview return to native resolution.
     const unturned = await pixels(page);
     for (const [angle, expected] of [
       [90, { x: right.y, y: -right.x }],
@@ -324,10 +333,95 @@ async function poseScan() {
     const exited = await counts(page);
     await check.poll(async () => (await counts(page)).analysis).toBeGreaterThan(exited.analysis);
     await check(page.locator("#meter-reading")).toContainText("EV100");
-    console.log("PASS sensor panorama: stable-only collection, black missing rays, home arrows, frozen spots, rotation, exit");
+    console.log("PASS sensor panorama: excessive motion rejected, stationary recovery, black rays, home arrows, spots, rotation, exit");
   } finally {
     await context.close();
   }
+}
+
+async function continuousScan() {
+  const { context, page } = await openCamera();
+  try {
+    // The actual media track still supplies preview events. For this case only,
+    // analysis pixels are a deterministic rectilinear scene tied to the injected
+    // pose; a fixed Y4M image cannot represent turning a camera around a scene.
+    await page.evaluate(async () => {
+      const { Camera } = await import("./camera.js");
+      const original = Camera.prototype.captureAnalysis;
+      Camera.prototype.captureAnalysis = function (maxEdge = 640) {
+        const base = original.call(this, maxEdge);
+        if (!base || !globalThis.testOrientation) return base;
+        const yaw = globalThis.testOrientation.alpha * Math.PI / 180;
+        const sx = Math.tan(35 * Math.PI / 180), sy = sx * base.height / base.width;
+        const c = Math.cos(yaw), s = Math.sin(yaw), data = base.data;
+        for (let y = 0; y < base.height; y++) for (let x = 0; x < base.width; x++) {
+          const u = (2 * (x + .5) / base.width - 1) * sx;
+          const v = (1 - 2 * (y + .5) / base.height) * sy;
+          const z = c + s * u, xx = (c * u - s) / z, yy = v / z;
+          const value = 110 + 26 * Math.sin(38 * xx + 9 * yy) +
+            25 * Math.cos(51 * yy + 13 * xx) + 18 * Math.sin(39 * xx * yy);
+          const i = (y * base.width + x) * 4;
+          data[i] = value + 16 * Math.sin(9 * xx);
+          data[i + 1] = value;
+          data[i + 2] = value + 15 * Math.cos(11 * yy);
+          data[i + 3] = 255;
+        }
+        return base;
+      };
+    });
+    await page.locator("#settings-toggle").click();
+    await page.locator("#target-orientation").selectOption("landscape");
+    await page.locator("#show-fps").check();
+    await page.locator("#custom-width").fill("40");
+    await page.locator("#custom-height").fill("12");
+    await page.locator("#set-format").click();
+    await page.locator('[data-close="settings"]').click();
+    await page.locator("#focal").fill("20");
+    await page.locator("#focal").dispatchEvent("change");
+    await page.locator("#scan-start").click();
+    await check.poll(async () => (await counts(page)).accepted).toBe(1);
+    const before = await counts(page);
+    await orient(page, 0, .3);
+    await page.waitForTimeout(2600);
+    const left = await counts(page);
+    const movingFps = parseFloat(await page.locator("#finder-fps").textContent());
+    expect(movingFps).toBeGreaterThan(0);
+    expect(left.accepted).toBeGreaterThan(before.accepted + 1);
+    expect(left.lastCapture.settling).toBe(true); // It really was moving.
+    await orient(page, 24, -.3);
+    await check.poll(async () => Number(await page.locator("#scan-progress").getAttribute("value")),
+      { timeout: 15000 }).toBeGreaterThan(.98);
+    await orient(page, 0);
+    await page.locator("#scan-finish").click();
+    await check(page.locator("#scan-status")).toContainText("二次构图");
+    await check.poll(async () => (await pixels(page)).empty).toBeLessThan(.01);
+    const done = await counts(page);
+    expect(done.trackingDecode).toBe(0);
+    expect(done.register).toBeGreaterThanOrEqual(3);
+    expect(done.frameDecode).toBeLessThan(done.poseCaptures / 2);
+    const processing = done.processing.filter(Number.isFinite).sort((a, b) => a - b);
+    console.log(`PASS continuous app panorama: ${done.accepted} keyframes, ${(done.lastCapture.coverage * 100).toFixed(1)}% coverage, ${movingFps} FPS; worker median ${processing[Math.floor(processing.length / 2)].toFixed(1)} ms, P95 ${processing[Math.floor(processing.length * .95)].toFixed(1)} ms`);
+    await page.screenshot({ path: path.join(snapshots, "continuous-complete.png") });
+
+    // Moving while the page is paused must retain the confirmed world origin.
+    await orient(page, 10);
+    await page.waitForTimeout(150);
+    await page.evaluate(() => {
+      Object.defineProperty(document, "hidden", { configurable: true, value: true });
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    await orient(page, 35);
+    await page.waitForTimeout(100);
+    await page.evaluate(() => {
+      Object.defineProperty(document, "hidden", { configurable: true, value: false });
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    await check.poll(async () => {
+      const r = (await counts(page)).lastCapture.orientation;
+      return Math.atan2(r[2], r[8]) * 180 / Math.PI;
+    }).toBeCloseTo(35, 2);
+    console.log("PASS panorama visibility: background movement retains its original orientation");
+  } finally { await context.close(); }
 }
 
 async function fallbackScan() {
@@ -367,12 +461,92 @@ async function fallbackScan() {
   }
 }
 
+async function preparationRaceScan() {
+  const { context, page } = await openCamera();
+  try {
+    await page.evaluate(async () => {
+      const { PanoramaEngine } = await import("./panorama-engine.js");
+      const create = PanoramaEngine.create;
+      const qa = globalThis.panoramaControlsQA = { exposureMode: "continuous", whiteBalanceMode: "continuous", applies: 0 };
+      let calls = 0;
+      PanoramaEngine.create = async function (...args) {
+        if (++calls === 1) await new Promise(resolve => { qa.releasePreparationA = resolve; });
+        return create.apply(this, args);
+      };
+      const settings = MediaStreamTrack.prototype.getSettings;
+      const capabilities = MediaStreamTrack.prototype.getCapabilities;
+      const constraints = MediaStreamTrack.prototype.getConstraints;
+      MediaStreamTrack.prototype.getSettings = function () {
+        return { ...settings.call(this), exposureMode: qa.exposureMode,
+          whiteBalanceMode: qa.whiteBalanceMode, colorTemperature: 5000 };
+      };
+      MediaStreamTrack.prototype.getCapabilities = function () {
+        return { ...capabilities.call(this), exposureMode: ["continuous", "manual"],
+          whiteBalanceMode: ["continuous", "manual"], exposureTime: { min: 1, max: 10000 },
+          iso: { min: 3, max: 6400 }, colorTemperature: { min: 2500, max: 8000 } };
+      };
+      MediaStreamTrack.prototype.getConstraints = function () {
+        return qa.constraints || constraints.call(this);
+      };
+      // Simulate only the camera-control API; the actual video track continues.
+      MediaStreamTrack.prototype.applyConstraints = async function (value) {
+        qa.applies++;
+        qa.constraints = structuredClone(value);
+        const controls = Object.assign({}, value, ...(value.advanced || []));
+        for (const key of ["exposureMode", "whiteBalanceMode"])
+          if (controls[key]) qa[key] = controls[key];
+      };
+    });
+    await page.locator("#scan-start").click();
+    await check.poll(() => page.evaluate(() => globalThis.panoramaControlsQA.exposureMode)).toBe("manual");
+    // Cancel A during its delayed initialization, immediately prepare B on the
+    // same track, then let the stale A finish after B is already collecting.
+    await page.locator("#focal").fill("10");
+    await page.locator("#focal").dispatchEvent("change");
+    await page.locator("#scan-start").click();
+    await check(page.locator("#scan-panel")).toBeVisible();
+    await check.poll(async () => (await counts(page)).accepted).toBe(1);
+    await check(page.locator("#scan-status")).toHaveAttribute("data-exposure-locked", "true");
+    await check(page.locator("#scan-status")).toHaveAttribute("data-white-balance-locked", "true");
+    const applies = await page.evaluate(() => globalThis.panoramaControlsQA.applies);
+    await page.evaluate(() => globalThis.panoramaControlsQA.releasePreparationA());
+    await page.waitForTimeout(600);
+    const active = await page.evaluate(() => globalThis.panoramaControlsQA);
+    expect(active.exposureMode).toBe("manual");
+    expect(active.whiteBalanceMode).toBe("manual");
+    expect(active.applies).toBe(applies);
+    await page.locator("#scan-cancel").click();
+    await check.poll(() => page.evaluate(() => globalThis.panoramaControlsQA.exposureMode)).toBe("continuous");
+    await check.poll(() => page.evaluate(() => globalThis.panoramaControlsQA.whiteBalanceMode)).toBe("continuous");
+    console.log("PASS preparing/cancel/restart race: stale initialization cannot release the new AE/AWB hold");
+  } finally { await context.close(); }
+}
+
+async function unavailableEngineScan() {
+  const { context, page } = await openCamera();
+  try {
+    await page.evaluate(async () => {
+      const { PanoramaEngine } = await import("./panorama-engine.js");
+      PanoramaEngine.create = async () => { throw new Error("Simulated unsupported worker"); };
+    });
+    await page.locator("#scan-start").click();
+    await check(page.locator("#scan-panel")).toBeVisible();
+    await check.poll(async () => (await counts(page)).accepted).toBe(1);
+    await check(page.locator("#scan-status")).toContainText("已停稳");
+    expect((await counts(page)).processing).toEqual([]);
+    await page.locator("#scan-cancel").click();
+    const before = await counts(page);
+    await check.poll(async () => (await counts(page)).analysis).toBeGreaterThan(before.analysis);
+    console.log("PASS unavailable continuous engine: stationary capture and live metering remain usable");
+  } finally { await context.close(); }
+}
+
 async function englishScan() {
   const { context, page } = await openCamera({ language: "en" });
   try {
     await page.locator("#scan-start").click();
     await check.poll(async () => (await counts(page)).accepted).toBe(1);
-    await check(page.locator("#scan-status")).toContainText("Steady");
+    await check(page.locator("#scan-status")).toContainText("Capturing continuously");
     expect(await page.locator("#scan-status").textContent()).not.toMatch(/[\u3400-\u9fff]/);
     await page.locator("#scan-finish").click();
     await orient(page, 180);
@@ -396,7 +570,10 @@ try {
       `--use-file-for-fake-video-capture=${fixtureFile}`],
   });
   await poseScan();
+  await continuousScan();
   await fallbackScan();
+  await preparationRaceScan();
+  await unavailableEngineScan();
   await englishScan();
   expect(errors).toEqual([]);
   console.log("PASS panorama app integration; no uncaught page errors");

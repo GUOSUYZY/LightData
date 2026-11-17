@@ -29,6 +29,7 @@ import {
   referenceSignature,
 } from "./camera.js";
 import { Panorama, cropFrame, orientationMatrix, turnPoint, turnFrame } from "./panorama.js";
+import { PanoramaEngine } from "./panorama-engine.js";
 import { sampleGrid, fitResponse } from "./calibration.js";
 import { LensSetup } from "./lens-setup.js";
 import { completeOptics, makeOptics, opticsField } from "./optics.js";
@@ -337,6 +338,10 @@ function sourceField() {
   return { x, y: (x * state.raw.height) / state.raw.width };
 }
 function sceneBase(settings = camera.settings) {
+  if (state.pano && state.scanReference && state.scanReference.signature ===
+      referenceSignature(settings, state.profile)) return {
+    value: state.scanReference.value, source: "已知 EV 标定 · 固定预览估测",
+  };
   if (
     state.profile.mode === "reference" &&
     state.profile.confirmed &&
@@ -1341,6 +1346,8 @@ async function enableOrientation() {
   }
 }
 let poseAngles = null, poseTime = -Infinity, lastPanoramaUi = -Infinity;
+let scanGeneration = 0, scanPreparing = false, scanEngine = null, scanLock = null;
+let scanPending = null, scanRelease = Promise.resolve();
 function screenAngle() {
   return ((screen.orientation?.angle ?? Number(window.orientation) ?? 0) + 360) % 360 || 0;
 }
@@ -1370,7 +1377,9 @@ function capturePanorama(time = performance.now()) {
   const pose = currentPose(time);
   if (pose) state.manualCrop = false;
   const result = state.pano.capture({ pose, time, frame: () => scanFrame(),
-    trackingFrame: () => scanFrame(160), cameraEV: sceneBase().value, collect: state.scan });
+    trackingFrame: () => scanFrame(160), cameraEV: sceneBase().value,
+    exposureSeconds: (captureExposure(camera.settings, state.profile) || trackExposure(camera.settings))?.t,
+    collect: state.scan });
   stillFrame = !result.settling;
   if (result.accepted || time - lastPanoramaUi >= 100 || time < lastPanoramaUi) {
     lastPanoramaUi = time;
@@ -1379,18 +1388,75 @@ function capturePanorama(time = performance.now()) {
   }
 }
 async function startScan() {
+  if (scanPreparing || state.pano) return;
   if (!state.raw || !state.source) {
     toast("请先开启相机并标定当前视角");
     return;
   }
+  const token = ++scanGeneration, track = camera.track, profileKey = state.profileKey;
+  const options = { target: target(), source: { ...state.source },
+    width: 720, height: 720, response: response() };
+  const before = sceneBase(), beforeExposure = trackExposure(camera.settings);
+  const preparation = { controller: new AbortController(), lockPromise: Promise.resolve(null) };
+  scanPending = preparation;
+  scanPreparing = true;
+  $("scan-start").disabled = true;
+  $("scan-start").textContent = t("正在准备拼接…");
   await enableOrientation();
+  if (token !== scanGeneration || camera.track !== track) {
+    if (token === scanGeneration) cancelScan();
+    return;
+  }
+  // A new scan cannot share an old preparing scan's lease: cancellation must
+  // finish releasing that hold before the next scan acquires camera controls.
+  preparation.lockPromise = scanRelease.then(() => token === scanGeneration
+    ? camera.lockForPanorama() : null).catch(() => null);
+  const [engine, lock] = await Promise.all([
+    PanoramaEngine.create(options, 20000, preparation.controller.signal).catch(() => null),
+    preparation.lockPromise,
+  ]);
+  if (token !== scanGeneration || camera.track !== track || profileKey !== state.profileKey) {
+    engine?.close();
+    void lock?.release();
+    if (token === scanGeneration) cancelScan();
+    return;
+  }
+  scanPreparing = false;
+  if (scanPending === preparation) scanPending = null;
+  $("scan-start").disabled = false;
+  $("scan-start").textContent = t("视角不足 · 开始拼接");
+  scanEngine = engine;
+  scanLock = lock;
   if (state.frozen) toggleFreeze();
   state.scanAngle = screenAngle();
   state.scanRasterWide = state.raw.width > state.raw.height;
   state.panoChannel = { ...camera.settings };
   const origin = currentPose();
-  state.pano = new Panorama({ target: target(), source: state.source,
-    width: 720, height: 720, response: response() });
+  const afterExposure = trackExposure(camera.settings);
+  state.scanReference = state.profile.mode === "reference" && finite(before.value) &&
+      lock?.exposureLocked && beforeExposure && afterExposure ? {
+    value: before.value + Math.log2(beforeExposure.t / afterExposure.t) +
+      Math.log2(beforeExposure.iso / afterExposure.iso),
+    signature: referenceSignature(camera.settings, state.profile),
+  } : null;
+  state.pano = new Panorama({ ...options,
+    submit: engine ? job => engine.submit(job) : null,
+    onUpdate: pano => {
+      if (state.pano !== pano) return;
+      if (pano.workerFailed) {
+        scanEngine?.close();
+        scanEngine = null;
+        pano.submit = null;
+        pano.workerFailed = false;
+        pano.lastAttempt = null;
+        for (let i = 0; i < pano.confidence.length; i++)
+          pano.confidence[i] = pano.pixels[i * 4 + 3] ? 1 : 0;
+        toast("连续配准不可用，短暂停住后仍可自动补拍。");
+      }
+      updateScan();
+      processImage(false);
+    },
+  });
   state.pano.setCenter(origin);
   state.scan = true;
   state.manualCrop = false;
@@ -1400,7 +1466,8 @@ async function startScan() {
   $("scan-start").hidden = true;
   capturePanorama();
   processImage();
-  toast("中心已确认。移向黄圈，停稳后自动采集，保持画面重叠。");
+  toast(engine ? "中心已确认。缓慢移向黄圈，保持画面重叠；匹配困难时短暂停住。"
+    : "连续配准不可用，短暂停住后仍可自动补拍。");
 }
 function updateScan() {
   if (!state.pano) return;
@@ -1418,6 +1485,11 @@ function updateScan() {
   $("scan-progress").value = guide.coverage;
   const sensor = !!currentPose();
   const captureState = guide.needsOverlap ? "请退回已采集区域恢复重叠"
+    : guide.retryStationary ? "短暂停住补拍"
+    : guide.slowDown && !guide.unknownShutter ? "请放慢移动"
+    : guide.unknownShutter && guide.settling ? "快门未知，请短暂停住"
+    : guide.busy ? "正在拼接"
+    : guide.continuous ? "连续采集中"
     : guide.settling ? "请停稳 350 毫秒" : "已停稳";
   $("scan-status").textContent = t(state.scan
     ? `${Math.round(guide.coverage * 100)}% 覆盖 · ${guide.captures} 帧 · ${captureState} · ${direction}${sensor ? "" : " · 图像配准"}`
@@ -1425,7 +1497,11 @@ function updateScan() {
       : state.manualCrop ? "二次构图 · 拖动调整已采集画面" : "二次构图 · 图像跟踪或拖动画面");
   $("scan-status").dataset.settling = String(guide.settling);
   $("scan-capture").hidden = !state.scan;
-  $("scan-capture").disabled = guide.settling || guide.ready;
+  $("scan-capture").disabled = guide.busy || guide.ready ||
+    (guide.settling && (!guide.continuous || guide.unknownShutter || guide.slowDown));
+  $("scan-status").dataset.processingMs = String(state.pano.processingMs || 0);
+  $("scan-status").dataset.exposureLocked = String(!!scanLock?.exposureLocked);
+  $("scan-status").dataset.whiteBalanceLocked = String(!!scanLock?.whiteBalanceLocked);
   $("scan-finish").textContent = t(state.scan ? "完成 / 二次构图" : "继续补拍");
   const home = $("scan-home");
   home.hidden = !guide.home;
@@ -1471,12 +1547,26 @@ function updateScan() {
   );
 }
 function cancelScan() {
+  scanGeneration++;
+  scanPreparing = false;
+  scanPending?.controller.abort();
+  const pendingRelease = scanPending?.lockPromise.then(lock => lock?.release());
+  scanRelease = Promise.all([scanRelease, pendingRelease, scanLock?.release()])
+    .then(() => undefined, () => undefined);
+  scanPending = null;
+  state.pano?.dispose();
+  scanEngine?.close();
+  scanEngine = null;
+  scanLock = null;
+  state.scanReference = null;
   state.pano = null;
   state.scan = false;
   state.manualCrop = false;
   $("scan-panel").hidden = true;
   $("scan-home").hidden = true;
   camera.analysisEnabled = true;
+  $("scan-start").disabled = false;
+  $("scan-start").textContent = t("视角不足 · 开始拼接");
 }
 
 function nextFrame() {
@@ -2082,9 +2172,9 @@ function bindEvents() {
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) resetFps();
     camera.pause(document.hidden);
-    if (state.pano) state.pano.resumeTracking();
+    if (state.pano) state.pano.resumeTracking({ preserveSensorOrigin: true });
   });
-  window.addEventListener("pagehide", () => camera.stop());
+  window.addEventListener("pagehide", () => { cancelScan(); camera.stop(); });
 }
 
 function bindPresets() {

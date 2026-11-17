@@ -121,6 +121,19 @@ function moved(a, b, degrees) {
   return a.reduce((sum, v, i) => sum + v * b[i], 0) <
     1 + 2 * Math.cos(degrees * Math.PI / 180);
 }
+function localOffset(values, u, v, width, height) {
+  if (values?.length !== 16) return 0;
+  const x = clamp(u * 3 / width, 0, 3), y = clamp(v * 3 / height, 0, 3);
+  const col = Math.min(2, Math.floor(x)), row = Math.min(2, Math.floor(y));
+  const i = row * 4 + col, fx = x - col, fy = y - row;
+  return (values[i] * (1 - fx) + values[i + 1] * fx) * (1 - fy) +
+    (values[i + 4] * (1 - fx) + values[i + 5] * fx) * fy;
+}
+function warpPoint(correction, u, v, width, height) {
+  const a = correction.a ?? 1, b = correction.b ?? 0;
+  return [a * u - b * v + correction.x + width * localOffset(correction.offsetsX, u, v, width, height),
+    b * u + a * v + correction.y + height * localOffset(correction.offsetsY, u, v, width, height)];
+}
 export function turnPoint(point, degrees = 0) {
   if (!point) return null;
   switch ((degrees % 360 + 360) % 360) {
@@ -349,6 +362,9 @@ export class Panorama {
     width = 720,
     height = width,
     response = defaultResponse,
+    aligner = null,
+    submit = null,
+    onUpdate = null,
   }) {
     if (!validField(source) || !validField(target))
       throw new Error(t("拼接需要有效的相机和目标视角"));
@@ -362,7 +378,14 @@ export class Panorama {
     this.width = Math.max(1, Math.round(this.bounds.x * scale));
     this.height = Math.max(1, Math.round(this.bounds.y * scale));
     this.pixels = new Uint8ClampedArray(this.width * this.height * 4);
+    this.confidence = new Float32Array(this.width * this.height);
     this.response = response;
+    this.aligner = aligner;
+    this.submit = submit;
+    this.onUpdate = onUpdate;
+    this.busy = false;
+    this.disposed = false;
+    this.retryStationary = false;
     this.xs = Float64Array.from(
       { length: this.width },
       (_, x) => ((2 * (x + 0.5)) / this.width - 1) * this.bounds.x,
@@ -404,8 +427,10 @@ export class Panorama {
     this.lastTime = this.lastTrackTime = null;
     this.views.clear();
   }
-  resumeTracking() {
-    this.sensorOrigin = null;
+  resumeTracking({ preserveSensorOrigin = false } = {}) {
+    this.awaitingSensor = preserveSensorOrigin && !!this.sensorOrigin;
+    this.sensorWaitSince = null;
+    if (!preserveSensorOrigin) this.sensorOrigin = null;
     this.reference = null;
     this.anchor = null;
     this.lastTime = this.lastTrackTime = null;
@@ -437,8 +462,56 @@ export class Panorama {
     });
   }
 
-  register(frame, projection, gain) {
+  // Render the existing atlas into the incoming camera before visual alignment.
+  // The aligner only needs to solve a small residual, not the entire phone turn.
+  overlapImages(frame, gain) {
+    const scale = Math.min(1, 256 / Math.max(frame.width, frame.height));
+    const width = Math.max(1, Math.round(frame.width * scale));
+    const height = Math.max(1, Math.round(frame.height * scale));
+    const reference = new Uint8Array(width * height), incoming = new Uint8Array(width * height);
+    const mask = new Uint8Array(width * height);
+    const projection = new Projection(this.orientation, this.bounds, this.width, this.height);
+    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+      const at = y * width + x;
+      // Average a small footprint rather than aliasing a periodic pattern.
+      let light = 0;
+      for (let q = 0; q < 4; q++) {
+        const u = Math.min(frame.width - 1, Math.floor((x + (q & 1 ? .75 : .25)) * frame.width / width));
+        const v = Math.min(frame.height - 1, Math.floor((y + (q & 2 ? .75 : .25)) * frame.height / height));
+        const i = (v * frame.width + u) * 4, g = gain[luminance(frame.data, i)];
+        light += .2126 * Math.min(1, linearCodes[frame.data[i]] * g) +
+          .7152 * Math.min(1, linearCodes[frame.data[i + 1]] * g) +
+          .0722 * Math.min(1, linearCodes[frame.data[i + 2]] * g);
+      }
+      incoming[at] = grayCodes[Math.round(light * 65535 / 4)];
+      const p = projection.project((2 * (x + .5) / width - 1) * this.source.x,
+        (1 - 2 * (y + .5) / height) * this.source.y);
+      if (!p) continue;
+      // Bilinear atlas sampling matches the low-resolution camera footprint.
+      const u = p[0] - .5, v = p[1] - .5, left = Math.floor(u), top = Math.floor(v);
+      if (left < 0 || top < 0 || left + 1 >= this.width || top + 1 >= this.height) continue;
+      const i = (top * this.width + left) * 4;
+      const positions = [i, i + 4, i + this.width * 4, i + this.width * 4 + 4];
+      if (positions.some(at => !this.pixels[at + 3])) continue;
+      const dx = u - left, dy = v - top;
+      reference[at] = Math.round(luminance(this.pixels, positions[0]) * (1 - dx) * (1 - dy) +
+        luminance(this.pixels, positions[1]) * dx * (1 - dy) +
+        luminance(this.pixels, positions[2]) * (1 - dx) * dy +
+        luminance(this.pixels, positions[3]) * dx * dy);
+      mask[at] = 255;
+    }
+    return { reference, incoming, mask, width, height, scale: width / frame.width };
+  }
+
+  register(frame, projection, gain, requireVisual = false) {
     if (this.count === 0) return { x: 0, y: 0, matched: false };
+    if (this.aligner) {
+      const images = this.overlapImages(frame, gain);
+      const fit = this.aligner(images);
+      if (fit?.matched) return { ...fit, x: fit.x / images.scale, y: fit.y / images.scale,
+        method: "optical-flow" };
+      if (requireVisual) return { x: 0, y: 0, matched: false, method: "optical-flow" };
+    }
     const radius = clamp(
       Math.floor(Math.min(frame.width, frame.height) / 25),
       4,
@@ -547,7 +620,49 @@ export class Panorama {
       : { x: 0, y: 0, matched: false, residual: baseline };
   }
 
-  writeFrame(frame, cameraEV) {
+  overlapGains(frame, projection, gain, correction) {
+    const samples = [[], [], []];
+    const blocks = Array.from({ length: 4 }, () => [[], [], []]);
+    const step = Math.max(2, Math.floor(Math.min(this.width, this.height) / 55));
+    for (let y = 0; y < this.height; y += step) for (let x = 0; x < this.width; x += step) {
+      const d = (y * this.width + x) * 4;
+      if (!this.pixels[d + 3]) continue;
+      const p = projection.project(this.xs[x], this.ys[y]);
+      if (!p) continue;
+      const warped = warpPoint(correction, p[0], p[1], frame.width, frame.height);
+      const u = Math.floor(warped[0]), v = Math.floor(warped[1]);
+      if (u < 0 || v < 0 || u >= frame.width || v >= frame.height) continue;
+      const i = (v * frame.width + u) * 4;
+      if (!frame.data[i + 3]) continue;
+      const g = gain[luminance(frame.data, i)];
+      for (let c = 0; c < 3; c++) {
+        const old = this.pixels[d + c], raw = frame.data[i + c];
+        const normalized = linearCodes[raw] * g;
+        if (old < 18 || old > 235 || raw < 18 || raw > 235 ||
+            normalized < linearCodes[18] || normalized > linearCodes[235]) continue;
+        const ratio = linearCodes[old] / normalized;
+        samples[c].push(ratio);
+        blocks[(u >= frame.width / 2 ? 1 : 0) + (v >= frame.height / 2 ? 2 : 0)][c].push(ratio);
+      }
+    }
+    const global = samples.map(values => {
+      if (values.length < 12) return 1;
+      values.sort((a, b) => a - b);
+      const low = values[Math.floor(values.length * .25)], high = values[Math.floor(values.length * .75)];
+      return high <= low * 1.5 ? clamp(values[Math.floor(values.length / 2)], .5, 2) : 1;
+    });
+    const local = blocks.map(block => block.map((values, c) => {
+      if (values.length < 16) return global[c];
+      values.sort((a, b) => a - b);
+      const low = values[Math.floor(values.length * .25)], high = values[Math.floor(values.length * .75)];
+      return high <= low * 1.25
+        ? clamp(values[Math.floor(values.length / 2)], global[c] * .78, global[c] * 1.28) : global[c];
+    }));
+    return { global, local };
+  }
+
+  writeFrame(frame, cameraEV, { requireVisual = false } = {}) {
+    this.writeReason = "";
     const projection = new Projection(
       relative(this.orientation, IDENTITY),
       this.source,
@@ -572,6 +687,7 @@ export class Panorama {
         }
       if (!overlap) {
         this.disconnected = true;
+        this.writeReason = "overlap";
         return false;
       }
     }
@@ -581,38 +697,73 @@ export class Panorama {
         ? cameraEV - this.cameraEV
         : 0,
     );
-    const correction = this.register(frame, projection, gain);
+    const correction = this.register(frame, projection, gain, requireVisual);
     this.lastRegistration = correction;
+    if (requireVisual && !correction.matched) {
+      this.writeReason = "match";
+      return false;
+    }
+    const balance = this.overlapGains(frame, projection, gain, correction);
+    this.lastGains = balance.global;
+    this.lastLocalGains = balance.local;
+    const feather = .14 * Math.min(frame.width, frame.height);
     const before = this.count;
-    for (let y = 0; y < this.height; y++)
+    let changed = false;
+    const r = relative(this.orientation, IDENTITY), fx = frame.width / (2 * this.source.x),
+      fy = frame.height / (2 * this.source.y);
+    for (let y = 0; y < this.height; y++) {
+      const yy = this.ys[y];
       for (let x = 0; x < this.width; x++) {
-        const destination = (y * this.width + x) * 4;
-        if (this.pixels[destination + 3]) continue;
-        const position = projection.project(this.xs[x], this.ys[y]);
-        if (!position) continue;
-        const u = Math.floor(position[0] + correction.x),
-          v = Math.floor(position[1] + correction.y);
+        const at = y * this.width + x, destination = at * 4;
+        if (this.confidence[at] >= 1) continue;
+        const xx = this.xs[x], depth = r[8] - r[6] * xx - r[7] * yy;
+        if (depth <= .001) continue;
+        const px = frame.width / 2 + (r[0] * xx + r[1] * yy - r[2]) * fx / depth;
+        const py = frame.height / 2 - (r[3] * xx + r[4] * yy - r[5]) * fy / depth;
+        const warped = warpPoint(correction, px, py, frame.width, frame.height);
+        const u = Math.floor(warped[0]), v = Math.floor(warped[1]);
         if (u < 0 || v < 0 || u >= frame.width || v >= frame.height) continue;
+        const weight = clamp(Math.min(u + .5, v + .5, frame.width - u - .5,
+          frame.height - v - .5) / feather, .001, 1);
+        if (weight <= this.confidence[at] + 1e-6) continue;
         const i = (v * frame.width + u) * 4;
         if (!frame.data[i + 3]) continue;
         const g = gain[luminance(frame.data, i)];
-        const color = scaleColor(
-          frame.data[i],
-          frame.data[i + 1],
-          frame.data[i + 2],
-          g,
-        );
-        this.pixels[destination] = color[0];
-        this.pixels[destination + 1] = color[1];
-        this.pixels[destination + 2] = color[2];
+        let mix = this.pixels[destination + 3] ? (weight - this.confidence[at]) / weight : 1;
+        // Avoid a double edge when foreground depth differs from the dominant
+        // surface. Prefer the more confident sample over averaging both edges.
+        if (mix < 1 && x > 0 && y > 0 && u > 0 && v > 0) {
+          const old = luminance(this.pixels, destination);
+          const detail = (this.pixels[destination - 1] && Math.abs(old - luminance(this.pixels, destination - 4)) > 12) ||
+            (this.pixels[destination - this.width * 4 + 3] && Math.abs(old - luminance(this.pixels, destination - this.width * 4)) > 12);
+          const raw = luminance(frame.data, i), sourceEdge =
+            Math.abs(raw - luminance(frame.data, i - 4)) > 12 ||
+            Math.abs(raw - luminance(frame.data, i - frame.width * 4)) > 12;
+          const normalized = grayCodes[Math.round(Math.min(1, linearCodes[raw] * g) * 65535)];
+          if (detail && sourceEdge && Math.abs(old - normalized) > 20) {
+            if (weight - this.confidence[at] <= .5) continue;
+            mix = 1;
+          }
+        }
+        const bx = clamp(2 * u / frame.width - .5, 0, 1), by = clamp(2 * v / frame.height - .5, 0, 1);
+        for (let c = 0; c < 3; c++) {
+          const top = balance.local[0][c] * (1 - bx) + balance.local[1][c] * bx;
+          const bottom = balance.local[2][c] * (1 - bx) + balance.local[3][c] * bx;
+          const incoming = Math.min(1, linearCodes[frame.data[i + c]] * g * (top * (1 - by) + bottom * by));
+          const value = incoming * mix + linearCodes[this.pixels[destination + c]] * (1 - mix);
+          this.pixels[destination + c] = grayCodes[Math.round(value * 65535)];
+        }
+        if (!this.pixels[destination + 3]) this.count++;
         this.pixels[destination + 3] = 255;
-        this.count++;
+        this.confidence[at] = weight;
+        changed = true;
       }
+    }
     if (this.count > before) {
       this.captures++;
-      this.views.clear();
       this.refreshTiles();
     }
+    if (changed) this.views.clear();
     return this.count > before;
   }
 
@@ -622,10 +773,48 @@ export class Panorama {
       : this.orientation;
   }
 
-  /** Sensor updates do no image readback. Only a stable, new direction decodes
-   * a keyframe. Without sensors, a throttled thumbnail supplies visual motion. */
+  applySnapshot(snapshot) {
+    if (this.disposed) return;
+    const pixels = new Uint8ClampedArray(snapshot.pixels);
+    if (pixels.length !== this.pixels.length) throw new Error("Panorama snapshot size changed");
+    this.pixels = pixels;
+    this.count = snapshot.count;
+    this.captures = snapshot.captures;
+    this.lastRegistration = snapshot.registration;
+    this.lastGains = snapshot.gains;
+    this.lastLocalGains = snapshot.localGains;
+    this.disconnected = snapshot.disconnected;
+    this.processingMs = snapshot.processingMs;
+    this.writeReason = snapshot.reason;
+    this.retryStationary = snapshot.reason === "match";
+    this.views.clear();
+    this.refreshTiles();
+  }
+
+  dispose() {
+    this.disposed = true;
+    this.onUpdate = null;
+  }
+
+  /** A single in-flight worker owns alignment and atlas writes. Sensor events
+   * continue updating the displayed pose while its captured pose stays fixed.
+   * Weak matches, unknown shutter or excessive blur fall back to a short stop. */
   capture({ pose = null, time = performance.now(), frame, trackingFrame = frame,
-      cameraEV = null, collect = true } = {}) {
+      cameraEV = null, exposureSeconds = null, collect = true } = {}) {
+    if (this.disposed) return { ...this.guide(), accepted: false };
+    if (this.awaitingSensor) {
+      if (validPose(pose)) this.awaitingSensor = false;
+      else {
+        this.sensorWaitSince ??= time;
+        // After visibility resumes, an old/missing event must not redefine the
+        // scan origin before the first fresh orientation arrives. If the sensor
+        // has actually disappeared, allow normal visual fallback after one second.
+        if (time >= this.sensorWaitSince && time - this.sensorWaitSince < 1000)
+          return { ...this.guide(), accepted: false };
+        this.awaitingSensor = false;
+      }
+    }
+    const previous = [...this.orientation], elapsed = this.lastTime == null ? 0 : time - this.lastTime;
     let decoded;
     const image = () => decoded ??= typeof frame === "function" ? frame() : frame;
     this.needsOverlap = false;
@@ -666,8 +855,24 @@ export class Panorama {
     }
     this.lastTime = time;
     this.settling = time - this.since < 350;
-    if (collect && !this.ready && !this.needsOverlap && !this.settling &&
-        (!this.lastAttempt || moved(this.lastAttempt, this.orientation, 1))) {
+    const advanced = !!(this.aligner || this.submit);
+    const knownShutter = Number.isFinite(exposureSeconds) && exposureSeconds > 0;
+    // 2.5 source pixels of rotational blur, capped at an 8-degree frame jump.
+    const maxTurn = knownShutter ? Math.min(8, 180 / Math.PI *
+      (2 * Math.min(this.source.x, this.source.y) / 640) * 2.5 * elapsed / (exposureSeconds * 1000)) : 0;
+    const sharp = knownShutter && elapsed > 0 && elapsed <= 500 &&
+      !moved(previous, this.orientation, maxTurn);
+    this.slowDown = advanced && this.settling && this.captures > 0 && !sharp;
+    this.unknownShutter = advanced && !knownShutter;
+    const continuous = advanced && sharp;
+    const immediateCenter = advanced && !this.captures;
+    const spacing = this.coverage >= .9 ? .45 : !this.settling ? 1
+      : Math.atan(Math.min(this.source.x, this.source.y)) * 180 / Math.PI * .33;
+    const newDirection = !this.lastAttempt || moved(this.lastAttempt, this.orientation, spacing);
+    const stationaryRetry = this.retryStationary && (!this.settling ||
+      (continuous && time - this.attemptedAt >= 110));
+    if (collect && !this.ready && !this.needsOverlap && !this.busy &&
+        (immediateCenter || !this.settling || continuous) && (newDirection || stationaryRetry)) {
       if (this.count && Number.isFinite(this.cameraEV) && !Number.isFinite(cameraEV)) {
         reason = "该帧缺少曝光参数，请恢复采集曝光或重新开始";
       } else {
@@ -676,8 +881,27 @@ export class Panorama {
           reason = "无效画面";
         } else {
           if (!this.captures) this.cameraEV = Number.isFinite(cameraEV) ? cameraEV : null;
-          accepted = this.writeFrame(pixels, cameraEV);
           this.lastAttempt = [...this.orientation];
+          this.attemptedAt = time;
+          const requireVisual = this.captures > 0 && this.settling;
+          if (this.submit) {
+            this.busy = true;
+            this.pending = Promise.resolve().then(() => this.submit({
+              frame: pixels, orientation: [...this.lastAttempt], cameraEV,
+              baseEV: this.cameraEV, requireVisual,
+            })).then(snapshot => {
+              if (!this.disposed) this.applySnapshot(snapshot);
+            }).catch(() => {
+              this.workerFailed = true;
+              this.retryStationary = true;
+            }).finally(() => {
+              this.busy = false;
+              if (!this.disposed) this.onUpdate?.(this);
+            });
+          } else {
+            accepted = this.writeFrame(pixels, cameraEV, { requireVisual });
+            this.retryStationary = this.writeReason === "match";
+          }
         }
       }
     }
@@ -702,14 +926,16 @@ export class Panorama {
   refreshTiles() {
     this.tiles = [];
     this.holes = [];
+    this.tileFractions = [];
     for (let row = 0; row < 7; row++)
       for (let col = 0; col < 9; col++) {
         const left = Math.ceil(this.width * col / 9), right = Math.ceil(this.width * (col + 1) / 9);
         const top = Math.ceil(this.height * row / 7), bottom = Math.ceil(this.height * (row + 1) / 7);
-        let missing = null, distance = Infinity;
+        let missing = null, distance = Infinity, missingCount = 0;
         for (let y = top; y < bottom; y++)
           for (let x = left; x < right; x++) {
             if (this.pixels[(y * this.width + x) * 4 + 3]) continue;
+            missingCount++;
             const d = (x - (left + right) / 2) ** 2 + (y - (top + bottom) / 2) ** 2;
             if (d < distance) {
               distance = d;
@@ -717,8 +943,26 @@ export class Panorama {
             }
           }
         this.tiles.push(!missing);
+        const area = (right - left) * (bottom - top);
+        this.tileFractions.push(area ? 1 - missingCount / area : 1);
         if (missing) this.holes.push(missing);
       }
+    // Score each prospective footprint once per atlas update. At video rate the
+    // guide only adds the distance from the current aim to these cached scores.
+    this.recommendations = this.holes.map(hole => {
+      const x = (2 * hole.x - 1) * this.bounds.x, y = (1 - 2 * hole.y) * this.bounds.y;
+      const orientation = yawPitch(-Math.atan(x), Math.atan(y / Math.sqrt(1 + x * x)));
+      const projection = new Projection(relative(orientation, IDENTITY), this.source, 2, 2);
+      let missing = 0, overlap = 0;
+      this.tileFractions.forEach((fraction, i) => {
+        const p = projection.project(((i % 9 + .5) / 9 * 2 - 1) * this.bounds.x,
+          (1 - (Math.floor(i / 9) + .5) / 7 * 2) * this.bounds.y);
+        if (!p || p[0] < .05 || p[0] > 1.95 || p[1] < .05 || p[1] > 1.95) return;
+        missing += 1 - fraction;
+        overlap += fraction;
+      });
+      return { hole, score: missing * (this.count ? Math.min(1, overlap / Math.max(.01, .23 * (missing + overlap))) : 1) };
+    });
   }
 
   homeDirection(orientation = this.orientation) {
@@ -740,15 +984,18 @@ export class Panorama {
     const r = this.orientationFor(pose), z = Math.max(.001, r[8]);
     const aim = { x: .5 - .5 * r[2] / (this.bounds.x * z),
                   y: .5 + .5 * r[5] / (this.bounds.y * z) };
-    let next = null, closest = Infinity;
-    for (const hole of this.holes) {
+    let next = null, best = -Infinity;
+    for (const { hole, score } of this.recommendations) {
       const distance = Math.hypot((hole.x - aim.x) * this.bounds.x, (hole.y - aim.y) * this.bounds.y);
-      if (distance < closest) { closest = distance; next = hole; }
+      const value = score - .1 * distance;
+      if (value > best) { best = value; next = hole; }
     }
     const home = this.homeDirection(r);
     const turnedHome = home && turnPoint({ x: .5 + home.x / 2, y: .5 + home.y / 2 }, displayTurn);
     return { coverage: this.coverage, ready: this.ready, captures: this.captures,
       needsOverlap: this.needsOverlap || this.disconnected,
+      busy: this.busy, continuous: !!(this.aligner || this.submit), slowDown: this.slowDown,
+      retryStationary: this.retryStationary, unknownShutter: this.unknownShutter,
       settling: this.settling, aim: turnPoint(aim, displayTurn), next: turnPoint(next, displayTurn),
       tiles: this.tiles, displayTurn,
       home: turnedHome && { x: 2 * turnedHome.x - 1, y: 2 * turnedHome.y - 1 } };

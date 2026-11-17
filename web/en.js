@@ -1,6 +1,9 @@
 // Source strings stay in Chinese so product wording remains searchable in the UI code.
 // Add exact strings here and numeric/variable messages to PATTERNS below.
 export const MESSAGES = {
+  "正在准备拼接…": "Preparing panorama…",
+  "中心已确认。缓慢移向黄圈，保持画面重叠；匹配困难时短暂停住。": "Center set. Move slowly toward the yellow circle and keep overlap. Pause briefly if matching is difficult.",
+  "连续配准不可用，短暂停住后仍可自动补拍。": "Continuous alignment is unavailable. Pause briefly to capture automatically.",
   "回到拼图中心": "Return to panorama center",
   "中心已确认。移向黄圈，停稳后自动采集，保持画面重叠。": "Center set. Move toward the yellow circle, keep overlap, then hold still to capture automatically.",
   "二次构图 · 转动手机": "Reframe · Turn the phone",
@@ -228,6 +231,11 @@ export const UNIT_PATTERNS = [
 // Shared phrases used inside composed status messages and data-source descriptions.
 export const PHRASES = {
   "请停稳 350 毫秒": "Hold still for 350 ms",
+  "短暂停住补拍": "Pause briefly to capture",
+  "请放慢移动": "Move more slowly",
+  "快门未知，请短暂停住": "Unknown shutter · pause briefly",
+  "正在拼接": "Stitching",
+  "连续采集中": "Capturing continuously",
   "已停稳": "Steady",
   "亮端非实测饱和": "the bright endpoint is not a measured saturation limit",
   "中灰假设 H=10/ISO lx·s": "Middle gray assumes H=10/ISO lx·s",
