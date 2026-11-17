@@ -67,7 +67,7 @@ const state = {
   isoLocked: saved.isoLocked !== false,
   style: saved.style || "color",
   preview: saved.preview || false,
-  log: saved.log || false,
+  log: saved.log ?? true,
   devices: saved.devices || {},
   layouts: saved.layouts || {},
   presets: [],

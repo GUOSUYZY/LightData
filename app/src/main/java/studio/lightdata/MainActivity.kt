@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
     var frozen by mutableStateOf(false)
     var single by mutableStateOf(false)
     var held by mutableStateOf<Double?>(null)
-    var logCounts by mutableStateOf(false)
+    var logCounts by mutableStateOf(true)
     var settings by mutableStateOf(false)
     var resizing by mutableStateOf(false)
     var sample by mutableStateOf<Sample?>(null)
@@ -154,7 +154,7 @@ class MainActivity : ComponentActivity() {
         manual = Exposure(saved("t", 1.0 / 125), saved("a", 8.0), saved("iso", 400.0))
         style = saved("style", 0.0).toInt()
         restoreFilm()
-        logCounts = prefs.getBoolean("logCounts", false)
+        logCounts = prefs.getBoolean("logCounts", true)
         for (prefix in listOf("p", "l", "squarep", "squarel")) {
             for (i in 1..2) {
                 val key = prefix + i

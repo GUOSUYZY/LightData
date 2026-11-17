@@ -102,6 +102,7 @@ try {
   await expect(page.locator("#meter-reading")).toContainText("相对亮度");
   await settings();
   await expect(page.locator("#capture-mode")).toHaveValue("auto");
+  await expect(page.locator("#log-counts")).toBeChecked();
   await page.evaluate(() => {
     globalThis.testCameraSettings = {
       exposureMode: "continuous",
@@ -323,11 +324,11 @@ try {
       () => JSON.parse(localStorage.getItem("lightdata.web.v1")).presets,
     ),
   ).toBe(before);
-  await page.locator("#log-counts").check();
+  await page.locator("#log-counts").uncheck();
   await close();
   await page.reload();
   await settings();
-  await expect(page.locator("#log-counts")).toBeChecked();
+  await expect(page.locator("#log-counts")).not.toBeChecked();
   await expect(page.locator("#custom-iso")).toHaveValue("80");
   await close();
   await page.locator("#start-camera").click();
