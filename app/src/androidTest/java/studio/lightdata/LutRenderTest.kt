@@ -115,7 +115,7 @@ class LutRenderTest {
                 a.setContentView(FrameLayout(a).apply { addView(preview,FrameLayout.LayoutParams(240,180)) })
                 preview.show(look, .5)
             }
-            fun waitFor(width: Int, stripe: Boolean = false, check: (Int) -> Boolean) {
+            fun waitFor(width: Int, stripe: Boolean = false, u: Double = .5, v: Double = .5, check: (Int) -> Boolean) {
                 var rgb = 0
                 val stop = android.os.SystemClock.elapsedRealtime()+6500
                 while (android.os.SystemClock.elapsedRealtime()<stop) {
@@ -126,7 +126,7 @@ class LutRenderTest {
                     val done=CountDownLatch(1)
                     PixelCopy.request(preview,bmp,{ code=it; done.countDown() },Handler(Looper.getMainLooper()))
                     if (!done.await(2,TimeUnit.SECONDS) || code!=PixelCopy.SUCCESS) continue
-                    rgb=bmp.getPixel(width/2,bmp.height/2)
+                    rgb=bmp.getPixel((bmp.width*u).toInt(),(bmp.height*v).toInt())
                     if (check(rgb)) return
                     if (stripe && (0 until 12).any { check(bmp.getPixel(it,bmp.height/2)) }) return
                 }
@@ -143,6 +143,37 @@ class LutRenderTest {
             waitFor(80) { color -> abs(luma(color)-brighter)<=2 }
             activity.onActivity { preview.show(look.copy(atlas=null),.25) }
             waitFor(20) { abs((it and 255)-120)<=2 }
+            for (limited in listOf(false,true)) for (bt709 in listOf(false,true)) for (transfer in listOf(false,true)) {
+                val encoding=YuvEncoding(limited,bt709,transfer)
+                val planes=listOf(
+                    Rig.Plane(ByteArray(84*60) { 112 },84,1),
+                    Rig.Plane(ByteArray(84*30) { if (it%2==0) 93 else 9 },84,2),
+                    Rig.Plane(ByteArray(44*30) { 153.toByte() },44,1),
+                )
+                val live=LiveCapture(Rig.Packet(80,60,planes,encoding),0.0,"test",1,0,Field(1.0,1.0),Field(1.0,1.0))
+                val expected=encoding.rgb(112,93,153)
+                activity.onActivity { preview.show(look.copy(atlas=null,live=live,preview=false),.5) }
+                waitFor(40) { pixel -> listOf(16,8,0).all { shift ->
+                    abs((pixel ushr shift and 255) - (expected ushr shift and 255)) <= 2
+                } }
+            }
+            val pattern=listOf(
+                Rig.Plane(ByteArray(80*60) { if(it%80<40) 75 else 155.toByte() },80,1),
+                Rig.Plane(ByteArray(40*30) { if(it/40<15) 112 else 151.toByte() },40,1),
+                Rig.Plane(ByteArray(40*30) { 120 },40,1),
+            )
+            for(turn in listOf(0,90,180,270)) {
+                val live=LiveCapture(Rig.Packet(80,60,pattern,YuvEncoding()),0.0,"test",1,turn,
+                    Field(1.0,1.0),Field(.8,.8))
+                activity.onActivity { preview.show(look.copy(atlas=null,live=live,preview=false),1.0) }
+                val full=live.fullFrame()
+                for ((x,y) in listOf(.25 to .25,.75 to .25,.25 to .75,.75 to .75)) {
+                    val expected=full.sample(x,y)
+                    waitFor(full.w,u=x,v=y) { pixel -> listOf(16,8,0).all { shift ->
+                        abs((pixel ushr shift and 255)-(expected ushr shift and 255))<=2
+                    } }
+                }
+            }
             // A monochrome process sensitive to red changes patch brightness even when
             // the neutral and red originals have the same Rec.709 luminance.
             val monochrome = ByteArray(cube.size) { i -> (30+12*(i/3%33)).coerceAtMost(255).toByte() }

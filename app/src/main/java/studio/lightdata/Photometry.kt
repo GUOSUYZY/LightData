@@ -33,6 +33,8 @@ data class YuvEncoding(val limited: Boolean = false, val bt709: Boolean = false,
     private val blueU = (512 * (1 - kb) * uvScale).roundToInt()
     private val greenU = (-kb * blueU / (1 - kr - kb)).roundToInt()
     private val greenV = (-kr * redV / (1 - kr - kb)).roundToInt()
+    internal val gpuYuv by lazy { floatArrayOf(offset.toFloat(),yScale.toFloat(),redV.toFloat(),
+        blueU.toFloat(),greenU.toFloat(),greenV.toFloat()) }
     private val rgbCodes = IntArray(256) { i ->
         if (!videoTransfer) i else {
             val v = i / 255.0

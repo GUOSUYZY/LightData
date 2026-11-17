@@ -18,18 +18,27 @@ data class Look(
     val manual: Boolean,
     val style: Int,
     val atlas: LutAtlas? = null,
+    val live: LiveCapture? = null,
 )
 
 class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
     var onCubeUnavailable: ((String) -> Unit)? = null
+    var onRendered: (() -> Unit)? = null
     @Volatile private var look: Look? = null
+    @Volatile var renderedLive: LiveCapture? = null
+        private set
     private var scale = 1.0
     private var bufferWidth = 0
     private var bufferHeight = 0
-    private val textures = IntArray(3)
+    private val textures = IntArray(6)
+    private var lastLive: LiveCapture? = null
+    private var reported: Any? = null
     private var lastAtlas: LutAtlas? = null
     private var rejectedAtlas: LutAtlas? = null
     private var program = 0
+    private var tableLook: Look? = null
+    private val locations = HashMap<String,Int>()
+    private fun uniform(name: String) = locations.getOrPut(name) { glGetUniformLocation(program,name) }
     private var last: Frame? = null
     private var bytes = ByteBuffer.allocateDirect(4).order(ByteOrder.LITTLE_ENDIAN)
     private val table = ByteBuffer.allocateDirect(256 * 4 * 3)
@@ -53,17 +62,26 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
         requestRender()
     }
 
+    fun advance(live: LiveCapture, exposureEv: Double) {
+        val previous = look ?: return
+        if (previous.live == null) return
+        look = previous.copy(live = live, delta = live.ev - exposureEv)
+        requestRender()
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         resizeBuffer()
     }
 
     private fun resizeBuffer() {
-        val f = look?.frame ?: return
+        val current = look ?: return
+        val fw = current.live?.width ?: current.frame.w
+        val fh = current.live?.height ?: current.frame.h
         if (width == 0 || height == 0) return
-        val factor = minOf(1.0, width.toDouble()/f.w, height.toDouble()/f.h) * scale
-        val w = max(1, (f.w * factor).roundToInt())
-        val h = max(1, (f.h * factor).roundToInt())
+        val factor = minOf(1.0, width.toDouble()/fw, height.toDouble()/fh) * scale
+        val w = max(1, (fw * factor).roundToInt())
+        val h = max(1, (fh * factor).roundToInt())
         if (w == bufferWidth && h == bufferHeight) return
         bufferWidth = w
         bufferHeight = h
@@ -91,6 +109,11 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
                 """
                     precision highp float;
                     uniform sampler2D frame; uniform sampler2D curve; uniform sampler2D cube;
+                    uniform sampler2D planeY; uniform sampler2D planeU; uniform sampler2D planeV;
+                    uniform int live; uniform int rotation; uniform int videoTransfer;
+                    uniform vec4 gate; uniform vec2 captureSize;
+                    uniform vec3 planeStride; uniform vec3 pixelStride;
+                    uniform vec4 yuvA; uniform vec2 yuvB;
                     uniform int style; uniform int tone; uniform int colorFilm; uniform int useCube; uniform mat3 spectral;
                     uniform vec2 zoneBounds;
                     varying vec2 uv;
@@ -99,6 +122,25 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
                     }
                     vec3 encodeRGB(vec3 c){
                         return mix(12.92*c,1.055*pow(c,vec3(1./2.4))-.055,step(vec3(.0031308),c));
+                    }
+                    vec4 cameraPixel(){
+                        vec2 p = gate.xy + uv*gate.zw;
+                        if(any(lessThan(p,vec2(0.))) || any(greaterThanEqual(p,vec2(1.)))) return vec4(0.);
+                        if(rotation==1) p=vec2(p.y,1.-p.x);
+                        else if(rotation==2) p=1.-p;
+                        else if(rotation==3) p=vec2(1.-p.y,p.x);
+                        vec2 loc=clamp(floor(p*captureSize),vec2(0.),captureSize-1.);
+                        vec2 chroma=floor(loc*.5);
+                        float cy=(chroma.y+.5)/ceil(captureSize.y*.5);
+                        float y=floor(texture2D(planeY,vec2((loc.x*pixelStride.x+.5)/planeStride.x,(loc.y+.5)/captureSize.y)).r*255.+.5);
+                        float u=floor(texture2D(planeU,vec2((chroma.x*pixelStride.y+.5)/planeStride.y,cy)).r*255.+.5)-128.;
+                        float v=floor(texture2D(planeV,vec2((chroma.x*pixelStride.z+.5)/planeStride.z,cy)).r*255.+.5)-128.;
+                        vec3 codes=clamp(floor(((y-yuvA.x)*yuvA.y+128.+vec3(yuvA.z*v,yuvB.x*u+yuvB.y*v,yuvA.w*u))/256.),0.,255.)/255.;
+                        if(videoTransfer!=0) {
+                            vec3 lin=mix(codes/4.5,pow((codes+.099)/1.099,vec3(1./.45)),step(vec3(.081),codes));
+                            codes=floor(encodeRGB(lin)*255.+.5)/255.;
+                        }
+                        return vec4(codes,1.);
                     }
                     vec3 cubeColor(vec3 linear) {
                         vec3 grid = clamp(log2(1. + max(linear, vec3(0.))/.18)/9.,0.,1.)*32.;
@@ -122,7 +164,7 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
                         return clamp(vec3(y) + strength*chroma,0.,1.);
                     }
                     void main(){
-                        vec4 src=texture2D(frame,uv).bgra;
+                        vec4 src=live!=0 ? cameraPixel() : texture2D(frame,uv).bgra;
                         if(src.a<0.5){gl_FragColor=vec4(.06,.06,.06,1.);return;}
                         vec3 rgb=src.rgb;
                         const vec3 weights=vec3(.2126,.7152,.0722);
@@ -168,25 +210,28 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
             ),
         )
         glLinkProgram(program)
-        glGenTextures(3, textures, 0)
+        locations.clear()
+        tableLook = null
+        glGenTextures(textures.size, textures, 0)
         lastAtlas = null
         rejectedAtlas = null
         last = null
+        lastLive = null
         textures.forEachIndexed { i, t ->
             glActiveTexture(GL_TEXTURE0 + i)
             glBindTexture(GL_TEXTURE_2D, t)
             for (p in listOf(GL_TEXTURE_MIN_FILTER, GL_TEXTURE_MAG_FILTER)) glTexParameteri(
                 GL_TEXTURE_2D,
                 p,
-                if (i == 1) GL_NEAREST else GL_LINEAR,
+                if (i == 0 || i == 2) GL_LINEAR else GL_NEAREST,
             )
             for (p in listOf(GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T)) glTexParameteri(
                 GL_TEXTURE_2D,
                 p,
                 GL_CLAMP_TO_EDGE,
             )
+            glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,1,1,0,GL_RGBA,GL_UNSIGNED_BYTE,ByteBuffer.allocateDirect(4))
         }
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, ByteBuffer.allocateDirect(4))
     }
 
     override fun onSurfaceChanged(g: GL10?, w: Int, h: Int) {
@@ -199,7 +244,8 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
         glUseProgram(program)
         glActiveTexture(GL_TEXTURE0)
         glBindTexture(GL_TEXTURE_2D, textures[0])
-        if (last !== f) {
+        val live = l.live
+        if (live == null && last !== f) {
             val size = f.w * f.h * 4
             if (bytes.capacity() < size)
                 bytes = ByteBuffer.allocateDirect(size).order(ByteOrder.LITTLE_ENDIAN)
@@ -210,42 +256,75 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, f.w, f.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, bytes)
             last = f
         }
-        table.clear()
-        for (i in 0..255) {
-            val ev = l.lut[i] + l.delta
-            val y =
-                when {
-                    l.preview -> linearToSrgb(l.film.positive(ev))
-                    l.manual -> linearToSrgb(.18 * 2.0.pow(ev))
-                    else -> i / 255.0
+        glUniform1i(uniform("live"),if (live == null) 0 else 1)
+        if (live != null) {
+            val image = live.image
+            glUniform1i(uniform("rotation"),live.turn/90)
+            glUniform4fv(uniform("gate"),1,live.gate,0)
+            glUniform2f(uniform("captureSize"),image.w.toFloat(),image.h.toFloat())
+            val (y,u,v) = image.planes
+            glUniform3f(uniform("planeStride"),y.rowStride.toFloat(),u.rowStride.toFloat(),v.rowStride.toFloat())
+            glUniform3f(uniform("pixelStride"),y.pixelStride.toFloat(),u.pixelStride.toFloat(),v.pixelStride.toFloat())
+            val coeff = image.encoding.gpuYuv
+            glUniform4fv(uniform("yuvA"),1,coeff,0)
+            glUniform2fv(uniform("yuvB"),1,coeff,4)
+            glUniform1i(uniform("videoTransfer"),if (image.encoding.videoTransfer) 1 else 0)
+            if (live !== lastLive) {
+                glPixelStorei(GL_UNPACK_ALIGNMENT,1)
+                for ((i,p) in image.planes.withIndex()) {
+                    glActiveTexture(GL_TEXTURE3+i)
+                    glBindTexture(GL_TEXTURE_2D,textures[3+i])
+                    val h = if (i==0) image.h else (image.h+1)/2
+                    val storage = lastLive?.image
+                    val data=ByteBuffer.wrap(p.data)
+                    if (storage?.h == image.h && storage.planes[i].rowStride == p.rowStride)
+                        glTexSubImage2D(GL_TEXTURE_2D,0,0,0,p.rowStride,h,GL_LUMINANCE,GL_UNSIGNED_BYTE,data)
+                    else glTexImage2D(GL_TEXTURE_2D,0,GL_LUMINANCE,p.rowStride,h,0,GL_LUMINANCE,GL_UNSIGNED_BYTE,data)
                 }
-            table.put((y.coerceIn(0.0, 1.0) * 255).roundToInt().toByte())
-            val limit = l.film.limit(ev)
-            table.put(if (limit == FilmLimit.HIGHLIGHT) (-1).toByte() else 0)
-            table.put(if (limit == FilmLimit.SHADOW) (-1).toByte() else 0)
-            table.put((-1).toByte())
+                lastLive=live
+            }
         }
         val color = if (l.preview && l.style == 0 && l.atlas == null) colorCurves[l.film.name] else null
-        if (color != null) {
+        val prev = tableLook
+        if (prev == null || prev.lut !== l.lut || prev.film !== l.film || prev.delta != l.delta ||
+            prev.manual != l.manual || prev.preview != l.preview || prev.style != l.style || prev.atlas !== l.atlas) {
+            table.clear()
             for (i in 0..255) {
                 val ev = l.lut[i] + l.delta
-                for (channel in listOf("red", "green", "blue")) {
-                    val value = color.positive(channel, ev)
-                    table.put((linearToSrgb(value).coerceIn(0.0, 1.0)*255).roundToInt().toByte())
-                }
+                val y =
+                    when {
+                        l.preview -> linearToSrgb(l.film.positive(ev))
+                        l.manual -> linearToSrgb(.18 * 2.0.pow(ev))
+                        else -> i / 255.0
+                    }
+                table.put((y.coerceIn(0.0, 1.0) * 255).roundToInt().toByte())
+                val limit = l.film.limit(ev)
+                table.put(if (limit == FilmLimit.HIGHLIGHT) (-1).toByte() else 0)
+                table.put(if (limit == FilmLimit.SHADOW) (-1).toByte() else 0)
                 table.put((-1).toByte())
             }
-        } else table.position(256 * 4 * 2)
-        // A calibrated relative exposure travels in two bytes, independently of the
-        // display curve. LUT input therefore receives the target exposure exactly once.
-        for (i in 0..255) {
-            val code = (((l.lut[i] + l.delta).coerceIn(-80.0, 80.0) + 80) * 65535 / 160).roundToInt()
-            table.put((code ushr 8).toByte()).put(code.toByte()).put(0).put(0)
+            if (color != null) {
+                for (i in 0..255) {
+                    val ev = l.lut[i] + l.delta
+                    for (channel in listOf("red", "green", "blue")) {
+                        val value = color.positive(channel, ev)
+                        table.put((linearToSrgb(value).coerceIn(0.0, 1.0)*255).roundToInt().toByte())
+                    }
+                    table.put((-1).toByte())
+                }
+            } else table.position(256 * 4 * 2)
+            // A calibrated relative exposure travels in two bytes, independently of the
+            // display curve. LUT input therefore receives the target exposure exactly once.
+            for (i in 0..255) {
+                val code = (((l.lut[i] + l.delta).coerceIn(-80.0, 80.0) + 80) * 65535 / 160).roundToInt()
+                table.put((code ushr 8).toByte()).put(code.toByte()).put(0).put(0)
+            }
+            table.flip()
+            glActiveTexture(GL_TEXTURE1)
+            glBindTexture(GL_TEXTURE_2D, textures[1])
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 3, 0, GL_RGBA, GL_UNSIGNED_BYTE, table)
+            tableLook = l
         }
-        table.flip()
-        glActiveTexture(GL_TEXTURE1)
-        glBindTexture(GL_TEXTURE_2D, textures[1])
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 3, 0, GL_RGBA, GL_UNSIGNED_BYTE, table)
         glActiveTexture(GL_TEXTURE2)
         glBindTexture(GL_TEXTURE_2D, textures[2])
         val atlas = l.atlas
@@ -261,19 +340,28 @@ class Preview(ctx: Context) : GLSurfaceView(ctx), GLSurfaceView.Renderer {
                 post { onCubeUnavailable?.invoke(atlas.entry.file) }
             }
         }
-        glUniform1i(glGetUniformLocation(program, "cube"), 2)
-        glUniform2f(glGetUniformLocation(program, "zoneBounds"),
+        glUniform1i(uniform("cube"), 2)
+        glUniform2f(uniform("zoneBounds"),
             l.film.positive(l.film.low).toFloat(), l.film.positive(l.film.high).toFloat())
-        glUniform1i(glGetUniformLocation(program, "useCube"), if (atlas != null && atlas === lastAtlas) 1 else 0)
-        glUniform1i(glGetUniformLocation(program, "frame"), 0)
-        glUniform1i(glGetUniformLocation(program, "curve"), 1)
-        glUniform1i(glGetUniformLocation(program, "style"), l.style)
-        glUniform1i(glGetUniformLocation(program, "tone"), if (l.manual || l.preview) 1 else 0)
-        glUniform1i(glGetUniformLocation(program, "colorFilm"), if (l.preview && color != null) 1 else 0)
-        glUniformMatrix3fv(glGetUniformLocation(program, "spectral"),1,false,color?.matrix ?: floatArrayOf(1f,0f,0f,0f,1f,0f,0f,0f,1f),0)
+        glUniform1i(uniform("useCube"), if (atlas != null && atlas === lastAtlas) 1 else 0)
+        glUniform1i(uniform("frame"), 0)
+        glUniform1i(uniform("planeY"), 3)
+        glUniform1i(uniform("planeU"), 4)
+        glUniform1i(uniform("planeV"), 5)
+        glUniform1i(uniform("curve"), 1)
+        glUniform1i(uniform("style"), l.style)
+        glUniform1i(uniform("tone"), if (l.manual || l.preview) 1 else 0)
+        glUniform1i(uniform("colorFilm"), if (l.preview && color != null) 1 else 0)
+        glUniformMatrix3fv(uniform("spectral"),1,false,color?.matrix ?: floatArrayOf(1f,0f,0f,0f,1f,0f,0f,0f,1f),0)
         val a = glGetAttribLocation(program, "p")
         glEnableVertexAttribArray(a)
         glVertexAttribPointer(a, 2, GL_FLOAT, false, 0, quad)
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4)
+        renderedLive = live
+        val source = live ?: f
+        if (source !== reported) {
+            reported = source
+            onRendered?.invoke()
+        }
     }
 }

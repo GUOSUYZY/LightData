@@ -62,7 +62,9 @@ internal class StillDetector {
         val signature = IntArray(96) { i ->
             luma(frame.sample((i % 12 + .5)/12, (i / 12 + .5)/8))
         }
-        val geometry = Triple(frame.id, frame.w, frame.h)
+        return observe(signature,Triple(frame.id,frame.w,frame.h),axes,now)
+    }
+    fun observe(signature: IntArray, geometry: Triple<String,Int,Int>, axes: FloatArray?, now: Long): Boolean {
         val prior = basis
         // Compare to the start of the still interval, so a slow pan also resets it.
         val turned = axes != null && prior != null &&

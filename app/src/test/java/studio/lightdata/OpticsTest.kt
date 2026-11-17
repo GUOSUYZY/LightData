@@ -73,6 +73,15 @@ class OpticsTest {
     }
 
     @Test
+    fun wideLatitudeNegativeSeparatesMidtonesInTheViewedPrint() {
+        val film = customFilm(false, 18.0, 9.0)
+        assertEquals(.18, film.positive(0.0), 1e-9)
+        assertTrue(255 * linearToSrgb(film.positive(-2.0)) < 70)
+        assertTrue(255 * linearToSrgb(film.positive(2.0)) > 180)
+        assertTrue(film.positive(3.0) > film.positive(2.0))
+    }
+
+    @Test
     fun frozenSpotAndHistogramShareCoordinates() {
         val gray = 0xff757575.toInt()
         val f = Frame(20, 20, IntArray(400) { if (it % 20 < 8) 0 else gray }, 12.0, "ultra")

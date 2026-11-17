@@ -23,6 +23,7 @@ data class Sample(
     val still: Boolean = false,
     val captureWidth: Int = frame.w,
     val captureHeight: Int = frame.h,
+    val live: LiveCapture? = null,
 )
 
 data class Spot(val id: Int, val x: Double, val y: Double, val ev: Double)
@@ -61,6 +62,30 @@ class MainActivity : ComponentActivity() {
     var preview by mutableStateOf(false)
     var useLut by mutableStateOf(false)
     var previewScale by mutableDoubleStateOf(.5)
+    var showFps by mutableStateOf(false)
+    var renderedFps by mutableIntStateOf(0)
+    var previewView = java.lang.ref.WeakReference<Preview>(null)
+    var latestLive: LiveCapture? = null
+        private set
+    private val frameTimes = java.util.ArrayDeque<Long>()
+    fun markRendered() {
+        synchronized(frameTimes) {
+            frameTimes.addLast(android.os.SystemClock.elapsedRealtimeNanos())
+            while (frameTimes.size > 240) frameTimes.removeFirst()
+        }
+    }
+    fun updateFps() {
+        val now = android.os.SystemClock.elapsedRealtimeNanos()
+        renderedFps = synchronized(frameTimes) {
+            while (frameTimes.isNotEmpty() && now - frameTimes.first > 1_000_000_000L) frameTimes.removeFirst()
+            if (frozen) 0 else frameTimes.size
+        }
+    }
+    private val meterWorker = java.util.concurrent.Executors.newSingleThreadExecutor()
+    private val measuring = java.util.concurrent.atomic.AtomicBoolean()
+    private data class Measurement(val epoch: Int, val turn: Int, val frame: Frame, val hist: IntArray)
+    @Volatile private var lastMeasure: Measurement? = null
+    private var lastMeasureAt = 0L
     internal val lutAssets by lazy { LutAssets(assets) }
     var lutEntries by mutableStateOf(emptyList<LutEntry>())
     var lutCatalogStatus by mutableStateOf("正在读取 LUT 目录")
@@ -114,11 +139,19 @@ class MainActivity : ComponentActivity() {
     val response
         get() = cal?.responseFor(sample?.frame?.encoding ?: YuvEncoding.default) ?: defaultResponse
 
-    val reading
-        get() =
-            sample
-                ?.takeIf { it.hist.any { bin -> bin > 0 } }
-                ?.let { it.frame.cameraEv + meter(it.hist, response) }
+    private var meteredHist: IntArray? = null
+    private var meteredLut: DoubleArray? = null
+    private var meteredOffset: Double? = null
+    val reading: Double? get() {
+        val s = sample ?: return null
+        val lut = response
+        if (meteredHist !== s.hist || meteredLut !== lut) {
+            meteredOffset = if (s.hist.any { it > 0 }) meter(s.hist,lut) else null
+            meteredHist=s.hist
+            meteredLut=lut
+        }
+        return meteredOffset?.plus(s.frame.cameraEv)
+    }
 
     val exposure: Exposure
         get() {
@@ -168,6 +201,7 @@ class MainActivity : ComponentActivity() {
                         message = "已保存镜头 " + l.id + " 校准 · " + n(c.stops) + " EV"
                     }
                 },
+                { !frozen },
             )
         focal = saved("focal", 35.0)
         cameraChoice = prefs.getString("camera", "自动")!!
@@ -182,6 +216,7 @@ class MainActivity : ComponentActivity() {
         style = saved("style", 0.0).toInt()
         useLut = prefs.getBoolean("useLut", false)
         previewScale = saved("previewScale", .5).coerceIn(.25, 1.0)
+        showFps = prefs.getBoolean("showFps", false)
         restoreFilm()
         logCounts = prefs.getBoolean("logCounts", true)
         for (prefix in listOf("p", "l", "squarep", "squarel")) {
@@ -250,6 +285,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         rig.destroy()
+        meterWorker.shutdownNow()
         super.onDestroy()
     }
 
@@ -293,7 +329,7 @@ class MainActivity : ComponentActivity() {
         } else message = ""
     }
 
-    private fun process(f: Frame, l: Lens) {
+    private fun process(packet: Rig.Packet, ev: Double, timestamp: Long, l: Lens) {
         val token = epoch
         if (frozen || l.id != current?.id) return
         val rot = windowManager.defaultDisplay.rotation
@@ -301,20 +337,49 @@ class MainActivity : ComponentActivity() {
         val scanRotation = request?.rotation ?: rot
         val turn = (l.angle - scanRotation * 90 + 360) % 360
         val transpose = turn % 180 != 0
-        val frame = upright(f, turn)
         val src = if (transpose) l.view.swap() else l.view
         val goal = if (transpose) target().swap() else target()
+        val live = LiveCapture(packet,ev,l.id,timestamp,turn,src,goal)
+        val now = android.os.SystemClock.elapsedRealtime()
         val displayTurn = Math.floorMod(scanRotation - rot, 4) * 90
         val scan = request?.let {
-            val axes = pose.axes(scanRotation, f.timestampNs)
+            val frame = upright(packet.frame(ev,l.id,timestamp),turn)
+            val axes = pose.axes(scanRotation, timestamp)
             val session = it.session ?: ScanSession(frame, goal, axes, response).also { s -> it.session = s }
             if (it.reanchor) { session.resumeTracking(); it.reanchor = false }
             upright(session.capture(frame, src, axes), displayTurn) to session.guide(displayTurn)
         }
-        val out = scan?.first ?: crop(frame, src, goal)
-        val hist = out.distribution()
-        val result = Sample(out, hist, !src.covers(goal), scan?.second,
-            stillDetector.observe(out, pose.matrix, android.os.SystemClock.elapsedRealtime()), f.w, f.h)
+        fun measure(): Measurement {
+            val full = live.fullFrame()
+            return Measurement(token,turn,full,full.distribution())
+        }
+        val measurement = if (scan != null) {
+            Measurement(token,turn,scan.first,scan.first.distribution())
+        } else {
+            val cached = lastMeasure?.takeIf { it.epoch == token && it.turn == turn &&
+                it.frame.id == l.id && it.frame.w == live.width && it.frame.h == live.height &&
+                it.frame.encoding == packet.encoding }
+            if (cached == null) {
+                lastMeasureAt = now
+                measure().also { lastMeasure = it }
+            } else {
+                if (now - lastMeasureAt >= 200 && !meterWorker.isShutdown && measuring.compareAndSet(false,true)) {
+                    lastMeasureAt = now
+                    try {
+                        meterWorker.execute {
+                            try { if (epoch == token) lastMeasure = measure() }
+                            finally { measuring.set(false) }
+                        }
+                    } catch (_: java.util.concurrent.RejectedExecutionException) { measuring.set(false) }
+                }
+                cached
+            }
+        }
+        val out = measurement.frame
+        val still = if (scan != null) stillDetector.observe(out,pose.matrix,now)
+            else stillDetector.observe(live.signature(),Triple(l.id,live.width,live.height),pose.matrix,now)
+        val result = Sample(out, measurement.hist, !src.covers(goal), scan?.second,
+            still, packet.w, packet.h, if (scan == null) live else null)
         runOnUiThread {
             if (!active || token != epoch || frozen) return@runOnUiThread
             if (message.startsWith("正在连接")) {
@@ -324,7 +389,15 @@ class MainActivity : ComponentActivity() {
                     "Frame from " + l.label + " via " + l.owner + " " + out.w + "x" + out.h,
                 )
             }
-            sample = result
+            latestLive = result.live
+            val old = sample
+            val view = previewView.get()
+            if (result.live != null && old?.frame === result.frame && old.still == result.still &&
+                view != null && view.isAttachedToWindow) {
+                // Only the camera texture changed. Sliders and histogram follow the
+                // independent full-frame measurement, not the sensor callback rate.
+                view.advance(result.live,exposure.ev)
+            } else sample = result
             if (single && held == null) held = reading
             if (cal == null && !prefs.getBoolean("warned", false) && !isFinishing) {
                 prefs.edit().putBoolean("warned", true).apply()
@@ -353,8 +426,19 @@ class MainActivity : ComponentActivity() {
     }
 
     fun toggleFreeze() {
-        if (sample == null) return
-        if (!frozen) frozenExposure = exposure
+        val current = sample ?: return
+        if (!frozen) {
+            frozenExposure = exposure
+            current.live?.let { original ->
+                val it = previewView.get()?.renderedLive?.takeIf { capture ->
+                    capture.id == original.id && capture.width == original.width &&
+                        capture.height == original.height && capture.turn == original.turn
+                } ?: latestLive ?: original
+                val full = it.fullFrame()
+                sample = current.copy(frame = full, hist = full.distribution(), live = null)
+            }
+            latestLive = null
+        }
         frozen = !frozen
         spots.clear()
         number = 1

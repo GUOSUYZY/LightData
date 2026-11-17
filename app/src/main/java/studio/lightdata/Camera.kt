@@ -90,9 +90,10 @@ fun cameras(ctx: Context): List<Lens> {
 
 class Rig(
     val ctx: Context,
-    val onFrame: (Frame, Lens) -> Unit,
+    val onFrame: (Packet, Double, Long, Lens) -> Unit,
     val status: (String) -> Unit,
     val calibrated: (Lens, Calibration) -> Unit,
+    val previewEnabled: () -> Boolean,
 ) {
     private val thread = HandlerThread("LightData camera").apply { start() }
     private val h = Handler(thread.looper)
@@ -108,7 +109,6 @@ class Rig(
     private var baseTime = 10_000_000L
     private var baseIso = 100
     private var scan: Scan? = null
-    private var lastPreviewAt = 0L
     private var processingPreview = false
 
     private class Scan(val method: String, val step: Double, val times: List<Long>, val iso: Int) {
@@ -119,8 +119,12 @@ class Rig(
         var firstRaw: DoubleArray? = null
     }
 
-    private data class Plane(val data: ByteArray, val rowStride: Int, val pixelStride: Int)
-    private data class Packet(val w: Int, val h: Int, val planes: List<Plane>, val encoding: YuvEncoding) {
+    data class Plane(val data: ByteArray, val rowStride: Int, val pixelStride: Int)
+    class Packet(val w: Int, val h: Int, val planes: List<Plane>, val encoding: YuvEncoding) {
+        fun pixel(x: Int, y: Int): Int {
+            fun code(p: Plane, col: Int, row: Int) = p.data[row*p.rowStride+col*p.pixelStride].toInt() and 255
+            return encoding.rgb(code(planes[0],x,y),code(planes[1],x/2,y/2),code(planes[2],x/2,y/2))
+        }
         fun grid(): DoubleArray {
             val (y,u,v) = planes
             return DoubleArray(32*24) { i ->
@@ -172,7 +176,6 @@ class Rig(
         yuv = null
         raw?.close()
         raw = null
-        lastPreviewAt = 0L
         clear()
     }
 
@@ -245,15 +248,12 @@ class Rig(
         clear()
         try {
             val y = ImageReader.newInstance(size.width, size.height, ImageFormat.YUV_420_888, 4)
-            val intervalNs = max(65_000_000L, size.width.toLong()*size.height*65L)
             yuv = y
             y.setOnImageAvailableListener(
                 { r ->
                     runCatching {
                         r.acquireLatestImage()?.use { im ->
-                            val now = SystemClock.elapsedRealtimeNanos()
-                            if (gen == generation && (scan != null || !processingPreview && now - lastPreviewAt >= intervalNs)) {
-                                if (scan == null) lastPreviewAt = now
+                            if (gen == generation && (scan != null || !processingPreview && previewEnabled())) {
                                 images[im.timestamp] = snapshot(im)
                                 match(im.timestamp)
                                 trim()
@@ -502,7 +502,7 @@ class Rig(
             processor.post {
                 try {
                     if (gen == generation)
-                        onFrame(image.frame(ev,l.id,sensorTime), if (view == l.view) l else l.copy(view = view))
+                        onFrame(image,ev,sensorTime, if (view == l.view) l else l.copy(view = view))
                 } finally {
                     h.post { if (gen == generation) processingPreview = false }
                 }
@@ -581,9 +581,12 @@ class Rig(
             )
             encoding = yuvEncoding
         }
-        val planes = im.planes.map { plane ->
+        val planes = im.planes.mapIndexed { i, plane ->
             val buffer = plane.buffer.duplicate()
-            Plane(ByteArray(buffer.remaining()).also { buffer.get(it) }, plane.rowStride, plane.pixelStride)
+            val height = if (i == 0) im.height else (im.height + 1) / 2
+            val data = ByteArray(maxOf(plane.rowStride*height, buffer.remaining()))
+            buffer.get(data, 0, buffer.remaining())
+            Plane(data, plane.rowStride, plane.pixelStride)
         }
         return Packet(im.width, im.height, planes, encoding)
     }

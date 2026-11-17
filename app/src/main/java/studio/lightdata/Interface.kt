@@ -7,6 +7,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -78,6 +79,12 @@ private fun Action(s: String, on: Boolean = false, doIt: () -> Unit) {
 
 @Composable
 fun Instrument(a: MainActivity) {
+    LaunchedEffect(a.showFps) {
+        while (a.showFps) {
+            a.updateFps()
+            kotlinx.coroutines.delay(500)
+        }
+    }
     LaunchedEffect(a.useLut) {
         if (a.useLut && a.lutEntries.isEmpty()) {
             val result = withContext(Dispatchers.IO) { runCatching { a.lutAssets.entries() } }
@@ -296,19 +303,22 @@ private fun Finder(a: MainActivity) {
                     if (maxWidth / maxHeight > aspect) Modifier.fillMaxHeight().aspectRatio(aspect)
                     else Modifier.fillMaxWidth().aspectRatio(aspect)
                 Box(fitted) {
+                    val live = s.live?.let { a.latestLive ?: it }
                     val look =
                         Look(
                             f,
                             a.response,
-                            f.cameraEv - a.exposure.ev,
+                            (live?.ev ?: f.cameraEv) - a.exposure.ev,
                             a.film,
                             a.preview,
                             a.mode == "M",
                             a.style,
                             if (a.useLut && a.preview) a.activeAtlas?.takeIf { it.entry.file == a.variant?.file } else null,
+                            live,
                         )
                     AndroidView(
                         factory = { ctx -> Preview(ctx).apply {
+                            a.previewView = java.lang.ref.WeakReference(this)
                             onCubeUnavailable = { file ->
                                 if (a.variant?.file == file) {
                                     a.failedLut = file
@@ -318,6 +328,7 @@ private fun Finder(a: MainActivity) {
                         } },
                         modifier = Modifier.fillMaxSize(),
                         update = {
+                            it.onRendered = if (a.showFps) a::markRendered else null
                             it.show(look, if (a.frozen || s.still) 1.0 else a.previewScale)
                         },
                     )
@@ -367,6 +378,9 @@ private fun Finder(a: MainActivity) {
                             )
                         }
                     }
+                    if (a.showFps) Label("${if (a.frozen) 0 else a.renderedFps} FPS", 11, paper,
+                        Modifier.align(Alignment.TopEnd).padding(5.dp).background(ink.copy(alpha=.78f))
+                            .padding(horizontal=5.dp,vertical=2.dp), monoType=true)
                 }
             } else if (!a.allowed || a.message.contains("重试"))
                 Action("启用相机 / 重试", true) { a.requestCamera() }
@@ -431,7 +445,7 @@ private fun Histogram(a: MainActivity) {
     var window by remember { mutableStateOf<HistogramWindow?>(null) }
     val chart = window ?: HistogramWindow.following(reading)
     val currentChart by rememberUpdatedState(chart)
-    val bins = remember(sample, response, chart.left, chart.span) {
+    val bins = remember(sample?.hist, response, chart.left, chart.span) {
         sample?.let { chart.bins(it.hist, response, it.frame.cameraEv, 128) } ?: IntArray(128)
     }
     val peak = bins.max().coerceAtLeast(1)
@@ -1019,6 +1033,16 @@ private fun Settings(a: MainActivity, m: Modifier) {
             a.choose("实时预览分辨率", scales.map { "${it}×" }) { i ->
                 a.previewScale = scales[i]
                 a.put("previewScale", scales[i])
+            }
+        }
+        Row(Modifier.fillMaxWidth().toggleable(a.showFps,role=Role.Switch) { enabled ->
+            a.showFps = enabled
+            a.prefs.edit().putBoolean("showFps",enabled).apply()
+        }.padding(vertical=10.dp), verticalAlignment=Alignment.CenterVertically) {
+            Label("显示实际预览 FPS",14,paper,Modifier.weight(1f))
+            Box(Modifier.size(36.dp,20.dp).background(if(a.showFps) amber else line,RoundedCornerShape(10.dp))
+                .padding(3.dp),contentAlignment=if(a.showFps) Alignment.CenterEnd else Alignment.CenterStart) {
+                Spacer(Modifier.size(14.dp).background(if(a.showFps) ink else muted,RoundedCornerShape(7.dp)))
             }
         }
         Label("画面静止或冻结时恢复完整取景分辨率。", 11, muted)
