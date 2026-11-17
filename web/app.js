@@ -73,6 +73,7 @@ const state = {
   preview: saved.preview || false,
   previewMode: saved.previewMode === "lut" ? "lut" : "luminance",
   previewScale: [0.25, 0.5, 0.75, 1].includes(saved.previewScale) ? saved.previewScale : 0.5,
+  showFps: saved.showFps === true,
   lutVariants: saved.lutVariants || {},
   log:
     saved.histogramSettingsVersion === HISTOGRAM_SETTINGS_VERSION
@@ -189,6 +190,7 @@ function persist() {
       "preview",
       "previewMode",
       "previewScale",
+      "showFps",
       "lutVariants",
       "log",
       "devices",
@@ -268,19 +270,23 @@ try {
   /* Private browsing. */
 }
 
+const presetFilms = new WeakMap();
+function presetFilm(preset) {
+  let value = presetFilms.get(preset);
+  if (!value) {
+    value = { ...customFilm(preset), id: preset.id, brand: "自定义预设", iso: preset.iso };
+    presetFilms.set(preset, value);
+  }
+  return value;
+}
 function allFilms() {
-  return [
-    ...state.films,
-    ...state.presets.map((p) => ({
-      ...customFilm(p),
-      id: p.id,
-      brand: "自定义预设",
-      iso: p.iso,
-    })),
-  ];
+  return [...state.films, ...state.presets.map(presetFilm)];
 }
 function film() {
-  return allFilms().find((f) => f.id === state.filmId) || state.films[0];
+  const stock = state.films.find(f => f.id === state.filmId);
+  if (stock) return stock;
+  const preset = state.presets.find(p => p.id === state.filmId);
+  return preset ? presetFilm(preset) : state.films[0];
 }
 function calibration() {
   const capture = captureExposure(camera.settings, state.profile);
@@ -655,15 +661,16 @@ function drawHistogram() {
   state.plot = { ...plot, axis };
 }
 
+let stageSize;
 function fitView(image) {
-  const stage = $("viewstage"),
-    rect = stage.getBoundingClientRect();
+  const rect = stageSize || $("viewstage").getBoundingClientRect();
   const ratio = image.width / image.height;
   const w = Math.min(rect.width, rect.height * ratio),
     h = w / ratio;
-  $("image-frame").style.width = w + "px";
-  $("image-frame").style.height = h + "px";
-  $("image-frame").style.display = "block";
+  const style = $("image-frame").style;
+  if (style.width !== w + "px") style.width = w + "px";
+  if (style.height !== h + "px") style.height = h + "px";
+  if (style.display !== "block") style.display = "block";
 }
 function selectedLut() {
   const file = state.lutVariants[state.filmId];
@@ -732,6 +739,26 @@ function displayImage(scale, snapshot = false) {
     : camera.previewCanvas(state.source, bounds, scale);
   return display || state.image;
 }
+let fpsTimes = [], fpsTimer;
+function resetFps() {
+  clearInterval(fpsTimer);
+  fpsTimes = [];
+  const label = $("finder-fps");
+  label.hidden = !state.showFps;
+  label.textContent = "— FPS";
+}
+function recordPresentation() {
+  if (!state.showFps) return;
+  fpsTimes.push(performance.now());
+  if (fpsTimes.length > 1) return;
+  clearInterval(fpsTimer);
+  fpsTimer = setInterval(() => {
+    const cutoff = performance.now() - 1000;
+    while (fpsTimes.length && fpsTimes[0] <= cutoff) fpsTimes.shift();
+    $("finder-fps").textContent = fpsTimes.length + " FPS";
+    if (!fpsTimes.length) clearInterval(fpsTimer);
+  }, 1000);
+}
 function drawView() {
   if (!state.image || !film()) return;
   const known = absolute();
@@ -748,8 +775,9 @@ function drawView() {
     lut: state.previewMode === "lut" ? lutBytes : null,
   });
   fitView(rendered);
+  return true;
 }
-function processImage() {
+function processImage(paint = true) {
   if (!state.raw || state.frozen) return;
   const base = sceneBase();
   state.source = sourceField();
@@ -781,7 +809,7 @@ function processImage() {
       span: 16,
       gain: 1,
     };
-  refresh();
+  refresh(paint);
 }
 
 function renderPairs() {
@@ -888,7 +916,7 @@ function renderIso() {
     $("iso-wheel").append(b);
   });
 }
-function refresh() {
+function refresh(paint = true) {
   const selectedFilm = film();
   if (!selectedFilm) return;
   const reading = measurement();
@@ -958,7 +986,7 @@ function refresh() {
   renderPairs();
   renderIso();
   drawHistogram();
-  drawView();
+  if (paint) drawView();
 }
 
 function renderFilmList() {
@@ -1198,9 +1226,13 @@ camera.addEventListener("frame", (event) => {
     );
     updateScan(result);
   }
-  processImage();
+  processImage(false);
+});
+camera.addEventListener("previewframe", () => {
+  if (!state.frozen && drawView()) recordPresentation();
 });
 camera.addEventListener("stopped", () => {
+  resetFps();
   $("live-state").classList.remove("running");
   $("live-state").innerHTML = "<i></i> OFF";
   if (!state.raw) $("welcome").hidden = false;
@@ -1214,6 +1246,7 @@ camera.addEventListener("ended", () => {
   $("welcome").hidden = false;
 });
 camera.addEventListener("muted", (event) => {
+  if (event.detail) resetFps();
   $("live-state").lastChild.textContent = t(event.detail ? " 暂停" : " LIVE");
 });
 
@@ -1233,6 +1266,7 @@ function toggleFreeze() {
     frozenDisplay = null;
   }
   state.frozen = !state.frozen;
+  resetFps();
   if (state.frozen) {
     warnEstimated();
     state.frozenResponse = Array.from(
@@ -1866,6 +1900,13 @@ function bindEvents() {
     syncLut();
     refresh();
   });
+  $("show-fps").checked = state.showFps;
+  resetFps();
+  $("show-fps").addEventListener("change", (event) => {
+    state.showFps = event.target.checked;
+    resetFps();
+    persist();
+  });
   $("preview-scale").addEventListener("change", (event) => {
     state.previewScale = Number(event.target.value);
     persist();
@@ -1991,12 +2032,16 @@ function bindEvents() {
   bindPresets();
   bindGestures();
   window.addEventListener("resize", layout);
+  new ResizeObserver(([entry]) => {
+    stageSize = entry.contentRect;
+    if (state.image) fitView($("view"));
+  }).observe($("viewstage"));
   new ResizeObserver(() => {
     drawHistogram();
-    if (state.image) fitView(state.image);
     if (state.exposure) renderPairs();
   }).observe($("panels"));
   document.addEventListener("visibilitychange", () => {
+    if (document.hidden) resetFps();
     camera.pause(document.hidden);
     if (state.pano) state.pano.resumeTracking();
   });

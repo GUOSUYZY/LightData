@@ -55,7 +55,10 @@ test("video analysis stays small and native readbacks are on demand and reused",
     const camera = new Camera({ videoWidth: 1920, videoHeight: 1080, readyState: 2 });
     camera.stream = {};
     camera.schedule = () => {};
-    camera.frame(1);
+    let presentations = 0;
+    camera.addEventListener("previewframe", () => presentations++);
+    for (let t = 1; t < 140; t += 16) camera.frame(t);
+    assert.equal(presentations, 9);
     assert.deepEqual(reads, [[640, 360]]);
     camera.addEventListener("frame", () => {
       const a = camera.capturePreview();

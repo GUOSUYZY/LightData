@@ -303,6 +303,20 @@ test(
             for (let i = 0; i < raw.length; i++)
               max = Math.max(max, Math.abs(raw[i] - ref[i]));
           }
+          let nativeMax = 0;
+          const layerFilm = {...film, color: {
+            matrix: [[.8,.15,.05],[.1,.8,.1],[.2,.1,.7]],
+            density: {red: film.dots, green: film.dots, blue: film.dots}
+          }};
+          for (const preview of [true, false]) for (const manual of [true, false]) {
+            for (const style of ["color", "purple", "aero", "bw"]) {
+              const opts = {...o, film: layerFilm, lut: null, preview, manual, style};
+              if (renderer.draw(canvas, image, opts).backend !== "webgl2") throw Error("Missing native GPU path");
+              const raw = canvas.getContext("2d").getImageData(0, 0, 39, 21).data;
+              const ref = renderFilmLutCPU(image, opts).data;
+              for (let i=0; i<raw.length; i++) nativeMax = Math.max(nativeMax, Math.abs(raw[i]-ref[i]));
+            }
+          }
           const source = document.createElement("canvas");
           source.width = image.width;
           source.height = image.height;
@@ -339,7 +353,7 @@ test(
             backend,
             direct: direct.backend,
             fallback: fallback.backend,
-            cpuDifference,
+            cpuDifference, nativeMax,
           };
         },
         { film },
@@ -348,6 +362,7 @@ test(
       assert.equal(result.direct, "webgl2");
       assert.equal(result.fallback, "cpu");
       assert.equal(result.cpuDifference, 0);
+      assert.ok(result.nativeMax <= 2, "native GPU error " + result.nativeMax);
       assert.ok(result.max <= 3, "max error " + result.max);
     } finally {
       await browser?.close();

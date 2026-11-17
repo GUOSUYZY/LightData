@@ -179,7 +179,7 @@ export const MESSAGES = {
   "暂停": "Paused", "未知曝光档位": "Unknown exposure mode",
   "胶片曲线载入失败，请刷新重试": "Film curves could not be loaded. Reload the page to retry.",
   "预览按钮行为": "Preview button mode", "亮度模拟": "Exposure simulation", "胶片 LUT": "Film LUT",
-  "冲印或观看条件": "Processing / viewing conditions", "实时预览渲染倍率": "Live preview resolution",
+  "冲印或观看条件": "Processing / viewing conditions", "显示取景帧率": "Show viewfinder FPS", "实时预览渲染倍率": "Live preview resolution",
   "画面稳定或冻结时恢复当前取景的全分辨率。倍率只影响显示。": "The full resolution of the current frame returns when the image is still or frozen. This scale affects display only.",
   "正在载入胶片 LUT…": "Loading film LUT…",
   "LUT 载入失败，当前使用亮度模拟。重新选择 LUT 可重试。": "The LUT could not be loaded. Exposure simulation is active. Select the LUT again to retry.",

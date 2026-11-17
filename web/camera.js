@@ -154,34 +154,40 @@ export class Camera extends EventTarget {
       this.callback = this.video.requestVideoFrameCallback((time) =>
         this.frame(time),
       );
-    else this.fallback = setTimeout(() => this.frame(performance.now()), 100);
+    else this.fallback = setTimeout(() => {
+      const stamp = this.video.getVideoPlaybackQuality?.().totalVideoFrames || this.video.currentTime;
+      if (stamp === this.lastPresentation) this.schedule();
+      else {
+        this.lastPresentation = stamp;
+        this.frame(performance.now());
+      }
+    }, 16);
   }
 
   frame(time) {
     if (!this.stream || this.paused) return;
-    if (
-      (!this.lastFrame || time - this.lastFrame >= 140) &&
-      this.video.readyState >= 2
-    ) {
-      this.lastFrame = time;
-      const image = this.captureAnalysis();
-      if (image) {
-        this.inFrame = true;
-        this.previewKey = null;
-        this.previewPixels = null;
-        try {
+    try {
+      if (this.video.readyState < 2) return;
+      this.inFrame = true;
+      this.previewKey = null;
+      this.previewPixels = null;
+      if (this.lastFrame == null || time - this.lastFrame >= 140) {
+        const image = this.captureAnalysis();
+        if (image) {
+          this.lastFrame = time;
           this.emit("frame", {
             image, still: this.motion.observe(image, time),
             settings: { ...this.settings }, time,
           });
-        } finally {
-          this.inFrame = false;
-          this.previewKey = null;
-          this.previewPixels = null;
         }
       }
+      this.emit("previewframe", { time });
+    } finally {
+      this.inFrame = false;
+      this.previewKey = null;
+      this.previewPixels = null;
+      this.schedule();
     }
-    this.schedule();
   }
 
   captureAnalysis() {
@@ -280,6 +286,7 @@ export class Camera extends EventTarget {
     this.stream = null;
     this.track = null;
     this.lastFrame = null;
+    this.lastPresentation = null;
     this.motion.reset();
     this.previewContext = this.previewSurface = this.previewPixels = null;
     this.emit("stopped");

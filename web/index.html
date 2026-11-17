@@ -29,7 +29,7 @@
           </button>
           <a
             class="tool"
-            href="https://github.com/RayforLoy/LightData/releases/tag/0.1.4-beta"
+            href="https://github.com/RayforLoy/LightData/releases/tag/0.1.5-beta"
             target="_blank"
             rel="noopener"
             aria-label="下载 Android 应用"
@@ -67,6 +67,7 @@
             <span id="live-state" class="live"><i></i> OFF</span>
           </div>
           <div id="viewstage">
+            <span id="finder-fps" hidden>— FPS</span>
             <div id="image-frame">
               <canvas id="view" aria-label="取景画面"></canvas>
               <div id="corners"></div>
@@ -382,6 +383,7 @@
           <p id="lut-credit" class="subtle" hidden>spektrafilm · Andrea Volpato ·
             <a href="https://github.com/andreavolpato/spektrafilm/blob/3bb2c2d2801ff68b92019cf1dbcbb133d60832bc/SPEKTRAFILM_LICENSE.txt" target="_blank" rel="noopener">CC BY-SA 4.0</a>
           </p>
+          <label class="check"><input type="checkbox" id="show-fps">显示取景帧率</label>
           <label>实时预览渲染倍率<select id="preview-scale">
             <option value="1">100%</option><option value="0.75">75%</option>
             <option value="0.5">50%</option><option value="0.25">25%</option>
@@ -542,7 +544,7 @@
           </p>
         </fieldset>
         <p class="about">
-          LightData Web · 0.1.4-beta<br /><a
+          LightData Web · 0.1.5-beta<br /><a
             href="https://github.com/RayforLoy/LightData"
             target="_blank"
             rel="noopener"

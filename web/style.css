@@ -314,6 +314,11 @@ button.selected:hover,
 .live.running i {
   background: var(--green);
 }
+#finder-fps {
+  position: absolute; top: 8px; right: 8px; z-index: 3;
+  padding: 2px 5px; background: #000b; color: white;
+  font: 12px/1.4 monospace; pointer-events: none;
+}
 #viewstage {
   position: relative;
   flex: 1;

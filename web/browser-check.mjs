@@ -117,7 +117,7 @@ try {
   await expect(page.locator("#pixel-label")).toHaveText("像素 log");
   await expect(page.locator(".toolbar a[href*=releases]")).toHaveAttribute(
     "href",
-    /releases\/tag\/0\.1\.4-beta$/,
+    /releases\/tag\/0\.1\.5-beta$/,
   );
   await expect(page.locator("#camera-setup")).toBeVisible();
   await expect(page.locator("#setup-lens")).toBeDisabled();
@@ -145,6 +145,12 @@ try {
       iso: 250,
     };
   });
+  await expect(page.locator("#finder-fps")).toBeHidden();
+  await page.locator("#show-fps").check();
+  await expect(page.locator("#finder-fps")).toHaveText(/^[1-9][0-9]* FPS$/);
+  console.log("Live view, 20 FPS fixture:", await page.locator("#finder-fps").textContent());
+  await page.locator("#show-fps").uncheck();
+  await expect(page.locator("#finder-fps")).toBeHidden();
   await expect(page.locator("#capture-iso")).toHaveValue("250");
   await expect(page.locator("#capture-time")).toHaveValue("0.029994234");
   await expect(page.locator("#capture-iso")).not.toBeEditable();

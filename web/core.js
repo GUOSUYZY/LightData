@@ -184,8 +184,7 @@ export function positive(film, ev) {
   const direction = film.dots.at(-1)[1] > film.dots[0][1] ? 1 : -1;
   if (direction < 0)
     return clamp(0.18 * 10 ** (density(film, 0) - density(film, ev)), 0, 1);
-  const value = 0.18 * 10 ** (density(film, ev) - density(film, 0));
-  return value / (0.82 + value);
+  return layerPositive(film.dots, ev);
 }
 
 export async function loadFilms(base = "./data/") {
@@ -216,9 +215,34 @@ export function spectralMatrix(spectral) {
   });
 }
 
-function layerPositive(points, ev) {
-  const value = 0.18 * 10 ** (interpolate(points, ev) - interpolate(points, 0));
-  return value / (0.82 + value);
+// Cache the print contrast per immutable datasheet curve. The 0.82 factor
+// compensates for the shoulder's slope at the 18% gray anchor.
+const printCurves = new WeakMap();
+export function layerPositive(points, ev) {
+  let curve = printCurves.get(points);
+  if (!curve) {
+    const span = Math.max(0.01, interpolate(points, 1) - interpolate(points, -1));
+    curve = { gray: interpolate(points, 0),
+      stopsPerDensity: clamp(2 / (0.82 * span), Math.log2(10), 8 * Math.log2(10)) };
+    printCurves.set(points, curve);
+  }
+  const stops = (interpolate(points, ev) - curve.gray) * curve.stopsPerDensity;
+  return 1 / (1 + (0.82 / 0.18) * 2 ** -stops);
+}
+
+// Existing 16-bit linear-to-sRGB table; round only at the output precision.
+function encodedCode(linear) {
+  return grayCode[Math.round(clamp(linear, 0, 1) * 65535)];
+}
+
+// Layer response tables are indexed by an 8-bit code. Check the exact code
+// boundaries so a rounded 16-bit input cannot select the adjacent film sample.
+const codeBoundaries = Float64Array.from({ length: 256 }, (_, i) => srgbToLinear((i + .5) / 255));
+function layerCode(linear) {
+  const code = encodedCode(linear);
+  if (code > 0 && linear < codeBoundaries[code - 1]) return code - 1;
+  if (code < 255 && linear >= codeBoundaries[code]) return code + 1;
+  return code;
 }
 
 /** A display transform. Measurement must always use the unmodified source pixels. */
@@ -255,7 +279,7 @@ export function renderImage(
   const layers = color
     ? ["red", "green", "blue"].map((channel) =>
         Float64Array.from({ length: 256 }, (_, i) =>
-          layerPositive(color[channel], response[i] + delta),
+          linearToSrgb(layerPositive(color[channel], response[i] + delta)),
         ),
       )
     : null;
@@ -281,31 +305,23 @@ export function renderImage(
     else if (style === "purple")
       [r, g, b] = [Math.max(r, g * 0.86), b * 0.72, Math.max(b, g * 0.93)];
     if (layers) {
-      const rgb = [
-        toLinear[data[i]],
-        toLinear[data[i + 1]],
-        toLinear[data[i + 2]],
-      ];
-      [r, g, b] = matrix.map((row, c) => {
-        const code = Math.round(
-          255 *
-            linearToSrgb(
-              clamp(
-                row.reduce((sum, w, j) => sum + w * rgb[j], 0),
-                0,
-                1,
-              ),
-            ),
-        );
-        return linearToSrgb(layers[c][code]);
-      });
+      const x = toLinear[data[i]], y = toLinear[data[i + 1]], z = toLinear[data[i + 2]];
+      const rowR = matrix[0], rowG = matrix[1], rowB = matrix[2];
+      r = layers[0][layerCode(rowR[0] * x + rowR[1] * y + rowR[2] * z)];
+      g = layers[1][layerCode(rowG[0] * x + rowG[1] * y + rowG[2] * z)];
+      b = layers[2][layerCode(rowB[0] * x + rowB[1] * y + rowB[2] * z)];
     } else if (tone) {
-      const linear = [srgbToLinear(r), srgbToLinear(g), srgbToLinear(b)];
-      const y = linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722,
-        target = targets[gray];
-      [r, g, b] = linear.map((c) =>
-        linearToSrgb(clamp(y > 1e-6 ? (c * target) / y : target, 0, 1)),
-      );
+      const plain = style === "color";
+      const lr = plain ? toLinear[data[i]] : srgbToLinear(r);
+      const lg = plain ? toLinear[data[i + 1]] : srgbToLinear(g);
+      const lb = plain ? toLinear[data[i + 2]] : srgbToLinear(b);
+      const y = lr * .2126 + lg * .7152 + lb * .0722, target = targets[gray];
+      if (y > 1e-6) {
+        const gain = target / y;
+        r = encodedCode(lr * gain) / 255;
+        g = encodedCode(lg * gain) / 255;
+        b = encodedCode(lb * gain) / 255;
+      } else r = g = b = encodedCode(target) / 255;
     }
     if (stripes && limits[gray]) {
       const x = (i / 4) % width,

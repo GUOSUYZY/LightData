@@ -209,6 +209,17 @@ test("168 catalogue records retain 122 measured curves, 428 spectra and 477 laye
   }
 });
 
+test("wide-latitude negatives retain visible midtone separation in the viewed print", () => {
+  for (const name of ["PRO 160S", "PORTRA 400", "HP5 PLUS"]) {
+    const film = films.find(f => f.name === name);
+    const gray = ev => Math.round(255 * linearToSrgb(positive(film, ev)));
+    assert.equal(gray(0), 118);
+    assert.ok(gray(-2) < 70, name);
+    assert.ok(gray(2) > 180, name);
+    assert.ok(gray(3) > gray(2) && gray(-3) < gray(-2), name);
+  }
+});
+
 test("display filters never mutate input and spectra-only ULTRAMAX falls back to luma safely", () => {
   const frame = image(3, 2, (i) => [i * 20, 117, 40, 255]),
     original = frame.data.slice();

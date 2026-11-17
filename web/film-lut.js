@@ -2,6 +2,8 @@ import {
   clamp,
   defaultResponse,
   linearToSrgb,
+  layerPositive,
+  spectralMatrix,
   luma,
   positive,
   renderImage,
@@ -283,6 +285,8 @@ uniform sampler2D src;
 uniform sampler2D tones;
 uniform sampler3D cube;
 uniform int style;
+uniform int mode; // 0 native, 1 tone, 2 RGB layers, 3 LUT
+uniform mat3 spectral;
 uniform bool stripes;
 uniform vec2 zoneBounds;
 out vec4 result;
@@ -300,7 +304,21 @@ void main() {
   uint y16=(codes.r*2126u+codes.g*7152u+codes.b*722u+5000u)/10000u;
   int gray=int(floor(encode(vec3(float(y16)/65535.)).r*255.+.5));
   vec4 t=texelFetch(tones,ivec2(gray,0),0);
-  vec3 rgb=y>0. ? inputRGB*t.x/y : vec3(t.x);
+  vec3 rgb=srcPixel.rgb;
+  if(mode!=3) {
+    if(style==1) rgb=vec3(float(gray)/255.);
+    if(style==2) rgb=vec3(max(rgb.g,rgb.r*.65),rgb.r*.8,rgb.b*.72);
+    if(style==3) rgb=vec3(max(rgb.r,rgb.g*.86),rgb.b*.72,max(rgb.b,rgb.g*.93));
+    if(mode==2) {
+      ivec3 c=ivec3(floor(255.*encode(clamp(spectral*inputRGB,0.,1.))+.5));
+      rgb=encode(vec3(texelFetch(tones,ivec2(c.r,1),0).r,texelFetch(tones,ivec2(c.g,1),0).g,texelFetch(tones,ivec2(c.b,1),0).b));
+    } else if(mode==1) {
+      vec3 lin=decode(rgb);
+      float lum=dot(lin,W);
+      rgb=encode(clamp(lum>1.e-6 ? lin*t.y/lum : vec3(t.y),0.,1.));
+    }
+  } else {
+  rgb=y>0. ? inputRGB*t.x/y : vec3(t.x);
   vec3 u=clamp(log2(1.+rgb/.18)/9.,0.,1.);
   rgb=texture(cube,(u*32.+.5)/33.).rgb;
   float target=t.y;
@@ -319,6 +337,7 @@ void main() {
   if(lo<mapped) sat=min(sat,target/(mapped-lo));
   if(hi>mapped) sat=min(sat,(1.-target)/(hi-mapped));
   rgb=encode(clamp(target+sat*(rgb-mapped),0.,1.));
+  }
   if(stripes && t.z!=0. && mod(float(t.z>0. ? p.x+p.y : p.x-p.y),12.)<3.)
     rgb=mix(rgb,t.z>0. ? vec3(1.,.22,.2) : vec3(.12,.86,.52),.82);
   result=vec4(rgb,srcPixel.a);
@@ -371,14 +390,16 @@ function createGPU(canvas) {
   }
   texture(0, "src", gl.TEXTURE_2D, gl.NEAREST);
   texture(1, "tones", gl.TEXTURE_2D, gl.NEAREST);
-  gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA32F, 256, 1);
+  gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA32F, 256, 2);
   texture(2, "cube", gl.TEXTURE_3D, gl.LINEAR);
   gl.texStorage3D(gl.TEXTURE_3D, 1, gl.RGB8, EDGE, EDGE, EDGE);
   const maxEdge = gl.getParameter(gl.MAX_TEXTURE_SIZE);
   const zoneBounds = gl.getUniformLocation(program, "zoneBounds");
   const style = gl.getUniformLocation(program, "style"),
     stripes = gl.getUniformLocation(program, "stripes");
-  let previousLut,
+  const modeUniform = gl.getUniformLocation(program, "mode");
+  const matrixUniform = gl.getUniformLocation(program, "spectral");
+  let previousKey, previousLut,
     w = 0,
     h = 0;
   return {
@@ -425,19 +446,41 @@ function createGPU(canvas) {
           image,
         );
       }
-      gl.activeTexture(gl.TEXTURE1);
-      gl.texSubImage2D(
-        gl.TEXTURE_2D,
-        0,
-        0,
-        0,
-        256,
-        1,
-        gl.RGBA,
-        gl.FLOAT,
-        toneTable(options),
-      );
-      if (previousLut !== options.lut) {
+      const {film, response = defaultResponse, cameraEv = 0, targetEv = 0} = options;
+      const delta = cameraEv - targetEv;
+      const hasLayers = options.preview && (options.style || "color") === "color" &&
+        ["red", "green", "blue"].every(c => film?.color?.density?.[c]?.length >= 2);
+      const mode = options.lut && options.preview && film ? 3 : hasLayers ? 2 :
+        options.preview || options.manual ? 1 : 0;
+      const key = [film, response, delta, mode, options.preview, options.lut];
+      if (!previousKey || key.some((v, i) => v !== previousKey[i])) {
+        const table = mode === 3 ? toneTable(options) : new Float32Array(1024);
+        if (mode !== 3) {
+          for (let i = 0; i < 256; i++) {
+            const ev = response[i] + delta;
+            table[4*i+1] = options.preview && film ? positive(film, ev) :
+              options.manual ? clamp(.18 * 2 ** ev, 0, 1) : linear[i];
+            table[4*i+2] = film ? (ev < film.low ? -1 : ev > film.high ? 1 : 0) : 0;
+          }
+        }
+        gl.activeTexture(gl.TEXTURE1);
+        gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, 256, 1, gl.RGBA, gl.FLOAT, table);
+        if (mode === 2) {
+          const layers = new Float32Array(1024);
+          const matrix = film.color.matrix || spectralMatrix(film.color.spectral);
+          const columnMajor = new Float32Array(9);
+          ["red", "green", "blue"].forEach((channel, c) => {
+            for (let j = 0; j < 3; j++) columnMajor[3*j+c] = matrix[c][j];
+            for (let i = 0; i < 256; i++) layers[4*i+c] = layerPositive(film.color.density[channel], response[i] + delta);
+          });
+          gl.uniformMatrix3fv(matrixUniform, false, columnMajor);
+          gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 1, 256, 1, gl.RGBA, gl.FLOAT, layers);
+        }
+        if (mode === 3) gl.uniform2f(zoneBounds, positive(film, film.low), positive(film, film.high));
+        gl.uniform1i(modeUniform, mode);
+        previousKey = key;
+      }
+      if (mode === 3 && previousLut !== options.lut) {
         gl.activeTexture(gl.TEXTURE2);
         gl.texSubImage3D(
           gl.TEXTURE_3D,
@@ -457,11 +500,6 @@ function createGPU(canvas) {
       gl.uniform1i(
         style,
         ["color", "bw", "aero", "purple"].indexOf(options.style),
-      );
-      gl.uniform2f(
-        zoneBounds,
-        positive(options.film, options.film.low),
-        positive(options.film, options.film.high),
       );
       gl.uniform1i(stripes, options.stripes !== false);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -495,8 +533,13 @@ export function createFilmLutRenderer({ gpu = true } = {}) {
       if (canvas.height !== height) canvas.height = height;
       let output,
         backend = "cpu";
-      if (gpu && options.lut && options.preview && options.film) {
-        checkLut(options.lut);
+      if (!image.data && !options.preview && !options.manual &&
+          (options.stripes === false || !options.film) && (options.style || "color") === "color") {
+        output = image;
+        backend = "canvas2d";
+      }
+      if (!output && gpu) {
+        if (options.lut && options.preview && options.film) checkLut(options.lut);
         if (!attempted) {
           attempted = true;
           gpuCanvas = surface();
