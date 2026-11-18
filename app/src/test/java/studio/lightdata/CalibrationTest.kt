@@ -99,6 +99,20 @@ class CalibrationTest {
     }
 
     @Test
+    fun rawRangeRejectsRepeatedAndNarrowExposureTimes() {
+        val scene = DoubleArray(count) { i -> when (i % 4) {
+            0 -> .004
+            1 -> .15
+            2 -> .5
+            else -> 1.0
+        } }
+        fun frame(t: Double): Bracket = Bracket(t, scene,
+            DoubleArray(count) { i -> (scene[i] + .0005).coerceAtMost(1.0) })
+        assertNull(estimateRawStops(List(6) { frame(.1) }))
+        assertNull(estimateRawStops(List(6) { frame(.1 + .001 * it) }))
+    }
+
+    @Test
     fun rawNoiseIsMeasuredInLinearSamplesAndRejectsMissingCoverage() {
         fun noisy(noise: Double) =
             (-12..5).map { ev ->

@@ -1,0 +1,1576 @@
+{
+  "schemaVersion": 1,
+  "audited_date": "2026-11-17",
+  "scope": "Previously generic 48 film entries; 47 unique cached manuals.",
+  "method": "Complete text inspection. All pages visually inspected for technical documents; English pages1–3 visually inspected for multilingual Lomo guides. No claim of visual review of every translated page.",
+  "source_repository": "https://github.com/fuduji000-netizen/silvergrain-library",
+  "source_commit": "5c29192dbe0188995249adda0a70390369bd1198",
+  "summary": {
+    "entries": 48,
+    "promoted_density_curves": 2,
+    "remaining_generic_density": 46,
+    "numeric_sources": [
+      "panf-plus.json",
+      "superia-xtra800.json"
+    ]
+  },
+  "entries": [
+    {
+      "film": "PAN F PLUS",
+      "id": "11731318:PAN F PLUS",
+      "brand": "ILFORD",
+      "iso": 50,
+      "document_id": "11731318",
+      "source_url": "https://www.ilfordphoto.com/amfile/file/download/file/1905/product/700/",
+      "pdf_sha256": "2e78af92e38eb5bf9a8000c7cc01f714fcaf4d5426fda74c0a23dcfe76569146",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "digitized-density",
+      "density_available": true,
+      "spectral_available": true,
+      "action": "已接入density.csv；中灰放置与亮端范围含应用假设。",
+      "chart_pages": [
+        1,
+        4
+      ],
+      "numeric_source": "panf-plus.json",
+      "reason": "第4页相对log曝光-视觉密度曲线有ILFOTEC HC1+31/4min/20°C条件，已提取87点。第1页2850K楔形光谱纵轴仅Sensitivity，不能直接认定log敏感度。"
+    },
+    {
+      "film": "PAN 100",
+      "id": "03033b27:PAN 100",
+      "brand": "ILFORD",
+      "iso": 100,
+      "document_id": "03033b27",
+      "source_url": "https://www.troeszter.net/Download/Duka/Data/Ilford_PAN_100_400_Data.pdf",
+      "pdf_sha256": "e9f9680eed942b6762b6eab5d9ff53facb04082c6767ec227b499069fd701e79",
+      "pdf_pages": 9,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "共用9页手册，含曝光、长曝光补偿、显影和温度换算；没有各型号D-logH或定量光谱。"
+    },
+    {
+      "film": "PAN 400",
+      "id": "03033b27:PAN 400",
+      "brand": "ILFORD",
+      "iso": 400,
+      "document_id": "03033b27",
+      "source_url": "https://www.troeszter.net/Download/Duka/Data/Ilford_PAN_100_400_Data.pdf",
+      "pdf_sha256": "e9f9680eed942b6762b6eab5d9ff53facb04082c6767ec227b499069fd701e79",
+      "pdf_pages": 9,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "共用9页手册，含曝光、长曝光补偿、显影和温度换算；没有各型号D-logH或定量光谱。"
+    },
+    {
+      "film": "PAN 100 · Kentmere",
+      "id": "8a1e74e8:PAN 100 · Kentmere",
+      "brand": "Kentmere",
+      "iso": 100,
+      "document_id": "8a1e74e8",
+      "source_url": "https://www.ilfordphoto.com/wp/wp-content/uploads/2022/12/KENTMERE-PAN-100_04_07_22.pdf",
+      "pdf_sha256": "4e30f334395b79d77ddcb78711a8ee3c179b5a53748d90c108189c71edefc884",
+      "pdf_pages": 4,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "四页含曝光指数、倒易补偿、显影、温度换算和定影，无D-logH/光谱。首页上升曲线为长曝光时间补偿。"
+    },
+    {
+      "film": "PAN 200 · Kentmere",
+      "id": "b0b699da:PAN 200 · Kentmere",
+      "brand": "Kentmere",
+      "iso": 200,
+      "document_id": "b0b699da",
+      "source_url": "https://www.ilfordphoto.com/wp/wp-content/uploads/2025/05/KENTMERE-PAN-200-260325.pdf",
+      "pdf_sha256": "d33f83db884ba71d846c80478c5a8caf3cccfc4d48f915bdd4150b98c2608bce",
+      "pdf_pages": 4,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "四页含曝光指数、倒易补偿、显影、温度换算和定影，无D-logH/光谱。首页上升曲线为长曝光时间补偿。"
+    },
+    {
+      "film": "PAN 400 · Kentmere",
+      "id": "ffe3f433:PAN 400 · Kentmere",
+      "brand": "Kentmere",
+      "iso": 400,
+      "document_id": "ffe3f433",
+      "source_url": "https://www.ilfordphoto.com/wp/wp-content/uploads/2022/12/KENTMERE-PAN-400_04_07_22.pdf",
+      "pdf_sha256": "289b4fe4edae454de41243ddcc7b5edce8ce090a2546953e4fa35bb9f1e5d80f",
+      "pdf_pages": 4,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "四页含曝光指数、倒易补偿、显影、温度换算和定影，无D-logH/光谱。首页上升曲线为长曝光时间补偿。"
+    },
+    {
+      "film": "Phoenix II",
+      "id": "c1be7692:Phoenix II",
+      "brand": "HARMAN",
+      "iso": 200,
+      "document_id": "c1be7692",
+      "source_url": "https://www.harmanphoto.co.uk/amfile/file/download/file/1968/product/2208/",
+      "pdf_sha256": "f457c14b97b980dac7b12d05fa40fc397095431188576cf32cc647b9b95c4cae",
+      "pdf_pages": 5,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "status": "spectral-only",
+      "density_available": false,
+      "spectral_available": true,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "chart_pages": [
+        2
+      ],
+      "reason": "D55楔形RGB Relative Sensitivity纵轴未标log。第4/5页density是扫描软件滑块，不是D-logH；无单染料消光谱。"
+    },
+    {
+      "film": "SUPERIA X-TRA 800",
+      "id": "0395e7b5:SUPERIA X-TRA 800",
+      "brand": "Fujifilm",
+      "iso": 800,
+      "document_id": "0395e7b5",
+      "source_url": "https://125px.com/docs/film/fuji/superia_xtra800_datasheet.pdf",
+      "pdf_sha256": "6c0b5f14a6f6bcbdb69b7b593a3ce423ebac90d0d1f70d4303d6ae4e09fc0e3e",
+      "pdf_pages": 4,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "status": "digitized-density-and-spectral",
+      "density_available": true,
+      "spectral_available": true,
+      "action": "绿层已接入density.csv；三层/光谱/片基/中灰数据供Spektrafilm派生，donor单染料谱须披露。",
+      "chart_pages": [
+        4
+      ],
+      "numeric_source": "superia-xtra800.json",
+      "reason": "第4页三层Status M密度、RGB与cyan感光谱、片基和中灰总染料密度可读取；无单染料消光谱。"
+    },
+    {
+      "film": "CHS 100 II",
+      "id": "9228a1f0:CHS 100 II",
+      "brand": "ADOX",
+      "iso": 100,
+      "document_id": "9228a1f0",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L746",
+      "pdf_sha256": "7811ef6c14128d23a9e453209570cd3d6bd988ca642718acb6214c636b6c377f",
+      "pdf_pages": 2,
+      "text_checked_pages": [
+        1,
+        2
+      ],
+      "render_checked_pages": [
+        1,
+        2
+      ],
+      "status": "spectral-shape-only",
+      "density_available": false,
+      "spectral_available": true,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "chart_pages": [
+        1
+      ],
+      "reason": "Spectral Response有波长和单黑白感光形状，无纵轴数值/单位。第2页显影表，乳剂结构图不是曝光密度曲线。"
+    },
+    {
+      "film": "CMS 20 II PRO",
+      "id": "42ab5b1d:CMS 20 II PRO",
+      "brand": "ADOX",
+      "iso": 20,
+      "document_id": "42ab5b1d",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L750",
+      "pdf_sha256": "061d6112e9ab64b40724e772284764f67c52ab46e2a7b4dcad661fa2325a8a95",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "spectral-only",
+      "density_available": false,
+      "spectral_available": true,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "chart_pages": [
+        2
+      ],
+      "reason": "第2页ADOX Microfilm光谱图有400–650nm和+1/−1刻度，未明确纵轴定义/成品阈值。全文无D-logH；提及characteristics的文字不足以生成曲线。"
+    },
+    {
+      "film": "HR-50",
+      "id": "888806de:HR-50",
+      "brand": "ADOX",
+      "iso": 50,
+      "document_id": "888806de",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L754",
+      "pdf_sha256": "4ba8752ecaca593ec3bd2857024db659945f341284fb82e7a698e96c7c9b2998",
+      "pdf_pages": 2,
+      "text_checked_pages": [
+        1,
+        2
+      ],
+      "render_checked_pages": [
+        1,
+        2
+      ],
+      "status": "partial-uncalibrated-density",
+      "density_available": false,
+      "spectral_available": true,
+      "action": "不替换通用EV曲线，需横轴标定图或实测阶梯曝光。",
+      "chart_pages": [
+        1
+      ],
+      "reason": "FX-39红色为Speed Boost成品，蓝色为技术原基材，不可混用。LogD纵轴有刻度，LogE横轴无数值/刻度间隔，无法转为标定EV。光谱图LogD为楔形密度，不等同阈值曝光的log敏感度。"
+    },
+    {
+      "film": "P30 ALPHA",
+      "id": "e1877769:P30 ALPHA",
+      "brand": "Ferrania",
+      "iso": 80,
+      "document_id": "e1877769",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L830",
+      "pdf_sha256": "6f8d147617a19c210c4861d5eb5523d6771ce3f21767849130d2e041ed5925b3",
+      "pdf_pages": 2,
+      "text_checked_pages": [
+        1,
+        2
+      ],
+      "render_checked_pages": [
+        1,
+        2
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "Best Practices/Processing Chart为拍摄与显影建议，无D-logH或光谱，显影表不能反演成密度曲线。"
+    },
+    {
+      "film": "P33",
+      "id": "3258949e:P33",
+      "brand": "Ferrania",
+      "iso": 160,
+      "document_id": "3258949e",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L834",
+      "pdf_sha256": "118915116767dca15acdc1bac83ee7492cb61c3b261058b8156a99372dbec4f4",
+      "pdf_pages": 1,
+      "text_checked_pages": [
+        1
+      ],
+      "render_checked_pages": [
+        1
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "Best Practices/Processing Chart为拍摄与显影建议，无D-logH或光谱，显影表不能反演成密度曲线。"
+    },
+    {
+      "film": "Color Negative 100",
+      "id": "9147381f:Color Negative 100",
+      "brand": "Lomography",
+      "iso": 100,
+      "document_id": "9147381f",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L934",
+      "pdf_sha256": "750a0fa6002fcbaa64c91f7a6bac4909900c9cae7ffa925b8e48c438833a9a07",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Color Negative 400",
+      "id": "54632ba1:Color Negative 400",
+      "brand": "Lomography",
+      "iso": 400,
+      "document_id": "54632ba1",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L938",
+      "pdf_sha256": "09640b35d0e18be6a33d82241c28ac5d522422f10e9888ad20877fcbf09f4503",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Color Negative 800",
+      "id": "e936ea9a:Color Negative 800",
+      "brand": "Lomography",
+      "iso": 800,
+      "document_id": "e936ea9a",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L942",
+      "pdf_sha256": "388305584fc1be240efd3d364d9b668efb589154c0841bcdc95644dfa59d055f",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "LomoChrome Purple · EI 100–400",
+      "id": "288ca5c6:LomoChrome Purple · EI 100–400",
+      "brand": "Lomography",
+      "iso": 200,
+      "document_id": "288ca5c6",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L982",
+      "pdf_sha256": "0fb98ef8d13ae7d289f0fc7a70553a281e533e987d6fe72d186d0389b3505ec9",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "LomoChrome Metropolis · EI 100–400",
+      "id": "54630fb1:LomoChrome Metropolis · EI 100–400",
+      "brand": "Lomography",
+      "iso": 200,
+      "document_id": "54630fb1",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L922",
+      "pdf_sha256": "fedf51c1bcf86c6e1b4f23f3a669340e39ed5bf5b8d5b90bca3f9ece79c01c30",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Lobster Redscale 110",
+      "id": "ae0bf32e:Lobster Redscale 110",
+      "brand": "Lomography",
+      "iso": 200,
+      "document_id": "ae0bf32e",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L962",
+      "pdf_sha256": "5905f347019f94d728389cf04a7925c72b5a52ca127c7b0f2bcaf4d33c1db3d1",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "REDSCALE XR · EI 50–200",
+      "id": "94fee373:REDSCALE XR · EI 50–200",
+      "brand": "Lomography",
+      "iso": 100,
+      "document_id": "94fee373",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L970",
+      "pdf_sha256": "a292c494abb53924067fcb09f80cab35cac9e98c5e188b491ada7213497c4de1",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Tiger 200 110",
+      "id": "9d2e8cd1:Tiger 200 110",
+      "brand": "Lomography",
+      "iso": 200,
+      "document_id": "9d2e8cd1",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L974",
+      "pdf_sha256": "12bf269de6d6243675742762c7d55c6b80a90c8c98ad47c7aadaa24fcefa1f32",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Babylon Kino 13",
+      "id": "3beb7947:Babylon Kino 13",
+      "brand": "Lomography",
+      "iso": 13,
+      "document_id": "3beb7947",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L930",
+      "pdf_sha256": "1e5b418777c81b3e95b0b15ba27f1d770b5c67734f853e964806e7340c81b55f",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Berlin Kino 400",
+      "id": "1d574f6a:Berlin Kino 400",
+      "brand": "Lomography",
+      "iso": 400,
+      "document_id": "1d574f6a",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L918",
+      "pdf_sha256": "33150ab727dd03814140b89bf1a7332ce823cea5e2625601315b6695e4cb5b9f",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Earl Grey 100",
+      "id": "a429411d:Earl Grey 100",
+      "brand": "Lomography",
+      "iso": 100,
+      "document_id": "a429411d",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L946",
+      "pdf_sha256": "3af47836373d6b8327f10e261c7dbd8e3d916b4024c6e843b30185005b184f27",
+      "pdf_pages": 19,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Fantôme Kino 8",
+      "id": "b01f746f:Fantôme Kino 8",
+      "brand": "Lomography",
+      "iso": 8,
+      "document_id": "b01f746f",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L954",
+      "pdf_sha256": "6cfbb5372c22f8b3af45a6df2aa1f0a750f09503e780ab430a5bdef21c7f0a35",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Lady Grey 400",
+      "id": "fdab01b0:Lady Grey 400",
+      "brand": "Lomography",
+      "iso": 400,
+      "document_id": "fdab01b0",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L958",
+      "pdf_sha256": "d1dd15c09aabb2c99aee6a1684b54b411c5f9d61440d47164505892b40e5d2ba",
+      "pdf_pages": 19,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Orca B&W 110",
+      "id": "18a8dba4:Orca B&W 110",
+      "brand": "Lomography",
+      "iso": 100,
+      "document_id": "18a8dba4",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L966",
+      "pdf_sha256": "1b18326627a5540520c971e4c732ab43c1785ccf7819c19836fb3b6574e747e5",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "Potsdam Kino 100",
+      "id": "76934dab:Potsdam Kino 100",
+      "brand": "Lomography",
+      "iso": 100,
+      "document_id": "76934dab",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L978",
+      "pdf_sha256": "99e256eec348971d0fd8a601a2e271046a17ffd611d94b2ff3614198d43f9872",
+      "pdf_pages": 21,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "英文Film Guide第1–3页为包装/示例照片、ISO、推拉或显影时间表，后续为翻译。全页文本无数值轴特性/光谱；色卡照片未经光源、曝光和扫描标定，无法反演成测量数据。"
+    },
+    {
+      "film": "INFRARED 400",
+      "id": "c58dfa2c:INFRARED 400",
+      "brand": "Rollei",
+      "iso": 400,
+      "document_id": "c58dfa2c",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1006",
+      "pdf_sha256": "c63e726cecec40542933ac67410ee2d4fdc19eb48d817808760bff47b636094b",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "六页含乳剂规格、冲洗时间、倒易及使用说明，无D-logH；当前缓存第3页也无定量感光谱，文字感色不能当测量光谱。"
+    },
+    {
+      "film": "ORTHO 25 plus",
+      "id": "b0db43fb:ORTHO 25 plus",
+      "brand": "Rollei",
+      "iso": 25,
+      "document_id": "b0db43fb",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1010",
+      "pdf_sha256": "fce3802be03654d35ab2c022a24960a04482b1948c1f415779e7d8024520952a",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "spectral-only",
+      "density_available": false,
+      "spectral_available": true,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "chart_pages": [
+        3
+      ],
+      "reason": "第3页有Spectral Sensitivity形状/波长轴，无D-logH及对应冲洗条件。Reciprocity effect是时间补偿，不是密度图。"
+    },
+    {
+      "film": "RETRO 400S",
+      "id": "078695eb:RETRO 400S",
+      "brand": "Rollei",
+      "iso": 400,
+      "document_id": "078695eb",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1014",
+      "pdf_sha256": "00e5fd91b0650576f23c786a224494f4249e25290e2e1fbc85ffca3c750a25eb",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "六页含乳剂规格、冲洗时间、倒易及使用说明，无D-logH；当前缓存第3页也无定量感光谱，文字感色不能当测量光谱。"
+    },
+    {
+      "film": "RETRO 80S",
+      "id": "e81fad3e:RETRO 80S",
+      "brand": "Rollei",
+      "iso": 80,
+      "document_id": "e81fad3e",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1018",
+      "pdf_sha256": "e5165b67fd0e4f92027d25dc01f76dbb78d3cc9d43c1a5a365d7d33cd731ba0c",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "spectral-only",
+      "density_available": false,
+      "spectral_available": true,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "chart_pages": [
+        3
+      ],
+      "reason": "第3页有Spectral Sensitivity形状/波长轴，无D-logH及对应冲洗条件。Reciprocity effect是时间补偿，不是密度图。"
+    },
+    {
+      "film": "RPX 100",
+      "id": "b26905a3:RPX 100",
+      "brand": "Rollei",
+      "iso": 100,
+      "document_id": "b26905a3",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1022",
+      "pdf_sha256": "d156491fff04dfa5d6dfcfb3dfd8a798b80b4c833d3b5019dc652fa83620fd7e",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "spectral-only",
+      "density_available": false,
+      "spectral_available": true,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "chart_pages": [
+        3
+      ],
+      "reason": "第3页有Spectral Sensitivity形状/波长轴，无D-logH及对应冲洗条件。Reciprocity effect是时间补偿，不是密度图。"
+    },
+    {
+      "film": "RPX 25",
+      "id": "e7c703af:RPX 25",
+      "brand": "Rollei",
+      "iso": 25,
+      "document_id": "e7c703af",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1026",
+      "pdf_sha256": "e9f2ba50b9046bb151082a375a024653a40118d20990be5d70dddec70bf1fbc5",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "spectral-only",
+      "density_available": false,
+      "spectral_available": true,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "chart_pages": [
+        3
+      ],
+      "reason": "第3页有Spectral Sensitivity形状/波长轴，无D-logH及对应冲洗条件。Reciprocity effect是时间补偿，不是密度图。"
+    },
+    {
+      "film": "RPX 400",
+      "id": "c3600619:RPX 400",
+      "brand": "Rollei",
+      "iso": 400,
+      "document_id": "c3600619",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1030",
+      "pdf_sha256": "d1748ea0097c638b5d316cbfe647bab957cd13e205f832280fd13f974419cd58",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "spectral-only",
+      "density_available": false,
+      "spectral_available": true,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "chart_pages": [
+        3
+      ],
+      "reason": "第3页有Spectral Sensitivity形状/波长轴，无D-logH及对应冲洗条件。Reciprocity effect是时间补偿，不是密度图。"
+    },
+    {
+      "film": "SUPERPAN 200",
+      "id": "d4804249:SUPERPAN 200",
+      "brand": "Rollei",
+      "iso": 200,
+      "document_id": "d4804249",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L1034",
+      "pdf_sha256": "b837972ca774dd7b2772b0d6c5aa44ef50cb211b3543ce46c9156ca4041bb783",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "spectral-only",
+      "density_available": false,
+      "spectral_available": true,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "chart_pages": [
+        3
+      ],
+      "reason": "第3页有Spectral Sensitivity形状/波长轴，无D-logH及对应冲洗条件。Reciprocity effect是时间补偿，不是密度图。"
+    },
+    {
+      "film": "Washi A",
+      "id": "d7637ad7:Washi A",
+      "brand": "Film Washi",
+      "iso": 12,
+      "document_id": "d7637ad7",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L862",
+      "pdf_sha256": "32e323e90f6a80d7ae69a42102c8f263e87f4f7694d4e64382b9af8f7a5b2148",
+      "pdf_pages": 1,
+      "text_checked_pages": [
+        1
+      ],
+      "render_checked_pages": [
+        1
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "Washi D",
+      "id": "47cdb51f:Washi D",
+      "brand": "Film Washi",
+      "iso": 500,
+      "document_id": "47cdb51f",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L866",
+      "pdf_sha256": "4f43bf8f564ba595bd97df30c6ed0c3483782efe5d091b7a4882943cac677367",
+      "pdf_pages": 1,
+      "text_checked_pages": [
+        1
+      ],
+      "render_checked_pages": [
+        1
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "Washi E",
+      "id": "81ded9be:Washi E",
+      "brand": "Film Washi",
+      "iso": 3,
+      "document_id": "81ded9be",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L870",
+      "pdf_sha256": "9ce56114badf991b12804d6a7a5cc446904ce2264f8fb4b93b8ab2e6623b8180",
+      "pdf_pages": 1,
+      "text_checked_pages": [
+        1
+      ],
+      "render_checked_pages": [
+        1
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "Washi F",
+      "id": "eb91dbcf:Washi F",
+      "brand": "Film Washi",
+      "iso": 100,
+      "document_id": "eb91dbcf",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L874",
+      "pdf_sha256": "4a3e2131d9cde650de0297a7e2eeb037d2231451473b0b8a1ed32e9916001882",
+      "pdf_pages": 1,
+      "text_checked_pages": [
+        1
+      ],
+      "render_checked_pages": [
+        1
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "Washi I",
+      "id": "a00c882c:Washi I",
+      "brand": "Film Washi",
+      "iso": 80,
+      "document_id": "a00c882c",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L878",
+      "pdf_sha256": "4b7a1e719b7c7face45f81ec334f32a0e5212a3f0bd072291b0f33cd3be19027",
+      "pdf_pages": 1,
+      "text_checked_pages": [
+        1
+      ],
+      "render_checked_pages": [
+        1
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "Washi K",
+      "id": "1db2b4ae:Washi K",
+      "brand": "Film Washi",
+      "iso": 100,
+      "document_id": "1db2b4ae",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L882",
+      "pdf_sha256": "bb9a41c220c1ca7fc992f344e301b8eb4211cace917d0006462d1f48c75a09ab",
+      "pdf_pages": 1,
+      "text_checked_pages": [
+        1
+      ],
+      "render_checked_pages": [
+        1
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "Washi S",
+      "id": "0220728e:Washi S",
+      "brand": "Film Washi",
+      "iso": 50,
+      "document_id": "0220728e",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L890",
+      "pdf_sha256": "d83363e94cab2589db119f0e0e5f23474ba103099cd3b763c82d75e076e8dbfe",
+      "pdf_pages": 1,
+      "text_checked_pages": [
+        1
+      ],
+      "render_checked_pages": [
+        1
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "Washi V",
+      "id": "143bb964:Washi V",
+      "brand": "Film Washi",
+      "iso": 100,
+      "document_id": "143bb964",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L894",
+      "pdf_sha256": "37055fa15d16d63b4e5a4b567bddd1d5537cbcdfbb700fa42630ec8d0403df73",
+      "pdf_pages": 2,
+      "text_checked_pages": [
+        1,
+        2
+      ],
+      "render_checked_pages": [
+        1,
+        2
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "Washi W",
+      "id": "bce258d1:Washi W",
+      "brand": "Film Washi",
+      "iso": 25,
+      "document_id": "bce258d1",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L898",
+      "pdf_sha256": "25f1a21d518e8ff7a07aa15d3b666c05f3a8812652f1d74535919b758256d6f0",
+      "pdf_pages": 2,
+      "text_checked_pages": [
+        1,
+        2
+      ],
+      "render_checked_pages": [
+        1,
+        2
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "Washi Y",
+      "id": "0cd6e970:Washi Y",
+      "brand": "Film Washi",
+      "iso": 100,
+      "document_id": "0cd6e970",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L902",
+      "pdf_sha256": "5099aa04707e358486920a4bcaa2054c85a78463270c42c86000322cd92a5957",
+      "pdf_pages": 1,
+      "text_checked_pages": [
+        1
+      ],
+      "render_checked_pages": [
+        1
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "Washi Z",
+      "id": "4105ff00:Washi Z",
+      "brand": "Film Washi",
+      "iso": 400,
+      "document_id": "4105ff00",
+      "source_url": "https://github.com/fuduji000-netizen/silvergrain-library/blob/5c29192dbe0188995249adda0a70390369bd1198/src/documentTitles.json#L906",
+      "pdf_sha256": "f8ebf224f1e55c8b29e360ad6a623f781a93d555bae9ae7ced0f7e91c75fc8bf",
+      "pdf_pages": 1,
+      "text_checked_pages": [
+        1
+      ],
+      "render_checked_pages": [
+        1
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "全部单/双页Data Sheet给出ISO、用途、显影、装片、扫描和文字感色范围，无定量D-logH。Spectral sensitivity为定性描述/范围。特殊X光、纸基、红外乳剂不可据显影关键字当作普通全色负片。"
+    },
+    {
+      "film": "NEW SHD100",
+      "id": "43bc9677:NEW SHD100",
+      "brand": "乐凯",
+      "iso": 100,
+      "document_id": "43bc9677",
+      "source_url": "https://qx-files.yaozh.com/qybzfj_path/911306056012997149_528788.pdf",
+      "pdf_sha256": "ac30129b9111d0aa1c75f979d729d3772e9fa3807b2aaa1f8508ca70cf2a86ca",
+      "pdf_pages": 6,
+      "text_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "render_checked_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "status": "insufficient",
+      "density_available": false,
+      "spectral_available": false,
+      "action": "保留通用近似，不标为厂家曝光密度/光谱重建。",
+      "reason": "六页中文企业标准扫描件为规格、检验、包装规则，无曝光阶梯对应点/D-logH。速度、反差、雾度限值不足以重建趾部和肩部。"
+    }
+  ]
+}

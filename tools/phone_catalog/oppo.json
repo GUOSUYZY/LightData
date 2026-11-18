@@ -1,0 +1,2120 @@
+{
+  "devices": [
+    {
+      "id": "oppo-find-x5",
+      "name": "OPPO Find X5",
+      "nameEn": "OPPO Find X5",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X5",
+        "Find X5"
+      ],
+      "modelPatterns": [
+        "^PFFM10$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x5/specs/"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 4399,
+      "priceSource": "https://www.oppo.com/cn/newsroom/press/480/",
+      "priceEvidence": "manufacturer-launch",
+      "priceNote": "Find X5（8GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X5 (8GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 25 mm",
+          "nameEn": "Main · 25 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5/specs/",
+          "equivalentMm": 25.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5/specs/",
+          "coverageUnknown": true,
+          "manufacturerFov": 110.0,
+          "fovAxis": "unspecified",
+          "note": "官网仅列出未注明方向的 FOV；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer lists FOV without its axis. Enter equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 52 mm",
+          "nameEn": "Telephoto · 52 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5/specs/",
+          "equivalentMm": 52.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x5-pro",
+      "name": "OPPO Find X5 Pro",
+      "nameEn": "OPPO Find X5 Pro",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X5 Pro",
+        "Find X5 Pro"
+      ],
+      "modelPatterns": [
+        "^PFEM10$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro/specs/"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 5999,
+      "priceSource": "https://www.oppo.com/cn/newsroom/press/480/",
+      "priceEvidence": "manufacturer-launch",
+      "priceNote": "Find X5 Pro（8GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X5 Pro (8GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 25 mm",
+          "nameEn": "Main · 25 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro/specs/",
+          "equivalentMm": 25.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro/specs/",
+          "coverageUnknown": true,
+          "manufacturerFov": 112.0,
+          "fovAxis": "unspecified",
+          "note": "官网仅列出未注明方向的 FOV；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer lists FOV without its axis. Enter equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 52 mm",
+          "nameEn": "Telephoto · 52 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro/specs/",
+          "equivalentMm": 52.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x5-pro-dimensity",
+      "name": "OPPO Find X5 Pro 天玑版",
+      "nameEn": "OPPO Find X5 Pro Dimensity Edition",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X5 Pro 天玑版",
+        "Find X5 Pro 天玑版"
+      ],
+      "modelPatterns": [
+        "^PFFM20$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro-dimensity/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro-dimensity/specs/"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 5799,
+      "priceSource": "https://www.oppo.com/cn/newsroom/press/480/",
+      "priceEvidence": "manufacturer-launch",
+      "priceNote": "Find X5 Pro 天玑版（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X5 Pro Dimensity Edition (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro-dimensity/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro-dimensity/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro-dimensity/specs/",
+          "coverageUnknown": true,
+          "manufacturerFov": 110.0,
+          "fovAxis": "unspecified",
+          "note": "官网仅列出未注明方向的 FOV；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer lists FOV without its axis. Enter equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 52 mm",
+          "nameEn": "Telephoto · 52 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.4,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro-dimensity/specs/",
+          "equivalentMm": 52.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x5-pro-dimensity/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x6",
+      "name": "OPPO Find X6",
+      "nameEn": "OPPO Find X6",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X6",
+        "Find X6"
+      ],
+      "modelPatterns": [
+        "^PGFM10$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x6/specs/"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 4499,
+      "priceSource": "https://www.ithome.com/0/681/928.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X6（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X6 (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 65 mm",
+          "nameEn": "Telephoto · 65 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6/specs/",
+          "equivalentMm": 65.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x6-pro",
+      "name": "OPPO Find X6 Pro",
+      "nameEn": "OPPO Find X6 Pro",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X6 Pro",
+        "Find X6 Pro"
+      ],
+      "modelPatterns": [
+        "^PGEM10$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6-pro/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x6-pro/specs/"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 5999,
+      "priceSource": "https://www.ithome.com/0/681/928.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X6 Pro（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X6 Pro (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6-pro/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6-pro/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 65 mm",
+          "nameEn": "Telephoto · 65 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6-pro/specs/",
+          "equivalentMm": 65.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x6-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x7",
+      "name": "OPPO Find X7",
+      "nameEn": "OPPO Find X7",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X7",
+        "Find X7"
+      ],
+      "modelPatterns": [
+        "^PHZ110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x7/specs/"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 4299,
+      "priceSource": "https://www.ithome.com/0/743/957.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X7（16GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X7 (16GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 70 mm",
+          "nameEn": "Telephoto · 70 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7/specs/",
+          "equivalentMm": 70.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x7-ultra",
+      "name": "OPPO Find X7 Ultra",
+      "nameEn": "OPPO Find X7 Ultra",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X7 Ultra",
+        "Find X7 Ultra"
+      ],
+      "modelPatterns": [
+        "^PHY110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7-ultra/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x7-ultra/specs/"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 5999,
+      "priceSource": "https://www.ithome.com/0/743/979.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X7 Ultra（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X7 Ultra (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7-ultra/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "nameEn": "Ultra-wide · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7-ultra/specs/",
+          "equivalentMm": 14.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto-65mm",
+          "name": "长焦 · 65 mm",
+          "nameEn": "Telephoto · 65 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7-ultra/specs/",
+          "equivalentMm": 65.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto-135mm",
+          "name": "长焦 · 135 mm",
+          "nameEn": "Telephoto · 135 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 4.3,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7-ultra/specs/",
+          "equivalentMm": 135.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x7-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x8",
+      "name": "OPPO Find X8",
+      "nameEn": "OPPO Find X8",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X8",
+        "Find X8"
+      ],
+      "modelPatterns": [
+        "^CPH2651$",
+        "^PKB110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8/specs/",
+      "modelSources": [
+        "https://www.oppo.com/en/smartphones/series-find-x/find-x8/specs/",
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x8/specs/"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 4199,
+      "priceSource": "https://www.ithome.com/0/804/972.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X8（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X8 (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 73 mm",
+          "nameEn": "Telephoto · 73 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8/specs/",
+          "equivalentMm": 73.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x8-pro",
+      "name": "OPPO Find X8 Pro",
+      "nameEn": "OPPO Find X8 Pro",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X8 Pro",
+        "Find X8 Pro"
+      ],
+      "modelPatterns": [
+        "^CPH2659$",
+        "^PKC110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/",
+      "modelSources": [
+        "https://www.oppo.com/en/smartphones/series-find-x/find-x8-pro/specs/",
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 5299,
+      "priceSource": "https://www.ithome.com/0/804/972.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X8 Pro（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X8 Pro (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto-3x",
+          "name": "长焦 · 73 mm",
+          "nameEn": "Telephoto · 73 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/",
+          "equivalentMm": 73.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto-6x",
+          "name": "长焦 · 135 mm",
+          "nameEn": "Telephoto · 135 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 4.3,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/",
+          "equivalentMm": 135.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x8s",
+      "name": "OPPO Find X8s",
+      "nameEn": "OPPO Find X8s",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X8s",
+        "Find X8s"
+      ],
+      "modelPatterns": [
+        "^PKT110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s/specs/"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 4199,
+      "priceSource": "https://www.ithome.com/0/844/381.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X8s（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X8s (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 85 mm",
+          "nameEn": "Telephoto · 85 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s/specs/",
+          "equivalentMm": 85.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x8s-plus",
+      "name": "OPPO Find X8s+",
+      "nameEn": "OPPO Find X8s+",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X8s+",
+        "Find X8s+"
+      ],
+      "modelPatterns": [
+        "^PLB110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s-plus/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s-plus/specs/"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 4199,
+      "priceSource": "https://www.ithome.com/0/844/381.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X8s+（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X8s+ (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s-plus/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s-plus/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s-plus/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s-plus/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 73 mm",
+          "nameEn": "Telephoto · 73 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s-plus/specs/",
+          "equivalentMm": 73.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8s-plus/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x8-ultra",
+      "name": "OPPO Find X8 Ultra",
+      "nameEn": "OPPO Find X8 Ultra",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X8 Ultra",
+        "Find X8 Ultra"
+      ],
+      "modelPatterns": [
+        "^PKJ110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-ultra/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-ultra/specs/"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 6499,
+      "priceSource": "https://www.ithome.com/0/844/379.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X8 Ultra（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X8 Ultra (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-ultra/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-ultra/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto-70mm",
+          "name": "长焦 · 70 mm",
+          "nameEn": "Telephoto · 70 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.1,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-ultra/specs/",
+          "equivalentMm": 70.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto-135mm",
+          "name": "长焦 · 135 mm",
+          "nameEn": "Telephoto · 135 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3.1,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-ultra/specs/",
+          "equivalentMm": 135.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x8-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x9",
+      "name": "OPPO Find X9",
+      "nameEn": "OPPO Find X9",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X9",
+        "Find X9"
+      ],
+      "modelPatterns": [
+        "^PLJ110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x9/specs/"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 4399,
+      "priceSource": "https://www.ithome.com/0/890/054.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X9（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X9 (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 73 mm",
+          "nameEn": "Telephoto · 73 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9/specs/",
+          "equivalentMm": 73.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x9-pro",
+      "name": "OPPO Find X9 Pro",
+      "nameEn": "OPPO Find X9 Pro",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X9 Pro",
+        "Find X9 Pro"
+      ],
+      "modelPatterns": [
+        "^PLG110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-pro/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-pro/specs/"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 5299,
+      "priceSource": "https://www.ithome.com/0/890/054.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X9 Pro（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X9 Pro (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.5,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-pro/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-pro/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 70 mm",
+          "nameEn": "Telephoto · 70 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.1,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-pro/specs/",
+          "equivalentMm": 70.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x9s-pro",
+      "name": "OPPO Find X9s Pro",
+      "nameEn": "OPPO Find X9s Pro",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X9s Pro",
+        "Find X9s Pro"
+      ],
+      "modelPatterns": [
+        "^PME110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9s-pro/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x9s-pro/specs/"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 5299,
+      "priceSource": "https://www1.xinhuanet.com/tech/20260421/900ebf8eb883475090c6f3b36dde268e/c.html",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X9s Pro（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X9s Pro (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9s-pro/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9s-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9s-pro/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9s-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 65 mm",
+          "nameEn": "Telephoto · 65 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9s-pro/specs/",
+          "equivalentMm": 65.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9s-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x9-ultra",
+      "name": "OPPO Find X9 Ultra",
+      "nameEn": "OPPO Find X9 Ultra",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X9 Ultra",
+        "Find X9 Ultra"
+      ],
+      "modelPatterns": [
+        "^PMA110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-ultra/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-ultra/specs/"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 7499,
+      "priceSource": "https://m.ithome.com/html/941820.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X9 Ultra（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X9 Ultra (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.5,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-ultra/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "nameEn": "Ultra-wide · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-ultra/specs/",
+          "equivalentMm": 14.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto-70mm",
+          "name": "长焦 · 70 mm",
+          "nameEn": "Telephoto · 70 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-ultra/specs/",
+          "equivalentMm": 70.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto-230mm",
+          "name": "长焦 · 230 mm",
+          "nameEn": "Telephoto · 230 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 3.5,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-ultra/specs/",
+          "equivalentMm": 230.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x9-ultra/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x10-e",
+      "name": "OPPO Find X10E",
+      "nameEn": "OPPO Find X10E",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X10E",
+        "Find X10E"
+      ],
+      "modelPatterns": [
+        "^PNA110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-e/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-e/specs/"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 4999,
+      "priceSource": "https://www.ithome.com/1/006/564.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X10E（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X10E (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-e/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-e/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-e/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-e/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 73 mm",
+          "nameEn": "Telephoto · 73 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-e/specs/",
+          "equivalentMm": 73.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-e/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x10",
+      "name": "OPPO Find X10",
+      "nameEn": "OPPO Find X10",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X10",
+        "Find X10"
+      ],
+      "modelPatterns": [
+        "^PMW110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x10/specs/"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 5499,
+      "priceSource": "https://www.ithome.com/1/006/564.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X10（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X10 (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 65 mm",
+          "nameEn": "Telephoto · 65 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10/specs/",
+          "equivalentMm": 65.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-x10-pro-max",
+      "name": "OPPO Find X10 Pro Max",
+      "nameEn": "OPPO Find X10 Pro Max",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find X10 Pro Max",
+        "Find X10 Pro Max"
+      ],
+      "modelPatterns": [
+        "^PMX110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-pro-max/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-pro-max/specs/"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 6799,
+      "priceSource": "https://www.ithome.com/1/005/943.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find X10 Pro Max（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find X10 Pro Max (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.5,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-pro-max/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-pro-max/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 13 mm",
+          "nameEn": "Ultra-wide · 13 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-pro-max/specs/",
+          "equivalentMm": 13.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-pro-max/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 70 mm",
+          "nameEn": "Telephoto · 70 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.1,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-pro-max/specs/",
+          "equivalentMm": 70.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-x/find-x10-pro-max/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-n2",
+      "name": "OPPO Find N2",
+      "nameEn": "OPPO Find N2",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find N2",
+        "Find N2"
+      ],
+      "modelPatterns": [
+        "^PGU110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n2/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-n/find-n2/specs/"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 7999,
+      "priceSource": "https://www.ithome.com/0/661/377.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find N2（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find N2 (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n2/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n2/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n2/specs/",
+          "coverageUnknown": true,
+          "manufacturerFov": 115.0,
+          "fovAxis": "unspecified",
+          "note": "官网仅列出未注明方向的 FOV；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer lists FOV without its axis. Enter equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 47 mm",
+          "nameEn": "Telephoto · 47 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n2/specs/",
+          "equivalentMm": 47.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n2/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-n2-flip",
+      "name": "OPPO Find N2 Flip",
+      "nameEn": "OPPO Find N2 Flip",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find N2 Flip",
+        "Find N2 Flip"
+      ],
+      "modelPatterns": [
+        "^PGT110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n2-flip/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-n/find-n2-flip/specs/"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 5999,
+      "priceSource": "https://m.ithome.com/html/661390.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find N2 Flip（8GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find N2 Flip (8GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n2-flip/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n2-flip/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n2-flip/specs/",
+          "coverageUnknown": true,
+          "manufacturerFov": 112.0,
+          "fovAxis": "unspecified",
+          "note": "官网仅列出未注明方向的 FOV；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer lists FOV without its axis. Enter equivalent focal length or horizontal field of view manually."
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-n3",
+      "name": "OPPO Find N3",
+      "nameEn": "OPPO Find N3",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find N3",
+        "Find N3"
+      ],
+      "modelPatterns": [
+        "^PHN110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-n/find-n3/specs/"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 9999,
+      "priceSource": "https://www.ithome.com/0/726/073.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find N3（12GB+512GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find N3 (12GB+512GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.7,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "nameEn": "Ultra-wide · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3/specs/",
+          "equivalentMm": 14.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 70 mm",
+          "nameEn": "Telephoto · 70 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.6,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3/specs/",
+          "equivalentMm": 70.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-n3-flip",
+      "name": "OPPO Find N3 Flip",
+      "nameEn": "OPPO Find N3 Flip",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find N3 Flip",
+        "Find N3 Flip"
+      ],
+      "modelPatterns": [
+        "^PHT110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3-flip/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-n/find-n3-flip/specs/"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 6799,
+      "priceSource": "https://www.ithome.com/0/715/537.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find N3 Flip（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find N3 Flip (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3-flip/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3-flip/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 14 mm",
+          "nameEn": "Ultra-wide · 14 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3-flip/specs/",
+          "equivalentMm": 14.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3-flip/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 47 mm",
+          "nameEn": "Telephoto · 47 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3-flip/specs/",
+          "equivalentMm": 47.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n3-flip/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-n5",
+      "name": "OPPO Find N5",
+      "nameEn": "OPPO Find N5",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find N5",
+        "Find N5"
+      ],
+      "modelPatterns": [
+        "^PKH110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n5/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-n/find-n5/specs/"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 8999,
+      "priceSource": "https://www.ithome.com/0/833/665.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find N5（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find N5 (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 21 mm",
+          "nameEn": "Main · 21 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n5/specs/",
+          "equivalentMm": 21.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n5/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n5/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n5/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 70 mm",
+          "nameEn": "Telephoto · 70 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.7,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n5/specs/",
+          "equivalentMm": 70.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n5/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-find-n6",
+      "name": "OPPO Find N6",
+      "nameEn": "OPPO Find N6",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Find N6",
+        "Find N6"
+      ],
+      "modelPatterns": [
+        "^PLP110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n6/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-find-n/find-n6/specs/"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 9999,
+      "priceSource": "https://www.ithome.com/0/930/002.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Find N6（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Find N6 (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 23 mm",
+          "nameEn": "Main · 23 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n6/specs/",
+          "equivalentMm": 23.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n6/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n6/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n6/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 70 mm",
+          "nameEn": "Telephoto · 70 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.7,
+          "source": "https://www.oppo.com/cn/smartphones/series-find-n/find-n6/specs/",
+          "equivalentMm": 70.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-find-n/find-n6/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-reno9-pro-plus",
+      "name": "OPPO Reno9 Pro+",
+      "nameEn": "OPPO Reno9 Pro+",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Reno9 Pro+",
+        "Reno9 Pro+"
+      ],
+      "modelPatterns": [
+        "^PGW110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-reno/reno9-pro-plus/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-reno/reno9-pro-plus/specs/"
+      ],
+      "launchYear": 2022,
+      "msrpCny": 4399,
+      "priceSource": "https://www.ithome.com/0/656/388.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Reno9 Pro+（16GB+512GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Reno9 Pro+ (16GB+512GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄",
+          "nameEn": "Main",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno9-pro-plus/specs/",
+          "coverageUnknown": true,
+          "note": "官网已确认光圈，尚无已核实的原生等效焦距；请手动填写视角或等效焦距。",
+          "noteEn": "Aperture is confirmed; native equivalent focal length is unverified. Enter field of view or equivalent focal length manually."
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno9-pro-plus/specs/",
+          "coverageUnknown": true,
+          "manufacturerFov": 120.0,
+          "fovAxis": "unspecified",
+          "note": "官网仅列出未注明方向的 FOV；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer lists FOV without its axis. Enter equivalent focal length or horizontal field of view manually."
+        }
+      ]
+    },
+    {
+      "id": "oppo-reno10-pro-plus",
+      "name": "OPPO Reno10 Pro+",
+      "nameEn": "OPPO Reno10 Pro+",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Reno10 Pro+",
+        "Reno10 Pro+"
+      ],
+      "modelPatterns": [
+        "^PHU110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-reno/reno10-pro-plus/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-reno/reno10-pro-plus/specs/"
+      ],
+      "launchYear": 2023,
+      "msrpCny": 4299,
+      "priceSource": "https://m.ithome.com/html/694877.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Reno10 Pro+（16GB+512GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Reno10 Pro+ (16GB+512GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄",
+          "nameEn": "Main",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno10-pro-plus/specs/",
+          "coverageUnknown": true,
+          "note": "官网已确认光圈，尚无已核实的原生等效焦距；请手动填写视角或等效焦距。",
+          "noteEn": "Aperture is confirmed; native equivalent focal length is unverified. Enter field of view or equivalent focal length manually."
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角",
+          "nameEn": "Ultra-wide",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno10-pro-plus/specs/",
+          "coverageUnknown": true,
+          "manufacturerFov": 112.0,
+          "fovAxis": "unspecified",
+          "note": "官网仅列出未注明方向的 FOV；请手动输入等效焦距或水平视角。",
+          "noteEn": "The manufacturer lists FOV without its axis. Enter equivalent focal length or horizontal field of view manually."
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦",
+          "nameEn": "Telephoto",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.5,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno10-pro-plus/specs/",
+          "coverageUnknown": true,
+          "note": "官网已确认光圈，尚无已核实的原生等效焦距；请手动填写视角或等效焦距。",
+          "noteEn": "Aperture is confirmed; native equivalent focal length is unverified. Enter field of view or equivalent focal length manually."
+        }
+      ]
+    },
+    {
+      "id": "oppo-reno13-pro",
+      "name": "OPPO Reno13 Pro",
+      "nameEn": "OPPO Reno13 Pro",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Reno13 Pro",
+        "Reno13 Pro"
+      ],
+      "modelPatterns": [
+        "^PKK110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-reno/reno13-pro/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-reno/reno13-pro/specs/"
+      ],
+      "launchYear": 2024,
+      "msrpCny": 4499,
+      "priceSource": "https://www.ithome.com/0/814/086.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Reno13 Pro（16GB+1TB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Reno13 Pro (16GB+1TB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno13-pro/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno13-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 15 mm",
+          "nameEn": "Ultra-wide · 15 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.2,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno13-pro/specs/",
+          "equivalentMm": 15.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno13-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 80 mm",
+          "nameEn": "Telephoto · 80 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno13-pro/specs/",
+          "equivalentMm": 80.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno13-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-reno14-pro",
+      "name": "OPPO Reno14 Pro",
+      "nameEn": "OPPO Reno14 Pro",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Reno14 Pro",
+        "Reno14 Pro"
+      ],
+      "modelPatterns": [
+        "^PKZ110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-reno/reno14-pro/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-reno/reno14-pro/specs/"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 4499,
+      "priceSource": "https://www.ithome.com/0/855/353.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Reno14 Pro（16GB+1TB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Reno14 Pro (16GB+1TB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno14-pro/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno14-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 16 mm",
+          "nameEn": "Ultra-wide · 16 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno14-pro/specs/",
+          "equivalentMm": 16.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno14-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 80 mm",
+          "nameEn": "Telephoto · 80 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno14-pro/specs/",
+          "equivalentMm": 80.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno14-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-reno15-pro",
+      "name": "OPPO Reno15 Pro",
+      "nameEn": "OPPO Reno15 Pro",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Reno15 Pro",
+        "Reno15 Pro"
+      ],
+      "modelPatterns": [
+        "^PLV110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-reno/reno15-pro/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-reno/reno15-pro/specs/"
+      ],
+      "launchYear": 2025,
+      "msrpCny": 4299,
+      "priceSource": "https://www.ithome.com/0/898/101.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Reno15 Pro（16GB+512GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Reno15 Pro (16GB+512GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno15-pro/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno15-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 16 mm",
+          "nameEn": "Ultra-wide · 16 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno15-pro/specs/",
+          "equivalentMm": 16.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno15-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 80 mm",
+          "nameEn": "Telephoto · 80 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno15-pro/specs/",
+          "equivalentMm": 80.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno15-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-reno16",
+      "name": "OPPO Reno16",
+      "nameEn": "OPPO Reno16",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Reno16",
+        "Reno16"
+      ],
+      "modelPatterns": [
+        "^PMM110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-reno/reno16/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-reno/reno16/specs/"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 4299,
+      "priceSource": "https://www.xinhuanet.com/tech/20260526/1fd4bb73730d4d3289f53095c310cf12/c.html",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Reno16（16GB+512GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Reno16 (16GB+512GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno16/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno16/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 16 mm",
+          "nameEn": "Ultra-wide · 16 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno16/specs/",
+          "equivalentMm": 16.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno16/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 80 mm",
+          "nameEn": "Telephoto · 80 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno16/specs/",
+          "equivalentMm": 80.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno16/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-reno16-pro",
+      "name": "OPPO Reno16 Pro",
+      "nameEn": "OPPO Reno16 Pro",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Reno16 Pro",
+        "Reno16 Pro"
+      ],
+      "modelPatterns": [
+        "^PMK110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-reno/reno16-pro/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-reno/reno16-pro/specs/"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 4499,
+      "priceSource": "https://www.xinhuanet.com/tech/20260526/1fd4bb73730d4d3289f53095c310cf12/c.html",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Reno16 Pro（12GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Reno16 Pro (12GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno16-pro/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno16-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 16 mm",
+          "nameEn": "Ultra-wide · 16 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno16-pro/specs/",
+          "equivalentMm": 16.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno16-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 80 mm",
+          "nameEn": "Telephoto · 80 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno16-pro/specs/",
+          "equivalentMm": 80.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno16-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-reno17",
+      "name": "OPPO Reno17",
+      "nameEn": "OPPO Reno17",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Reno17",
+        "Reno17"
+      ],
+      "modelPatterns": [
+        "^PYK110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-reno/reno17/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-reno/reno17/specs/"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 4899,
+      "priceSource": "https://www.ithome.com/1/027/948.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Reno17（12GB+1TB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Reno17 (12GB+1TB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 26 mm",
+          "nameEn": "Main · 26 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno17/specs/",
+          "equivalentMm": 26.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno17/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 16 mm",
+          "nameEn": "Ultra-wide · 16 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno17/specs/",
+          "equivalentMm": 16.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno17/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 80 mm",
+          "nameEn": "Telephoto · 80 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno17/specs/",
+          "equivalentMm": 80.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno17/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    },
+    {
+      "id": "oppo-reno17-pro",
+      "name": "OPPO Reno17 Pro",
+      "nameEn": "OPPO Reno17 Pro",
+      "brand": "OPPO",
+      "aliases": [
+        "OPPO Reno17 Pro",
+        "Reno17 Pro"
+      ],
+      "modelPatterns": [
+        "^PND110$"
+      ],
+      "source": "https://www.oppo.com/cn/smartphones/series-reno/reno17-pro/specs/",
+      "modelSources": [
+        "https://www.oppo.com/cn/smartphones/series-reno/reno17-pro/specs/"
+      ],
+      "launchYear": 2026,
+      "msrpCny": 4199,
+      "priceSource": "https://www.ithome.com/1/027/948.htm",
+      "priceEvidence": "contemporary-launch-report",
+      "priceNote": "Reno17 Pro（8GB+256GB），中国大陆首发定价；记录一项超过4000元的首发配置，不代表全系列起售价。",
+      "priceNoteEn": "Reno17 Pro (8GB+256GB), China launch MSRP for one qualifying configuration, not necessarily the base price.",
+      "lenses": [
+        {
+          "id": "wide",
+          "name": "主摄 · 24 mm",
+          "nameEn": "Main · 24 mm",
+          "facing": "environment",
+          "role": "wide",
+          "aperture": 1.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno17-pro/specs/",
+          "equivalentMm": 24.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno17-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "ultrawide",
+          "name": "超广角 · 16 mm",
+          "nameEn": "Ultra-wide · 16 mm",
+          "facing": "environment",
+          "role": "ultrawide",
+          "aperture": 2.0,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno17-pro/specs/",
+          "equivalentMm": 16.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno17-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        },
+        {
+          "id": "telephoto",
+          "name": "长焦 · 80 mm",
+          "nameEn": "Telephoto · 80 mm",
+          "facing": "environment",
+          "role": "telephoto",
+          "aperture": 2.8,
+          "source": "https://www.oppo.com/cn/smartphones/series-reno/reno17-pro/specs/",
+          "equivalentMm": 80.0,
+          "equivalentSource": "https://www.oppo.com/cn/smartphones/series-reno/reno17-pro/specs/",
+          "equivalentEvidence": "manufacturer-specification"
+        }
+      ]
+    }
+  ]
+}

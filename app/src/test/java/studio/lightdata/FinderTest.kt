@@ -53,17 +53,26 @@ class FinderTest {
         assertArrayEquals(displayAxes(id, 2), displayAxes(landscape, 1), 0f)
     }
 
+    private var clock = 1000L
+    private fun ScanSession.tick(frame: Frame, field: Field, sensor: FloatArray?): Frame {
+        clock += 100
+        return capture(field,sensor,clock) { frame }
+    }
+    private fun ScanSession.settle(frame: Frame, field: Field, sensor: FloatArray?) {
+        repeat(5) { tick(frame,field,sensor) }
+    }
+
     @Test
     fun overlappingFramesContinueTheScanWithoutAnyRotationSensor() {
         val initial = render(field, 0.0)
         val session = ScanSession(initial, target, null, defaultResponse)
-        session.capture(initial, field, null)
+        session.settle(initial, field, null)
         val center = session.guide(0)
         assertEquals(1, center.captures)
         assertNotNull(center.next)
         // Each exposure overlaps the previous one. No shutter or sensor event is required.
         val angles = (1..12).map { it * 0.04 } + (11 downTo -12).map { it * 0.04 }
-        for (angle in angles) session.capture(render(field, angle), field, null)
+        for (angle in angles) session.settle(render(field, angle), field, null)
         val result = session.guide(0)
         assertTrue("captures " + result.captures, result.captures > 3)
         assertEquals(1.0, result.coverage, 0.0)
@@ -74,9 +83,9 @@ class FinderTest {
     fun texturelessFrameRequestsOverlapAndDoesNotEraseAcquiredCoverage() {
         val initial = render(field, 0.0)
         val session = ScanSession(initial, target, null, defaultResponse)
-        session.capture(initial, field, null)
+        session.settle(initial, field, null)
         val before = session.guide(0)
-        session.capture(
+        session.settle(
             initial.copy(pixels = IntArray(initial.pixels.size) { gray(62) }),
             field,
             null,
@@ -85,7 +94,7 @@ class FinderTest {
         assertTrue(after.needsOverlap)
         assertEquals(before.coverage, after.coverage, 0.0)
         assertEquals(before.next!!.turned(90), after.next)
-        session.capture(render(field, 0.045), field, null)
+        session.settle(render(field, 0.045), field, null)
         assertFalse(session.guide(0).needsOverlap)
     }
 
@@ -93,13 +102,13 @@ class FinderTest {
     fun movingForegroundOnStationaryTripodDoesNotExpandTheAtlas() {
         val initial = render(field, 0.0)
         val session = ScanSession(initial, target, id, defaultResponse)
-        session.capture(initial, field, id)
+        session.settle(initial, field, id)
         val before = session.guide(0)
         for (t in 1..8) {
             val rgb = initial.pixels.copyOf()
             for (y in 0 until initial.h/3) for (x in 0 until initial.w/3)
                 rgb[y*initial.w+x] = gray(if ((x/3 + y/3+t)%2 == 1) 255 else 0)
-            session.capture(initial.copy(pixels = rgb),field,id)
+            session.settle(initial.copy(pixels = rgb),field,id)
         }
         val after = session.guide(0)
         assertEquals(before.coverage,after.coverage,0.0)
@@ -110,27 +119,27 @@ class FinderTest {
     fun resumedSensorWithNewWorldReferenceKeepsRegisteredCoverage() {
         val first = render(field, 0.0)
         val session = ScanSession(first, target, id, defaultResponse)
-        session.capture(first,field,id)
+        session.settle(first,field,id)
         val last = render(field,.16)
-        session.capture(last,field,yaw(.16))
+        session.settle(last,field,yaw(.16))
         val before = session.guide(0)
         session.resumeTracking()
-        session.capture(last,field,yaw(2.0))
+        session.settle(last,field,yaw(2.0))
         val after = session.guide(0)
         assertEquals(before.coverage, after.coverage,0.0)
         assertEquals(before.aim, after.aim)
         assertEquals(before.captures, after.captures)
-        session.capture(render(field,.30),field,yaw(2.14))
+        session.settle(render(field,.30),field,yaw(2.14))
         assertTrue(session.guide(0).coverage > before.coverage)
     }
 
     @Test
-    fun stalePoseAndDisplayRotationPreserveTheSameScan() {
+    fun rotationAndDisplayRotationPreserveTheSameScan() {
         val initial = render(field, 0.0)
         val session = ScanSession(initial, target, id, defaultResponse)
-        session.capture(initial, field, id)
+        session.settle(initial, field, id)
         val first = session.guide(0)
-        for (i in 1..6) session.capture(render(field, i * 0.04), field, id)
+        for (i in 1..6) session.settle(render(field, i * 0.04), field, yaw(i * 0.04))
         val upright = session.guide(0)
         val rotated = session.guide(90)
         assertTrue(upright.captures > first.captures)
@@ -174,6 +183,19 @@ class FinderTest {
     }
 
     @Test
+    fun darkBlueExposureGainIsAppliedInLinearLight() {
+        val first = Frame(32, 24, IntArray(32 * 24) { 0xff000020.toInt() }, 0.0, "rear")
+        for (lut in listOf(defaultResponse, defaultResponse.copyOf())) {
+            val mosaic = Mosaic(field, id, first, lut)
+            mosaic.add(first.copy(cameraEv = 3.0), field, id)
+            val rgb = mosaic.view(id).sample(.5,.5)
+            assertEquals(95, rgb and 255)
+            assertEquals(0, rgb and 0xffff00)
+            assertEquals(22, luma(rgb))
+        }
+    }
+
+    @Test
     fun compensatedScanAndReframingAgreeWithAnIndependentCamera() {
         val first = render(field, 0.0)
         val m = Mosaic(target, id, first)
@@ -204,15 +226,108 @@ class FinderTest {
                 }
             assertTrue("Mean residual " + differences.average(), differences.average() < 4.0)
         }
-        // Beyond the safety margin the crop settles at the last fully acquired orientation.
         val far = m.view(yaw(0.7))
         val farther = m.view(yaw(1.2))
-        assertFalse(far.pixels.any { it == 0 })
-        assertEquals(
-            luma(far.sample(0.8, 0.4)).toDouble(),
-            luma(farther.sample(0.8, 0.4)).toDouble(),
-            1.0,
-        )
+        assertTrue(far.pixels.any { it == 0 } && far.pixels.any { it != 0 })
+        assertTrue(farther.pixels.count { it == 0 } > far.pixels.count { it == 0 })
+        assertTrue(m.view(yaw(Math.PI)).pixels.all { it == 0 })
+        assertTrue(m.homeDirection(yaw(1.2))!!.x > 0)
+        assertTrue(m.homeDirection(yaw(-1.2))!!.x < 0)
+        assertNull(m.homeDirection(id))
+    }
+
+    @Test fun overlapCompensatesWhiteBalanceAndResidualExposureInNewCoverage() {
+        val center = render(field,0.0)
+        val base = 0xff708090.toInt()
+        val warm = 0xff96796e.toInt()
+        val first = center.copy(pixels=IntArray(center.w*center.h) { base })
+        val second = first.copy(pixels=IntArray(first.pixels.size) { warm })
+        val m = Mosaic(target,id,first)
+        m.add(first,field,id)
+        assertEquals(0,m.view(id).sample(.09,.5))
+        m.add(second,field,yaw(.43))
+        val corrected = m.view(id).sample(.09,.5)
+        for (shift in listOf(16,8,0)) {
+            assertEquals((base ushr shift and 255).toDouble(),
+                (corrected ushr shift and 255).toDouble(),1.0)
+        }
+    }
+
+    @Test fun rejectedMovingKeyframeCanRetryAtEdgeBeforeStationaryTimeout() {
+        var calls = 0
+        val aligner = ScanAligner { _,_,_,_,_ -> if (++calls == 1) null else ScanWarp() }
+        val first = render(field,0.0)
+        val session = ScanSession(first,target,id,defaultResponse,aligner)
+        fun update(t: Long, angle: Double) {
+            session.capture(field,yaw(angle),t,null,1.0) { render(field,angle) }
+        }
+        update(1000,0.0)
+        update(1050,.03)
+        update(1100,.10)
+        assertEquals(1,calls)
+        update(1170,.10)
+        assertEquals(1,calls)
+        update(1220,.10)
+        assertEquals(2,session.guide(0).captures)
+    }
+
+    @Test fun stationaryFallbackRejectsInconsistentStructureBeforeWritingAnyPixels() {
+        val first = render(field,0.0)
+        val m = Mosaic(target,id,first)
+        m.add(first,field,id)
+        val before = m.view(id).pixels
+        val flipped = render(field,.32).let { it.copy(pixels=it.pixels.reversedArray()) }
+        assertFalse(m.add(flipped,field,yaw(.32)))
+        assertArrayEquals(before,m.view(id).pixels)
+        assertTrue(m.add(render(field,.32),field,yaw(.32)))
+    }
+
+    @Test fun localGainReducesTopBottomBrightnessErrorInNewCoverage() {
+        val c = render(field,0.0)
+        val first = c.copy(pixels=IntArray(c.pixels.size) { gray(140) })
+        val second = c.copy(pixels=IntArray(c.pixels.size) { gray(120+40*(it/c.w)/c.h) })
+        val m = Mosaic(target,id,first)
+        m.add(first,field,id)
+        m.add(second,field,yaw(.43))
+        val view = m.view(id)
+        for (y in listOf(.2,.8)) assertEquals(140.0,(view.sample(.09,y) and 255).toDouble(),5.0)
+    }
+
+    @Test fun featherBoundsTheSeamWhenClippedOverlapCannotEstimateGain() {
+        val c = render(field,0.0)
+        val first = c.copy(pixels=IntArray(c.pixels.size) { gray(248) })
+        val second = c.copy(pixels=IntArray(c.pixels.size) { gray(170) })
+        val m = Mosaic(target,id,first)
+        m.add(first,field,id)
+        m.add(second,field,yaw(.43))
+        val f = m.view(id)
+        val codes = (f.w/12..f.w/2).map { f.pixels[(f.h/2)*f.w+it] and 255 }
+        assertTrue(codes.first() == 170 && codes.last() == 248)
+        assertTrue("seam step "+codes.zipWithNext { a,b -> abs(a-b) }.max(),
+            codes.zipWithNext { a,b -> abs(a-b) }.max() < 12)
+    }
+
+    @Test fun movingCameraUpdatesAimWithoutDecodingOrWritingUntilSettled() {
+        val first = render(field,0.0)
+        val session = ScanSession(first,target,id,defaultResponse)
+        session.settle(first,field,id)
+        val center = session.guide(0)
+        for (i in 1..8) {
+            clock += 70
+            session.capture(field,yaw(i*.04),clock) { error("decoded a moving frame") }
+        }
+        val moving = session.guide(0)
+        assertNotEquals(center.aim,moving.aim)
+        assertEquals(center.coverage,moving.coverage,0.0)
+        val next = render(field,.32)
+        session.settle(next,field,yaw(.32))
+        val parked = session.guide(0)
+        assertEquals(center.captures+1,parked.captures)
+        assertTrue(parked.coverage>center.coverage)
+        repeat(8) {
+            clock += 100
+            session.capture(field,yaw(.32),clock) { error("duplicate stationary exposure") }
+        }
     }
 
     @Test
@@ -220,12 +335,18 @@ class FinderTest {
         val blue = 0xff000020.toInt()
         val reference = Frame(4, 4, IntArray(16) { blue }, 0.0, "rear")
         val exposed = reference.copy(cameraEv = 3.0)
-        val targetGray = (0..255).minBy {
-            abs(defaultResponse[it] - (defaultResponse[luma(blue)] + 3.0))
-        }
         val compensated = Mosaic(Field(0.1, 0.1), id, reference)
         compensated.add(exposed, Field(1.0, 1.0), id)
-        assertEquals(targetGray, luma(compensated.view(id).sample(.5, .5)))
+        val corrected = compensated.view(id).sample(.5, .5)
+        // A dark-blue pixel is not a gray code 3: its true linear luminance is higher.
+        // Compare the real channel gain; quantizing its luminance to gray 3 loses over 0.19 EV.
+        assertEquals(0, corrected and 0xffff00)
+        assertEquals(
+            8.0,
+            srgbToLinear((corrected and 255) / 255.0) / srgbToLinear(32 / 255.0),
+            .15, // One 8-bit output code in this dark range changes the gain by about 0.36.
+        )
+        assertEquals(22, luma(corrected))
 
         val black = Mosaic(Field(0.1, 0.1), id, reference.copy(pixels = IntArray(16) { gray(0) }))
         black.add(reference.copy(pixels = IntArray(16) { gray(0) }, cameraEv = 3.0), Field(1.0, 1.0), id)

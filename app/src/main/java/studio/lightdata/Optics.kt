@@ -222,6 +222,30 @@ fun solve(mode: String, manual: Exposure, ev: Double, compensationThirds: Int = 
     }
 }
 
+// Treat the density curve as a negative viewed through a print. A low-gradient
+// negative needs more print contrast for a one-stop midtone change to read naturally.
+internal class NegativePrint(private val points: List<Pair<Double, Double>>) {
+    private val grayDensity = densityAt(points, 0.0)
+    private val midtoneSpan = (densityAt(points, 1.0) - densityAt(points, -1.0)).coerceAtLeast(.01)
+    private val stopsPerDensity = (2.0 / (.82 * midtoneSpan)).coerceIn(log2(10.0), 8 * log2(10.0))
+
+    fun positive(ev: Double): Double {
+        val stops = (densityAt(points, ev) - grayDensity) * stopsPerDensity
+        return 1.0 / (1.0 + (.82 / .18) * 2.0.pow(-stops))
+    }
+}
+
+private fun densityAt(points: List<Pair<Double, Double>>, ev: Double): Double {
+    val hit = points.binarySearchBy(ev) { it.first }
+    if (hit >= 0) return points[hit].second
+    val right = -hit - 1
+    if (right == 0) return points.first().second
+    if (right == points.size) return points.last().second
+    val (a, lo) = points[right - 1]
+    val (b, hi) = points[right]
+    return lo + (hi - lo) * (ev - a) / (b - a)
+}
+
 data class Film(
     val name: String,
     val low: Double,
@@ -232,14 +256,8 @@ data class Film(
     val digital: Boolean = false,
     val evidence: FilmEvidence = FilmEvidence.MANUFACTURER_CURVE,
 ) {
-    fun density(ev: Double): Double {
-        val i = dots.indexOfFirst { it.first >= ev }
-        if (i < 0) return dots.last().second
-        if (i == 0) return dots.first().second
-        val (x, y) = dots[i - 1]
-        val (xx, yy) = dots[i]
-        return y + (yy - y) * (ev - x) / (xx - x)
-    }
+    fun density(ev: Double) = densityAt(dots, ev)
+    private val negativePrint by lazy { NegativePrint(dots) }
 
     // Normalize the viewed positive around the reference gray.
     fun positive(ev: Double): Double {
@@ -248,8 +266,7 @@ data class Film(
         // Negative density is inverted on printing/scanning. A print shoulder retains highlight
         // separation.
         if (direction < 0) return (.18 * 10.0.pow(density(0.0) - density(ev))).coerceIn(0.0, 1.0)
-        val exposure = .18 * 10.0.pow(density(ev) - density(0.0))
-        return exposure / (.82 + exposure)
+        return negativePrint.positive(ev)
     }
 }
 

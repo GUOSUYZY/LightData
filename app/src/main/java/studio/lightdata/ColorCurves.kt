@@ -17,18 +17,9 @@ internal data class ColorCurves(val density: Map<String,List<Pair<Double,Double>
         // OpenGL expects column-major order.
         FloatArray(9) { i -> rows[i%3][i/3].toFloat() }
     }
-    fun positive(channel: String, ev: Double): Double {
-        val points = density.getValue(channel)
-        fun at(x: Double): Double {
-            val i = points.indexOfFirst { it.first >= x }
-            if (i < 0) return points.last().second
-            if (i == 0) return points.first().second
-            val (a,b)=points[i-1]; val (c,d)=points[i]
-            return b+(d-b)*(x-a)/(c-a)
-        }
-        val value = .18*10.0.pow(at(ev)-at(0.0))
-        return value/(.82+value)
-    }
+    private val prints by lazy { density.mapValues { NegativePrint(it.value) } }
+    fun positive(channel: String, ev: Double): Double = prints.getValue(channel).positive(ev)
+
 }
 
 internal val colorCurves: Map<String,ColorCurves> by lazy {

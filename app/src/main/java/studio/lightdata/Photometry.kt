@@ -11,6 +11,12 @@ fun linearToSrgb(value: Double): Double =
 private val toLinear16 = IntArray(256) { (srgbToLinear(it / 255.0) * 65535).roundToInt() }
 private val grayCode = IntArray(65536) { (255 * linearToSrgb(it / 65535.0)).roundToInt() }
 
+internal fun scaleSrgbCode(code: Int, linearGain: Double): Int =
+    grayCode[(toLinear16[code] * linearGain).roundToInt().coerceIn(0, 65535)]
+
+internal fun blendSrgbCode(a: Int, b: Int, weight: Double): Int =
+    grayCode[(toLinear16[a] + weight*(toLinear16[b]-toLinear16[a])).roundToInt().coerceIn(0,65535)]
+
 /** Gray code with the same linear Rec.709 luminance as this sRGB pixel. */
 fun luma(rgb: Int): Int {
     val r = toLinear16[rgb ushr 16 and 255]
@@ -30,6 +36,8 @@ data class YuvEncoding(val limited: Boolean = false, val bt709: Boolean = false,
     private val blueU = (512 * (1 - kb) * uvScale).roundToInt()
     private val greenU = (-kb * blueU / (1 - kr - kb)).roundToInt()
     private val greenV = (-kr * redV / (1 - kr - kb)).roundToInt()
+    internal val gpuYuv by lazy { floatArrayOf(offset.toFloat(),yScale.toFloat(),redV.toFloat(),
+        blueU.toFloat(),greenU.toFloat(),greenV.toFloat()) }
     private val rgbCodes = IntArray(256) { i ->
         if (!videoTransfer) i else {
             val v = i / 255.0

@@ -28,21 +28,21 @@ def main():
     }
     # Explicit diagram coordinates verified against the PDF axes, pages are one-based.
     sources = [
-        ("EKTAR 100","01d0bf56",5,(74.19,326.06,274.65,477.54),[27,28,29]),
-        ("PORTRA 800","287b9a0f",4,(350.17,313.67,550.94,465.37),[63,64,65]),
-        ("ULTRAMAX 400","efa4e393",4,(76.62,371.03,277.57,522.61),[50,51,52]),
-        ("PORTRA 160","482706f9",4,(73.75,347.98,274.23,499.57),[49,50,51]),
+        ("EKTAR 100","01d0bf56",5,(74.19,326.06,274.65,477.54),[27,28,29], 3, 0, 25),
+        ("PORTRA 800","287b9a0f",4,(350.17,313.67,550.94,465.37),[63,64,65], 4, 0, 200),
+        ("ULTRAMAX 400","efa4e393",4,(76.62,371.03,277.57,522.61),[50,51,52], 4, 0, 100),
+        ("PORTRA 160","482706f9",4,(73.75,347.98,274.23,499.57),[49,50,51], 3, -1, 50),
     ]
     with (target/"spectral.csv").open("w",encoding="utf-8",newline="") as f:
         w=csv.writer(f,lineterminator="\n")
         w.writerow(["stock","document_id","page","channel","wavelength_nm","log_sensitivity","conditions"])
-        for stock,id,page,axis,curves in sources:
+        for stock,id,page,axis,curves,top,bottom,shutter in sources:
             p=pdf.open(args.documents/(id+".pdf"))[page-1]
             x0,y0,x1,y1=axis
             for channel,index in zip(["blue","green","red"],curves):
                 a=trace(p.get_drawings()[index]);a=a[np.argsort(a[:,0])]
                 nm=250+(a[:,0]-x0)/(x1-x0)*500
-                log=3-(a[:,1]-y0)/(y1-y0)*4
+                log=top-(a[:,1]-y0)/(y1-y0)*(top-bottom)
                 for wavelength in range(math.ceil(nm[0]/5)*5,math.floor(nm[-1]/5)*5+1,5):
                     w.writerow([stock,id,page,channel,wavelength,round(float(np.interp(wavelength,nm,log)),5),
                                 spectral_conditions[stock]])

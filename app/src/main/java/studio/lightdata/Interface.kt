@@ -7,6 +7,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -23,6 +24,8 @@ import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.viewinterop.AndroidView
 import kotlin.math.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 private val ink = Color(0xff101112)
 private val panel = Color(0xff191a1c)
@@ -78,6 +81,29 @@ private fun Action(s: String, on: Boolean = false, doIt: () -> Unit) {
 
 @Composable
 fun Instrument(a: MainActivity) {
+    LaunchedEffect(a.showFps) {
+        while (a.showFps) {
+            a.updateFps()
+            kotlinx.coroutines.delay(500)
+        }
+    }
+    LaunchedEffect(a.useLut) {
+        if (a.useLut && a.lutEntries.isEmpty()) {
+            val result = withContext(Dispatchers.IO) { runCatching { a.lutAssets.entries() } }
+            a.lutEntries = result.getOrDefault(emptyList())
+            a.lutCatalogStatus = if (result.isFailure) "LUT 目录读取失败 · 使用亮度模拟" else ""
+        }
+    }
+    val variant = if (a.useLut && a.preview) a.variant else null
+    LaunchedEffect(variant) {
+        a.activeAtlas = null
+        a.failedLut = null
+        if (variant != null) {
+            val atlas = withContext(Dispatchers.IO) { runCatching { a.lutAssets.load(variant) }.getOrNull() }
+            a.activeAtlas = atlas
+            if (atlas == null) a.failedLut = variant.file
+        }
+    }
     BackHandler(a.settings || a.resizing || a.frozen || a.scanActive || a.safety) {
         when {
             a.settings -> a.settings = false
@@ -269,7 +295,7 @@ private fun Finder(a: MainActivity) {
                 when {
                     a.frozen -> "● HOLD"
                     s?.scan?.coverage == 1.0 -> "● 拼接构图"
-                    a.scanActive -> "● 自动采集"
+                    a.scanActive -> "● 扫描采集"
                     s?.missing == true -> "○ 待确认中心"
                     f == null -> "○ WAIT"
                     else -> "● LIVE"
@@ -292,23 +318,34 @@ private fun Finder(a: MainActivity) {
                     else Modifier.fillMaxWidth().aspectRatio(aspect)
                 Box(fitted) {
                     val shooting = shootingPlan(a.film, a.exposure)
+                    val live = s.live?.let { a.latestLive ?: it }
                     val look =
                         Look(
                             f,
                             a.response,
-                            f.cameraEv - shooting.metered.ev,
+                            (live?.ev ?: f.cameraEv) - shooting.metered.ev,
                             a.film,
                             a.preview,
                             a.mode == "M",
                             a.style,
                             a.safety,
+                            if (a.useLut && a.preview) a.activeAtlas?.takeIf { it.entry.file == a.variant?.file } else null,
+                            live,
                         )
                     AndroidView(
-                        factory = { Preview(it) },
+                        factory = { ctx -> Preview(ctx).apply {
+                            a.previewView = java.lang.ref.WeakReference(this)
+                            onCubeUnavailable = { file ->
+                                if (a.variant?.file == file) {
+                                    a.failedLut = file
+                                    a.activeAtlas = null
+                                }
+                            }
+                        } },
                         modifier = Modifier.fillMaxSize(),
                         update = {
-                            it.look = look
-                            it.requestRender()
+                            it.onRendered = if (a.showFps) a::markRendered else null
+                            it.show(look, if (a.frozen || s.still) 1.0 else a.previewScale)
                         },
                     )
                     Canvas(
@@ -330,16 +367,39 @@ private fun Finder(a: MainActivity) {
                             drawLine(edge, Offset(x, y), Offset(if (x == 0f) k else w - k, y), 3f)
                             drawLine(edge, Offset(x, y), Offset(x, if (y == 0f) k else h - k), 3f)
                         }
-                        val guide = s.scan?.takeIf { a.scanActive && it.coverage < 1 }
-                        val aim = guide?.aim?.let {
-                            Offset(it.x.toFloat().coerceIn(.02f,.98f)*w, it.y.toFloat().coerceIn(.02f,.98f)*h)
-                        } ?: center
-                        drawLine(edge, aim - Offset(8.dp.toPx(), 0f), aim + Offset(8.dp.toPx(), 0f), 2f)
-                        drawLine(edge, aim - Offset(0f, 8.dp.toPx()), aim + Offset(0f, 8.dp.toPx()), 2f)
-                        guide?.next?.let {
-                            val to = Offset(it.x.toFloat()*w, it.y.toFloat()*h)
-                            drawLine(amber.copy(alpha=.65f), aim, to, 1.dp.toPx())
-                            drawCircle(amber, 6.dp.toPx(), to, style=Stroke(2.dp.toPx()))
+                        val guide = s.scan?.takeIf { a.scanActive && !a.frozen }
+                        drawLine(edge, center - Offset(k,0f), center + Offset(k,0f), 2f)
+                        drawLine(edge, center - Offset(0f,k), center + Offset(0f,k), 2f)
+                        guide?.homeDirection?.let {
+                            val dir = Offset(it.x.toFloat(),it.y.toFloat())
+                            val tip = center + dir * (k*3)
+                            val base = tip - dir*k
+                            val side = Offset(-dir.y,dir.x) * (k*.55f)
+                            drawLine(amber,center + dir*k,tip,3.dp.toPx())
+                            drawLine(amber,tip,base + side,3.dp.toPx())
+                            drawLine(amber,tip,base - side,3.dp.toPx())
+                        }
+                        if (guide != null) {
+                            val rotated = guide.mapTurn % 180 != 0
+                            val cols = if (rotated) GRID_HEIGHT else GRID_WIDTH
+                            val rows = if (rotated) GRID_WIDTH else GRID_HEIGHT
+                            val cell = min(8.dp.toPx(),min(w*.32f/cols,h*.25f/rows))
+                            val origin = Offset(6.dp.toPx(),6.dp.toPx())
+                            val map = Size(cell*cols,cell*rows)
+                            fun at(p: FinderPoint) = origin + Offset(
+                                p.x.toFloat().coerceIn(0f,1f)*map.width,
+                                p.y.toFloat().coerceIn(0f,1f)*map.height)
+                            drawRect(Color.Black.copy(alpha=.85f),origin,map)
+                            for (i in guide.tiles.indices) {
+                                val pos = FinderPoint((i%GRID_WIDTH+.5)/GRID_WIDTH,
+                                    (i/GRID_WIDTH+.5)/GRID_HEIGHT).turned(guide.mapTurn)
+                                drawRect(lerp(Color.DarkGray,green,guide.tiles[i].toFloat()),
+                                    at(pos)-Offset(cell*.44f,cell*.44f),Size(cell*.88f,cell*.88f))
+                            }
+                            guide.next?.let { drawCircle(amber,cell*.56f,at(it),style=Stroke(1.5.dp.toPx())) }
+                            val pos = at(guide.aim)
+                            drawLine(Color.White,pos-Offset(cell,0f),pos+Offset(cell,0f),2f)
+                            drawLine(Color.White,pos-Offset(0f,cell),pos+Offset(0f,cell),2f)
                         }
                         for (pt in a.spots) {
                             val at = Offset((pt.x * w).toFloat(), (pt.y * h).toFloat())
@@ -363,6 +423,9 @@ private fun Finder(a: MainActivity) {
                             )
                         }
                     }
+                    if (a.showFps) Label("${if (a.frozen) 0 else a.renderedFps} FPS", 11, paper,
+                        Modifier.align(Alignment.TopEnd).padding(5.dp).background(ink.copy(alpha=.78f))
+                            .padding(horizontal=5.dp,vertical=2.dp), monoType=true)
                 }
             } else Label("正在等待相机", 13, muted)
         }
@@ -388,9 +451,11 @@ private fun Finder(a: MainActivity) {
                     when {
                         !a.scanActive -> "目标超出镜头视角，请对准画面中心"
                         guide == null -> "正在采集中心画面"
+                        guide.homeDirection != null && guide.coverage >= 1 -> "按箭头转回拼接中心"
                         guide.needsOverlap -> "请移回已拍区域，保留重叠"
                         guide.coverage >= 1 -> "已完成 · 转动设备二次构图"
-                        else -> "向黄圈缓慢转动 · 自动采集"
+                        guide.settling -> "请放慢转动"
+                        else -> "将白十字缓慢移向黄圈"
                     },
                     11, muted, Modifier.weight(1f),
                 )
@@ -412,7 +477,10 @@ private fun Finder(a: MainActivity) {
                 Modifier.weight(1f),
             )
             Label(
-                if (a.safety) "安全曝光 · 估算" else if (a.preview) "胶片预览" else "取景",
+                if (a.safety) "安全曝光 · 估算"
+                else if (!a.preview) "取景"
+                else if (a.useLut) a.lutStatus
+                else "亮度模拟",
                 10,
                 if (a.safety || a.preview) amber else muted,
             )
@@ -436,7 +504,7 @@ private fun Histogram(a: MainActivity) {
     var window by remember { mutableStateOf<HistogramWindow?>(null) }
     val chart = window ?: HistogramWindow.following(reading)
     val currentChart by rememberUpdatedState(chart)
-    val bins = remember(sample, response, chart.left, chart.span) {
+    val bins = remember(sample?.hist, response, chart.left, chart.span) {
         sample?.let { chart.bins(it.hist, response, it.frame.cameraEv, 128) } ?: IntArray(128)
     }
     val peak = bins.max().coerceAtLeast(1)
@@ -463,14 +531,37 @@ private fun Histogram(a: MainActivity) {
                         java.util.Locale.US, chart.left, chart.right, chart.gain
                     )
                 }
-                .pointerInput(Unit) { detectTapGestures(onDoubleTap = { window = null }) }
                 .pointerInput(Unit) {
+                    var lastTapUp: Long? = null
+                    var lastTapPosition = Offset.Zero
                     awaitEachGesture {
-                        awaitFirstDown(requireUnconsumed = false)
+                        val down = awaitFirstDown()
+                        var tap = true
                         var moved = false
                         var travel = 0f
                         do {
                             val event = awaitPointerEvent()
+                            val first = event.changes.first()
+                            if (event.changes.size > 1 || first.isConsumed ||
+                                (first.position - down.position).getDistance() > viewConfiguration.touchSlop) tap = false
+                            if (!event.changes.any { it.pressed }) {
+                                if (tap && !moved && first.uptimeMillis - down.uptimeMillis < viewConfiguration.longPressTimeoutMillis) {
+                                    // Input timestamps remain accurate when a busy GL or main thread
+                                    // delivers both taps together. A pinch cannot start a tap pair.
+                                    val interval = lastTapUp?.let { down.uptimeMillis - it }
+                                    if (interval != null &&
+                                        interval in viewConfiguration.doubleTapMinTimeMillis..viewConfiguration.doubleTapTimeoutMillis &&
+                                        (down.position - lastTapPosition).getDistance() <= 40.dp.toPx()) {
+                                        window = null
+                                        lastTapUp = null
+                                    } else {
+                                        lastTapUp = first.uptimeMillis
+                                        lastTapPosition = first.position
+                                    }
+                                    first.consume()
+                                } else lastTapUp = null
+                                break
+                            }
                             val fingers = event.changes.filter { it.pressed && it.previousPressed }
                             if (fingers.isEmpty()) continue
                             val panX = fingers.map { it.position.x - it.previousPosition.x }.average()
@@ -773,7 +864,9 @@ private fun Meter(a: MainActivity) {
         }
         ExposureTable(a, e, Modifier.weight(2.25f))
         val iso = (speeds + a.manual.iso).distinct().sorted()
-        Wheel("ISO", iso, e.iso, !a.frozen, ::n, Modifier.weight(1f)) {
+        Wheel("ISO", iso, e.iso, !a.frozen && !a.isoLocked, ::isoLabel, Modifier.weight(1f),
+            lockLabel = if (a.isoLocked) "已锁定 · 解锁" else "锁定至 " + isoLabel(a.filmIso),
+            onLock = { if (!a.frozen) a.toggleIsoLock() }) {
             a.setValues(a.manual.copy(iso = it))
         }
     }
@@ -858,7 +951,7 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
         Column(Modifier.fillMaxSize()) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Label(if (showTimes) "等效曝光 · → 实拍" else "等效曝光", if (compact) 10 else 12, muted)
-                Label("ISO " + n(e.iso), if (compact) 10 else 12, muted, monoType = true)
+                Label("ISO " + isoLabel(e.iso), if (compact) 10 else 12, muted, monoType = true)
             }
             Row(
                 Modifier.weight(1f).fillMaxWidth().pointerInput(a.mode, a.frozen) {
@@ -940,7 +1033,7 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
                                         "，光圈 " +
                                         n(pair.a) +
                                         "，ISO " +
-                                        n(pair.iso)
+                                        isoLabel(pair.iso)
                             },
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
@@ -1014,6 +1107,8 @@ private fun Wheel(
     enabled: Boolean,
     fmt: (Double) -> String,
     m: Modifier,
+    lockLabel: String,
+    onLock: () -> Unit,
     change: (Double) -> Unit,
 ) {
     val selected = values.indexOf(value).coerceAtLeast(0)
@@ -1057,7 +1152,10 @@ private fun Wheel(
                 }
             }
         ) {
-            Label(title, 11, muted)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Label(title, 11, muted, Modifier.weight(1f))
+                Label(lockLabel, 11, amber, Modifier.clickable(onClick = onLock).padding(horizontal = 3.dp, vertical = 2.dp))
+            }
             Row(
                 Modifier.fillMaxWidth().weight(1f),
                 verticalAlignment = Alignment.CenterVertically,
@@ -1133,6 +1231,58 @@ private fun Settings(a: MainActivity, m: Modifier) {
             a.settings = false
             a.resizing = true
         }
+        Setting("预览按钮", if (a.useLut) "LUT 色彩模拟" else "亮度模拟") {
+            a.choose("拍摄预览", listOf("亮度模拟", "LUT 色彩模拟")) { i ->
+                a.useLut = i == 1
+                a.prefs.edit().putBoolean("useLut", a.useLut).apply()
+            }
+        }
+        Setting("实时预览分辨率", n(a.previewScale) + "×") {
+            val scales = listOf(.25, .5, .75, 1.0)
+            a.choose("实时预览分辨率", scales.map { "${it}×" }) { i ->
+                a.previewScale = scales[i]
+                a.put("previewScale", scales[i])
+            }
+        }
+        Label("拼接配准算法",14,paper)
+        Row(Modifier.horizontalScroll(rememberScrollState())) {
+            for (mode in listOf("LK","ORB","ECC","自动"))
+                Action(mode,a.scanAlgorithm == mode) { a.chooseScanAlgorithm(mode) }
+        }
+        Row {
+            Action(if (a.recordScan) "关闭拼接诊断记录" else "开启拼接诊断记录",a.recordScan) { a.recordScan = !a.recordScan }
+            Action("导出拼接诊断 ZIP") { a.exportScan() }
+        }
+        Row(Modifier.fillMaxWidth().toggleable(a.showFps,role=Role.Switch) { enabled ->
+            a.showFps = enabled
+            a.prefs.edit().putBoolean("showFps",enabled).apply()
+        }.padding(vertical=10.dp), verticalAlignment=Alignment.CenterVertically) {
+            Label("显示实际预览 FPS",14,paper,Modifier.weight(1f))
+            Box(Modifier.size(36.dp,20.dp).background(if(a.showFps) amber else line,RoundedCornerShape(10.dp))
+                .padding(3.dp),contentAlignment=if(a.showFps) Alignment.CenterEnd else Alignment.CenterStart) {
+                Spacer(Modifier.size(14.dp).background(if(a.showFps) ink else muted,RoundedCornerShape(7.dp)))
+            }
+        }
+        Label("画面静止或冻结时恢复完整取景分辨率。", 11, muted)
+        a.sample?.let { Label("镜头输入 ${it.captureWidth}×${it.captureHeight} · 取景裁框 ${it.frame.w}×${it.frame.h}", 11, muted) }
+        if (a.useLut) {
+            Label("Andrea Volpato / spektrafilm", 11, muted)
+            Action("CC BY-SA 4.0 ↗") { open("https://creativecommons.org/licenses/by-sa/4.0/") }
+            val variants = a.variants
+            val entry = a.variant
+            if (entry == null) Label(a.lutStatus, 11, amber) else {
+                Setting("LUT 版本", "${variants.indexOf(entry) + 1} / ${variants.size}") {
+                    a.choose("选择 LUT 烘焙版本", variants.map { it.label }) { i ->
+                        a.chosenLuts[a.film.name] = variants[i].file
+                        a.put("lutVariant:" + a.film.name, variants[i].file)
+                    }
+                }
+                Label(entry.label, 11, muted)
+                if (entry.approximation.isNotBlank()) Label(entry.approximation, 11, muted)
+                if (entry.source.startsWith("https://")) Action("原始配置 ↗") { open(entry.source) }
+                if (a.failedLut == entry.file) Label(a.lutStatus, 11, amber)
+            }
+        }
         Setting(
             "手机镜头",
             if (a.cameraChoice == "自动") "自动 · " + (a.current?.id ?: "—")
@@ -1144,37 +1294,31 @@ private fun Settings(a: MainActivity, m: Modifier) {
                 a.selectCamera(true)
             }
         }
-        Setting("自定义 ISO", n(a.manual.iso)) {
-            a.input("目标胶片 ISO", a.manual.iso, .001..10000000.0) {
-                a.setValues(a.manual.copy(iso = it))
+        Setting("曝光曲线", a.film.name + " · ISO " + isoLabel(a.filmIso)) { a.chooseFilm() }
+        Setting("测光 ISO", isoLabel(a.manual.iso) + if (a.isoLocked) " · 已锁定" else " · 手动") {
+            if (a.frozen) a.notifyUser("请先退出点测光")
+            else if (a.isoLocked) a.choose("跟随胶片 ISO " + isoLabel(a.filmIso), listOf("解锁并设置 ISO")) {
+                a.input("测光 ISO", a.manual.iso, .001..10000000.0) { value ->
+                    a.toggleIsoLock()
+                    a.setValues(a.manual.copy(iso = value))
+                }
+            }
+            else a.choose("测光 ISO", listOf("设置 ISO", "恢复胶片 ISO " + isoLabel(a.filmIso))) { i ->
+                if (i == 1) a.toggleIsoLock()
+                else a.input("测光 ISO", a.manual.iso, .001..10000000.0) { a.setValues(a.manual.copy(iso = it)) }
             }
         }
-        Setting("曝光曲线", a.film.name) {
-            val brands = filmRecords.map { it.brand }.distinct().sorted()
-            a.choose("曝光－密度曲线 · "+films.size+" 款", brands + listOf("自定义数码", "自定义胶片")) { i ->
-                if (i < brands.size) {
-                    val records=filmRecords.filter{it.brand==brands[i]}.sortedBy{it.film.name}
-                    a.choose(brands[i],records.map{it.film.name+"  ·  EI "+it.iso}){j->a.setFilmChoice(records[j].film)}
-                }
-                else {
-                    a.input("总动态范围（EV）", a.total, 1.0..32.0) { t ->
-                        a.input("中灰以上（EV）", min(a.above, t - .1), .1..t - .1) { v ->
-                            a.total = t
-                            a.above = v
-                            a.customDigital = i == brands.size
-                            a.put("digital", a.customDigital)
-                            a.put("total", t)
-                            a.put("above", v)
-                            a.setFilmChoice(customFilm(a.customDigital, t, v))
-                        }
-                    }
-                }
+        FlowRow {
+            Action("新建预设") { a.editCustomPreset() }
+            a.customPresets.find { it.id == a.selectedPresetId }?.let { preset ->
+                Action("编辑") { a.editCustomPreset(preset) }
             }
+            Action("导入 JSON") { a.pickPresetFile() }
+            if (a.customPresets.isNotEmpty()) Action("导出 JSON") { a.exportPresetFile() }
         }
         Label(a.film.info + " 上下限为预览用估算值。", 11, muted)
         if (colorCurves.containsKey(a.film.name)) Label("分层色彩预览 · 手机 RGB 光谱近似，日光中性校正。", 11, muted)
         val record=filmRecords.find{it.film.name==a.film.name}
-        if(record!=null && record.iso.toDouble()!=a.manual.iso) Action("使用参考 EI "+record.iso){a.setValues(a.manual.copy(iso=record.iso.toDouble()))}
         Row {
             if (record != null) Action(filmSourceLabel(record.document)) { open(filmSourceUrl(record.document)) }
             reciprocity(a.film.name, 10.0).sourceUrl?.let { url -> Action("倒易律 ↗") { open(url) } }

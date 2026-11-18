@@ -140,9 +140,9 @@ private fun relative(to: FloatArray, from: FloatArray) =
     DoubleArray(9) { i -> (0..2).sumOf { k -> to[k * 3 + i / 3].toDouble() * from[k * 3 + i % 3] } }
 
 private const val MARGIN = 1.15
-private const val LONG_EDGE = 720
-private const val GRID_WIDTH = 9
-private const val GRID_HEIGHT = 7
+internal const val LONG_EDGE = 720
+internal const val GRID_WIDTH = 9
+internal const val GRID_HEIGHT = 7
 
 data class FinderPoint(val x: Double, val y: Double) {
     fun turned(turn: Int): FinderPoint =
@@ -160,18 +160,48 @@ data class ScanGuide(
     val aim: FinderPoint,
     val next: FinderPoint?,
     val needsOverlap: Boolean,
+    val tiles: DoubleArray,
+    val mapTurn: Int,
+    val homeDirection: FinderPoint?,
+    val settling: Boolean,
 )
 
-class Mosaic(
+internal data class ScanWarp(val a: Double = 1.0, val b: Double = 0.0,
+                            val tx: Double = 0.0, val ty: Double = 0.0,
+                            val width: Int = 1, val height: Int = 1,
+                            val offsetsX: DoubleArray? = null, val offsetsY: DoubleArray? = null) {
+    private fun local(values: DoubleArray?, u: Double, v: Double): Double {
+        if (values == null) return 0.0
+        val x = (u*3/width).coerceIn(0.0,3.0)
+        val y = (v*3/height).coerceIn(0.0,3.0)
+        val col = min(2,x.toInt())
+        val row = min(2,y.toInt())
+        val i = row*4+col
+        val fx = x-col
+        val fy = y-row
+        return (values[i]*(1-fx)+values[i+1]*fx)*(1-fy) +
+            (values[i+4]*(1-fx)+values[i+5]*fx)*fy
+    }
+    fun x(u: Double,v: Double) = a*u-b*v+tx+width*local(offsetsX,u,v)
+    fun y(u: Double,v: Double) = b*u+a*v+ty+height*local(offsetsY,u,v)
+}
+
+internal fun interface ScanAligner {
+    fun align(w: Int, h: Int, reference: ByteArray, incoming: ByteArray, mask: ByteArray): ScanWarp?
+}
+
+internal class Mosaic(
     val target: Field,
     private val center: FloatArray,
     private val initial: Frame,
     private val response: DoubleArray = defaultResponse,
+    private val aligner: ScanAligner? = null,
 ) {
     private val bounds = Field(target.x * MARGIN, target.y * MARGIN)
     val w = max(1, (LONG_EDGE * min(1.0, bounds.aspect)).roundToInt())
     val h = max(1, (LONG_EDGE * min(1.0, 1 / bounds.aspect)).roundToInt())
     private val atlas = IntArray(w * h)
+    private val confidence = FloatArray(w * h)
     private val tileCount = IntArray(GRID_WIDTH * GRID_HEIGHT)
     private val tileSize = IntArray(GRID_WIDTH * GRID_HEIGHT)
     private val xs = DoubleArray(w) { (2 * (it + .5) / w - 1) * bounds.x }
@@ -191,25 +221,45 @@ class Mosaic(
 
     fun grid() = BooleanArray(tileSize.size) { tileCount[it] == tileSize[it] }
 
+    fun tileCoverage() = DoubleArray(tileSize.size) {
+        if (tileSize[it] == 0) 1.0 else tileCount[it].toDouble()/tileSize[it]
+    }
+
     fun aim(pose: FloatArray): FinderPoint {
         val r = relative(center, pose)
         val z = max(.001, r[8])
         return FinderPoint(.5 - .5 * r[2] / (bounds.x * z), .5 + .5 * r[5] / (bounds.y * z))
     }
 
-    fun nextUncovered(aim: FinderPoint): FinderPoint? {
+    fun nextUncovered(aim: FinderPoint, field: Field): FinderPoint? {
         if (ready) return null
-        var closest = Double.POSITIVE_INFINITY
+        // Score each candidate footprint by new area, keeping enough overlap for
+        // registration. Fractional tile counts keep narrow unfilled borders selectable.
+        var bestScore = Double.NEGATIVE_INFINITY
         var selected = -1
+        val coverage = tileCoverage()
         for (i in tileSize.indices) {
             if (tileSize[i] == tileCount[i]) continue
             val x = (i % GRID_WIDTH + .5) / GRID_WIDTH
             val y = (i / GRID_WIDTH + .5) / GRID_HEIGHT
-            val score = hypot((x - aim.x) * bounds.x, (y - aim.y) * bounds.y)
-            if (score < closest) {
-                closest = score
-                selected = i
+            val yaw = atan((2*x-1)*bounds.x)
+            val pitch = atan((2*y-1)*bounds.y*cos(yaw))
+            var empty = 0.0
+            var occupied = 0.0
+            for (j in coverage.indices) {
+                val dx = (2*(j%GRID_WIDTH+.5)/GRID_WIDTH-1)*bounds.x
+                val dy = (2*(j/GRID_WIDTH+.5)/GRID_HEIGHT-1)*bounds.y
+                val forward = cos(yaw)+dx*sin(yaw)
+                val depth = forward*cos(pitch)+dy*sin(pitch)
+                if (depth <= 0 || abs(dx*cos(yaw)-sin(yaw)) > field.x*depth ||
+                    abs(dy*cos(pitch)-forward*sin(pitch)) > field.y*depth) continue
+                empty += 1-coverage[j]
+                occupied += coverage[j]
             }
+            val fraction = occupied/max(.001,occupied+empty)
+            val score = empty*min(1.0,fraction/.23) -
+                .1*hypot((x-aim.x)*bounds.x,(y-aim.y)*bounds.y)
+            if (score > bestScore) { bestScore = score; selected = i }
         }
         if (selected < 0) return null
         val col = selected % GRID_WIDTH
@@ -235,10 +285,14 @@ class Mosaic(
     }
 
     // Incoming code values are brought into the center frame's exposure. The inverse
-    // response is calibrated on luminance and supplies a target gray code for every input code.
-    private fun corrections(delta: Double): IntArray? {
-        if (abs(delta) < .002) return null
-        return IntArray(256) { y ->
+    // response is calibrated on luminance, so apply its gain to RGB without altering hue.
+    private fun gains(delta: Double): DoubleArray {
+        if (abs(delta) < .002) return DoubleArray(256) { 1.0 }
+        if (response === defaultResponse) {
+            val gain = 2.0.pow(delta)
+            return DoubleArray(256) { gain }
+        }
+        return DoubleArray(256) { y ->
             val desired = response[y] + delta
             var l = 0
             var r = 255
@@ -246,14 +300,18 @@ class Mosaic(
                 val m = (l + r) / 2
                 if (response[m] < desired) l = m + 1 else r = m
             }
-            if (l > 0 && desired - response[l - 1] < response[l] - desired) l - 1 else l
+            val below = max(0, l - 1)
+            val span = response[l] - response[below]
+            val fraction = if (span > 0.0) ((desired - response[below]) / span).coerceIn(0.0, 1.0) else 0.0
+            val targetCode = below + fraction
+            srgbToLinear(targetCode / 255.0) / srgbToLinear(max(.5, y.toDouble()) / 255.0)
         }
     }
 
-    // Scale linear RGB, not encoded channel codes. If the requested target would clip a
+    // Scale linear RGB, not encoded channel codes. If the requested gain would clip a
     // channel, retain chromaticity at the largest unclipped gain instead of distorting it.
-    private fun color(c: Int, target: Int): Int {
-        if (target == luma(c)) return c
+    private fun color(c: Int, gain: Double): Int {
+        if (gain == 1.0) return c
         val r = srgbToLinear((c ushr 16 and 255) / 255.0)
         val g = srgbToLinear((c ushr 8 and 255) / 255.0)
         val b = srgbToLinear((c and 255) / 255.0)
@@ -261,15 +319,14 @@ class Mosaic(
         // A black pixel contains no chromaticity or detail to recover. Registration and
         // atlas output use this same rule so they cannot disagree about its brightness.
         if (luminance <= 0) return c
-        val desired = srgbToLinear(target / 255.0) / luminance
         val limit = minOf(
             if (r > 0) 1 / r else Double.POSITIVE_INFINITY,
             if (g > 0) 1 / g else Double.POSITIVE_INFINITY,
             if (b > 0) 1 / b else Double.POSITIVE_INFINITY,
         )
-        val gain = min(desired, limit)
+        val limitedGain = min(gain, limit)
         fun encoded(channel: Double) =
-            (255 * linearToSrgb((channel * gain).coerceIn(0.0, 1.0))).roundToInt().coerceIn(0, 255)
+            (255 * linearToSrgb((channel * limitedGain).coerceIn(0.0, 1.0))).roundToInt().coerceIn(0, 255)
         return (c and -0x1000000) or
             (encoded(r) shl 16) or (encoded(g) shl 8) or encoded(b)
     }
@@ -289,7 +346,7 @@ class Mosaic(
 
     // Refine residual image translation in the overlap. Reject ambiguous texture and
     // small improvements; an inertial-only placement is preferable on a blank wall.
-    private fun register(f: Frame, p: Projection, correction: IntArray?): Pair<Int, Int> {
+    private fun register(f: Frame, p: Projection, gain: DoubleArray): Pair<Int, Int> {
         if (count == 0) return 0 to 0
         val radius = (min(f.w, f.h) / 25).coerceIn(4, 20)
         val locations = ArrayList<Int>()
@@ -316,8 +373,7 @@ class Mosaic(
             var loss = 0
             for (i in locations.indices) {
                 val source = f.pixels[locations[i] + offset]
-                val corrected = correction?.let { color(source, it[luma(source)]) } ?: source
-                val observed = luma(corrected)
+                val observed = luma(color(source, gain[luma(source)]))
                 loss += min(36, abs(observed - expected[i]))
             }
             return loss.toDouble() / locations.size + .05 * (abs(dx) + abs(dy))
@@ -342,90 +398,272 @@ class Mosaic(
         return if (best < baseline * .83 && best + 1 < baseline) dx to dy else 0 to 0
     }
 
-    fun add(frame: Frame, source: Field, pose: FloatArray) {
-        if (ready || frame.id != initial.id) return
-        val p = Projection(relative(pose, center), source, frame.w, frame.h)
-        val correction = corrections(frame.cameraEv - initial.cameraEv)
-        val (ox, oy) = register(frame, p, correction)
+    // Warp the existing atlas into the incoming camera coordinates first. Native
+    // optical flow now only needs to solve the residual left by the rotation sensor.
+    private fun alignOverlap(frame: Frame, source: Field, rotation: DoubleArray): ScanWarp? {
+        val native = aligner ?: return null
+        val scale = min(1.0,256.0/max(frame.w,frame.h))
+        val width = max(1,(frame.w*scale).roundToInt())
+        val height = max(1,(frame.h*scale).roundToInt())
+        val inverse = DoubleArray(9) { rotation[(it%3)*3+it/3] }
+        val p = Projection(inverse,bounds,w,h)
+        val reference = ByteArray(width*height)
+        val current = ByteArray(reference.size)
+        val mask = ByteArray(reference.size)
+        for (y in 0 until height) {
+            val dy = (1-2*(y+.5)/height)*source.y
+            for (x in 0 until width) {
+                val dx = (2*(x+.5)/width-1)*source.x
+                val i = y*width+x
+                current[i] = luma(frame.sample((x+.5)/width,(y+.5)/height)).toByte()
+                val z = p.depth(dx,dy)
+                if (z <= .001) continue
+                val u = p.u(dx,dy,z)
+                val v = p.v(dx,dy,z)
+                if (u < 0 || u >= w || v < 0 || v >= h) continue
+                val rgb = atlas[v.toInt()*w+u.toInt()]
+                if (rgb == 0) continue
+                reference[i] = luma(rgb).toByte()
+                mask[i] = -1
+            }
+        }
+        val fit = native.align(width,height,reference,current,mask) ?: return null
+        return fit.copy(tx=fit.tx*frame.w/width,ty=fit.ty*frame.h/height,width=frame.w,height=frame.h)
+    }
+
+    // Test the final warp before mutating the atlas. Compare local structure rather
+    // than intensity so device exposure and white-balance changes do not veto a match.
+    private fun overlapAgrees(frame: Frame, p: Projection, warp: ScanWarp): Boolean {
+        val stride = max(7,min(w,h)/24)
+        var good = 0
+        var bad = 0
+        for (y in 4 until h-4 step stride) for (x in 4 until w-4 step stride) {
+            var n = 0
+            var a = 0.0; var b = 0.0
+            var aa = 0.0; var bb = 0.0; var ab = 0.0
+            for (dy in -4..4 step 2) for (dx in -4..4 step 2) {
+                val row = y+dy; val col = x+dx
+                val old = atlas[row*w+col]
+                if (old == 0) continue
+                val z = p.depth(xs[col],ys[row])
+                if (z <= .001) continue
+                val px = p.u(xs[col],ys[row],z); val py = p.v(xs[col],ys[row],z)
+                val u = warp.x(px,py); val v = warp.y(px,py)
+                if (u < 0 || v < 0 || u >= frame.w || v >= frame.h) continue
+                val raw = frame.pixels[v.toInt()*frame.w+u.toInt()]
+                if (raw ushr 24 == 0) continue
+                val l = luma(old).toDouble(); val r = luma(raw).toDouble()
+                a+=l; b+=r; aa+=l*l; bb+=r*r; ab+=l*r; n++
+            }
+            if (n < 16) continue
+            val va = aa-a*a/n; val vb = bb-b*b/n
+            if (max(va,vb) < 36*n) continue
+            if (ab-a*b/n > .55*sqrt(max(0.0,va*vb))) good++ else bad++
+        }
+        return bad < 4 || good >= 2*bad
+    }
+
+    // Estimate residual camera processing after normalizing the measured exposure.
+    // Only matched, unclipped overlap contributes; the median rejects local scene motion.
+    private fun overlapGains(frame: Frame, p: Projection, warp: ScanWarp, gains: DoubleArray): Array<DoubleArray> {
+        val result = DoubleArray(3) { 1.0 }
+        if (count == 0) return Array(4) { result }
+        val ratios = Array(3) { ArrayList<Double>() }
+        val blocks = Array(4) { Array(3) { ArrayList<Double>() } }
+        val step = max(1,min(w,h)/48)
+        for (y in step/2 until h step step) for (x in step/2 until w step step) {
+            val old = atlas[y*w+x]
+            if (old == 0) continue
+            val z = p.depth(xs[x],ys[y])
+            if (z <= .001) continue
+            val px = p.u(xs[x],ys[y],z)
+            val py = p.v(xs[x],ys[y],z)
+            val u = warp.x(px,py)
+            val v = warp.y(px,py)
+            if (u < 0 || v < 0 || u >= frame.w || v >= frame.h) continue
+            val raw = frame.pixels[v.toInt()*frame.w+u.toInt()]
+            if (raw ushr 24 == 0) continue
+            val normalized = color(raw,gains[luma(raw)])
+            for (c in 0..2) {
+                val shift = 16-8*c
+                val a = (old ushr shift) and 255
+                val b = (normalized ushr shift) and 255
+                if (a in 18..235 && b in 18..235) {
+                    val ratio = srgbToLinear(a/255.0)/srgbToLinear(b/255.0)
+                    ratios[c].add(ratio)
+                    blocks[(if (u >= frame.w*.5) 1 else 0)+(if (v >= frame.h*.5) 2 else 0)][c].add(ratio)
+                }
+            }
+        }
+        for (c in 0..2) {
+            val list = ratios[c]
+            if (list.size < 12) continue
+            list.sort()
+            if (list[3*list.size/4] < 1.5*list[list.size/4])
+                result[c] = list[list.size/2].coerceIn(.5,2.0)
+        }
+        return Array(4) { tile -> DoubleArray(3) { c ->
+            val local = blocks[tile][c]
+            if (local.size < 16) result[c] else {
+                local.sort()
+                if (local[3*local.size/4] > local[local.size/4]*1.25) result[c]
+                else local[local.size/2].coerceIn(result[c]*.78,result[c]*1.28)
+            }
+        } }
+    }
+
+    fun add(frame: Frame, source: Field, pose: FloatArray) = add(source,pose) { frame }
+
+    fun add(source: Field, pose: FloatArray, requireVisual: Boolean = false, decode: () -> Frame): Boolean {
+        if (ready) return false
+        val rotation = relative(pose,center)
+        // Reject disconnected islands. A sample grid over the atlas checks geometric
+        // overlap before feature matching, including in low-texture scenes.
+        if (count > 0) {
+            val p = Projection(rotation,source,1,1)
+            var overlap = false
+            var addsArea = false
+            for (i in tileSize.indices) {
+                if (tileCount[i] == tileSize[i]) continue
+                // The camera's view is convex on the atlas. Reject a tile only if
+                // all four corners are outside the same frustum plane.
+                val col = i % GRID_WIDTH
+                val row = i / GRID_WIDTH
+                var outside = 31
+                for (cx in col..col+1) for (cy in row..row+1) {
+                    val dx = (2.0*cx/GRID_WIDTH-1)*bounds.x
+                    val dy = (1-2.0*cy/GRID_HEIGHT)*bounds.y
+                    val z = p.depth(dx,dy)
+                    val px = p.r[0]*dx+p.r[1]*dy-p.r[2]
+                    val py = p.r[3]*dx+p.r[4]*dy-p.r[5]
+                    var mask = if (z <= 0) 1 else 0
+                    if (px < -source.x*z) mask = mask or 2
+                    if (px > source.x*z) mask = mask or 4
+                    if (py < -source.y*z) mask = mask or 8
+                    if (py > source.y*z) mask = mask or 16
+                    outside = outside and mask
+                }
+                if (outside == 0) { addsArea = true; break }
+            }
+            if (!addsArea) return true
+            val stride = max(1,min(w,h)/64)
+            outer@ for (y in 0 until h step stride) for (x in 0 until w step stride) {
+                if (atlas[y*w+x] == 0) continue
+                val z = p.depth(xs[x],ys[y])
+                if (z <= .001) continue
+                val u = p.u(xs[x],ys[y],z)
+                val v = p.v(xs[x],ys[y],z)
+                if (u >= .03 && u < .97 && v >= .03 && v < .97) {
+                    overlap = true
+                    break@outer
+                }
+            }
+            if (!overlap) return false
+        }
+        val frame = decode()
+        if (frame.id != initial.id) return false
+        val p = Projection(rotation,source,frame.w,frame.h)
+        val gain = gains(frame.cameraEv - initial.cameraEv)
+        val nativeFit = if (count > 0) alignOverlap(frame,source,rotation) else null
+        if (count > 0 && requireVisual && nativeFit == null) return false
+        val warp = nativeFit ?: register(frame,p,gain).let { (x,y) -> ScanWarp(tx=x.toDouble(),ty=y.toDouble()) }
+        if (count > 0 && !overlapAgrees(frame,p,warp)) return false
+        val residual = overlapGains(frame,p,warp,gain)
+        val feather = max(2.0,min(frame.w,frame.h)*.14)
         for (y in ys.indices) for (x in xs.indices) {
             val j = y * w + x
-            if (atlas[j] != 0) continue
+            if (confidence[j] >= 1f) continue
             val z = p.depth(xs[x], ys[y])
             if (z <= .001) continue
-            val u = p.u(xs[x], ys[y], z) + ox
-            val v = p.v(xs[x], ys[y], z) + oy
+            val px = p.u(xs[x],ys[y],z)
+            val py = p.v(xs[x],ys[y],z)
+            val u = warp.x(px,py)
+            val v = warp.y(px,py)
             if (u < 0 || v < 0 || u >= frame.w || v >= frame.h) continue
             val c = frame.pixels[v.toInt() * frame.w + u.toInt()]
             if (c ushr 24 == 0) continue
-            atlas[j] = correction?.let { color(c, it[luma(c)]) } ?: c
-            count++
-            tileCount[tile(x, y)]++
+            val weight = (min(min(u+.5,frame.w-u),min(v+.5,frame.h-v))/feather).coerceIn(.001,1.0).toFloat()
+            if (atlas[j] != 0 && confidence[j] >= weight) continue
+            val normalized = color(c,gain[luma(c)])
+            val fx = (2*u/frame.w-.5).coerceIn(0.0,1.0)
+            val fy = (2*v/frame.h-.5).coerceIn(0.0,1.0)
+            var mix = (weight-confidence[j]).toDouble()
+            if (atlas[j] != 0 && x > 0 && y > 0) {
+                val left = atlas[j-1]
+                val above = atlas[j-w]
+                val old = luma(atlas[j])
+                val detail = (left != 0 && abs(old-luma(left)) > 12) ||
+                    (above != 0 && abs(old-luma(above)) > 12)
+                val src = v.toInt()*frame.w+u.toInt()
+                val edgeInSource = (u >= 1 && abs(luma(c)-luma(frame.pixels[src-1])) > 12) ||
+                    (v >= 1 && abs(luma(c)-luma(frame.pixels[src-frame.w])) > 12)
+                if (detail && edgeInSource && abs(old-luma(normalized)) > 20)
+                    mix = if (mix > .5) 1.0 else 0.0
+            }
+            var pixel = -0x1000000
+            for (channel in 0..2) {
+                val shift = 16-channel*8
+                val top = residual[0][channel]*(1-fx)+residual[1][channel]*fx
+                val bottom = residual[2][channel]*(1-fx)+residual[3][channel]*fx
+                val incoming = scaleSrgbCode((normalized ushr shift) and 255,top*(1-fy)+bottom*fy)
+                val mixed = if (atlas[j] == 0) incoming else
+                    blendSrgbCode((atlas[j] ushr shift) and 255,incoming,mix)
+                pixel = pixel or (mixed shl shift)
+            }
+            if (atlas[j] == 0) {
+                count++
+                tileCount[tile(x,y)]++
+            }
+            atlas[j] = pixel
+            confidence[j] = weight
         }
+        return true
     }
 
-    // Slerp from the locked center toward the requested orientation, limiting all four
-    // perspective-projected corners to the acquired atlas, including when the user rolls.
-    private fun limitedPose(pose: FloatArray): DoubleArray {
-        val r = relative(center, pose)
-        fun fits(m: DoubleArray): Boolean {
-            for (x in listOf(-target.x, target.x)) for (y in listOf(-target.y, target.y)) {
-                val z = m[8] - m[6] * x - m[7] * y
-                if (
-                    z <= 0 ||
-                        abs(m[0] * x + m[1] * y - m[2]) > bounds.x * z ||
-                        abs(m[3] * x + m[4] * y - m[5]) > bounds.y * z
-                )
-                    return false
-            }
-            return true
-        }
-        if (fits(r)) return r
-        val angle = acos(((r[0] + r[4] + r[8] - 1) / 2).coerceIn(-1.0, 1.0))
-        val identity = doubleArrayOf(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0)
-        if (angle < 1e-5 || abs(sin(angle)) < 1e-5) return identity
-        val divisor = 2 * sin(angle)
-        val x = (r[7] - r[5]) / divisor
-        val y = (r[2] - r[6]) / divisor
-        val z = (r[3] - r[1]) / divisor
-        fun rotation(a: Double): DoubleArray {
-            val c = cos(a)
-            val s = sin(a)
-            val t = 1 - c
-            return doubleArrayOf(
-                c + t * x * x,
-                t * x * y - s * z,
-                t * x * z + s * y,
-                t * x * y + s * z,
-                c + t * y * y,
-                t * y * z - s * x,
-                t * x * z - s * y,
-                t * y * z + s * x,
-                c + t * z * z,
-            )
-        }
-        var low = 0.0
-        var high = angle
-        repeat(14) {
-            val mid = (low + high) / 2
-            if (fits(rotation(mid))) low = mid else high = mid
-        }
-        return rotation(low)
+    fun homeDirection(pose: FloatArray): FinderPoint? {
+        val r = relative(pose, center)
+        val aim = aim(pose)
+        val x = floor(aim.x*w).toInt()
+        val y = floor(aim.y*h).toInt()
+        if (r[8] > 0 && x in 0 until w && y in 0 until h && atlas[y*w+x] != 0) return null
+        // The center ray in the current camera's right/down coordinates. At the
+        // antipode either turn is valid. At the starting center no arrow is needed.
+        val dx = -r[2]
+        val dy = r[5]
+        val length = hypot(dx,dy)
+        if (length < 1e-6) return if (r[8] < 0) FinderPoint(1.0,0.0) else null
+        return FinderPoint(dx/length,dy/length)
     }
 
     fun view(pose: FloatArray): Frame {
-        if (!ready) return initial.copy(w = w, h = h, pixels = atlas.copyOf())
         val width = max(1, (w / MARGIN).roundToInt())
         val height = max(1, (h / MARGIN).roundToInt())
-        val p = Projection(limitedPose(pose), bounds, w, h)
+        val r = relative(center,pose)
         val buffer = IntArray(width * height)
+        // The homography numerators and depth advance linearly across a scanline.
+        val step = 2*target.x/width
+        val left = (.5*step-target.x)
+        val fx = w/(2*bounds.x)
+        val fy = h/(2*bounds.y)
+        val stepU = r[0]*step*fx
+        val stepV = -r[3]*step*fy
+        val stepZ = -r[6]*step
         for (y in 0 until height) {
-            val dy = (1 - 2 * (y + .5) / height) * target.y
+            val dy = (1 - 2*(y+.5)/height)*target.y
+            var z = r[8]-r[6]*left-r[7]*dy
+            var u = (r[0]*left+r[1]*dy-r[2])*fx
+            var v = -(r[3]*left+r[4]*dy-r[5])*fy
             for (x in 0 until width) {
-                val dx = (2 * (x + .5) / width - 1) * target.x
-                val z = p.depth(dx, dy)
-                val u = p.u(dx, dy, z).toInt().coerceIn(0, w - 1)
-                val v = p.v(dx, dy, z).toInt().coerceIn(0, h - 1)
-                buffer[y * width + x] = atlas[v * w + u]
+                if (z > 0) {
+                    val inverse = 1/z
+                    val ax = w*.5+u*inverse
+                    val ay = h*.5+v*inverse
+                    if (ax >= 0 && ax < w && ay >= 0 && ay < h)
+                        buffer[y*width+x] = atlas[ay.toInt()*w+ax.toInt()]
+                }
+                z += stepZ
+                u += stepU
+                v += stepV
             }
         }
         return initial.copy(w = width, h = height, pixels = buffer)
@@ -434,78 +672,127 @@ class Mosaic(
 
 // A scan keeps the display axes that were in use when the center was confirmed.
 // Its atlas and angular reference remain valid if Android rotates the window.
-class ScanSession(center: Frame, target: Field, origin: FloatArray?, response: DoubleArray) {
+internal class ScanSession(center: Frame, target: Field, origin: FloatArray?, response: DoubleArray,
+                           private val aligner: ScanAligner? = null) {
     private val identity = floatArrayOf(1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f)
-    private val mosaic = Mosaic(target, identity, center, response)
+    private val mosaic = Mosaic(target, identity, center, response, aligner)
     private var orientation = identity
-    private var previousSensor = origin
+    private var sensorOrigin = origin
+    private var originPose = identity
     private var reference: TrackingImage? = null
+    private var nextTarget: FinderPoint? = FinderPoint(.5,.5)
     private var accepted = 0
     private var lost = false
-    private var lastSamplePose: FloatArray? = null
+    private var anchor: FloatArray? = null
+    private var since = 0L
+    private var lastTime = -1L
+    private var attemptedAt = Long.MIN_VALUE
+    private var retryStationary = false
+    private var disconnected = false
+    private var lastAttempt: FloatArray? = null
+    private var settling = true
+    private var renderedPose: FloatArray? = null
+    private var rendered: Frame? = null
 
-    // A restarted rotation-vector sensor may have a different world reference. Align the
-    // first overlapping image against the last successful frame before accepting its delta.
-    fun resumeTracking() { previousSensor = null }
+    private fun moved(a: FloatArray, b: FloatArray, degrees: Double): Boolean {
+        var trace = 0.0
+        for (i in a.indices) trace += a[i].toDouble()*b[i]
+        return trace < 1 + 2*cos(Math.toRadians(degrees))
+    }
 
-    fun capture(frame: Frame, field: Field, sensor: FloatArray?): Frame {
-        val image = TrackingImage(frame)
-        val last = reference
-        val oldSensor = previousSensor
-        val inertial =
-            if (sensor != null && oldSensor != null) relative(oldSensor, sensor) else null
-        // A handheld pan can be largely translational (or the device may not supply a
-        // rotation vector). Track the overlapping image when the inertial change is tiny.
-        val tracksVisually =
-            last != null && (inertial == null || inertial[0] + inertial[4] + inertial[8] > 2.999995)
-        val visual = if (tracksVisually) last!!.motionTo(image, field) else null
-        lost = last != null && inertial == null && visual == null
-        if (!lost) {
-            val rotation = visual ?: inertial
-            if (rotation != null) {
+    fun resumeTracking() {
+        sensorOrigin = null
+        reference = null
+        anchor = null
+        lastTime = -1L
+    }
+
+    fun capture(field: Field, sensor: FloatArray?, nowMs: Long, tracking: (() -> TrackingImage)? = null, exposureMs: Double = 0.0, frame: () -> Frame): Frame {
+        var decoded: Frame? = null
+        fun image() = decoded ?: frame().also { decoded = it }
+        val previousOrientation = orientation
+        lost = false
+        if (sensor != null) {
+            if (sensorOrigin == null) {
+                originPose = orientation
+                sensorOrigin = sensor
+            }
+            val delta = relative(sensorOrigin!!, sensor)
+            orientation = FloatArray(9) { i ->
+                (0..2).sumOf { k -> originPose[i/3*3+k]*delta[k*3+i%3] }.toFloat()
+            }
+            reference = null
+        } else {
+            sensorOrigin = null
+            val next = tracking?.invoke() ?: TrackingImage(image())
+            val delta = reference?.motionTo(next,field)
+            lost = reference != null && delta == null
+            if (delta != null) {
                 val prior = orientation
-                orientation =
-                    FloatArray(9) { i ->
-                        (0..2)
-                            .sumOf { k -> prior[i / 3 * 3 + k] * rotation[k * 3 + i % 3] }
-                            .toFloat()
-                    }
+                orientation = FloatArray(9) { i ->
+                    (0..2).sumOf { k -> prior[i/3*3+k]*delta[k*3+i%3] }.toFloat()
+                }
             }
-            reference = image
-            previousSensor = sensor
-            val change = lastSamplePose?.let { relative(it, orientation) }
-            // Small sensor jitter and fluctuating edge matches do not represent a new view.
-            if (!mosaic.ready && (change == null || change[0] + change[4] + change[8] < 2.99992)) {
-                val before = mosaic.coverage
-                mosaic.add(frame, field, orientation)
-                if (before < mosaic.coverage) accepted++
-                lastSamplePose = orientation
-            }
+            if (!lost) reference = next
         }
-        return mosaic.view(orientation)
+        if (lost || anchor == null || nowMs-lastTime !in 0..500 || moved(anchor!!,orientation,.45)) {
+            anchor = orientation
+            since = nowMs
+        }
+        val elapsed = nowMs-lastTime
+        lastTime = nowMs
+        val stationary = nowMs-since >= 350
+        val maxMotion = Math.toDegrees(2*min(field.x,field.y)/LONG_EDGE) * 2.5 *
+            elapsed.coerceIn(1,500)/max(1.0,exposureMs)
+        val sharp = elapsed in 1..500 && !moved(previousOrientation,orientation,min(8.0,maxMotion))
+        // A failed registration must not require another large turn or a perfect
+        // stationary interval. Small frame-to-frame movement permits a fresh candidate.
+        val retry = retryStationary && elapsed in 1..500 &&
+            !moved(previousOrientation,orientation,1.5) && nowMs-attemptedAt >= 160
+        val continuous = aligner != null && (sharp || retry)
+        settling = !stationary && !continuous && lastAttempt != null
+        val step = if (mosaic.coverage >= .90) .45 else if (stationary) 1.0 else Math.toDegrees(atan(min(field.x,field.y)))*.14
+        if (!mosaic.ready && !lost && (stationary || continuous || (aligner != null && accepted == 0 && lastAttempt == null)) &&
+            (lastAttempt == null || moved(lastAttempt!!,orientation,step) || (retryStationary && ((stationary && nowMs-attemptedAt >= 220) || (continuous && nowMs-attemptedAt >= 110))))) {
+            val before = mosaic.coverage
+            // If moving registration is unreliable, allow a stationary retry at this pose.
+            disconnected = !mosaic.add(field,orientation,!stationary,::image)
+            if (mosaic.coverage > before) {
+                accepted++
+                nextTarget = mosaic.nextUncovered(mosaic.aim(orientation),field)
+                rendered = null
+            }
+            retryStationary = disconnected
+            attemptedAt = nowMs
+            lastAttempt = orientation
+        }
+        if (rendered == null || moved(renderedPose!!,orientation,.06)) {
+            rendered = mosaic.view(orientation)
+            renderedPose = orientation
+        }
+        return rendered!!
     }
 
     fun guide(displayTurn: Int): ScanGuide {
         val aim = mosaic.aim(orientation)
-        return ScanGuide(
-            accepted,
-            mosaic.coverage,
-            aim.turned(displayTurn),
-            mosaic.nextUncovered(aim)?.turned(displayTurn),
-            lost,
-        )
+        val home = mosaic.homeDirection(orientation)?.let {
+            val p = FinderPoint(.5 + .5*it.x,.5 + .5*it.y).turned(displayTurn)
+            FinderPoint(2*p.x-1,2*p.y-1)
+        }
+        return ScanGuide(accepted,mosaic.coverage,aim.turned(displayTurn),
+            nextTarget?.turned(displayTurn),lost || disconnected,mosaic.tileCoverage(),displayTurn,home,settling)
     }
 }
 
 // Frame-to-frame alignment in angular coordinates. Correlation is insensitive to a change
 // in exposure and a candidate must agree across the portion common to both real frames.
-private class TrackingImage(frame: Frame) {
-    private val width = min(144, frame.w)
-    private val height = (width * frame.h.toDouble() / frame.w).roundToInt().coerceIn(1, 192)
-    private val data =
-        IntArray(width * height) { i ->
-            luma(frame.sample((i % width + .5) / width, (i / width + .5) / height))
-        }
+class TrackingImage(w: Int, h: Int, sample: (Double, Double) -> Int) {
+    constructor(frame: Frame) : this(frame.w, frame.h, frame::sample)
+    private val width = min(144,w)
+    private val height = (width * h.toDouble()/w).roundToInt().coerceIn(1,192)
+    private val data = IntArray(width*height) { i ->
+        luma(sample((i%width+.5)/width,(i/width+.5)/height))
+    }
 
     fun motionTo(next: TrackingImage, field: Field): DoubleArray? {
         if (width != next.width || height != next.height || min(width, height) < 16) return null

@@ -211,9 +211,9 @@ fun fitResponse(frames: List<Bracket>, method: String, step: Double = 1.0): Pair
 
 /** RAW is linear after black subtraction. Use temporal differences of dim pixels only. */
 fun estimateRawStops(frames: List<Bracket>): Double? {
-    if (!validFrames(frames) || frames.distinctBy { it.seconds }.size < 5) return null
-    val ordered = frames.sortedBy { it.seconds }
-    if (log2(ordered.last().seconds / ordered.first().seconds) < 4) return null
+    if (!validFrames(frames)) return null
+    val ordered = frames.distinctBy { it.seconds }.sortedBy { it.seconds }
+    if (ordered.size < 5 || log2(ordered.last().seconds / ordered.first().seconds) < 4) return null
     val first = ordered.first()
     val darkest = DoubleArray(first.samples.size) { (first.samples[it] + first.repeat[it]) / 2 }
     val threshold = darkest.sortedArray().quantile(.25)

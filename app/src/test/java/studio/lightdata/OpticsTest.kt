@@ -89,6 +89,15 @@ class OpticsTest {
     }
 
     @Test
+    fun wideLatitudeNegativeSeparatesMidtonesInTheViewedPrint() {
+        val film = customFilm(false, 18.0, 9.0)
+        assertEquals(.18, film.positive(0.0), 1e-9)
+        assertTrue(255 * linearToSrgb(film.positive(-2.0)) < 70)
+        assertTrue(255 * linearToSrgb(film.positive(2.0)) > 180)
+        assertTrue(film.positive(3.0) > film.positive(2.0))
+    }
+
+    @Test
     fun frozenSpotAndHistogramShareCoordinates() {
         val gray = 0xff757575.toInt()
         val f = Frame(20, 20, IntArray(400) { if (it % 20 < 8) 0 else gray }, 12.0, "ultra")
@@ -98,5 +107,21 @@ class OpticsTest {
         assertEquals(12 + defaultResponse[117], f.spot(.5, .5, defaultResponse), 1e-8)
         assertEquals(defaultResponse[117], meter(h, defaultResponse), 1e-8)
         assertTrue(f.spot(.1, .5, defaultResponse).isNaN())
+    }
+
+    @Test
+    fun narrowBrightStripesCountEquallyAcrossOrientationsAndWidths() {
+        for ((w,h) in listOf(4 to 4, 12 to 5, 5 to 12)) {
+            for (phase in 0..3) {
+                val pixels = IntArray(w * h) { i ->
+                    val coordinate = if (w % 4 == 0) i % w else i / w
+                    if (coordinate % 4 == phase) -1 else 0xff757575.toInt()
+                }
+                val hist = Frame(w,h,pixels,0.0,"test").distribution()
+                assertEquals(w * h / 4, hist[255])
+                assertEquals(w * h * 3 / 4, hist[117])
+                assertEquals(1.090915, meter(hist, defaultResponse), .00001)
+            }
+        }
     }
 }

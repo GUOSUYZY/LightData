@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.WindowManager
@@ -19,6 +20,10 @@ data class Sample(
     val hist: IntArray,
     val missing: Boolean,
     val scan: ScanGuide?,
+    val still: Boolean = false,
+    val captureWidth: Int = frame.w,
+    val captureHeight: Int = frame.h,
+    val live: LiveCapture? = null,
 )
 
 data class Spot(
@@ -28,6 +33,9 @@ data class Spot(
     val ev: Double,
     val cameraLimited: Boolean = false,
 )
+
+fun isoLabel(value: Double): String =
+    java.math.BigDecimal.valueOf(value).stripTrailingZeros().toPlainString()
 
 class MainActivity : ComponentActivity() {
     val prefs by lazy { getSharedPreferences("meter", MODE_PRIVATE) }
@@ -49,6 +57,11 @@ class MainActivity : ComponentActivity() {
     var mode by mutableStateOf("A")
     var manual by mutableStateOf(Exposure(1.0 / 125, 8.0, 100.0))
     var film by mutableStateOf(films.first())
+        private set
+    var filmIso by mutableDoubleStateOf(filmRecords.first().iso.toDouble())
+        private set
+    var isoLocked by mutableStateOf(true)
+        private set
     var style by mutableIntStateOf(0)
     var compensationThirds by mutableIntStateOf(0)
         private set
@@ -58,10 +71,119 @@ class MainActivity : ComponentActivity() {
         private set
     var safetyPointId by mutableStateOf<Int?>(null)
         private set
+    var useLut by mutableStateOf(false)
+    var previewScale by mutableDoubleStateOf(.5)
+    var scanAlgorithm by mutableStateOf("LK")
+    fun chooseScanAlgorithm(value: String) {
+        cancelScan()
+        scanAlgorithm = value
+        prefs.edit().putString("scanAlgorithm",value).apply()
+    }
+    var recordScan by mutableStateOf(false)
+    private data class ScanShot(val jpeg: ByteArray,val meta: String,val accepted: Boolean)
+    private var recordedAccepted = 0
+    private var droppedScanAttempts = 0
+    private val scanShots = mutableListOf<ScanShot>()
+    private fun recordShot(f: Frame, src: Field, target: Field, axes: FloatArray?, exposureMs: Double,
+                           time: Long, guide: ScanGuide, turn: Int, cameraMeta: String?) {
+
+        val bitmap = android.graphics.Bitmap.createBitmap(f.pixels,f.w,f.h,android.graphics.Bitmap.Config.ARGB_8888)
+        val bytes = java.io.ByteArrayOutputStream()
+        try { bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG,95,bytes) }
+        finally { bitmap.recycle() }
+        val meta = org.json.JSONObject().put("camera",f.id).put("cameraEV",f.cameraEv)
+            .put("captureResult",cameraMeta?.let { org.json.JSONObject(it) })
+            .put("source",org.json.JSONArray(listOf(src.x,src.y))).put("target",org.json.JSONArray(listOf(target.x,target.y)))
+            .put("axes",axes?.let { org.json.JSONArray(it.toList()) }).put("exposureMs",exposureMs)
+            .put("timeMs",time).put("displayTurn",turn).put("captures",guide.captures).put("coverage",guide.coverage)
+        synchronized(scanShots) {
+            val accepted = guide.captures > recordedAccepted
+            recordedAccepted = maxOf(recordedAccepted,guide.captures)
+            // Never evict an accepted keyframe: all later registration depends on it.
+            if (!accepted && scanShots.count { !it.accepted } >= 60) {
+                val rejected = scanShots.indexOfFirst { !it.accepted }
+                scanShots.removeAt(rejected)
+                droppedScanAttempts++
+            }
+            scanShots.add(ScanShot(bytes.toByteArray(),meta.put("algorithm",scanAlgorithm)
+                .put("accepted",accepted).toString(),accepted))
+        }
+    }
+    private val saveScan = registerForActivityResult(ActivityResultContracts.CreateDocument("application/zip")) { uri ->
+        if (uri != null) {
+            val snapshot = synchronized(scanShots) { scanShots.toList() to droppedScanAttempts }
+            val shots = snapshot.first
+            Thread {
+                runCatching {
+                    java.util.zip.ZipOutputStream(requireNotNull(contentResolver.openOutputStream(uri))).use { zip ->
+                        zip.putNextEntry(java.util.zip.ZipEntry("manifest.json"))
+                        zip.write(org.json.JSONObject().put("formatVersion",2)
+                            .put("droppedRejectedAttempts",snapshot.second)
+                            .put("acceptedFrames",shots.count { it.accepted })
+                            .put("completeAcceptedHistory",snapshot.second >= 0).toString().toByteArray())
+                        zip.closeEntry()
+                        for ((i,shot) in shots.withIndex()) for ((ext,data) in listOf("jpg" to shot.jpeg,"json" to shot.meta.toByteArray())) {
+                            zip.putNextEntry(java.util.zip.ZipEntry("${i+1}.$ext")); zip.write(data); zip.closeEntry()
+                        }
+                    }
+                }.onFailure { runOnUiThread { notifyUser("导出失败") } }
+            }.start()
+        }
+    }
+    fun exportScan() {
+        if (synchronized(scanShots) { scanShots.isEmpty() }) notifyUser("请先开启记录并进行拼接")
+        else saveScan.launch("LightData-panorama.zip")
+    }
+    var showFps by mutableStateOf(false)
+    var renderedFps by mutableIntStateOf(0)
+    var previewView = java.lang.ref.WeakReference<Preview>(null)
+    var latestLive: LiveCapture? = null
+        private set
+    private val frameTimes = java.util.ArrayDeque<Long>()
+    fun markRendered() {
+        synchronized(frameTimes) {
+            frameTimes.addLast(android.os.SystemClock.elapsedRealtimeNanos())
+            while (frameTimes.size > 240) frameTimes.removeFirst()
+        }
+    }
+    fun updateFps() {
+        val now = android.os.SystemClock.elapsedRealtimeNanos()
+        renderedFps = synchronized(frameTimes) {
+            while (frameTimes.isNotEmpty() && now - frameTimes.first > 1_000_000_000L) frameTimes.removeFirst()
+            if (frozen) 0 else frameTimes.size
+        }
+    }
+    private val meterWorker = java.util.concurrent.Executors.newSingleThreadExecutor()
+    private val measuring = java.util.concurrent.atomic.AtomicBoolean()
+    private data class Measurement(val epoch: Int, val turn: Int, val frame: Frame, val hist: IntArray)
+    @Volatile private var lastMeasure: Measurement? = null
+    private var lastMeasureAt = 0L
+    internal val lutAssets by lazy { LutAssets(assets) }
+    var lutEntries by mutableStateOf(emptyList<LutEntry>())
+    var lutCatalogStatus by mutableStateOf("正在读取 LUT 目录")
+    val chosenLuts = mutableStateMapOf<String, String>()
+    val variants get() = if (selectedPresetId == null) lutEntries.filter { it.film == film.name } else emptyList()
+    val variant: LutEntry? get() {
+        val options = variants
+        val file = chosenLuts[film.name] ?: prefs.getString("lutVariant:" + film.name, null)
+        return options.find { it.file == file }
+            ?: options.find { it.preferred && it.iso.toDouble() == filmIso }
+            ?: options.find { it.preferred } ?: options.firstOrNull()
+    }
+    var activeAtlas by mutableStateOf<LutAtlas?>(null)
+    var failedLut by mutableStateOf<String?>(null)
+    val lutStatus get() = when {
+        lutCatalogStatus.isNotEmpty() -> lutCatalogStatus
+        variant == null -> "无对应 LUT · 使用亮度模拟"
+        variant?.file == failedLut -> "LUT 加载失败 · 使用亮度模拟"
+        activeAtlas?.entry?.file != variant?.file -> "正在加载 LUT · 使用亮度模拟"
+        else -> "LUT 预览"
+    }
+    private val stillDetector = StillDetector()
     var frozen by mutableStateOf(false)
     var single by mutableStateOf(false)
     var held by mutableStateOf<Double?>(null)
-    var logCounts by mutableStateOf(false)
+    var logCounts by mutableStateOf(true)
     var settings by mutableStateOf(false)
     var resizing by mutableStateOf(false)
     var sample by mutableStateOf<Sample?>(null)
@@ -88,18 +210,27 @@ class MainActivity : ComponentActivity() {
     private var frozenCompensation = 0
     @Volatile private var epoch = 0
     private var active = false
-    var total by mutableDoubleStateOf(12.0)
-    var above by mutableDoubleStateOf(4.0)
-    var customDigital by mutableStateOf(false)
+    var customPresets by mutableStateOf(emptyList<CustomPreset>())
+        private set
+    var selectedPresetId by mutableStateOf<String?>(null)
+        private set
     val layout = mutableStateMapOf<String, Float>()
     val response
         get() = cal?.responseFor(sample?.frame?.encoding ?: YuvEncoding.default) ?: defaultResponse
 
-    val reading
-        get() =
-            sample
-                ?.takeIf { it.hist.any { bin -> bin > 0 } }
-                ?.let { it.frame.cameraEv + meter(it.hist, response) }
+    private var meteredHist: IntArray? = null
+    private var meteredLut: DoubleArray? = null
+    private var meteredOffset: Double? = null
+    val reading: Double? get() {
+        val s = sample ?: return null
+        val lut = response
+        if (meteredHist !== s.hist || meteredLut !== lut) {
+            meteredOffset = if (s.hist.any { it > 0 }) meter(s.hist,lut) else null
+            meteredHist=s.hist
+            meteredLut=lut
+        }
+        return meteredOffset?.plus(s.frame.cameraEv)
+    }
 
     // A held value is meaningful only while its measurement session still exists.
     val appliedReading
@@ -156,7 +287,7 @@ class MainActivity : ComponentActivity() {
                 { msg ->
                     runOnUiThread { invalidateCamera(msg) }
                 },
-                { frozen },
+                { !frozen },
             )
         focal = saved("focal", 35.0)
         cameraChoice = prefs.getString("camera", "自动")!!
@@ -171,13 +302,12 @@ class MainActivity : ComponentActivity() {
         safety = prefs.getBoolean("safety", false)
         toneGoal = ToneGoal.entries.getOrElse(prefs.getInt("toneGoal", 1)) { ToneGoal.MIDTONE }
         style = saved("style", 0.0).toInt()
-        total = saved("total", 12.0)
-        above = saved("above", 4.0)
-        customDigital = prefs.getString("digital", "false") == "true"
-        film =
-            films.find { it.name == prefs.getString("film", films.first().name) }
-                ?: customFilm(customDigital, total, above)
-        logCounts = prefs.getBoolean("logCounts", false)
+        useLut = prefs.getBoolean("useLut", false)
+        previewScale = saved("previewScale", .5).coerceIn(.25, 1.0)
+        scanAlgorithm = prefs.getString("scanAlgorithm","LK") ?: "LK"
+        showFps = prefs.getBoolean("showFps", false)
+        restoreFilm()
+        logCounts = prefs.getBoolean("logCounts", true)
         for (prefix in listOf("p", "l", "squarep", "squarel")) {
             for (i in 1..2) {
                 val key = prefix + i
@@ -229,8 +359,24 @@ class MainActivity : ComponentActivity() {
         super.onPause()
     }
 
+    override fun onConfigurationChanged(config: android.content.res.Configuration) {
+        super.onConfigurationChanged(config)
+        if (!active || !allowed || runningCal) return
+        val prior = current ?: return
+        val available = runCatching { cameras(this) }.getOrNull() ?: return
+        val next = available.find { it.id == prior.id } ?: return
+        if (next.size != prior.size) {
+            epoch++
+            lenses = available
+            current = next
+            scanRequest?.reanchor = true
+            rig.open(next)
+        }
+    }
+
     override fun onDestroy() {
         rig.destroy()
+        meterWorker.shutdownNow()
         super.onDestroy()
     }
 
@@ -283,7 +429,11 @@ class MainActivity : ComponentActivity() {
         } else message = ""
     }
 
-    private fun process(f: Frame, l: Lens) {
+    private var lastScanView: Frame? = null
+    private var lastScanTurn = 0
+    private var lastScanMeasurement: Measurement? = null
+
+    private fun process(packet: Rig.Packet, ev: Double, timestamp: Long, l: Lens) {
         val token = epoch
         if (frozen || l.id != current?.id) return
         val rot = windowManager.defaultDisplay.rotation
@@ -291,19 +441,65 @@ class MainActivity : ComponentActivity() {
         val scanRotation = request?.rotation ?: rot
         val turn = (l.angle - scanRotation * 90 + 360) % 360
         val transpose = turn % 180 != 0
-        val frame = upright(f, turn)
         val src = if (transpose) l.view.swap() else l.view
         val goal = if (transpose) target().swap() else target()
+        val live = LiveCapture(packet,ev,l.id,timestamp,turn,src,goal)
+        val now = android.os.SystemClock.elapsedRealtime()
         val displayTurn = Math.floorMod(scanRotation - rot, 4) * 90
         val scan = request?.let {
-            val axes = pose.axes(scanRotation, f.timestampNs)
-            val session = it.session ?: ScanSession(frame, goal, axes, response).also { s -> it.session = s }
+            val frame by lazy(LazyThreadSafetyMode.NONE) { live.panoramaFrame() }
+            val axes = pose.axes(scanRotation, timestamp)
+            val session = it.session ?: ScanSession(frame, goal, axes, response, OpenCvScanAligner.forMode(scanAlgorithm)).also { s -> it.session = s }
             if (it.reanchor) { session.resumeTracking(); it.reanchor = false }
-            upright(session.capture(frame, src, axes), displayTurn) to session.guide(displayTurn)
+            val time = if (timestamp > 0) timestamp / 1_000_000 else now
+            var candidate: Frame? = null
+            val shown = session.capture(src,axes,time,live::trackingImage,packet.exposureMs) { frame.also { candidate = it } }
+            val guide = session.guide(displayTurn)
+            if (recordScan) candidate?.let { recordShot(it,src,goal,axes,packet.exposureMs,time,guide,displayTurn,packet.scanMetadata) }
+            shown to guide
         }
-        val out = scan?.first ?: crop(frame, src, goal)
-        val hist = out.distribution()
-        val result = Sample(out, hist, !src.covers(goal), scan?.second)
+        fun measure(): Measurement {
+            val full = live.fullFrame()
+            return Measurement(token,turn,full,full.distribution())
+        }
+        val measurement = if (scan != null) {
+            val cached = lastScanMeasurement
+            if (cached != null && lastScanView === scan.first && lastScanTurn == displayTurn) cached
+            else {
+                val displayed = upright(scan.first,displayTurn)
+                Measurement(token,turn,displayed,displayed.distribution()).also {
+                    lastScanView = scan.first
+                    lastScanTurn = displayTurn
+                    lastScanMeasurement = it
+                }
+            }
+        } else {
+            lastScanMeasurement = null
+            lastScanView = null
+            val cached = lastMeasure?.takeIf { it.epoch == token && it.turn == turn &&
+                it.frame.id == l.id && it.frame.w == live.width && it.frame.h == live.height &&
+                it.frame.encoding == packet.encoding }
+            if (cached == null) {
+                lastMeasureAt = now
+                measure().also { lastMeasure = it }
+            } else {
+                if (now - lastMeasureAt >= 200 && !meterWorker.isShutdown && measuring.compareAndSet(false,true)) {
+                    lastMeasureAt = now
+                    try {
+                        meterWorker.execute {
+                            try { if (epoch == token) lastMeasure = measure() }
+                            finally { measuring.set(false) }
+                        }
+                    } catch (_: java.util.concurrent.RejectedExecutionException) { measuring.set(false) }
+                }
+                cached
+            }
+        }
+        val out = measurement.frame
+        val still = if (scan != null) stillDetector.observe(out,pose.matrix,now)
+            else stillDetector.observe(live.signature(),Triple(l.id,live.width,live.height),pose.matrix,now)
+        val result = Sample(out, measurement.hist, !src.covers(goal), scan?.second,
+            still, packet.w, packet.h, if (scan == null) live else null)
         runOnUiThread {
             if (!active || !allowed || token != epoch || frozen) return@runOnUiThread
             if (message.startsWith("正在连接")) {
@@ -313,7 +509,15 @@ class MainActivity : ComponentActivity() {
                     "Frame from " + l.label + " via " + l.owner + " " + out.w + "x" + out.h,
                 )
             }
-            sample = result
+            latestLive = result.live
+            val old = sample
+            val view = previewView.get()
+            if (result.live != null && old?.frame === result.frame && old.still == result.still &&
+                view != null && view.isAttachedToWindow) {
+                // Only the camera texture changed. Sliders and histogram follow the
+                // independent full-frame measurement, not the sensor callback rate.
+                view.advance(result.live, shootingPlan(film, exposure).metered.ev)
+            } else sample = result
             cameraRetry = false
             if (single && held == null) held = reading
             if (cal == null && !prefs.getBoolean("warned", false) && !isFinishing) {
@@ -328,7 +532,10 @@ class MainActivity : ComponentActivity() {
     }
 
     fun cancelScan() {
-        if (scanRequest != null) epoch++
+        if (scanRequest != null) {
+            epoch++
+            rig.setPanoramaLock(false)
+        }
         scanRequest = null
         runningCal = false
     }
@@ -339,6 +546,12 @@ class MainActivity : ComponentActivity() {
             return
         }
         if (sample?.missing != true || frozen || runningCal) return
+        if (recordScan) synchronized(scanShots) {
+            scanShots.clear()
+            recordedAccepted = 0
+            droppedScanAttempts = 0
+        }
+        rig.setPanoramaLock(true)
         scanRequest = ScanRequest(windowManager.defaultDisplay.rotation)
         epoch++
     }
@@ -353,12 +566,22 @@ class MainActivity : ComponentActivity() {
 
     fun toggleFreeze() {
         if (!frozen) {
-            if (sample == null) return
-            frozenExposure = exposure
-            frozenBaseExposure = exposure
+            val current = sample ?: return
+            val base = exposure
+            frozenExposure = base
+            frozenBaseExposure = base
             frozenMeterReading = appliedReading ?: manual.ev
             frozenSafetyStops = 0.0
             frozenCompensation = compensationThirds
+            current.live?.let { original ->
+                val it = previewView.get()?.renderedLive?.takeIf { capture ->
+                    capture.id == original.id && capture.width == original.width &&
+                        capture.height == original.height && capture.turn == original.turn
+                } ?: latestLive ?: original
+                val full = it.fullFrame()
+                sample = current.copy(frame = full, hist = full.distribution(), live = null)
+            }
+            latestLive = null
             frozen = true
         } else {
             // Keep subject points through frozen comparisons. Apply the selected target only when
@@ -461,10 +684,16 @@ class MainActivity : ComponentActivity() {
     }
 
     fun setValues(e: Exposure) {
-        manual = e
-        put("t", e.t)
-        put("a", e.a)
-        put("iso", e.iso)
+        manual = if (isoLocked) e.copy(iso = filmIso) else e
+        prefs.edit().putString("t", manual.t.toString()).putString("a", manual.a.toString())
+            .putString("iso", manual.iso.toString()).apply()
+    }
+
+    fun toggleIsoLock() {
+        if (frozen) return
+        isoLocked = !isoLocked
+        if (isoLocked) manual = manual.copy(iso = filmIso)
+        prefs.edit().putBoolean("filmIsoLocked", isoLocked).putString("iso", manual.iso.toString()).apply()
     }
 
     fun adjustCompensation(thirds: Int) {
@@ -494,10 +723,95 @@ class MainActivity : ComponentActivity() {
         selectCamera()
     }
 
-    fun setFilmChoice(v: Film) {
-        film = v
-        put("film", v.name)
+    private fun restoreFilm() {
+        customPresets = CustomPresets.decode(prefs.getString("customPresets", null)
+            ?: CustomPresets.encode(emptyList()))
+        val previous = prefs.getString("film", films.first().name)
+        var preset = customPresets.find { it.id == prefs.getString("customPresetId", null) }
+        if (preset == null && previous in listOf("自定义胶片", "自定义数码")) {
+            preset = CustomPreset.create(previous!!, previous == "自定义数码", saved("total", 12.0),
+                saved("above", 4.0), manual.iso)
+            customPresets = customPresets + preset
+            prefs.edit().putString("customPresets", CustomPresets.encode(customPresets))
+                .putString("customPresetId", preset.id).apply()
+        }
+        val record = filmRecords.find { it.film.name == previous } ?: filmRecords.first()
+        selectedPresetId = preset?.id
+        film = preset?.toFilm() ?: record.film
+        filmIso = preset?.iso ?: record.iso.toDouble()
+        // Keep an existing user's deliberate EI override when upgrading an older installation.
+        isoLocked = prefs.getBoolean("filmIsoLocked", !prefs.contains("iso") || manual.iso == filmIso)
+        if (isoLocked) manual = manual.copy(iso = filmIso)
+        prefs.edit().putBoolean("filmIsoLocked", isoLocked).apply()
     }
+
+    private fun applyFilm(value: Film, speed: Double, id: String?, lock: Boolean) {
+        film = value
+        filmIso = speed
+        selectedPresetId = id
+        isoLocked = lock
+        if (lock) manual = manual.copy(iso = speed)
+        if (frozen) frozenExposure = solve(mode, manual, held ?: reading ?: manual.ev, compensationThirds)
+        prefs.edit().putString("film", value.name).putString("customPresetId", id)
+            .putBoolean("filmIsoLocked", lock).putString("iso", manual.iso.toString()).apply()
+    }
+
+    fun selectFilm(record: FilmRecord) = applyFilm(record.film, record.iso.toDouble(), null, true)
+    fun selectPreset(preset: CustomPreset) = applyFilm(preset.toFilm(), preset.iso, preset.id, true)
+
+    fun savePreset(preset: CustomPreset) {
+        customPresets = CustomPresets.merge(customPresets, listOf(preset))
+        prefs.edit().putString("customPresets", CustomPresets.encode(customPresets)).apply()
+        selectPreset(preset)
+    }
+
+    private fun importPresets(incoming: List<CustomPreset>) {
+        val merged = CustomPresets.merge(customPresets, incoming)
+        val selected = merged.find { it.id == selectedPresetId }
+        val changed = merged.count { it !in customPresets }
+        customPresets = merged
+        prefs.edit().putString("customPresets", CustomPresets.encode(merged)).apply()
+        if (selected != null && incoming.any { it.id == selected.id })
+            applyFilm(selected.toFilm(), selected.iso, selected.id, isoLocked)
+        notifyUser("已读取 ${incoming.size} 个预设，新增或更新 ${changed} 个")
+    }
+
+    private val openPresets = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        uri?.let(::readPresetDocument)
+    }
+
+    internal fun readPresetDocument(uri: Uri) = presetIO({
+        requireNotNull(contentResolver.openInputStream(uri)).bufferedReader(Charsets.UTF_8)
+            .use { CustomPresets.decode(it) }
+    }, ::importPresets)
+
+    private val writePresets = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+        uri?.let(::writePresetDocument)
+    }
+
+    internal fun writePresetDocument(uri: Uri) {
+        val json = CustomPresets.encode(customPresets)
+        presetIO({
+            requireNotNull(contentResolver.openOutputStream(uri, "wt")).bufferedWriter(Charsets.UTF_8)
+                .use { it.write(json) }
+        }, { notifyUser("自定义预设已导出") })
+    }
+
+    // Document providers can classify plain JSON as text, binary, or a vendor type.
+    fun pickPresetFile() = openPresets.launch(arrayOf("*/*"))
+    fun exportPresetFile() = writePresets.launch("LightData-presets.json")
+
+    private fun <T> presetIO(work: () -> T, complete: (T) -> Unit) {
+        Thread {
+            val result = runCatching(work)
+            runOnUiThread {
+                if (!isFinishing && !isDestroyed) runCatching { complete(result.getOrThrow()) }
+                    .onFailure { notifyUser("预设文件操作失败：" + it.localizedMessage) }
+            }
+        }.start()
+    }
+
+    fun notifyUser(text: String) = android.widget.Toast.makeText(this, text, android.widget.Toast.LENGTH_LONG).show()
 
     fun choose(title: String, items: List<String>, action: (Int) -> Unit) {
         AlertDialog.Builder(this)
@@ -516,7 +830,7 @@ class MainActivity : ComponentActivity() {
             EditText(this).apply {
                 inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
                 setSingleLine()
-                setText(n(initial))
+                setText(isoLabel(initial))
                 selectAll()
             }
         val dialog =

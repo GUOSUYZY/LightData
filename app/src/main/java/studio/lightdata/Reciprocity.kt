@@ -186,8 +186,12 @@ fun reciprocity(filmName: String, meteredSeconds: Double): ReciprocityResult {
     if (source == null) return unknown("无此预设的补偿资料")
     if (power != null) {
         if (meteredSeconds < .0001) return unknown("厂家未给出补偿值")
-        return if (meteredSeconds <= 1.0) normal()
-        else corrected(meteredSeconds.pow(power), estimated = filmName == "Phoenix II")
+        if (meteredSeconds <= 1.0) return normal()
+        // Both individual HARMAN data sheets graph up to 50 s metered. The
+        // broader ILFORD guide gives no validated upper bound; 50 s is our
+        // conservative display threshold, not a manufacturer's rating.
+        val note = if (meteredSeconds > 50.0) " · 公式外推，建议试拍" else ""
+        return corrected(meteredSeconds.pow(power), note, estimated = filmName == "Phoenix II")
     }
     if (filmName == "ACROS II") {
         if (meteredSeconds < 120.0) return normal()

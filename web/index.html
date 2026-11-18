@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#101112" />
+    <meta
+      name="description"
+      content="LightData 胶片取景与测光。实时直方图、等效曝光、胶片曲线和超广角拼接，在浏览器本地运行。"
+    />
+    <title>LightData · 取景与测光</title>
+    <link rel="icon" href="./icon.png" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="instrument">
+      <header class="toolbar">
+        <a class="brand" href="./" aria-label="LightData 首页">LightData</a>
+        <nav aria-label="工具栏">
+          <button id="preview-toggle" class="tool" aria-pressed="false">
+            <span class="icon eye" aria-hidden="true"></span><span>预览</span>
+          </button>
+          <button id="spots-toggle" class="tool" aria-pressed="false">
+            <span class="icon crosshair" aria-hidden="true"></span
+            ><span>测光点</span>
+          </button>
+          <a
+            class="tool"
+            href="https://github.com/GUOSUYZY/LightData/releases/latest"
+            target="_blank"
+            rel="noopener"
+            aria-label="下载 Android 应用"
+            ><span class="icon download" aria-hidden="true">↓</span
+            ><span>Android</span></a
+          >
+          <button id="settings-toggle" class="tool" aria-haspopup="dialog">
+            <span class="icon sliders" aria-hidden="true">☷</span
+            ><span>设置</span>
+          </button>
+        </nav>
+      </header>
+      <main id="panels">
+        <section id="finder" aria-label="取景器">
+          <div class="finder-controls">
+            <select id="format" aria-label="目标相机画幅"></select>
+            <label class="focal-field"
+              ><input
+                id="focal"
+                type="number"
+                min="1"
+                max="3000"
+                step="1"
+                value="35"
+                aria-label="目标镜头焦距"
+              /><span>mm</span></label
+            >
+            <button
+              id="camera-shortcut"
+              class="quiet camera-name"
+              title="选择手机镜头"
+            >
+              选择镜头
+            </button>
+            <span id="live-state" class="live"><i></i> OFF</span>
+          </div>
+          <div id="viewstage">
+            <span id="finder-fps" hidden>— FPS</span>
+            <div id="image-frame">
+              <canvas id="view" aria-label="取景画面"></canvas>
+              <div id="corners"></div>
+              <div id="spots"></div>
+              <div class="center-cross" aria-hidden="true"></div>
+              <div id="scan-home" hidden role="status">
+                <i aria-hidden="true">➜</i><span>回到拼图中心</span>
+              </div>
+            </div>
+            <div id="welcome" class="welcome">
+              <span class="camera-outline" aria-hidden="true"></span>
+              <h1>取景与测光</h1>
+              <p>选择画幅、焦距和胶片，开始取景。</p>
+              <button id="start-camera" class="primary">开启相机</button>
+              <p id="start-message" class="subtle">画面在设备本地处理</p>
+            </div>
+            <div id="scan-panel" class="scan-panel" hidden>
+              <span id="scan-status"></span
+              ><progress id="scan-progress" max="1" value="0"></progress>
+              <div class="actions">
+                <button id="scan-capture">采集此处</button
+                ><button id="scan-finish">完成 / 二次构图</button
+                ><button id="scan-cancel" class="quiet">退出拼接</button>
+              </div>
+              <canvas
+                id="coverage-map"
+                width="180"
+                height="100"
+                aria-label="拼接覆盖图"
+              ></canvas>
+            </div>
+          </div>
+          <div class="finder-footer">
+            <span id="finder-info">手机视角待标定</span
+            ><button id="scan-start" class="quiet" hidden>
+              视角不足 · 开始拼接</button
+            ><span id="preview-status"></span>
+          </div>
+          <div id="spot-list" hidden></div>
+        </section>
+        <div
+          id="split-main"
+          class="split"
+          role="separator"
+          tabindex="0"
+          aria-label="调整取景器比例"
+        ></div>
+        <div id="instruments">
+          <section id="histogram" class="uncalibrated" aria-label="曝光直方图">
+            <div class="hist-heading">
+              <h2>曝光直方图</h2>
+              <button id="hist-reset" class="quiet" title="复位坐标轴">
+                复位
+              </button>
+            </div>
+            <div id="meter-reading" class="reading">— EV100</div>
+            <div class="axis-labels">
+              <span id="pixel-label">像素</span
+              ><span class="amber">密度 D</span>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="chart" aria-label="可拖动和双指缩放的直方图"></canvas>
+            </div>
+            <div id="thresholds">
+              <span class="green">欠 —</span><span class="axis-unit">EV100</span
+              ><span class="red">过 —</span>
+            </div>
+          </section>
+          <div
+            id="split-secondary"
+            class="split"
+            role="separator"
+            tabindex="0"
+            aria-label="调整直方图和测光表比例"
+          ></div>
+          <section id="meter" aria-label="测光表">
+            <div class="mode-row" role="group" aria-label="曝光和测光模式">
+              <button data-mode="A">A</button><button data-mode="S">S</button
+              ><button data-mode="M">M</button><span></span
+              ><button id="continuous">连续</button
+              ><button id="single">单次</button>
+            </div>
+            <div id="compensation">
+              <div>
+                <span id="comp-label">曝光补偿</span
+                ><output id="comp-value" for="comp">+0.0 EV</output>
+              </div>
+              <input
+                id="comp"
+                type="range"
+                min="-15"
+                max="15"
+                step="1"
+                value="0"
+                aria-label="曝光补偿"
+              />
+            </div>
+            <div class="table-label">
+              <span>等效曝光</span><span id="pair-iso">ISO 100</span>
+            </div>
+            <div id="exposure-table" aria-label="等效快门和光圈组合"></div>
+            <div id="reciprocity-note" class="subtle"></div>
+            <div id="iso-heading">
+              <span>ISO</span
+              ><button id="iso-lock" class="quiet amber">已锁定 · 解锁</button>
+            </div>
+            <div id="iso-wheel" aria-label="胶片 ISO 滚轮"></div>
+            <button id="meter-configure" class="quiet" hidden>
+              设置手机采集曝光
+            </button>
+          </section>
+        </div>
+      </main>
+    </div>
+    <video id="capture-video" muted playsinline></video>
+    <dialog id="settings">
+      <div class="dialog-title">
+        <h2>设置</h2>
+        <button class="close" data-close="settings" aria-label="关闭设置">
+          ×
+        </button>
+      </div>
+      <div class="settings-body">
+        <fieldset>
+          <legend>语言</legend>
+          <label>Language / 语言
+            <select id="language-select" aria-label="Language / 语言">
+              <option value="zh-CN" translate="no">简体中文</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+        </fieldset>
+        <fieldset>
+          <legend>相机与采集参数</legend>
+          <label
+            >手机镜头<select id="camera-select">
+              <option value="">默认后置镜头</option>
+            </select></label
+          >
+          <div class="actions">
+            <button id="camera-start-settings">开启 / 切换</button
+            ><button id="camera-stop" class="quiet">关闭相机</button>
+          </div>
+          <p id="camera-status" class="subtle">
+            开启相机后列出浏览器可访问的镜头。
+          </p>
+          <button id="configure-lens">设置当前镜头的视角与光圈</button>
+          <p id="lens-profile-info" class="subtle">
+            首次使用每个镜头时填写，之后自动恢复。
+          </p>
+          <label
+            >采集曝光依据<select id="capture-mode">
+              <option value="auto">自动读取相机快门与 ISO（估测）</option>
+              <option value="fixed">仅使用已固定的曝光参数</option>
+              <option value="manual">手动输入固定采集参数</option>
+              <option value="reference">已知 EV 参考标定</option>
+            </select></label
+          >
+          <div class="form-row">
+            <label
+              >手机光圈 f/<input
+                id="capture-aperture"
+                type="number"
+                min="0.5"
+                max="64"
+                step="0.1"
+                placeholder="例如 1.8" /></label
+            ><label
+              ><span id="capture-iso-label">手机 ISO · 自动读取</span
+              ><input
+                id="capture-iso"
+                type="number"
+                min="0.001"
+                step="any"
+                placeholder="例如 100" /></label
+            ><label
+              ><span id="capture-time-label">快门（秒）· 自动读取</span
+              ><input
+                id="capture-time"
+                type="text"
+                inputmode="decimal"
+                placeholder="1/100"
+            /></label>
+          </div>
+          <div id="capture-fixed-controls" class="actions" hidden>
+            <button id="apply-capture">固定采集曝光</button
+            ><label class="check"
+              ><input
+                id="capture-confirmed"
+                type="checkbox"
+              />已确认相机曝光固定</label
+            >
+          </div>
+          <p id="capture-info" class="subtle">
+            自动读取浏览器返回的快门与
+            ISO，只需填写手机光圈。缺少参数时显示相对亮度，手机采集参数与目标胶片参数分开管理。
+          </p>
+          <div class="reference-fields">
+            <div class="form-row">
+              <label
+                >参考测光值 EV100<input
+                  id="reference-ev"
+                  type="number"
+                  min="-25"
+                  max="40"
+                  step="0.1"
+                  value="10" /></label
+              ><button id="set-reference">以当前画面标定</button>
+            </div>
+            <p class="subtle">
+              使用已知测光值，且相机已锁定曝光。更改相机曝光后需重新标定。
+            </p>
+          </div>
+          <details>
+            <summary>当前相机能力与参数</summary>
+            <pre id="track-info">尚未开启相机</pre>
+          </details>
+        </fieldset>
+        <fieldset>
+          <legend>取景视角</legend>
+          <label
+            >当前预览水平视角（°）<input
+              id="camera-hfov"
+              type="number"
+              min="0.1"
+              max="175"
+              step="0.1"
+              placeholder="按实际预览标定"
+          /></label>
+          <label
+            >或输入手机镜头的 35 mm 等效焦距（mm）<input
+              id="camera-equivalent"
+              type="number"
+              min="1"
+              max="2000"
+              step="any"
+              placeholder="例如 24；按原生 4:3 中心裁切估算"
+          /></label>
+          <p id="camera-fov-info" class="subtle"></p>
+          <div class="form-row">
+            <label
+              >画面边缘覆盖宽度<input
+                id="scene-width"
+                type="number"
+                min="0.001"
+                step="any"
+                placeholder="米" /></label
+            ><label
+              >相机至该平面距离<input
+                id="scene-distance"
+                type="number"
+                min="0.001"
+                step="any"
+                placeholder="米" /></label
+            ><button id="calibrate-fov">计算视角</button>
+          </div>
+          <p class="subtle">
+            正对平面，用与镜头相同的长度单位测量。视角按镜头、预览尺寸和缩放保存。
+          </p>
+          <label
+            >目标画面方向<select id="target-orientation">
+              <option value="auto">跟随窗口方向</option>
+              <option value="landscape">横幅</option>
+              <option value="portrait">竖幅</option>
+            </select></label
+          >
+          <div class="form-row">
+            <label
+              >自定义画幅宽<input
+                id="custom-width"
+                type="number"
+                value="36"
+                min="0.1"
+                step="any" /></label
+            ><label
+              >高<input
+                id="custom-height"
+                type="number"
+                value="24"
+                min="0.1"
+                step="any" /></label
+            ><label
+              >单位<select id="format-unit">
+                <option value="mm">mm</option>
+                <option value="inch">英寸</option>
+              </select></label
+            ><button id="set-format">选用</button>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>胶片与预览</legend>
+          <label
+            >查找胶片<input
+              id="film-search"
+              type="search"
+              placeholder="品牌或型号"
+          /></label>
+          <label>曝光曲线<select id="film-select"></select></label>
+          <p id="film-info" class="subtle"></p>
+          <a id="film-source" target="_blank" rel="noopener">查看手册</a>
+          <label
+            >色彩映射<select id="color-style">
+              <option value="color">彩色</option>
+              <option value="bw">黑白</option>
+              <option value="aero">Aerochrome 风格</option>
+              <option value="purple">LomoChrome Purple 风格</option>
+            </select></label
+          >
+          <p id="style-info" class="subtle"></p>
+          <label>预览按钮行为<select id="preview-mode">
+            <option value="luminance">亮度模拟</option>
+            <option value="lut">胶片 LUT</option>
+          </select></label>
+          <label id="lut-variant-row" hidden>冲印或观看条件<select id="lut-variant"></select></label>
+          <p id="lut-info" class="subtle" aria-live="polite" hidden></p>
+          <p id="lut-credit" class="subtle" hidden>spektrafilm · Andrea Volpato ·
+            <a href="https://github.com/andreavolpato/spektrafilm/blob/3bb2c2d2801ff68b92019cf1dbcbb133d60832bc/SPEKTRAFILM_LICENSE.txt" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+          </p>
+          <label class="check"><input type="checkbox" id="show-fps">显示取景帧率</label>
+          <label>实时预览渲染倍率<select id="preview-scale">
+            <option value="1">100%</option><option value="0.75">75%</option>
+            <option value="0.5">50%</option><option value="0.25">25%</option>
+          </select></label>
+          <p class="subtle">画面稳定或冻结时恢复当前取景的全分辨率。倍率只影响显示。</p>
+          <div class="form-row">
+            <label
+              >目标胶片 ISO<input
+                id="custom-iso"
+                type="number"
+                min="0.001"
+                step="any" /></label
+            ><button id="set-iso">设置 ISO</button
+            ><button id="settings-iso-lock">解锁 ISO</button>
+          </div>
+          <details>
+            <summary>自定义预设</summary>
+            <form id="preset-form">
+              <label
+                >名称<input
+                  id="preset-name"
+                  required
+                  maxlength="80"
+                  placeholder="例如 我的黑白负片"
+              /></label>
+              <div class="form-row">
+                <label
+                  >类型<select id="preset-type">
+                    <option value="film">胶片</option>
+                    <option value="digital">数码</option>
+                  </select></label
+                ><label
+                  >标称 ISO<input
+                    id="preset-iso"
+                    type="number"
+                    min="0.001"
+                    value="100"
+                    step="any"
+                    required
+                /></label>
+              </div>
+              <div class="form-row">
+                <label
+                  >总动态范围 EV<input
+                    id="preset-total"
+                    type="number"
+                    min="1"
+                    max="32"
+                    step="0.1"
+                    value="12"
+                    required /></label
+                ><label
+                  >中灰以上 EV<input
+                    id="preset-above"
+                    type="number"
+                    min="0.1"
+                    max="31.9"
+                    step="0.1"
+                    value="4"
+                    required
+                /></label>
+              </div>
+              <div class="actions">
+                <button type="submit">保存并选用</button
+                ><button id="preset-new" type="button" class="quiet">
+                  新建
+                </button>
+              </div>
+            </form>
+            <div class="actions">
+              <button id="presets-export">导出 JSON</button
+              ><button id="presets-import">导入 JSON</button
+              ><input
+                id="presets-file"
+                type="file"
+                accept=".json,application/json,text/plain"
+                hidden
+              />
+            </div>
+            <p id="preset-status" class="subtle"></p>
+          </details>
+        </fieldset>
+        <fieldset>
+          <legend>直方图与校准</legend>
+          <label class="check"
+            ><input
+              id="log-counts"
+              type="checkbox"
+              checked
+            />像素纵轴使用对数坐标</label
+          >
+          <p id="calibration-status" class="subtle">
+            当前镜头未校准。直方图以红框标识。
+          </p>
+          <label
+            >参考物<select id="calibration-method">
+              <option value="灰卡">均匀灰卡</option>
+              <option value="阶梯卡">已知级差阶梯卡</option>
+              <option value="现场">现场静止场景估测</option>
+            </select></label
+          >
+          <div class="form-row">
+            <label
+              >阶梯卡相邻级差 EV<input
+                id="calibration-step"
+                type="number"
+                min="0.1"
+                max="3"
+                step="0.1"
+                value="1" /></label
+            ><label
+              >校准 ISO<input
+                id="calibration-iso"
+                type="number"
+                min="1"
+                step="any"
+                value="100"
+            /></label>
+          </div>
+          <div class="actions">
+            <button id="calibrate-start">开始曝光扫描</button
+            ><button id="calibration-clear" class="quiet">
+              清除此镜头校准
+            </button>
+          </div>
+          <p id="calibration-progress" class="subtle">
+            使用固定照明和静止画面。优先通过浏览器手动曝光扫描，缺少控制时可逐档手动采样。结果为预览通道估测。
+          </p>
+          <div id="manual-calibration" hidden>
+            <label
+              >本档实际曝光时间（秒）<input
+                id="bracket-time"
+                type="text"
+                value="1/125"
+            /></label>
+            <div class="actions">
+              <button id="calibration-sample">采样两帧</button
+              ><button id="calibration-fit">拟合并保存</button
+              ><button id="calibration-cancel" class="quiet">取消</button>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>布局</legend>
+          <label class="check"
+            ><input id="resize-layout" type="checkbox" />显示可拖动分界线</label
+          >
+          <p class="subtle">
+            横竖屏和近方形窗口分别记忆比例。分界线也可用方向键调整。
+          </p>
+          <button id="layout-reset">恢复默认比例</button>
+        </fieldset>
+        <fieldset>
+          <legend>设置管理</legend>
+          <button id="settings-reset" type="button">重置设置</button>
+          <p class="subtle">
+            恢复默认设置并刷新页面。保留镜头参数、校准记录和自定义胶片预设。
+          </p>
+        </fieldset>
+        <p class="about">
+          LightData Web<br /><a
+            href="https://github.com/GUOSUYZY/LightData"
+            target="_blank"
+            rel="noopener"
+            >源码与问题反馈</a
+          >
+        </p>
+      </div>
+    </dialog>
+    <dialog id="camera-setup" aria-labelledby="setup-title">
+      <div class="dialog-title">
+        <h2 id="setup-title">设置手机镜头</h2>
+        <button
+          id="setup-close"
+          class="close"
+          type="button"
+          aria-label="暂不设置"
+        >
+          ×
+        </button>
+      </div>
+      <form id="camera-setup-form" class="lens-setup-body" novalidate>
+        <p id="setup-camera-label" class="subtle"></p>
+        <div class="form-row">
+          <label
+            >浏览器相机<select id="setup-camera">
+              <option value="">默认后置镜头</option>
+            </select></label
+          >
+          <button id="setup-start" type="button">开启相机预览</button>
+        </div>
+        <p id="setup-detection" class="subtle"></p>
+        <div class="form-row">
+          <label
+            >手机品牌<select id="setup-brand">
+              <option value="">手动输入 / 其他设备</option>
+            </select></label
+          >
+          <label
+            >手机型号<select id="setup-phone" disabled>
+              <option value="">请选择型号 / 手动填写</option>
+            </select></label
+          >
+        </div>
+        <label
+          >与当前画面对应的镜头<select id="setup-lens">
+            <option value="">请选择当前实际镜头 / 手动填写</option>
+          </select></label
+        >
+        <p id="setup-source-note" class="subtle"></p>
+        <a id="setup-source" href="#" target="_blank" rel="noopener" hidden
+          >查看厂家镜头参数</a
+        >
+        <a id="setup-equivalent-source" href="#" target="_blank" rel="noopener" hidden
+          >查看等效焦距资料</a
+        >
+        <div class="form-row">
+          <label
+            >手机镜头光圈 f/<input
+              id="setup-aperture"
+              type="number"
+              min="0.5"
+              max="64"
+              step="any"
+              inputmode="decimal"
+              placeholder="例如 1.8"
+          /></label>
+          <label
+            >视角输入方式<select id="setup-fov-mode">
+              <option value="horizontal">水平视角</option>
+              <option value="equivalent">35 mm 等效焦距</option>
+            </select></label
+          >
+        </div>
+        <label id="setup-horizontal-field"
+          >当前预览水平视角（°）<input
+            id="setup-hfov"
+            type="number"
+            min="0.1"
+            max="175"
+            step="any"
+            inputmode="decimal"
+            placeholder="例如 70"
+        /></label>
+        <label id="setup-equivalent-field" hidden
+          >手机镜头等效焦距（mm）<input
+            id="setup-equivalent"
+            type="number"
+            min="1"
+            max="2000"
+            step="any"
+            inputmode="decimal"
+            placeholder="例如 24"
+        /></label>
+        <p id="setup-field-info" class="subtle"></p>
+        <p id="setup-error" role="alert"></p>
+        <div class="actions">
+          <button id="setup-save" type="submit" class="primary">
+            保存并使用</button
+          ><button id="setup-skip" type="button" class="quiet">暂不设置</button>
+        </div>
+        <p class="subtle">
+          镜头参数保存在当前浏览器。尚未填写时仍可取景，测光和覆盖范围会提示参数待设置。
+        </p>
+      </form>
+    </dialog>
+    <dialog id="notice">
+      <div class="dialog-title"><h2 id="notice-title">测光提示</h2></div>
+      <p id="notice-text"></p>
+      <button id="notice-ok" class="primary">知道了</button>
+    </dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+name: Publish LightData Web
+
+on:
+  push:
+    branches: [main]
+    paths: ['web/**', '.github/workflows/pages.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+        working-directory: web
+      - run: npx playwright install --with-deps chromium
+        working-directory: web
+      - run: npm test
+        working-directory: web
+        env:
+          LIGHTDATA_TEST_GL: '1'
+      - run: npm run test:browser
+        working-directory: web
+      - run: npm run test:opencv
+        working-directory: web
+      - run: npm run test:panorama-engine
+        working-directory: web
+      - run: npm run test:panorama-browser
+        working-directory: web
+      - name: Assemble static site
+        run: |
+          mkdir -p public/data
+          cp web/index.html web/style.css web/*.js web/icon.png public/
+          cp -r web/luts public/luts
+          cp -r web/vendor public/vendor
+          cp web/data/films.json web/data/cameras.json public/data/
+          touch public/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
