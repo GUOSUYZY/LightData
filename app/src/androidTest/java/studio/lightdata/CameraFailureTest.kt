@@ -1,6 +1,7 @@
 package studio.lightdata
 
 import android.Manifest
+import android.content.pm.ActivityInfo
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -120,6 +121,17 @@ class CameraFailureTest {
                 assertFalse(it.frozen)
                 assertEquals(1.0 / 250, it.manual.t, 1e-12)
                 assertTrue(it.spots.isEmpty())
+            }
+        }
+    }
+
+    @Test
+    fun manifestAllowsFullSensorRotationBeyondTheSystemToggle() {
+        // Configuration check only: it does not prove a particular OEM's rotation behavior.
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity {
+                val info = it.packageManager.getActivityInfo(it.componentName, 0)
+                assertEquals(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR, info.screenOrientation)
             }
         }
     }
