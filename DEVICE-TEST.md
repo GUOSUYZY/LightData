@@ -1,8 +1,8 @@
 # Android 真机验收
 
-## 上游功能同步 · 本地验证通过，待实机与远端 CI
+## 上游功能同步 · 0.4.0-beta1 待实机试用
 
-- 同步目标：`RayforLoy/LightData@a875b46344e0c1d85c7d16afa109bb14c06ec44f`，当前在 `sync/upstream-0.1.11` 分支，不代表已发布版本。
+- 同步目标：`RayforLoy/LightData@a875b46344e0c1d85c7d16afa109bb14c06ec44f`，当前在 `sync/upstream-0.1.11` 分支。`versionCode 9`、原独立签名，仅供试用，不作为已验收的正式稳定版。
 - Android 72 项 JVM 单元测试通过，Debug／Release、`lintDebug`、`lintRelease` 和仪器测试源码编译通过。修正了非安全预览的 `Look` 参数兼容、导出提示框常量，以及将暗蓝色错误等同于低灰阶的旧测试假设；未绕过测试或建立 Lint 基线。
 - 网页 115 项测试（含 WebGL2）、浏览器交互、OpenCV 配准、完整后台拼接及拼接页面测试通过。全部 LUT 文件的尺寸与清单 SHA-256 已核验。
 - 需验证 OpenCV 原生库加载与 LK／ORB／ECC 不可用时的回退、拼接诊断 ZIP、画面方向、冻结／恢复、校准档案和自定义 JSON 导入导出。

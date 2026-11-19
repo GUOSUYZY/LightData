@@ -2,7 +2,7 @@
 
 Android 和网页版单屏取景器与胶片测光表。安卓版最低支持 Android 9，使用 Camera2 采集图像、Compose 排布控件、OpenGL ES 绘制预览。应用在本机处理图像，退出拼接或测光点模式后即可回到实时画面。
 
-本仓库由 [RayforLoy/LightData](https://github.com/RayforLoy/LightData) 分叉后独立维护。本次开发分支同步上游至 `a875b46344e0c1d85c7d16afa109bb14c06ec44f`，保留独立包名、签名和本仓库的测光／曝光修正。上游 `0.1.x-beta` 编号不作为本仓库的发布版本。
+本仓库由 [RayforLoy/LightData](https://github.com/RayforLoy/LightData) 分叉后独立维护。`0.4.0-beta1` 试用分支同步上游至 `a875b46344e0c1d85c7d16afa109bb14c06ec44f`，保留独立包名、签名和本仓库的测光／曝光修正。上游 `0.1.x-beta` 编号不作为本仓库的发布版本。
 
 ## 安卓广角拼接
 
