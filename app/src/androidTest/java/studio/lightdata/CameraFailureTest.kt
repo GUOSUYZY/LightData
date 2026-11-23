@@ -1,11 +1,13 @@
 package studio.lightdata
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.ActivityInfo
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -13,13 +15,39 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class CameraFailureTest {
+    private val preferenceKeys = listOf(
+        "t", "a", "iso", "filmIsoLocked", "mode", "compensationThirds", "safety",
+    )
+    private var original = emptyMap<String, Any?>()
+
     @Before
-    fun grantCameraPermission() {
+    fun prepareTestState() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         instrumentation.uiAutomation.grantRuntimePermission(
             instrumentation.targetContext.packageName,
             Manifest.permission.CAMERA,
         )
+        val prefs = instrumentation.targetContext.getSharedPreferences("meter", Context.MODE_PRIVATE)
+        original = prefs.all.filterKeys { it in preferenceKeys }
+        // These tests change values directly. Do not make their expected ISO depend on
+        // the locking or manual state left by an unrelated instrumentation test.
+        prefs.edit().putString("iso", "400.0").putBoolean("filmIsoLocked", false).commit()
+    }
+
+    @After
+    fun restoreTestState() {
+        val prefs = InstrumentationRegistry.getInstrumentation().targetContext
+            .getSharedPreferences("meter", Context.MODE_PRIVATE)
+        val edit = prefs.edit()
+        preferenceKeys.forEach(edit::remove)
+        original.forEach { (key, value) ->
+            when (value) {
+                is String -> edit.putString(key, value)
+                is Boolean -> edit.putBoolean(key, value)
+                is Int -> edit.putInt(key, value)
+            }
+        }
+        edit.commit()
     }
 
     private fun liveSample(): Sample {

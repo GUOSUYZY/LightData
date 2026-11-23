@@ -18,8 +18,8 @@ android {
         providers.gradleProperty("lightdataAbi").orNull?.let { ndk.abiFilters.add(it) }
         minSdk = 28
         targetSdk = 35
-        versionCode = 9
-        versionName = "0.4.0-beta1"
+        versionCode = 10
+        versionName = "0.4.0-beta2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {

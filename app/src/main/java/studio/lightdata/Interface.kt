@@ -81,6 +81,12 @@ private fun Action(s: String, on: Boolean = false, doIt: () -> Unit) {
 
 @Composable
 fun Instrument(a: MainActivity) {
+    // Read transient flags at this level, rather than retaining them in a local
+    // composable closure or letting each independently composed panel choose its own state.
+    val frozen = a.frozen
+    val safety = a.safety
+    val preview = a.preview
+    val resizing = a.resizing
     LaunchedEffect(a.showFps) {
         while (a.showFps) {
             a.updateFps()
@@ -104,12 +110,12 @@ fun Instrument(a: MainActivity) {
             if (atlas == null) a.failedLut = variant.file
         }
     }
-    BackHandler(a.settings || a.resizing || a.frozen || a.scanActive || a.safety) {
+    BackHandler(a.settings || resizing || frozen || a.scanActive || safety) {
         when {
             a.settings -> a.settings = false
-            a.resizing -> a.resizing = false
-            a.frozen -> a.toggleFreeze()
-            a.safety -> a.toggleSafety()
+            resizing -> a.resizing = false
+            frozen -> a.toggleFreeze()
+            safety -> a.toggleSafety()
             else -> a.cancelScan()
         }
     }
@@ -120,17 +126,20 @@ fun Instrument(a: MainActivity) {
         val sideBySide = if (square) !landscape else landscape
         val prefix = (if (square) "square" else "") + if (landscape) "l" else "p"
         val content = @Composable {
-            Panels(a, sideBySide, prefix, if (square) .5f else .6f, if (square) .5f else .46f)
+            Panels(a, sideBySide, prefix,
+                if (square) .5f else if (landscape) .6f else .55f,
+                if (square) .5f else if (landscape) .46f else .42f,
+                frozen = frozen)
         }
         if (landscape) {
             Row(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
-                Toolbar(a, true)
+                Toolbar(a, true, frozen, safety, preview, resizing)
                 Box(Modifier.weight(1f)) { content() }
             }
         } else {
             Column(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
-                Toolbar(a, false)
                 Box(Modifier.weight(1f)) { content() }
+                Toolbar(a, false, frozen, safety, preview, resizing)
             }
         }
         if (a.settings)
@@ -143,7 +152,14 @@ fun Instrument(a: MainActivity) {
 }
 
 @Composable
-private fun Panels(a: MainActivity, sideBySide: Boolean, prefix: String, defaultP: Float, defaultQ: Float) {
+private fun Panels(
+    a: MainActivity,
+    sideBySide: Boolean,
+    prefix: String,
+    defaultP: Float,
+    defaultQ: Float,
+    frozen: Boolean,
+) {
     BoxWithConstraints(Modifier.fillMaxSize()) {
         val p = a.layout[prefix + "1"] ?: defaultP
         val q = a.layout[prefix + "2"] ?: defaultQ
@@ -152,22 +168,22 @@ private fun Panels(a: MainActivity, sideBySide: Boolean, prefix: String, default
         val h = with(density) { maxHeight.toPx() }
         if (sideBySide) {
             Row(Modifier.fillMaxSize()) {
-                Box(Modifier.weight(p).fillMaxHeight()) { Finder(a) }
+                Box(Modifier.weight(p).fillMaxHeight()) { Finder(a, frozen) }
                 Split(a, prefix + "1", true, w, defaultP)
                 Column(Modifier.weight(1 - p).fillMaxHeight()) {
                     Box(Modifier.weight(q)) { Histogram(a) }
                     Split(a, prefix + "2", false, h, defaultQ)
-                    Box(Modifier.weight(1 - q)) { Meter(a) }
+                    Box(Modifier.weight(1 - q)) { Meter(a, frozen) }
                 }
             }
         } else {
             Column(Modifier.fillMaxSize()) {
-                Box(Modifier.fillMaxWidth().weight(p)) { Finder(a) }
+                Box(Modifier.fillMaxWidth().weight(p)) { Finder(a, frozen) }
                 Split(a, prefix + "1", false, h, defaultP)
                 Row(Modifier.fillMaxWidth().weight(1 - p)) {
                     Box(Modifier.weight(q)) { Histogram(a) }
                     Split(a, prefix + "2", true, w, defaultQ)
-                    Box(Modifier.weight(1 - q)) { Meter(a) }
+                    Box(Modifier.weight(1 - q)) { Meter(a, frozen) }
                 }
             }
         }
@@ -196,19 +212,17 @@ private fun Split(a: MainActivity, key: String, vertical: Boolean, span: Float, 
 }
 
 @Composable
-private fun Toolbar(a: MainActivity, land: Boolean) {
+private fun Toolbar(
+    a: MainActivity,
+    land: Boolean,
+    frozen: Boolean,
+    safety: Boolean,
+    preview: Boolean,
+    resizing: Boolean,
+) {
     @Composable
     fun brand() {
         Label("LightData", if (land) 10 else 20, paper, bold = true)
-    }
-    @Composable
-    fun buttons() {
-        Tool("安全", 3, a.safety) { a.toggleSafety() }
-        Tool("预览", 0, a.preview) { a.preview = !a.preview }
-        Tool("测光点", 1, a.frozen) { if (!a.runningCal) a.toggleFreeze() }
-        Tool(if (a.resizing) "完成" else "设置", 2, a.resizing) {
-            if (a.resizing) a.resizing = false else a.settings = true
-        }
     }
     if (land)
         Column(
@@ -217,7 +231,7 @@ private fun Toolbar(a: MainActivity, land: Boolean) {
         ) {
             brand()
             Spacer(Modifier.weight(1f))
-            buttons()
+            ToolbarButtons(a, frozen, safety, preview, resizing)
         }
     else
         Row(
@@ -226,8 +240,26 @@ private fun Toolbar(a: MainActivity, land: Boolean) {
         ) {
             brand()
             Spacer(Modifier.weight(1f))
-            buttons()
+            ToolbarButtons(a, frozen, safety, preview, resizing)
         }
+}
+
+@Composable
+private fun ToolbarButtons(
+    a: MainActivity,
+    frozen: Boolean,
+    safety: Boolean,
+    preview: Boolean,
+    resizing: Boolean,
+) {
+    Tool("安全", 3, safety) { a.toggleSafety() }
+    Tool("预览", 0, preview) { a.preview = !a.preview }
+    Tool(if (frozen) "退出冻结" else "测光点", 1, frozen) {
+        if (!a.runningCal) a.toggleFreeze()
+    }
+    Tool(if (resizing) "完成" else "设置", 2, resizing) {
+        if (resizing) a.resizing = false else a.settings = true
+    }
 }
 
 @Composable
@@ -280,7 +312,7 @@ private fun Tool(title: String, type: Int, active: Boolean, click: () -> Unit) {
 }
 
 @Composable
-private fun Finder(a: MainActivity) {
+private fun Finder(a: MainActivity, frozen: Boolean) {
     val s = a.sample
     val f = s?.frame
     Column(Modifier.fillMaxSize().background(Color(0xff0a0b0c))) {
@@ -288,12 +320,12 @@ private fun Finder(a: MainActivity) {
             Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 3.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Action(a.format.name + " ▾") { if (!a.frozen) a.formatDialog() }
-            Action(n(a.focal) + " mm") { if (!a.frozen) a.changeFocal() }
+            Action(a.format.name + " ▾") { if (!frozen) a.formatDialog() }
+            Action(n(a.focal) + " mm") { if (!frozen) a.changeFocal() }
             Spacer(Modifier.weight(1f))
             Label(
                 when {
-                    a.frozen -> "● HOLD"
+                    frozen -> "● HOLD"
                     s?.scan?.coverage == 1.0 -> "● 拼接构图"
                     a.scanActive -> "● 扫描采集"
                     s?.missing == true -> "○ 待确认中心"
@@ -301,7 +333,7 @@ private fun Finder(a: MainActivity) {
                     else -> "● LIVE"
                 },
                 10,
-                if (a.frozen) amber else muted,
+                if (frozen) amber else muted,
                 monoType = true,
             )
         }
@@ -345,13 +377,13 @@ private fun Finder(a: MainActivity) {
                         modifier = Modifier.fillMaxSize(),
                         update = {
                             it.onRendered = if (a.showFps) a::markRendered else null
-                            it.show(look, if (a.frozen || s.still) 1.0 else a.previewScale)
+                            it.show(look, if (frozen || s.still) 1.0 else a.previewScale)
                         },
                     )
                     Canvas(
-                        Modifier.fillMaxSize().pointerInput(a.frozen) {
+                        Modifier.fillMaxSize().pointerInput(frozen) {
                             detectTapGestures {
-                                if (a.frozen)
+                                if (frozen)
                                     a.point(
                                         it.x / size.width.toDouble(),
                                         it.y / size.height.toDouble(),
@@ -367,7 +399,7 @@ private fun Finder(a: MainActivity) {
                             drawLine(edge, Offset(x, y), Offset(if (x == 0f) k else w - k, y), 3f)
                             drawLine(edge, Offset(x, y), Offset(x, if (y == 0f) k else h - k), 3f)
                         }
-                        val guide = s.scan?.takeIf { a.scanActive && !a.frozen }
+                        val guide = s.scan?.takeIf { a.scanActive && !frozen }
                         drawLine(edge, center - Offset(k,0f), center + Offset(k,0f), 2f)
                         drawLine(edge, center - Offset(0f,k), center + Offset(0f,k), 2f)
                         guide?.homeDirection?.let {
@@ -423,13 +455,13 @@ private fun Finder(a: MainActivity) {
                             )
                         }
                     }
-                    if (a.showFps) Label("${if (a.frozen) 0 else a.renderedFps} FPS", 11, paper,
+                    if (a.showFps) Label("${if (frozen) 0 else a.renderedFps} FPS", 11, paper,
                         Modifier.align(Alignment.TopEnd).padding(5.dp).background(ink.copy(alpha=.78f))
                             .padding(horizontal=5.dp,vertical=2.dp), monoType=true)
                 }
             } else Label("正在等待相机", 13, muted)
         }
-        if (a.frozen) {
+        if (frozen) {
             val summary =
                 a.spots.lastOrNull()?.let {
                     "#%d   %.1f EV100   ·   Zone %.1f".format(
@@ -440,7 +472,7 @@ private fun Finder(a: MainActivity) {
             Label(summary + "   ·   再点同一位置删除", 12,
                 a.spots.lastOrNull()?.let { spotColor(it.id) } ?: amber, Modifier.padding(horizontal = 10.dp))
         }
-        if ((s?.missing == true || a.scanActive) && !a.frozen && !a.runningCal)
+        if ((s?.missing == true || a.scanActive) && !frozen && !a.runningCal)
             Row(
                 Modifier.fillMaxWidth().padding(horizontal = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -509,19 +541,42 @@ private fun Histogram(a: MainActivity) {
     }
     val peak = bins.max().coerceAtLeast(1)
     val densityMax = ceil(film.dots.maxOf { it.second })
+    val histogramTitle = if (a.safety) "安全曝光" else "曝光直方图"
+    val histogramReading = if (reading == null) "等待测光" else
+        "%.1f EV100".format(java.util.Locale.US, reading) + if (a.cal == null) " · 估测" else ""
+    BoxWithConstraints(Modifier.fillMaxSize()) {
+    val compactHistogram = maxHeight < 200.dp
+    var safetyChart by remember(a.safety) { mutableStateOf(false) }
     Column(
         Modifier.fillMaxSize().background(ink).padding(5.dp)
             .border(1.dp, if (a.cal == null) red else line).padding(7.dp)
     ) {
-        Label(if (a.safety) "安全曝光" else "曝光直方图", 15, bold = true)
-        Label(
-            if (reading == null) "等待测光" else
-                "%.1f EV100".format(java.util.Locale.US, reading) + if (a.cal == null) " · 估测" else "",
-            11, if (a.cal == null) red else paper, monoType = true,
-        )
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Label((if (a.logCounts) "像素 log " else "像素 ") + ceil(peak / chart.gain).toInt(), 9, muted)
-            Label("密度 D " + n(round(densityMax / chart.gain * 10) / 10), 9, amber)
+        if (compactHistogram) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Label(histogramTitle, 13, bold = true)
+                Spacer(Modifier.weight(1f))
+                Label(histogramReading, 10, if (a.cal == null) red else paper, monoType = true)
+            }
+        } else {
+            Label(histogramTitle, 15, bold = true)
+            Label(histogramReading, 11, if (a.cal == null) red else paper, monoType = true)
+        }
+        if (a.safety) {
+            Row(Modifier.fillMaxWidth()) {
+                MeterButton("直方图", safetyChart, true, Modifier.weight(1f), height = 44.dp) {
+                    safetyChart = true
+                }
+                MeterButton("主体与曝光", !safetyChart, true, Modifier.weight(1.4f), height = 44.dp) {
+                    safetyChart = false
+                }
+            }
+        }
+        if (!a.safety || safetyChart) {
+        if (!compactHistogram) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Label((if (a.logCounts) "像素 log " else "像素 ") + ceil(peak / chart.gain).toInt(), 9, muted)
+                Label("密度 D " + n(round(densityMax / chart.gain * 10) / 10), 9, amber)
+            }
         }
         Canvas(
             Modifier.weight(1f).fillMaxWidth()
@@ -664,10 +719,10 @@ private fun Histogram(a: MainActivity) {
                 }
             }
         }
-        Canvas(Modifier.fillMaxWidth().height(32.dp)) {
+        Canvas(Modifier.fillMaxWidth().height(if (compactHistogram) 24.dp else 32.dp)) {
             val w = size.width
             val paint = android.graphics.Paint(1).apply {
-                textSize = 10.dp.toPx()
+                textSize = (if (compactHistogram) 9.dp else 10.dp).toPx()
                 textAlign = android.graphics.Paint.Align.CENTER
             }
             val maxLabels = (w / 33.dp.toPx()).toInt().coerceAtLeast(2)
@@ -678,7 +733,8 @@ private fun Histogram(a: MainActivity) {
                 val label = ev.toString()
                 val width = paint.measureText(label)
                 val xx = (chart.fraction(ev.toDouble()) * w).toFloat().coerceIn(width / 2, max(width / 2,w - width / 2))
-                drawContext.canvas.nativeCanvas.drawText(label, xx, 11.dp.toPx(), paint)
+                drawContext.canvas.nativeCanvas.drawText(label, xx,
+                    (if (compactHistogram) 10.dp else 11.dp).toPx(), paint)
             }
             if (sample != null) {
                 val zones = listOf("0","I","II","III","IV","V","VI","VII","VIII","IX","X")
@@ -690,7 +746,8 @@ private fun Histogram(a: MainActivity) {
                     val label = if (zone == 5) "Zone V" else zones[zone]
                     val half = paint.measureText(label) / 2
                     if (xx - half >= 0 && xx + half <= w)
-                        drawContext.canvas.nativeCanvas.drawText(label, xx, 26.dp.toPx(), paint)
+                        drawContext.canvas.nativeCanvas.drawText(label, xx,
+                            (if (compactHistogram) 21.dp else 26.dp).toPx(), paint)
                 }
             }
         }
@@ -700,15 +757,17 @@ private fun Histogram(a: MainActivity) {
                 Label("过 %.1f".format(java.util.Locale.US, middle + film.high), 10, red, monoType = true)
             }
         }
-        if (a.safety) SafetyPanel(a, safetyAnalysis)
+        } else {
+            SafetyPanel(a, safetyAnalysis, Modifier.weight(1f).fillMaxHeight())
+        }
+    }
     }
 }
 
 @Composable
-private fun SafetyPanel(a: MainActivity, analysis: SafetyAnalysis?) {
+private fun SafetyPanel(a: MainActivity, analysis: SafetyAnalysis?, modifier: Modifier = Modifier) {
     Column(
-        Modifier.fillMaxWidth().heightIn(max = 190.dp)
-            .verticalScroll(rememberScrollState())
+        modifier.fillMaxWidth().verticalScroll(rememberScrollState())
             .semantics {
                 contentDescription = "胶片安全曝光估算，红色高光风险，蓝色暗部风险"
             },
@@ -744,12 +803,15 @@ private fun SafetyPanel(a: MainActivity, analysis: SafetyAnalysis?) {
             Label("画面含黑／白亮度触限 · 真实亮度可能超出受测范围", 9, unknown)
         }
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            MeterButton(a.toneGoal.shortLabel, true, true, Modifier.weight(1.35f), a::toneGoalDialog)
+            MeterButton(a.toneGoal.shortLabel, true, true, Modifier.weight(1.35f), height = 44.dp) {
+                a.toneGoalDialog()
+            }
             MeterButton(
                 analysis.referencePoint?.let { "点 #$it" } ?: "选择主体",
                 analysis.referencePoint != null,
                 true,
                 Modifier.weight(1f),
+                height = 44.dp,
             ) {
                 if (a.spots.isNotEmpty()) a.safetyPointDialog()
                 else if (!a.frozen) a.toggleFreeze()
@@ -759,10 +821,11 @@ private fun SafetyPanel(a: MainActivity, analysis: SafetyAnalysis?) {
         val decision = analysis.decisionLabel()
         val recommendation = analysis.recommendedStops
         if (decision != null && recommendation != null) {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Label(decision, 10, amber, Modifier.weight(1f))
+            Column(Modifier.fillMaxWidth()) {
+                Label(decision, 10, amber, Modifier.fillMaxWidth())
                 if (abs(recommendation) <= 5) {
-                    Action("采用 " + signed(recommendation), true) {
+                    MeterButton("采用 " + signed(recommendation), true, true,
+                        Modifier.fillMaxWidth(), height = 44.dp) {
                         a.applySafetyOffset(recommendation)
                     }
                 } else Label("请手动设置", 10, red)
@@ -840,103 +903,292 @@ private fun SafetyPanel(a: MainActivity, analysis: SafetyAnalysis?) {
 }
 
 @Composable
-private fun Meter(a: MainActivity) {
+private fun Meter(a: MainActivity, frozen: Boolean) {
     val e = a.exposure
-    Column(Modifier.fillMaxSize().background(panel).padding(horizontal = 6.dp, vertical = 3.dp)) {
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            for (mode in listOf("A", "S", "M")) {
-                MeterButton(mode, a.mode == mode, !a.frozen, Modifier.weight(1f)) { a.modeTo(mode) }
+    BoxWithConstraints(Modifier.fillMaxSize().background(panel)) {
+        val meterWidth = maxWidth
+        // A stacked narrow dock needs another 42 dp. Switch it to the short,
+        // full-width ISO layout before the fixed controls consume the exposure table.
+        val short = maxHeight < if (meterWidth < 180.dp) 260.dp else 200.dp
+        Column(Modifier.fillMaxSize().padding(horizontal = 6.dp, vertical = 3.dp)) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                for (mode in listOf("A", "S", "M")) {
+                    MeterButton(mode, a.mode == mode, !frozen, Modifier.weight(1f),
+                        height = if (short) 34.dp else 44.dp) {
+                        a.modeTo(mode)
+                    }
+                }
+                if (short) {
+                    Spacer(Modifier.width(3.dp))
+                    MeterButton("连续", !a.single, !frozen, Modifier.weight(1.5f), height = 34.dp) {
+                        a.single = false
+                        a.held = null
+                    }
+                    MeterButton("单次", a.single, !frozen, Modifier.weight(1.5f), height = 34.dp) {
+                        a.meterOnce()
+                    }
+                } else {
+                    Column(
+                        Modifier.weight(1.35f).height(44.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        Label(a.reading?.let { "%.1f".format(java.util.Locale.US, it) } ?: "—", 18,
+                            if (a.cal == null) red else paper, monoType = true)
+                        Label("EV100", 8, muted)
+                    }
+                }
             }
-            Spacer(Modifier.width(3.dp))
-            MeterButton("连续", !a.single, !a.frozen, Modifier.weight(1.5f)) {
-                a.single = false
-                a.held = null
+            if (a.mode == "M") {
+                Label(if (a.sample == null) "— EV" else "曝光偏差  " + signed((a.appliedReading ?: e.ev) - e.ev) + " EV",
+                    12, amber, Modifier.padding(vertical = 4.dp), monoType = true)
+            } else {
+                val requested = a.compensationThirds / 3.0
+                val residual = a.appliedReading?.let { it - e.ev - requested }
+                ExposureCompensation(a.compensationThirds, residual, !frozen,
+                    if (short) 40.dp else 48.dp, a::adjustCompensation, a::stepCompensation)
             }
-            MeterButton("单次", a.single, !a.frozen, Modifier.weight(1.5f)) { a.meterOnce() }
-        }
-        if (a.mode == "M") {
-            Label(if (a.sample == null) "— EV" else "曝光偏差  " + signed((a.appliedReading ?: e.ev) - e.ev) + " EV",
-                12, amber, Modifier.padding(vertical = 4.dp), monoType = true)
-        } else {
-            val requested = a.compensationThirds / 3.0
-            val residual = a.appliedReading?.let { it - e.ev - requested }
-            ExposureCompensation(a.compensationThirds, residual, !a.frozen, a::adjustCompensation)
-        }
-        ExposureTable(a, e, Modifier.weight(2.25f))
-        val iso = (speeds + a.manual.iso).distinct().sorted()
-        Wheel("ISO", iso, e.iso, !a.frozen && !a.isoLocked, ::isoLabel, Modifier.weight(1f),
-            lockLabel = if (a.isoLocked) "已锁定 · 解锁" else "锁定至 " + isoLabel(a.filmIso),
-            onLock = { if (!a.frozen) a.toggleIsoLock() }) {
-            a.setValues(a.manual.copy(iso = it))
+            ExposureTable(a, e, Modifier.weight(2.25f), frozen)
+            if (short) {
+                if (meterWidth >= 340.dp) {
+                    val iso = (speeds + a.manual.iso).distinct().sorted()
+                    Wheel("ISO", iso, e.iso, !frozen && !a.isoLocked, ::isoLabel,
+                        Modifier.fillMaxWidth().height(42.dp).padding(top = 2.dp),
+                        lockLabel = if (frozen) "画面冻结" else if (a.isoLocked) "已锁定 · 解锁" else "锁定至 " + isoLabel(a.filmIso),
+                        lockEnabled = !frozen,
+                        onLock = { if (!frozen) a.toggleIsoLock() }) {
+                        a.setValues(a.manual.copy(iso = it))
+                    }
+                } else {
+                    CompactIso(a, e, frozen, Modifier.fillMaxWidth().height(42.dp).padding(top = 2.dp))
+                }
+            } else {
+                MeasurementDock(a, e, meterWidth >= 340.dp, meterWidth < 180.dp, frozen,
+                    Modifier.fillMaxWidth().height(if (meterWidth < 180.dp) 100.dp else 58.dp))
+            }
         }
     }
 }
 
 @Composable
-private fun MeterButton(text: String, selected: Boolean, enabled: Boolean, modifier: Modifier, action: () -> Unit) {
-    Box(modifier.padding(1.dp).height(31.dp).clip(RoundedCornerShape(4.dp))
-        .background(if (selected) amber else ink).clickable(enabled = enabled, onClick = action),
+private fun MeasurementDock(
+    a: MainActivity,
+    e: Exposure,
+    wide: Boolean,
+    stacked: Boolean,
+    frozen: Boolean,
+    modifier: Modifier,
+) {
+    @Composable
+    fun meteringButtons(continuousModifier: Modifier, singleModifier: Modifier) {
+        MeterButton("连续", !a.single, !frozen, continuousModifier, height = 48.dp) {
+            a.single = false
+            a.held = null
+        }
+        MeterButton("单次", a.single, !frozen, singleModifier,
+            height = 48.dp, fontSize = 14) { a.meterOnce() }
+    }
+    if (stacked) {
+        Column(modifier.padding(top = 3.dp)) {
+            CompactIso(a, e, frozen, Modifier.fillMaxWidth().height(44.dp))
+            Row(Modifier.fillMaxWidth()) {
+                meteringButtons(Modifier.weight(1f), Modifier.weight(1f))
+            }
+        }
+    } else {
+        Row(modifier.padding(top = 3.dp), verticalAlignment = Alignment.CenterVertically) {
+            if (wide) {
+                val iso = (speeds + a.manual.iso).distinct().sorted()
+                Wheel("ISO", iso, e.iso, !frozen && !a.isoLocked, ::isoLabel, Modifier.weight(1.6f).fillMaxHeight(),
+                    lockLabel = if (frozen) "画面冻结" else if (a.isoLocked) "已锁定 · 解锁" else "锁定至 " + isoLabel(a.filmIso),
+                    lockEnabled = !frozen,
+                    onLock = { if (!frozen) a.toggleIsoLock() }) {
+                    a.setValues(a.manual.copy(iso = it))
+                }
+            } else {
+                CompactIso(a, e, frozen, Modifier.weight(1.9f).fillMaxHeight())
+            }
+            meteringButtons(
+                Modifier.weight(if (wide) .72f else 1f),
+                Modifier.weight(if (wide) .84f else 1.15f),
+            )
+        }
+    }
+}
+
+@Composable
+private fun CompactIso(a: MainActivity, e: Exposure, frozen: Boolean, modifier: Modifier) {
+    val m = modifier.clip(RoundedCornerShape(4.dp)).background(ink)
+    if (a.isoLocked || frozen) {
+        Column(
+            m.clickable(enabled = !frozen, onClick = a::toggleIsoLock).semantics(mergeDescendants = true) {
+                contentDescription = "ISO " + isoLabel(e.iso) +
+                    if (frozen) "，画面已冻结" else "，已锁定至胶片，点击解锁"
+                if (frozen) disabled()
+            },
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Label("ISO " + isoLabel(e.iso), 14, muted, bold = true, monoType = true)
+            Label(if (frozen) "已冻结" else "解锁", 10, if (frozen) muted else amber)
+        }
+    } else {
+        Row(m, verticalAlignment = Alignment.CenterVertically) {
+            Column(
+                Modifier.weight(1f).fillMaxHeight().clickable(onClick = a::chooseIso)
+                    .semantics(mergeDescendants = true) {
+                        contentDescription = "选择 ISO，当前 ISO " + isoLabel(e.iso)
+                    },
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Label("ISO ▾", 9, muted)
+                Label(isoLabel(e.iso), 14, paper, bold = true, monoType = true)
+            }
+            Box(
+                Modifier.width(48.dp).fillMaxHeight().background(panel)
+                    .clickable(onClick = a::toggleIsoLock).semantics(mergeDescendants = true) {
+                        contentDescription = "锁定 ISO 至胶片 ISO " + isoLabel(a.filmIso)
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                Label("锁定", 11, amber)
+            }
+        }
+    }
+}
+
+@Composable
+private fun MeterButton(
+    text: String,
+    selected: Boolean,
+    enabled: Boolean,
+    modifier: Modifier,
+    height: Dp = 31.dp,
+    fontSize: Int = 12,
+    action: () -> Unit,
+) {
+    Box(modifier.padding(1.dp).height(height).clip(RoundedCornerShape(4.dp))
+        .background(if (selected && enabled) amber else if (selected) amber.copy(alpha = .18f) else ink)
+        .clickable(enabled = enabled, onClick = action)
+        .semantics(mergeDescendants = true) {
+            this.selected = selected
+            if (!enabled) disabled()
+        },
         contentAlignment = Alignment.Center) {
-        Label(text, 12, if (selected) ink else paper, bold = true)
+        Label(text, fontSize,
+            if (selected && enabled) ink else if (selected) amber.copy(alpha = .65f)
+            else if (enabled) paper else muted,
+            bold = true)
     }
 }
 
 @Composable
-private fun ExposureCompensation(thirds: Int, residual: Double?, enabled: Boolean, update: (Int) -> Unit) {
+private fun ExposureCompensation(
+    thirds: Int,
+    residual: Double?,
+    enabled: Boolean,
+    height: Dp = 48.dp,
+    update: (Int) -> Unit,
+    step: (Int) -> Unit,
+) {
     val change by rememberUpdatedState(update)
-    Column(Modifier.fillMaxWidth().semantics {
+    val stepChange by rememberUpdatedState(step)
+    val warning = residual != null && abs(residual) > .25
+    @Composable
+    fun stepButton(
+        text: String,
+        delta: Int,
+        description: String,
+        buttonModifier: Modifier = Modifier.width(44.dp),
+    ) {
+        Box(
+            buttonModifier.fillMaxHeight().padding(1.dp).clip(RoundedCornerShape(4.dp))
+                .background(ink).clickable(enabled = enabled) {
+                    stepChange(delta)
+                }.semantics {
+                    contentDescription = description
+                    if (!enabled) disabled()
+                },
+            contentAlignment = Alignment.Center,
+        ) {
+            Label(text, 18, if (enabled) paper else line, bold = true)
+        }
+    }
+    BoxWithConstraints(Modifier.fillMaxWidth().height(height).semantics {
         contentDescription = "曝光补偿"
         progressBarRangeInfo = ProgressBarRangeInfo(thirds / 3f, -5f..5f, 29)
         setProgress { value -> if (enabled) change((value * 3).roundToInt()); enabled }
+        if (!enabled) disabled()
     }) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Label(if (residual != null && abs(residual) > .25) "超限 " + signed(residual) + " EV" else "曝光补偿",
-                10, if (residual != null && abs(residual) > .25) red else muted)
-            Label(signed(thirds / 3.0) + " EV", 11, amber, monoType = true)
-        }
-        Canvas(Modifier.fillMaxWidth().height(25.dp).pointerInput(enabled) {
-            if (enabled) awaitEachGesture {
-                val down = awaitFirstDown()
-                fun selectAt(x: Float) {
-                    val inset = 6.dp.toPx()
-                    val fraction = ((x-inset)/(size.width-2*inset).coerceAtLeast(1f)).coerceIn(0f,1f)
-                    change((fraction*30).roundToInt()-15)
+        if (maxWidth < 146.dp) {
+            // Keep both exact actions present even in a deliberately narrow saved split.
+            // A sub-pixel pseudo-slider is less useful than simply omitting the scale.
+            Column(Modifier.fillMaxSize()) {
+                Label(
+                    (if (warning) "超限 " + signed(residual!!) else "补偿 ") +
+                        " " + signed(thirds / 3.0) + " EV",
+                    9, if (warning) red else amber, monoType = true,
+                )
+                Row(Modifier.fillMaxWidth().weight(1f)) {
+                    stepButton("−", -1, "减少 1/3 EV 曝光补偿", Modifier.weight(1f))
+                    stepButton("+", 1, "增加 1/3 EV 曝光补偿", Modifier.weight(1f))
                 }
-                selectAt(down.position.x)
-                down.consume()
-                do {
-                    val pointer = awaitPointerEvent().changes.firstOrNull { it.id == down.id } ?: break
-                    if (pointer.pressed) selectAt(pointer.position.x)
-                    pointer.consume()
-                } while (pointer.pressed)
             }
-        }) {
-            val inset = 6.dp.toPx()
-            val length = size.width - 2*inset
-            fun x(i:Int) = inset + (i+15)/30f*length
-            val mid=size.height/2
-            drawLine(line, Offset(inset, mid), Offset(size.width-inset, mid), 1.dp.toPx())
-            drawLine(amber, Offset(x(0),mid), Offset(x(thirds),mid), 1.5.dp.toPx())
-            for (i in -15..15) {
-                val half = (if (i==0) 5.dp else if (i%3==0) 4.dp else 2.dp).toPx()
-                drawLine(if (i==0) paper else muted, Offset(x(i),mid-half), Offset(x(i),mid+half))
+        } else {
+            Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.width(58.dp)) {
+                    Label(if (warning) "超限 " + signed(residual!!) + " EV" else "曝光补偿",
+                        9, if (warning) red else muted)
+                    Label(signed(thirds / 3.0) + " EV", 11, amber, monoType = true)
+                }
+                stepButton("−", -1, "减少 1/3 EV 曝光补偿")
+                Canvas(Modifier.weight(1f).fillMaxHeight().pointerInput(enabled) {
+                    if (enabled) awaitEachGesture {
+                        val down = awaitFirstDown()
+                        fun selectAt(x: Float) {
+                            val inset = 6.dp.toPx()
+                            val fraction = ((x-inset)/(size.width-2*inset).coerceAtLeast(1f)).coerceIn(0f,1f)
+                            change((fraction*30).roundToInt()-15)
+                        }
+                        selectAt(down.position.x)
+                        down.consume()
+                        do {
+                            val pointer = awaitPointerEvent().changes.firstOrNull { it.id == down.id } ?: break
+                            if (pointer.pressed) selectAt(pointer.position.x)
+                            pointer.consume()
+                        } while (pointer.pressed)
+                    }
+                }) {
+                    val inset = 6.dp.toPx()
+                    val length = size.width - 2*inset
+                    fun x(i:Int) = inset + (i+15)/30f*length
+                    val mid=size.height/2
+                    drawLine(line, Offset(inset, mid), Offset(size.width-inset, mid), 1.dp.toPx())
+                    drawLine(amber, Offset(x(0),mid), Offset(x(thirds),mid), 1.5.dp.toPx())
+                    for (i in -15..15) {
+                        val half = (if (i==0) 5.dp else if (i%3==0) 4.dp else 2.dp).toPx()
+                        drawLine(if (i==0) paper else muted, Offset(x(i),mid-half), Offset(x(i),mid+half))
+                    }
+                    drawCircle(amber, 4.dp.toPx(), Offset(x(thirds),mid))
+                }
+                stepButton("+", 1, "增加 1/3 EV 曝光补偿")
             }
-            drawCircle(amber, 4.dp.toPx(), Offset(x(thirds),mid))
         }
     }
 }
 
 @Composable
-private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
+private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier, frozen: Boolean) {
     val pairs = remember(e) { equivalentExposures(e) }
     val selected = pairs.indexOf(e)
     val correction = remember(e.t, a.film.name) { reciprocity(a.film.name, e.t) }
     BoxWithConstraints(m.fillMaxWidth()) {
         val count =
             when {
-                maxWidth >= 570.dp -> 9
-                maxWidth >= 380.dp -> 7
-                maxWidth >= 235.dp -> 5
+                maxWidth >= 720.dp -> 9
+                maxWidth >= 420.dp -> 7
+                maxWidth >= 280.dp -> 5
                 else -> 3
             }.coerceAtMost(pairs.size)
         val first = (selected - count / 2).coerceIn(0, pairs.size - count)
@@ -947,15 +1199,19 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
             it.status == ReciprocityStatus.CORRECTED || it.status == ReciprocityStatus.ESTIMATED
         }
         val compact = maxHeight < 100.dp
-        val size = if (maxWidth < 170.dp) 11 else if (maxWidth < 280.dp) 13 else 17
+        val veryCompact = maxHeight < 56.dp
+        val columnWidth = maxWidth / count
+        val baseSize = if (columnWidth < 56.dp) 11 else if (columnWidth < 72.dp) 13 else 17
+        val size = if (veryCompact) minOf(baseSize, 12) else baseSize
         Column(Modifier.fillMaxSize()) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Label(if (showTimes) "等效曝光 · → 实拍" else "等效曝光", if (compact) 10 else 12, muted)
-                Label("ISO " + isoLabel(e.iso), if (compact) 10 else 12, muted, monoType = true)
+            if (!veryCompact) {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Label(if (showTimes) "等效曝光 · → 实拍" else "等效曝光", if (compact) 10 else 12, muted)
+                }
             }
             Row(
-                Modifier.weight(1f).fillMaxWidth().pointerInput(a.mode, a.frozen) {
-                    if (a.frozen) return@pointerInput
+                Modifier.weight(1f).fillMaxWidth().pointerInput(a.mode, frozen) {
+                    if (frozen) return@pointerInput
                     var apertureRow = false
                     var remainder = 0f
                     detectHorizontalDragGestures(
@@ -1025,7 +1281,7 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
                             .fillMaxHeight()
                             .padding(horizontal = 1.dp)
                             .background(if (active) Color(0xff342c22) else Color.Transparent)
-                            .clickable(enabled = !a.frozen) { a.selectPair(pair) }
+                            .clickable(enabled = !frozen) { a.selectPair(pair) }
                             .semantics {
                                 contentDescription =
                                     "快门 " +
@@ -1034,6 +1290,8 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
                                         n(pair.a) +
                                         "，ISO " +
                                         isoLabel(pair.iso)
+                                this.selected = active
+                                if (frozen) disabled()
                             },
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
@@ -1046,16 +1304,17 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
                             Modifier.weight(1f).fillMaxWidth(),
                             contentAlignment = Alignment.Center,
                         ) {
-                            Label(timeLabel(pair.t), size, color, bold = active, monoType = true)
+                            Label(timeLabel(pair.t), if (active) size + (if (veryCompact) 1 else 3) else size,
+                                color, bold = active, monoType = true)
                         }
-                        if (showTimes) {
+                        if (showTimes && !veryCompact) {
                             val actual = corrections[idx]
                             Label(
                                 if (
                                     actual.status == ReciprocityStatus.CORRECTED ||
                                         actual.status == ReciprocityStatus.ESTIMATED
                                 ) "→" + n(round(actual.exposureSeconds!! * 10) / 10) + "″"
-                                else "·",
+                                else "",
                                 if (compact) 9 else 11,
                                 amber,
                                 monoType = true,
@@ -1065,17 +1324,20 @@ private fun ExposureTable(a: MainActivity, e: Exposure, m: Modifier) {
                             Modifier.weight(1f).fillMaxWidth(),
                             contentAlignment = Alignment.Center,
                         ) {
-                            Label("ƒ/" + n(pair.a), size, color, bold = active, monoType = true)
+                            Label("ƒ/" + n(pair.a), if (active) size + (if (veryCompact) 1 else 3) else size,
+                                color, bold = active, monoType = true)
                         }
-                        Canvas(Modifier.fillMaxWidth().height(if (compact) 4.dp else 7.dp)) {
-                            for (i in 0..2) {
-                                val x = this.size.width * (i + .5f) / 3
-                                drawLine(
-                                    if (active && i == 1) amber else muted,
-                                    Offset(x, if (i == 1) 0f else this.size.height * .5f),
-                                    Offset(x, this.size.height),
-                                    1.dp.toPx(),
-                                )
+                        if (!veryCompact) {
+                            Canvas(Modifier.fillMaxWidth().height(if (compact) 4.dp else 7.dp)) {
+                                for (i in 0..2) {
+                                    val x = this.size.width * (i + .5f) / 3
+                                    drawLine(
+                                        if (active && i == 1) amber else muted,
+                                        Offset(x, if (i == 1) 0f else this.size.height * .5f),
+                                        Offset(x, this.size.height),
+                                        1.dp.toPx(),
+                                    )
+                                }
                             }
                         }
                     }
@@ -1108,6 +1370,7 @@ private fun Wheel(
     fmt: (Double) -> String,
     m: Modifier,
     lockLabel: String,
+    lockEnabled: Boolean = true,
     onLock: () -> Unit,
     change: (Double) -> Unit,
 ) {
@@ -1154,7 +1417,10 @@ private fun Wheel(
         ) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Label(title, 11, muted, Modifier.weight(1f))
-                Label(lockLabel, 11, amber, Modifier.clickable(onClick = onLock).padding(horizontal = 3.dp, vertical = 2.dp))
+                Label(lockLabel, 11, if (lockEnabled) amber else muted,
+                    Modifier.clickable(enabled = lockEnabled, onClick = onLock)
+                        .semantics { if (!lockEnabled) disabled() }
+                        .padding(horizontal = 3.dp, vertical = 2.dp))
             }
             Row(
                 Modifier.fillMaxWidth().weight(1f),
@@ -1165,13 +1431,13 @@ private fun Wheel(
                     Box(
                         Modifier.weight(1f).fillMaxHeight().clickable(enabled = enabled) {
                             cb(values[i])
-                        },
+                        }.semantics { if (!enabled) disabled() },
                         contentAlignment = Alignment.Center,
                     ) {
                         Label(
                             fmt(values[i]),
                             if (count >= 5) 17 else 12,
-                            if (active) amber else muted,
+                            if (active) amber else if (enabled) muted else line,
                             bold = active,
                             monoType = true,
                         )

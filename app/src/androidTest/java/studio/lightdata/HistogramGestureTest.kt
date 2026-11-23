@@ -159,6 +159,11 @@ class HistogramGestureTest {
     fun actualTouchChangesHorizontalAndVerticalAxesAndDoubleTapResets() {
         val app = instrumentation.targetContext
         device.grantRuntimePermission(app.packageName, Manifest.permission.CAMERA)
+        val prefs = app.getSharedPreferences("meter", android.content.Context.MODE_PRIVATE)
+        val originalSafety = prefs.getBoolean("safety", false)
+        // A restored safety session starts on its subject pane. Exercise these gestures in normal mode.
+        prefs.edit().putBoolean("safety", false).commit()
+        try {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             axes()
             // Freeze an acquired frame so the auto-centered range has a repeatable reference.
@@ -199,6 +204,9 @@ class HistogramGestureTest {
                 0,
                 Bundle().apply { putString(Instrumentation.REPORT_KEY_STREAMRESULT, "\n$report\n") },
             )
+        }
+        } finally {
+            prefs.edit().putBoolean("safety", originalSafety).apply()
         }
     }
 }

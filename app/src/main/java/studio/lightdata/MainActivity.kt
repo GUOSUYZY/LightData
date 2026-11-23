@@ -696,10 +696,35 @@ class MainActivity : ComponentActivity() {
         prefs.edit().putBoolean("filmIsoLocked", isoLocked).putString("iso", manual.iso.toString()).apply()
     }
 
+    fun chooseIso() {
+        if (frozen || isoLocked) return
+        val values = (speeds + manual.iso).distinct().sorted()
+        val items = (values.map { "ISO " + isoLabel(it) } + "自定义…").toTypedArray()
+        val selected = values.indexOf(manual.iso).coerceAtLeast(0)
+        AlertDialog.Builder(this)
+            .setTitle("ISO")
+            .setSingleChoiceItems(items, selected) { dialog, i ->
+                if (i == values.size) {
+                    input("自定义 ISO / EI", manual.iso, .001..10000000.0) { value ->
+                        setValues(manual.copy(iso = value))
+                    }
+                } else setValues(manual.copy(iso = values[i]))
+                dialog.dismiss()
+            }
+            .show()
+            .also { dialog -> dialog.listView.setSelection(selected) }
+    }
+
     fun adjustCompensation(thirds: Int) {
         if (frozen || mode == "M") return
         compensationThirds = thirds.coerceIn(-15, 15)
         prefs.edit().putInt("compensationThirds", compensationThirds).apply()
+    }
+
+    fun stepCompensation(delta: Int) {
+        // Read the current value when the click executes so two rapid taps cannot both reuse
+        // an exposure-compensation label from the previous composition.
+        adjustCompensation(compensationThirds + delta)
     }
 
     fun meterOnce() {
