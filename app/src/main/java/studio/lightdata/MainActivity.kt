@@ -190,9 +190,9 @@ class MainActivity : ComponentActivity() {
     var cal by mutableStateOf<Calibration?>(null)
     val spots = mutableStateListOf<Spot>()
     // View-only automatic marks: never a numbered point or a safety-exposure subject.
-    // The frozen flag is already the redraw trigger for this immutable frame-derived result.
-    var extremes: FrameExtremes? = null
+    var extremes by mutableStateOf<FrameExtremes?>(null)
         private set
+    private var extremesGeneration = 0L
     private var number = 1
     var message by mutableStateOf("")
     var runningCal by mutableStateOf(false)
@@ -384,9 +384,14 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
     }
 
+    private fun clearExtrema() {
+        extremesGeneration++
+        extremes = null
+    }
+
     fun invalidateCamera(msg: String? = null, retry: Boolean = true) {
         epoch++
-        extremes = null
+        clearExtrema()
         sample = null
         runningCal = false
         cameraRetry = retry
@@ -422,8 +427,8 @@ class MainActivity : ComponentActivity() {
         cancelScan()
         epoch++
         frozen = false
+        clearExtrema()
         spots.clear()
-        extremes = null
         safetyPointId = null
         held = null
         sample = null
@@ -571,7 +576,8 @@ class MainActivity : ComponentActivity() {
     }
 
     fun toggleFreeze() {
-        var nextExtremes: FrameExtremes? = null
+        val generation = ++extremesGeneration
+        extremes = null
         if (!frozen) {
             val current = sample ?: return
             val base = exposure
@@ -589,8 +595,10 @@ class MainActivity : ComponentActivity() {
                 sample = current.copy(frame = full, hist = full.distribution(), live = null)
             }
             latestLive = null
-            nextExtremes = sample?.frame?.extremes(response)
+            val frozenFrame = sample?.frame ?: current.frame
+            val frozenResponse = response
             frozen = true
+            measureExtremaLater(frozenFrame, frozenResponse, generation)
         } else {
             // Keep subject points through frozen comparisons. Apply the selected target only when
             // returning to a live measurement, and never resurrect it after a camera invalidation.
@@ -603,9 +611,24 @@ class MainActivity : ComponentActivity() {
             }
         }
         spots.clear()
-        extremes = nextExtremes
         safetyPointId = null
         number = 1
+    }
+
+    /** Publish only against the exact immutable frame and freeze session that requested the work. */
+    private fun measureExtremaLater(frame: Frame, response: DoubleArray, generation: Long) {
+        try {
+            meterWorker.execute {
+                val measured = frame.extremes(response)
+                runOnUiThread {
+                    if (active && frozen && extremesGeneration == generation && sample?.frame === frame) {
+                        extremes = measured
+                    }
+                }
+            }
+        } catch (_: java.util.concurrent.RejectedExecutionException) {
+            // The Activity is shutting down and must not receive a late frame publication.
+        }
     }
 
     fun point(x: Double, y: Double) {
@@ -931,8 +954,8 @@ class MainActivity : ComponentActivity() {
                     .setPositiveButton("开始采集") { _, _ ->
                         settings = false
                         frozen = false
+                        clearExtrema()
                         spots.clear()
-                        extremes = null
                         safetyPointId = null
                         cancelScan()
                         runningCal = true

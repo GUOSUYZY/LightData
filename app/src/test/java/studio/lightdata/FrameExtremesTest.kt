@@ -3,6 +3,7 @@ package studio.lightdata
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 internal fun assertExtremesEquivalent(expected: FrameExtremes?, actual: FrameExtremes?) {
@@ -25,6 +26,7 @@ internal fun referenceExtremes(frame: Frame, response: DoubleArray): FrameExtrem
     for (y in 0 until frame.h) for (x in 0 until frame.w) {
         val normalizedX = (x + .500001) / frame.w
         val normalizedY = (y + .500001) / frame.h
+        if (frame.sample(normalizedX, normalizedY) ushr 24 == 0) continue
         val ev = frame.spot(normalizedX, normalizedY, response)
         if (!ev.isFinite()) continue
         val candidate = ExtremalSpot(normalizedX, normalizedY, ev, frame.cameraLimitedAt(normalizedX, normalizedY))
@@ -36,13 +38,15 @@ internal fun referenceExtremes(frame: Frame, response: DoubleArray): FrameExtrem
 
 class FrameExtremesTest {
     @Test
-    fun markerAnnotationsStayInsideEveryFrameEdge() {
+    fun markerAnchorIsExactAndOnlyLabelMovesInsideEdges() {
         val point = ExtremalSpot(0.0, 1.0, 9.0, false)
-        val edge = markerCenter(point, 360f, 200f, 24f)
-        assertEquals(24f, edge.x, 0f)
-        assertEquals(176f, edge.y, 0f)
-        assertEquals(12f, markerCenter(point, 24f, 24f, 24f).x, 0f)
-        assertEquals(270f, markerCenter(point.copy(x = .75, y = .5), 360f, 200f, 24f).x, 0f)
+        val anchor = markerAnchor(point, 360f, 200f)
+        assertEquals(0f, anchor.x, 0f)
+        assertEquals(200f, anchor.y, 0f)
+        assertEquals(24f, markerLabelCenter(point, 360f, 200f, 24f).x, 0f)
+        assertEquals(176f, markerLabelCenter(point, 360f, 200f, 24f).y, 0f)
+        assertEquals(12f, markerLabelCenter(point, 24f, 24f, 24f).x, 0f)
+        assertEquals(270f, markerLabelCenter(point.copy(x = .75, y = .5), 360f, 200f, 24f).x, 0f)
     }
 
     @Test
@@ -79,9 +83,11 @@ class FrameExtremesTest {
         val partlyMissing = Frame(9, 9, pixels, 9.0, "partial")
         val extremes = partlyMissing.extremes(defaultResponse)
         assertNotNull(extremes)
-        assertEquals(1.5 / 9, extremes!!.darkest.x, .000002)
-        assertEquals(2.5 / 9, extremes.darkest.y, .000002)
+        assertEquals(3.5 / 9, extremes!!.darkest.x, .000002)
+        assertEquals(4.5 / 9, extremes.darkest.y, .000002)
         assertEquals(extremes.darkest, extremes.brightest)
+        assertTrue(partlyMissing.sample(extremes.darkest.x, extremes.darkest.y) ushr 24 != 0)
+        assertTrue(partlyMissing.sample(extremes.brightest.x, extremes.brightest.y) ushr 24 != 0)
         assertEquals(partlyMissing.spot(extremes.darkest.x, extremes.darkest.y, defaultResponse), extremes.darkest.ev, 1e-9)
     }
 

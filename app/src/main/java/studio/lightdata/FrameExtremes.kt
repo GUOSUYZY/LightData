@@ -74,6 +74,7 @@ fun Frame.extremes(response: DoubleArray): FrameExtremes? {
             }
         }
         for (x in 0 until w) {
+            if (pixels[y * w + x] ushr 24 == 0) continue
             var sum = 0.0
             var count = 0
             var atLimit = 0

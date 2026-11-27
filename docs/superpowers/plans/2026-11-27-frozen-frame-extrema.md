@@ -71,6 +71,7 @@ git commit -m "Measure extrema in the frozen frame"
 **Files:**
 - Modify: `app/src/main/java/studio/lightdata/MainActivity.kt`
 - Modify: `app/src/main/java/studio/lightdata/Interface.kt`
+- Create: `app/src/main/java/studio/lightdata/MarkerLayout.kt`
 - Modify: `app/src/androidTest/java/studio/lightdata/PhotographerControlsTest.kt`
 
 **Interfaces:**

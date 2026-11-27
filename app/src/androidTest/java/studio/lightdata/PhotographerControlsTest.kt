@@ -341,16 +341,28 @@ class PhotographerControlsTest {
             ActivityScenario.launch(MainActivity::class.java).use { scenario ->
                 var beforeFreeze: Exposure? = null
                 scenario.onActivity {
-                    if (it.safety) it.toggleSafety()
-                    it.sample = liveSample()
+                    if (!it.safety) it.toggleSafety()
                     beforeFreeze = it.exposure
-                    it.toggleFreeze()
-                    assertNotNull("冻结后的自动极值", it.extremes)
                 }
+                awaitActivityState(scenario) { it.sample != null }
+                click(awaitNode { it.text?.toString() == "测光点" })
                 awaitNode(description("当前画面估计的最暗位置"))
                 awaitNode(description("最亮位置"))
                 scenario.onActivity {
                     assertTrue(it.frozen)
+                    assertNotNull(it.extremes)
+                    assertTrue(it.spots.isEmpty())
+                    assertNull(it.safetyPointId)
+                    assertEquals(beforeFreeze, it.exposure)
+                    it.toggleFreeze()
+                    it.sample = liveSample()
+                    beforeFreeze = it.exposure
+                    it.toggleFreeze()
+                    assertNull("新帧计算只能在后台完成，不能在点击中同步扫描", it.extremes)
+                }
+                awaitNode(description("当前画面估计的最暗位置"))
+                awaitNode(description("最亮位置"))
+                scenario.onActivity {
                     val measured = it.extremes
                     assertNotNull(measured)
                     assertEquals(.25, measured!!.darkest.x, .000002)
@@ -362,7 +374,7 @@ class PhotographerControlsTest {
                     assertEquals(beforeFreeze, it.exposure)
                     it.point(.5, .5)
                     assertEquals(1, it.spots.size)
-                    assertNull(it.safetyPointId)
+                    assertEquals(it.spots.single().id, it.safetyPointId)
                     it.toggleFreeze()
                     assertFalse(it.frozen)
                     assertNull(it.extremes)
@@ -371,6 +383,18 @@ class PhotographerControlsTest {
                     it.invalidateCamera("测试画面失效")
                     assertNull(it.extremes)
                 }
+                SystemClock.sleep(300)
+                instrumentation.waitForIdleSync()
+                scenario.onActivity {
+                    assertNull(it.extremes)
+                    it.sample = liveSample()
+                    it.toggleFreeze()
+                    it.selectCamera(force = true)
+                    assertNull(it.extremes)
+                }
+                SystemClock.sleep(300)
+                instrumentation.waitForIdleSync()
+                scenario.onActivity { assertNull(it.extremes) }
             }
         }
 

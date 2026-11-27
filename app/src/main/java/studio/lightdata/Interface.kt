@@ -45,7 +45,8 @@ private fun spotColor(id: Int): Color = spotColors.getOrNull(id - 1)
 private fun androidx.compose.ui.graphics.drawscope.DrawScope.extremeMarker(
     point: ExtremalSpot, title: String, color: Color, limited: Boolean,
 ) {
-    val at = markerCenter(point, size.width, size.height, 12.dp.toPx())
+    val at = markerAnchor(point, size.width, size.height)
+    val labelAt = markerLabelCenter(point, size.width, size.height, 12.dp.toPx())
     drawCircle(ink, 9.dp.toPx(), at, style = Stroke(4.dp.toPx()))
     drawCircle(if (limited) unknown else color, 9.dp.toPx(), at, style = Stroke(2.dp.toPx()))
     val paint = android.graphics.Paint(1).apply {
@@ -55,8 +56,8 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.extremeMarker(
         textSize = 11.dp.toPx()
     }
     val margin = 3.dp.toPx()
-    val tx = (at.x + 11.dp.toPx()).coerceIn(margin, (size.width - paint.measureText(title) - margin).coerceAtLeast(margin))
-    val ty = (at.y - 10.dp.toPx()).coerceIn(paint.textSize + margin, (size.height - margin).coerceAtLeast(paint.textSize + margin))
+    val tx = (labelAt.x + 11.dp.toPx()).coerceIn(margin, (size.width - paint.measureText(title) - margin).coerceAtLeast(margin))
+    val ty = (labelAt.y - 10.dp.toPx()).coerceIn(paint.textSize + margin, (size.height - margin).coerceAtLeast(paint.textSize + margin))
     drawContext.canvas.nativeCanvas.drawText(title, tx, ty, paint)
 }
 
