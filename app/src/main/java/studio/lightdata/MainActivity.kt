@@ -189,6 +189,10 @@ class MainActivity : ComponentActivity() {
     var sample by mutableStateOf<Sample?>(null)
     var cal by mutableStateOf<Calibration?>(null)
     val spots = mutableStateListOf<Spot>()
+    // View-only automatic marks: never a numbered point or a safety-exposure subject.
+    // The frozen flag is already the redraw trigger for this immutable frame-derived result.
+    var extremes: FrameExtremes? = null
+        private set
     private var number = 1
     var message by mutableStateOf("")
     var runningCal by mutableStateOf(false)
@@ -382,6 +386,7 @@ class MainActivity : ComponentActivity() {
 
     fun invalidateCamera(msg: String? = null, retry: Boolean = true) {
         epoch++
+        extremes = null
         sample = null
         runningCal = false
         cameraRetry = retry
@@ -418,6 +423,7 @@ class MainActivity : ComponentActivity() {
         epoch++
         frozen = false
         spots.clear()
+        extremes = null
         safetyPointId = null
         held = null
         sample = null
@@ -565,6 +571,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun toggleFreeze() {
+        var nextExtremes: FrameExtremes? = null
         if (!frozen) {
             val current = sample ?: return
             val base = exposure
@@ -582,6 +589,7 @@ class MainActivity : ComponentActivity() {
                 sample = current.copy(frame = full, hist = full.distribution(), live = null)
             }
             latestLive = null
+            nextExtremes = sample?.frame?.extremes(response)
             frozen = true
         } else {
             // Keep subject points through frozen comparisons. Apply the selected target only when
@@ -595,6 +603,7 @@ class MainActivity : ComponentActivity() {
             }
         }
         spots.clear()
+        extremes = nextExtremes
         safetyPointId = null
         number = 1
     }
@@ -923,6 +932,7 @@ class MainActivity : ComponentActivity() {
                         settings = false
                         frozen = false
                         spots.clear()
+                        extremes = null
                         safetyPointId = null
                         cancelScan()
                         runningCal = true

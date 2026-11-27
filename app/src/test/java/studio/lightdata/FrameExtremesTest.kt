@@ -36,6 +36,16 @@ internal fun referenceExtremes(frame: Frame, response: DoubleArray): FrameExtrem
 
 class FrameExtremesTest {
     @Test
+    fun markerAnnotationsStayInsideEveryFrameEdge() {
+        val point = ExtremalSpot(0.0, 1.0, 9.0, false)
+        val edge = markerCenter(point, 360f, 200f, 24f)
+        assertEquals(24f, edge.x, 0f)
+        assertEquals(176f, edge.y, 0f)
+        assertEquals(12f, markerCenter(point, 24f, 24f, 24f).x, 0f)
+        assertEquals(270f, markerCenter(point.copy(x = .75, y = .5), 360f, 200f, 24f).x, 0f)
+    }
+
+    @Test
     fun contrastingRegionsReturnTheirActualPositionAndSpotReading() {
         val pixels = IntArray(21 * 13) { 0xff808080.toInt() }
         for (dy in -2..2) for (dx in -2..2) {

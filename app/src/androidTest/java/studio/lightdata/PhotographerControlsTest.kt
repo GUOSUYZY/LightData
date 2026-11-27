@@ -336,6 +336,45 @@ class PhotographerControlsTest {
     }
 
     @Test
+    fun frozenExtremaAreVisibleButDoNotSelectASubjectOrChangeExposure() =
+        preservingPreferences(listOf("t", "a", "iso", "mode", "safety")) {
+            ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+                var beforeFreeze: Exposure? = null
+                scenario.onActivity {
+                    if (it.safety) it.toggleSafety()
+                    it.sample = liveSample()
+                    beforeFreeze = it.exposure
+                    it.toggleFreeze()
+                    assertNotNull("冻结后的自动极值", it.extremes)
+                }
+                awaitNode(description("当前画面估计的最暗位置"))
+                awaitNode(description("最亮位置"))
+                scenario.onActivity {
+                    assertTrue(it.frozen)
+                    val measured = it.extremes
+                    assertNotNull(measured)
+                    assertEquals(.25, measured!!.darkest.x, .000002)
+                    assertEquals(.25, measured.darkest.y, .000002)
+                    assertEquals(.75, measured.brightest.x, .000002)
+                    assertEquals(.75, measured.brightest.y, .000002)
+                    assertTrue(it.spots.isEmpty())
+                    assertNull(it.safetyPointId)
+                    assertEquals(beforeFreeze, it.exposure)
+                    it.point(.5, .5)
+                    assertEquals(1, it.spots.size)
+                    assertNull(it.safetyPointId)
+                    it.toggleFreeze()
+                    assertFalse(it.frozen)
+                    assertNull(it.extremes)
+                    it.sample = liveSample()
+                    it.toggleFreeze()
+                    it.invalidateCamera("测试画面失效")
+                    assertNull(it.extremes)
+                }
+            }
+        }
+
+    @Test
     fun safetyTabsKeepThePannedChartAndDoNotMergeFreezeWithSingleMetering() =
         preservingPreferences(listOf("safety", "t", "a", "iso", "mode")) {
             ActivityScenario.launch(MainActivity::class.java).use { scenario ->

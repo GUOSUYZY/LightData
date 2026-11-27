@@ -42,6 +42,24 @@ private val spotColors = listOf(Color(0xffffce58), Color(0xff55ccff), Color(0xff
 private fun spotColor(id: Int): Color = spotColors.getOrNull(id - 1)
     ?: Color.hsv(((id * 137.508) % 360).toFloat(), .55f, 1f)
 
+private fun androidx.compose.ui.graphics.drawscope.DrawScope.extremeMarker(
+    point: ExtremalSpot, title: String, color: Color, limited: Boolean,
+) {
+    val at = markerCenter(point, size.width, size.height, 12.dp.toPx())
+    drawCircle(ink, 9.dp.toPx(), at, style = Stroke(4.dp.toPx()))
+    drawCircle(if (limited) unknown else color, 9.dp.toPx(), at, style = Stroke(2.dp.toPx()))
+    val paint = android.graphics.Paint(1).apply {
+        this.color = color.toArgb()
+        setShadowLayer(2.dp.toPx(), 0f, 0f, android.graphics.Color.BLACK)
+        typeface = android.graphics.Typeface.DEFAULT_BOLD
+        textSize = 11.dp.toPx()
+    }
+    val margin = 3.dp.toPx()
+    val tx = (at.x + 11.dp.toPx()).coerceIn(margin, (size.width - paint.measureText(title) - margin).coerceAtLeast(margin))
+    val ty = (at.y - 10.dp.toPx()).coerceIn(paint.textSize + margin, (size.height - margin).coerceAtLeast(paint.textSize + margin))
+    drawContext.canvas.nativeCanvas.drawText(title, tx, ty, paint)
+}
+
 private val mono = FontFamily.Monospace
 
 @Composable
@@ -389,6 +407,13 @@ private fun Finder(a: MainActivity, frozen: Boolean) {
                                         it.y / size.height.toDouble(),
                                     )
                             }
+                        }.semantics {
+                            val marks = if (frozen) a.extremes else null
+                            if (marks != null) {
+                                contentDescription = "自动极值，仅当前画面估计的最暗位置 %.1f EV100，最亮位置 %.1f EV100；不作为曝光主体".format(
+                                    java.util.Locale.US, marks.darkest.ev, marks.brightest.ev,
+                                )
+                            }
                         }
                     ) {
                         val edge = Color.White.copy(alpha = .75f)
@@ -433,6 +458,10 @@ private fun Finder(a: MainActivity, frozen: Boolean) {
                             drawLine(Color.White,pos-Offset(cell,0f),pos+Offset(cell,0f),2f)
                             drawLine(Color.White,pos-Offset(0f,cell),pos+Offset(0f,cell),2f)
                         }
+                        if (frozen) a.extremes?.let {
+                            extremeMarker(it.darkest, "最暗", blue, a.safety && it.darkest.cameraLimited)
+                            extremeMarker(it.brightest, "最亮", amber, a.safety && it.brightest.cameraLimited)
+                        }
                         for (pt in a.spots) {
                             val at = Offset((pt.x * w).toFloat(), (pt.y * h).toFloat())
                             drawCircle(Color.Black, 9.dp.toPx(), at, style = Stroke(4.dp.toPx()))
@@ -468,8 +497,11 @@ private fun Finder(a: MainActivity, frozen: Boolean) {
                         java.util.Locale.US, it.id, it.ev,
                         zoneAt(shootingPlan(a.film, a.exposure), it.ev)
                     )
-                } ?: if (a.safety) "点按重要高光或暗部，设为曝光参考" else "点按画面添加测光点"
-            Label(summary + "   ·   再点同一位置删除", 12,
+                } ?: if (a.safety) "点按重要高光或暗部，设为曝光参考"
+                else if (a.extremes != null) "最暗 / 最亮仅为画面估计 · 点按添加测光点"
+                else "点按画面添加测光点"
+            val removal = if (a.extremes != null && a.spots.isEmpty()) "" else "   ·   再点同一位置删除"
+            Label(summary + removal, 12,
                 a.spots.lastOrNull()?.let { spotColor(it.id) } ?: amber, Modifier.padding(horizontal = 10.dp))
         }
         if ((s?.missing == true || a.scanActive) && !frozen && !a.runningCal)
