@@ -22,6 +22,7 @@ class LiveCaptureTest {
             assertArrayEquals(expected.pixels,complete.pixels)
             assertArrayEquals(expected.distribution(),complete.distribution())
             assertEquals(expected.spot(.5,.5,defaultResponse),complete.spot(.5,.5,defaultResponse),0.0)
+            assertExtremesEquivalent(referenceExtremes(expected, defaultResponse), complete.extremes(defaultResponse))
         }
     }
 }
